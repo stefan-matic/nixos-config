@@ -92,6 +92,8 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  services.cloudflare-warp.enable = true;
+
   # Enable sound with pipewire.
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -127,6 +129,7 @@
 
   programs.firefox.enable = true;
   programs.kdeconnect.enable = true;
+  programs.ssh.startAgent = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -163,6 +166,8 @@
     #libsforqt5.qt5.qtquickcontrols2   
     #libsforqt5.qt5.qtgraphicaleffects
     #sddm-astronaut
+
+    cloudflare-warp
   ];
 
   fonts.packages = with pkgs; [
