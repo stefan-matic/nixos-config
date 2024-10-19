@@ -18,7 +18,7 @@ prebaciti sve stvari koje trebas uraditi u clickup
 
 rewrite cli za ez komande
 
-
+- keepassxc rclone sync
 
 
  - natural scrolling on wayland and X11

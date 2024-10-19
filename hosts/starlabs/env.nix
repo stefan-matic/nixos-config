@@ -3,20 +3,20 @@
 {
   systemSettings = {
     system = "x86_64-linux";
-    hostname = "hostname";
-    profile = "profile";
-    timezone = "Europe/Something";
+    hostname = "RWTF";
+    host = "starlabs";
+    timezone = "Europe/Sarajevo";
     locale = "en_US.UTF-8";
   };
 
   # Rec is recursive when you need more complex sets and nests
   #userSettings = rec {
   userSettings = {
-    username = "username";
-    name = "display name";
-    email = "email";
+    username = "fallen";
+    name = "Fallen";
+    email = "lordmata94@gmail.com";
     theme = "dracula";
-    term = "kitty"; # Default terminal command;
+    term = "alacritty"; # Default terminal command;
     font = "Intel One Mono"; # Selected font
     fontPkg = pkgs.intel-one-mono; # Font package
     editor = "nano"; # Default editor;

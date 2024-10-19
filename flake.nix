@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
-    
+
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -49,64 +49,108 @@
   };
 
   outputs = inputs@{ self, nixpkgs, home-manager, agenix, ... }:
-  let
-    system = "x86_64-linux";
-    #pkgs = nixpkgs.legacyPackages.${systemSettings.system};
+    let
+      system = "x86_64-linux";
+      #pkgs = nixpkgs.legacyPackages.${systemSettings.system};
 
-    #Ovo si morao jer unfree ne radi bez toga za home manager
-    pkgs = import nixpkgs { 
-      #system = systemSettings.system; 
-      inherit system;
-      config = {
-        allowUnfree = true;
-        allowUnfreePredicate = (_: true);
-      };
-      overlays = [ self.overlays.default ];
-    };
-
-    env = import ./env.nix { inherit pkgs; };
-    inherit (env) systemSettings userSettings;
-  
-  in {
-
-    overlays.default = final: prev: {
-      stefan = final.callPackage ./custom-pkgs/figurine.nix { };
-    };
-
-    nixosConfigurations.${systemSettings.hostname} = nixpkgs.lib.nixosSystem {
-      #system = systemSettings.system;
-      inherit system;
-      modules = [
-        (./. + "/hosts" + ("/" + systemSettings.profile) + "/configuration.nix")
-        #({ pkgs, ...}: {
-        {
-          environment.systemPackages = [ agenix.packages.${systemSettings.system}.default ];
-          #age.secrets.secret1.file = ./secrets/secret1.age;
-        }
-        agenix.nixosModules.default
-      ];
-      specialArgs = { 
-        inherit pkgs;
-        #inherit pkgs-unstable;
-        inherit systemSettings; 
-        inherit userSettings; 
-        inherit inputs; 
-      };
-    };
-
-    homeConfigurations.${userSettings.username} = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        modules = [
-          (./. + "/hosts" + ("/" + systemSettings.profile) + "/home.nix")
-        ];
-        extraSpecialArgs = {
-          inherit pkgs;
-          #inherit pkgs-unstable;
-          inherit userSettings; 
-          inherit systemSettings; 
-          inherit inputs; 
+      #Ovo si morao jer unfree ne radi bez toga za home manager
+      pkgs = import nixpkgs {
+        #system = systemSettings.system; 
+        inherit system;
+        config = {
+          allowUnfree = true;
+          allowUnfreePredicate = (_: true);
         };
+        overlays = [ self.overlays.default ];
+      };
+
+      #env = import ./env.nix { inherit pkgs; };
+      #inherit (env) systemSettings userSettings;
+
+    in
+    {
+
+      overlays.default = final: prev: {
+        stefan = final.callPackage ./custom-pkgs/figurine.nix { };
+      };
+
+      nixosConfigurations = {
+        RWTF = nixpkgs.lib.nixosSystem {
+          #system = systemSettings.system;
+          inherit system;
+          modules = [
+            ./hosts/starlabs/configuration.nix
+            #./hosts/default/configuration.nix
+            #({ pkgs, ...}: {
+            {
+              environment.systemPackages = [ agenix.packages.${system}.default ];
+              #age.secrets.secret1.file = ./secrets/secret1.age;
+            }
+            agenix.nixosModules.default
+          ];
+          specialArgs = {
+            inherit pkgs;
+            #inherit pkgs-unstable;
+            #inherit systemSettings;
+            #inherit userSettings;
+            inherit inputs;
+          };
+        };
+
+        ZVIJER = nixpkgs.lib.nixosSystem {
+          #system = systemSettings.system;
+          inherit system;
+          modules = [
+            ./hosts/zvijer/configuration.nix
+            #./hosts/default/configuration.nix
+            #({ pkgs, ...}: {
+            {
+              environment.systemPackages = [ agenix.packages.${system}.default ];
+              #age.secrets.secret1.file = ./secrets/secret1.age;
+            }
+            agenix.nixosModules.default
+          ];
+          specialArgs = {
+            inherit pkgs;
+            #inherit pkgs-unstable;
+            #inherit systemSettings;
+            #inherit userSettings;
+            inherit inputs;
+          };
+        };
+      };
+
+      homeConfigurations = {
+        stefanmatic = home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          modules = [
+            ./home/stefanmatic.nix
+          ];
+          extraSpecialArgs = {
+            inherit pkgs;
+            #inherit pkgs-unstable;
+            #inherit userSettings;
+            #inherit systemSettings;
+            inherit inputs;
+            #inherit osConfig;
+          };
+        };
+
+        fallen = home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          modules = [
+            ./home/fallen.nix
+          ];
+          extraSpecialArgs = {
+            inherit pkgs;
+            #inherit pkgs-unstable;
+            #inherit userSettings;
+            #inherit systemSettings;
+            inherit inputs;
+            #inherit osConfig;
+          };
+        };
+      };
     };
-  };
 }
 

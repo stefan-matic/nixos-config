@@ -1,12 +1,18 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
+{ config, pkgs, inputs, ... }:
 
-{ config, pkgs, systemSettings, userSettings, inputs, ... }:
+let
+  env = import ./env.nix {inherit pkgs; };
+  inherit (env) systemSettings userSettings;
+in
 
 {
   imports =
     [
-      ../main/configuration.nix
+      ../_common.nix
+      ./hardware-configuration.nix
     ];
+
+  _module.args = {
+    inherit systemSettings userSettings;
+  };
 }

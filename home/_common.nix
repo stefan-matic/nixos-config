@@ -1,4 +1,4 @@
-{ config, pkgs, systemSettings, userSettings, ... }:
+{ config, pkgs, userSettings, ... }:
 
 {
   programs.home-manager.enable = true;
@@ -8,17 +8,17 @@
   home.homeDirectory = "/home/"+userSettings.username;
 
 	imports = [
-    ../../user/app/keepassxc.nix
-    ../../user/app/git/git.nix
-    ../../user/app/terminal/kitty.nix
-    ../../user/lang/python/python.nix
-    #../../user/app/direnv/direnv.nix
-    ../../user/shells/sh.nix
-    ../../user/style/stylix.nix # Styling and themes for my apps
-    ../../user/wm/hyprland/hyprland.nix
-    ../../user/wm/hyprland/hyprpaper.nix
-    ../../user/wm/hyprland/hyprlock.nix
-    ../../user/app/waybar/waybar.nix
+    ../user/app/keepassxc.nix
+    ../user/app/git/git.nix
+    ../user/app/terminal/kitty.nix
+    ../user/lang/python/python.nix
+    #../user/app/direnv/direnv.nix
+    ../user/shells/sh.nix
+    ../user/style/stylix.nix # Styling and themes for my apps
+    ../user/wm/hyprland/hyprland.nix
+    ../user/wm/hyprland/hyprpaper.nix
+    ../user/wm/hyprland/hyprlock.nix
+    ../user/app/waybar/waybar.nix
   ];
 
   news.display = "silent";
