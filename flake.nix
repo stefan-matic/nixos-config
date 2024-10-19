@@ -46,38 +46,22 @@
 
   outputs = inputs@{ self, nixpkgs, home-manager, ... }:
   let
-    systemSettings = {
-      system = "x86_64-linux";
-      hostname = "RWTF";
-      profile = "starlabs";
-      timezone = "Europe/Sarajevo";
-      locale = "en_US.UTF-8";
-    };
-
-    # Rec is recursive when you need more complex sets and nests
-    #userSettings = rec {
-    userSettings = {
-      username = "fallen";
-      name = "Fallen";
-      email = "lordmata94@gmail.com";
-      theme = "dracula";
-      term = "alacritty"; # Default terminal command;
-      font = "Intel One Mono"; # Selected font
-      fontPkg = pkgs.intel-one-mono; # Font package
-      editor = "nano"; # Default editor;
-    };
-
+    system = "x86_64-linux";
     #pkgs = nixpkgs.legacyPackages.${systemSettings.system};
 
     #Ovo si morao jer unfree ne radi bez toga za home manager
     pkgs = import nixpkgs { 
-      system = systemSettings.system; 
+      #system = systemSettings.system; 
+      inherit system;
       config = {
         allowUnfree = true;
         allowUnfreePredicate = (_: true);
       };
       overlays = [ self.overlays.default ];
     };
+
+    env = import ./env.nix { inherit pkgs; };
+    inherit (env) systemSettings userSettings;
   
   in {
 
@@ -86,7 +70,8 @@
     };
 
     nixosConfigurations.${systemSettings.hostname} = nixpkgs.lib.nixosSystem {
-      system = systemSettings.system;
+      #system = systemSettings.system;
+      inherit system;
       modules = [
         (./. + "/profiles" + ("/" + systemSettings.profile) + "/configuration.nix")
         #({ pkgs, ...}: {
