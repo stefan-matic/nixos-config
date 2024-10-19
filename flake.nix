@@ -81,6 +81,7 @@
         #({ pkgs, ...}: {
         {
           environment.systemPackages = [ agenix.packages.${systemSettings.system}.default ];
+          #age.secrets.secret1.file = ./secrets/secret1.age;
         }
         agenix.nixosModules.default
       ];
