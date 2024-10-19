@@ -7,7 +7,11 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    #hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.darwin.follows = "";
+    };
 
     hyprland = {
       type = "git";
@@ -44,7 +48,7 @@
     stylix.url = "github:danth/stylix";
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, ... }:
+  outputs = inputs@{ self, nixpkgs, home-manager, agenix, ... }:
   let
     system = "x86_64-linux";
     #pkgs = nixpkgs.legacyPackages.${systemSettings.system};
@@ -75,8 +79,10 @@
       modules = [
         (./. + "/profiles" + ("/" + systemSettings.profile) + "/configuration.nix")
         #({ pkgs, ...}: {
-        #  environment.systemPackages = [ pkgs.figurine ];
-        #})
+        {
+          environment.systemPackages = [ agenix.packages.${systemSettings.system}.default ];
+        }
+        agenix.nixosModules.default
       ];
       specialArgs = { 
         inherit pkgs;
