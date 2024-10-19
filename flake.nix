@@ -1,5 +1,5 @@
 {
-  description = "A very basic flake";
+  description = "Stefan's journey of NixOS adoption";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
@@ -77,7 +77,7 @@
       #system = systemSettings.system;
       inherit system;
       modules = [
-        (./. + "/profiles" + ("/" + systemSettings.profile) + "/configuration.nix")
+        (./. + "/hosts" + ("/" + systemSettings.profile) + "/configuration.nix")
         #({ pkgs, ...}: {
         {
           environment.systemPackages = [ agenix.packages.${systemSettings.system}.default ];
@@ -97,7 +97,7 @@
     homeConfigurations.${userSettings.username} = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
-          (./. + "/profiles" + ("/" + systemSettings.profile) + "/home.nix")
+          (./. + "/hosts" + ("/" + systemSettings.profile) + "/home.nix")
         ];
         extraSpecialArgs = {
           inherit pkgs;
