@@ -3,10 +3,12 @@
 {
   programs.obs-studio = {
     enable = true;
+    #enableVirtualCamera = true;
   };
+
+  #programs.obs-studio.enableVirtualCamera = true;
   
   home.packages = [
-    pkgs.obs-studio-plugins.obs-hyperion
   ];
 
   #Set up default path for videos

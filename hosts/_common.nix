@@ -188,6 +188,17 @@
 
   security.pam.services.sddm.enableKwallet = true;
 
+
+  #OBS VIRTUAL CAM
+
+  boot = {
+    extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback ];
+    extraModprobeConfig = ''
+      options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
+    '';
+  };
+  security.polkit.enable = true;
+
   #hardware.opengl = {
   #  package = inputs.hyprland.inputs.nixpkgs.legacyPackages.${pkgs.stdenv.hostPlatform.system}.mesa.drivers;
 
