@@ -10,7 +10,6 @@ in
     [
       ./hardware-configuration.nix
       ../_common.nix
-      #../system/app/syncthing.nix
     ];
 
   _module.args = {
