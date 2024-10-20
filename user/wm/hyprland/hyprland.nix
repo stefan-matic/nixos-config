@@ -266,6 +266,10 @@
       bind = $mainMod, mouse_down, workspace, e+1
       bind = $mainMod, mouse_up, workspace, e-1
 
+      # Scroll through existing workspaces with mainMod + Page Up/Down
+      bind = $mainMod, page_down, workspace, e+1
+      bind = $mainMod, page_up, workspace, e-1
+
       # Move/resize windows with mainMod + LMB/RMB and dragging
       bindm = $mainMod, mouse:272, movewindow
       bindm = $mainMod, mouse:273, resizewindow
@@ -358,6 +362,21 @@
       bind = CTRL,code:107,exec,grim -g "$(slurp)" - | wl-copy
       bind = SHIFTCTRL,code:107,exec,grim -g "$(slurp -o)" - | wl-copy
       bind = SUPERCTRL,code:107,exec,grim - | wl-copy
+
+      bind = $mainMod SHIFT, right, resizeactive, 10 0
+      bind = $mainMod SHIFT, left, resizeactive, -10 0
+      bind = $mainMod SHIFT, up, resizeactive, 0 -10
+      bind = $mainMod SHIFT, down, resizeactive, 0 10
+
+      gestures {
+        workspace_swipe = yes
+        workspace_swipe_fingers = 3
+        workspace_swipe_distance = 200
+        workspace_swipe_min_speed_to_force = 0
+        workspace_swipe_cancel_ratio = 0.3
+        workspace_swipe_direction_lock = no
+        workspace_swipe_forever = yes
+      }
     '';
   };
 
