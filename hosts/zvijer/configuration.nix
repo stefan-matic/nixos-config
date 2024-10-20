@@ -32,6 +32,43 @@ in
           id = "2T25XJC-SXWEDMA-DF4P57K-55AQCXQ-2MYHHLJ-IXF24KU-HNMUWRN-4W2R3AY";
         };
       };
+      folders = {
+        "KeePass" = {
+          path = "/home/stefanmatic/KeePass";
+          devices = [ "unraid" ];
+          id = "72iax-2g67s";
+        };
+        "Desktop" = {
+          path = "/home/stefanmatic/Desktop";
+          devices = [ "unraid" ];
+          id = "b4w9b-c7epm";
+        };
+        "Documents" = {
+          path = "/home/stefanmatic/Documents";
+          devices = [ "unraid" ];
+          id = "zmgjt-pjaqa";
+        };
+        "Pictures" = {
+          path = "/home/stefanmatic/Pictures";
+          devices = [ "unraid" ];
+          id = "bnzvt-hpsu6";
+        };
+        "Videos" = {
+          path = "/home/stefanmatic/Scripts";
+          devices = [ "unraid" ];
+          id = "uzfcf-ijz7p";
+        };
+        "Scripts" = {
+          path = "/home/stefanmatic/Scripts";
+          devices = [ "unraid" ];
+          id = "udqbf-4zpw3";
+        };
+        "Workspace" = {
+          path = "/home/stefanmatic/Workspace";
+          devices = [ "unraid" ];
+          id = "cypve-yruqr";
+        };
+      };
     };
   };
 
