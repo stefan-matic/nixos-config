@@ -45,10 +45,10 @@
       ################
 
       # See https://wiki.hyprland.org/Configuring/Monitors/
-      monitor=,preferred,auto,auto
-      #monitor=DP-1, 3440x1440@144, 1080x45, 1
-      #monitor=DP-2, 1920x1080,4520x300, 1
-      #monitor=DP-3, 1920x1080, 0x0, 1, transform, 3
+      #monitor=,preferred,auto,auto
+      monitor=DP-1, 3440x1440@144, 1080x45, 1
+      monitor=DP-2, 1920x1080,4520x300, 1
+      monitor=DP-3, 1920x1080, 0x0, 1, transform, 3
 
 
       ###################
@@ -74,8 +74,8 @@
       #exec-once = $terminal
       exec-once = hyprpaper &
       exec-once = nm-applet &
-      exec-once = code
-      exec-once = chromium
+      #exec-once = code
+      #exec-once = chromium
       exec-once = waybar &
       exec-once = hyprswitch init --custom-css /home/fallen/.config/hypr/hyprswitch.css &
       exec-once = flameshot &
