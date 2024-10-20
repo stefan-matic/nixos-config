@@ -19,6 +19,7 @@
     ../user/wm/hyprland/hyprpaper.nix
     ../user/wm/hyprland/hyprlock.nix
     ../user/app/waybar/waybar.nix
+    ../user/app/browser/chrome.nix
   ];
 
   news.display = "silent";
@@ -84,10 +85,7 @@
       wl-copy -n < $txtfname
     '')
 
-      syncthing
     ];
-
-    services.syncthing.enable = true;
 
     xdg.enable = true;
     xdg.userDirs = {
