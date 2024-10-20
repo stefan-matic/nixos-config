@@ -16,7 +16,7 @@ in
 {
 	imports = [
     ./_common.nix
-    ../user/app/obs-studio.nix
+    #../user/app/obs-studio.nix
   ];
 
   _module.args = {

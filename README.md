@@ -4,7 +4,7 @@
 TO-DO:
 ------
 
- pyprland
+    pyprland
     hyprpicker
     hyprcursor
     hyprlock
@@ -16,7 +16,7 @@ TO-DO:
 
 prebaciti sve stvari koje trebas uraditi u clickup
 
-rewrite cli za ez komande
+- incorporate snowflake cli into system (mkBashScript ili nesto tako)
 
 - keepassxc rclone sync
 
@@ -42,6 +42,7 @@ rewrite cli za ez komande
 
  - clipboard like in plasma
 
+ - CTRL + R u zsh kao sto imas u fishu
 
 
 Cleanup

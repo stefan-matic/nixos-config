@@ -18,6 +18,9 @@ in
 
   services.syncthing = {
     enable = true;
+    user = "stefanmatic";  # Replace with your actual username
+    dataDir = "/home/stefanmatic/.config/syncthing";  # Explicitly set the data directory
+    configDir = "/home/stefanmatic/.config/syncthing"; 
     settings = {
       gui = {
         theme = "dark";
@@ -30,5 +33,10 @@ in
         };
       };
     };
-  }; 
+  };
+
+  programs.obs-studio = {
+    enable = true;
+    enableVirtualCamera = true;
+  };
 }
