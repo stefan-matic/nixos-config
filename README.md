@@ -61,3 +61,10 @@ sudo nix-collect-garbage -d
 # As a separation of concerns - you will need to run this command to clean out boot
 sudo /run/current-system/bin/switch-to-configuration boot
 ```
+
+Useful commands
+---------------
+
+```
+nix-shell -p nix-info --run "nix-info -m"
+```

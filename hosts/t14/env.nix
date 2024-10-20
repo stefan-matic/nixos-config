@@ -1,6 +1,16 @@
-{ config, pkgs, ... }:
+{ pkgs }:
 
-let
+{
+  systemSettings = {
+    system = "x86_64-linux";
+    hostname = "stefan-t14";
+    host = "t14";
+    timezone = "Europe/Sarajevo";
+    locale = "en_US.UTF-8";
+  };
+
+  # Rec is recursive when you need more complex sets and nests
+  #userSettings = rec {
   userSettings = {
     username = "stefanmatic";
     name = "Stefan Matic";
@@ -11,27 +21,4 @@ let
     fontPkg = pkgs.intel-one-mono; # Font package
     editor = "nano"; # Default editor;
   };
-in
-
-{
-	imports = [
-    ./_common.nix
-    #../user/app/obs-studio.nix
-  ];
-
-  _module.args = {
-    inherit userSettings;
-  };
-
-  home.packages =
-    with pkgs; [
-      viber
-      #prusa-slicer
-
-      dbeaver-bin
-      slack
-      #yubioath-flutter
-    ];
 }
-
-

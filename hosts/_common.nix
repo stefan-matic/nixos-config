@@ -124,7 +124,9 @@
 
   programs.firefox.enable = true;
   programs.kdeconnect.enable = true;
-  programs.ssh.startAgent = true;
+  
+  # Disabled cause conflict with gnupg agent with ssh support
+  #programs.ssh.startAgent = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -163,6 +165,11 @@
     #sddm-astronaut
 
     cloudflare-warp
+    #yubikey-personalization
+    #yubikey-personalization-gui
+
+    yubioath-flutter
+    pcsclite
   ];
 
   fonts.packages = with pkgs; [
@@ -189,8 +196,7 @@
   security.pam.services.sddm.enableKwallet = true;
 
 
-  #OBS VIRTUAL CAM
-
+  # OBS VIRTUAL CAM
   boot = {
     extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback ];
     extraModprobeConfig = ''
@@ -198,6 +204,25 @@
     '';
   };
   security.polkit.enable = true;
+
+  # Yubico Authenticator
+  services.pcscd.enable = true;
+  services.udev.packages = [ pkgs.yubikey-personalization ];
+
+  # Locking the screen when a Yubikey is unplugged
+  # services.udev.extraRules = ''
+  #     ACTION=="remove",\
+  #      ENV{ID_BUS}=="usb",\
+  #      ENV{ID_MODEL_ID}=="0407",\
+  #      ENV{ID_VENDOR_ID}=="1050",\
+  #      ENV{ID_VENDOR}=="Yubico",\
+  #      RUN+="${pkgs.systemd}/bin/loginctl lock-sessions"
+  # '';
+
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = true;
+  };
 
   #hardware.opengl = {
   #  package = inputs.hyprland.inputs.nixpkgs.legacyPackages.${pkgs.stdenv.hostPlatform.system}.mesa.drivers;
@@ -226,12 +251,6 @@
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
