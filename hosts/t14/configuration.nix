@@ -25,7 +25,6 @@ in
       gui = {
         theme = "dark";
         user = userSettings.username;
-        password = "$2a$12$YQaEAuhPAMDSXfAATiYQZOA049upLP7oNEi3U8FAqkP6vaNH6mnlW";
       };
       devices = {
         unraid = {
