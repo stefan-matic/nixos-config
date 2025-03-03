@@ -36,6 +36,7 @@ in
       opentofu
       kubectl
       awscli2
+      code-cursor
     ];
 }
 
