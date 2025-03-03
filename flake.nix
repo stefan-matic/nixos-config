@@ -2,60 +2,20 @@
   description = "Stefan's journey of NixOS adoption";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-24.11";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs?ref=nixos-unstable";
 
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    agenix = {
-      url = "github:ryantm/agenix";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.darwin.follows = "";
-    };
-
-    hyprland = {
-      type = "git";
-      url = "https://code.hyprland.org/hyprwm/Hyprland.git";
-      submodules = true;
-      #rev = "0f594732b063a90d44df8c5d402d658f27471dfe"; #v0.43.0
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    hyprland-plugins = {
-      type = "git";
-      url = "https://code.hyprland.org/hyprwm/hyprland-plugins.git";
-      #rev = "b73d7b901d8cb1172dd25c7b7159f0242c625a77"; #v0.43.0
-      inputs.hyprland.follows = "hyprland";
-    };
-    hyprlock = {
-      type = "git";
-      url = "https://code.hyprland.org/hyprwm/hyprlock.git";
-      #rev = "73b0fc26c0e2f6f82f9d9f5b02e660a958902763";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    hyprpaper = {
-      type = "git";
-      url = "https://code.hyprland.org/hyprwm/hyprpaper.git";
-      #rev = "73b0fc26c0e2f6f82f9d9f5b02e660a958902763";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    hyprswitch = {
-      type = "git";
-      url = "https://github.com/H3rmt/hyprswitch.git";
-      #rev = "73b0fc26c0e2f6f82f9d9f5b02e660a958902763";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     stylix.url = "github:danth/stylix";
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, agenix, ... }:
+  outputs = inputs@{ self, nixpkgs, home-manager, ... }:
     let
       system = "x86_64-linux";
-      #pkgs = nixpkgs.legacyPackages.${systemSettings.system};
 
-      #Ovo si morao jer unfree ne radi bez toga za home manager
       pkgs = import nixpkgs {
-        #system = systemSettings.system; 
         inherit system;
         config = {
           allowUnfree = true;
@@ -63,9 +23,6 @@
         };
         overlays = [ self.overlays.default ];
       };
-
-      #env = import ./env.nix { inherit pkgs; };
-      #inherit (env) systemSettings userSettings;
 
     in
     {
@@ -76,45 +33,34 @@
 
       nixosConfigurations = {
         RWTF = nixpkgs.lib.nixosSystem {
-          #system = systemSettings.system;
           inherit system;
           modules = [
             ./hosts/starlabs/configuration.nix
-            #./hosts/default/configuration.nix
-            #({ pkgs, ...}: {
-            {
-              environment.systemPackages = [ agenix.packages.${system}.default ];
-              #age.secrets.secret1.file = ./secrets/secret1.age;
-            }
-            agenix.nixosModules.default
           ];
           specialArgs = {
             inherit pkgs;
-            #inherit pkgs-unstable;
-            #inherit systemSettings;
-            #inherit userSettings;
             inherit inputs;
           };
         };
 
         ZVIJER = nixpkgs.lib.nixosSystem {
-          #system = systemSettings.system;
           inherit system;
           modules = [
             ./hosts/zvijer/configuration.nix
-            #./hosts/default/configuration.nix
-            #({ pkgs, ...}: {
-            {
-              environment.systemPackages = [ agenix.packages.${system}.default ];
-              #age.secrets.secret1.file = ./secrets/secret1.age;
-            }
-            agenix.nixosModules.default
           ];
           specialArgs = {
             inherit pkgs;
-            #inherit pkgs-unstable;
-            #inherit systemSettings;
-            #inherit userSettings;
+            inherit inputs;
+          };
+        };
+
+        nix-vm = nixpkgs.lib.nixosSystem {
+          inherit system;
+          modules = [
+            ./hosts/nix-vm/configuration.nix
+          ];
+          specialArgs = {
+            inherit pkgs;
             inherit inputs;
           };
         };
@@ -128,11 +74,7 @@
           ];
           extraSpecialArgs = {
             inherit pkgs;
-            #inherit pkgs-unstable;
-            #inherit userSettings;
-            #inherit systemSettings;
             inherit inputs;
-            #inherit osConfig;
           };
         };
 
@@ -143,11 +85,7 @@
           ];
           extraSpecialArgs = {
             inherit pkgs;
-            #inherit pkgs-unstable;
-            #inherit userSettings;
-            #inherit systemSettings;
             inherit inputs;
-            #inherit osConfig;
           };
         };
       };

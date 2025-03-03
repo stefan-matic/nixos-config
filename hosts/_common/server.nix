@@ -2,10 +2,10 @@
 
 {
   imports =
-    [ 
-      ../system/security/firewall.nix
-      ../system/app/virtualization.nix
-      ( import ../system/app/docker.nix {storageDriver = null; inherit pkgs userSettings;} )
+    [
+      ../../system/security/firewall.nix
+      ../../system/app/virtualization.nix
+      ( import ../../system/app/docker.nix {storageDriver = null; inherit pkgs userSettings;} )
     ];
 
   # Bootloader.
@@ -49,7 +49,7 @@
 
   # Enable the KDE Plasma Desktop Environment.
   services.displayManager = {
-    defaultSession = "hyprland";
+    defaultSession = "plasma";
     sddm = {
       #package = pkgs.kdePackages.sddm;
       enable = true;
@@ -73,10 +73,6 @@
   #   theme = "sddm-astronaut-theme";
   #   extraPackages = [ pkgs.sddm-astronaut ];
   # };
-
-
-  #TODO: Check if this is working
-  #services.libinput.touchpad.naturalScrolling = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -115,16 +111,13 @@
     extraGroups = [ "networkmanager" "wheel" "dialout" "docker"];
     packages = with pkgs; [
       kdePackages.kate
-
-    #  thunderbird
-      #viber
-      stefan
+      vscode
     ];
   };
 
   programs.firefox.enable = true;
   programs.kdeconnect.enable = true;
-  
+
   # Disabled cause conflict with gnupg agent with ssh support
   #programs.ssh.startAgent = true;
 
@@ -137,107 +130,23 @@
   environment.systemPackages = with pkgs; [
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
-    
     git
-    waybar
-    swaynotificationcenter
-    #might be needed for sway
-    libnotify
-    nixpkgs-fmt
-
-    #TODO: check if this is proper to activate here
-    rofi-wayland
-
-    networkmanagerapplet
-
-    hyprpaper
-
-    # Stvari za sddm teme
-    #sddm-kcm
-    #themes.sddm-sugar-dark 
-
-    # Alt tab
-    inputs.hyprswitch.packages.x86_64-linux.default
-
-    #TODO: test za SDDM theme
-    #libsforqt5.qt5.qtquickcontrols2   
-    #libsforqt5.qt5.qtgraphicaleffects
-    #sddm-astronaut
-
-    cloudflare-warp
-    #yubikey-personalization
-    #yubikey-personalization-gui
-
-    yubioath-flutter
-    pcsclite
   ];
 
   fonts.packages = with pkgs; [
     font-awesome
     fira-code
     fira-code-symbols
-    (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+    #(nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+    nerdfonts
     powerline-fonts
     powerline-symbols
   ];
-
-  #HYPRLAND
-  programs.hyprland = {
-    enable = true;
-    # set the flake package
-    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-    # make sure to also set the portal package, so that they are in sync
-    portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
-  };
-
-  #TODO: #check if this is proper to activate here
-  security.pam.services.hyprlock = {};
-
-  security.pam.services.sddm.enableKwallet = true;
-
-
-  # OBS VIRTUAL CAM
-  boot = {
-    extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback ];
-    extraModprobeConfig = ''
-      options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
-    '';
-  };
-  security.polkit.enable = true;
-
-  # Yubico Authenticator
-  services.pcscd.enable = true;
-  services.udev.packages = [ pkgs.yubikey-personalization ];
-
-  # Locking the screen when a Yubikey is unplugged
-  # services.udev.extraRules = ''
-  #     ACTION=="remove",\
-  #      ENV{ID_BUS}=="usb",\
-  #      ENV{ID_MODEL_ID}=="0407",\
-  #      ENV{ID_VENDOR_ID}=="1050",\
-  #      ENV{ID_VENDOR}=="Yubico",\
-  #      RUN+="${pkgs.systemd}/bin/loginctl lock-sessions"
-  # '';
 
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
   };
-
-  #hardware.opengl = {
-  #  package = inputs.hyprland.inputs.nixpkgs.legacyPackages.${pkgs.stdenv.hostPlatform.system}.mesa.drivers;
-
-  #  # if you also want 32-bit support (e.g for Steam)
-  #  driSupport32Bit = true;
-  #  package32 = inputs.hyprland.inputs.nixpkgs.legacyPackages.${pkgs.stdenv.hostPlatform.system}.pkgsi686Linux.mesa.drivers;
-  #};
-
-  # interactions between windows (links, screenshare, etc)
-  # xdg.portal = {
-  #   enable = true;
-  #   extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
-  # };
-
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -259,10 +168,8 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.11"; # Did you read the comment?
-  
+
   nix.settings = {
     experimental-features = ["nix-command" "flakes"];
-    substituters = ["https://hyprland.cachix.org"];
-    trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
   };
 }

@@ -15,10 +15,6 @@
     #../user/app/direnv/direnv.nix
     ../user/shells/sh.nix
     ../user/style/stylix.nix # Styling and themes for my apps
-    ../user/wm/hyprland/hyprland.nix
-    ../user/wm/hyprland/hyprpaper.nix
-    ../user/wm/hyprland/hyprlock.nix
-    ../user/app/waybar/waybar.nix
     ../user/app/browser/chrome.nix
   ];
 
