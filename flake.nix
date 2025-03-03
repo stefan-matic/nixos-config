@@ -5,7 +5,7 @@
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-24.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs?ref=nixos-unstable";
 
-    home-manager.url = "github:nix-community/home-manager/release-24.11";
+    home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     stylix.url = "github:danth/stylix";
@@ -54,7 +54,7 @@
           };
         };
 
-        t14 = nixpkgs.lib.nixosSystem {
+        stefan-t14 = nixpkgs.lib.nixosSystem {
           inherit system;
           modules = [
             ./hosts/t14/configuration.nix
