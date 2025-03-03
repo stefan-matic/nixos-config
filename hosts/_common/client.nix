@@ -23,6 +23,8 @@
 
     yubioath-flutter
     pcsclite
+
+    gparted
   ];
 
   fonts.packages = with pkgs; [

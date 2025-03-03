@@ -54,7 +54,7 @@ in
           id = "bnzvt-hpsu6";
         };
         "Videos" = {
-          path = "/home/stefanmatic/Scripts";
+          path = "/home/stefanmatic/Videos";
           devices = [ "unraid" ];
           id = "uzfcf-ijz7p";
         };
