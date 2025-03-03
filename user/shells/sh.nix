@@ -28,6 +28,14 @@ in
     RPROMPT="%F{red}▂%f%F{yellow}▄%f%F{green}▆%f%F{cyan}█%f%F{blue}▆%f%F{magenta}▄%f%F{white}▂%f"
     [ $TERM = "dumb" ] && unsetopt zle && PS1='$ '
     '';
+
+    plugins = [
+      {
+        name = "powerlevel10k-config";
+        src = ./p10k;
+        file = "p10k.zsh";
+      }
+    ];
   };
 
   programs.bash = {
