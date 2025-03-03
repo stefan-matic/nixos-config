@@ -26,7 +26,7 @@ in
   home.packages =
     with pkgs; [
       viber
-      #prusa-slicer
+      prusa-slicer
 
       dbeaver-bin
       slack

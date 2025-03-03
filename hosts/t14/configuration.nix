@@ -15,7 +15,7 @@ in
   _module.args = {
     inherit systemSettings userSettings;
   };
-
+  
   services.syncthing = {
     enable = true;
     user = "stefanmatic";  # Replace with your actual username

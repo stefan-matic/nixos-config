@@ -33,7 +33,7 @@
       #p7zip
 
       # utils
-      kdeconnect
+      plasma5Packages.kdeconnect-kde
       which
       tree
       gnupg
