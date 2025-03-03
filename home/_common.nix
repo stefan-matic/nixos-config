@@ -97,7 +97,7 @@
       publicShare = null;
       extraConfig = {
         XDG_DOTFILES_DIR = "${config.home.homeDirectory}/.dotfiles";
-        XDG_VM_DIR = "${config.home.homeDirectory}/Machines";
+        XDG_VM_DIR = "${config.home.homeDirectory}/VMs";
         XDG_WORKSPACE_DIR = "${config.home.homeDirectory}/Workspace";
         XDG_APPLICATION_DIR = "${config.home.homeDirectory}/Applications";
       };
