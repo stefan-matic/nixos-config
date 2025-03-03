@@ -11,9 +11,6 @@
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
-  boot.initrd.preLVMCommands = ''
-    export LVM_SUPPRESS_FD_WARNINGS=1
-  '';
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
