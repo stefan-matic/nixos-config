@@ -1,10 +1,10 @@
-{ pkgs }:
+{ config, pkgs, inputs, ... }:
 
-{
+let
   systemSettings = {
     system = "x86_64-linux";
-    hostname = "RWTF";
-    host = "starlabs";
+    hostname = "nix-vm";
+    host = "nix-vm";
     timezone = "Europe/Sarajevo";
     locale = "en_US.UTF-8";
   };
@@ -18,7 +18,23 @@
     theme = "dracula";
     term = "alacritty"; # Default terminal command;
     font = "Intel One Mono"; # Selected font
-    fontPkg = pkgs.intel-one-mono; # Font package
+    #fontPkg = pkgs.intel-one-mono; # Font package
     editor = "nano"; # Default editor;
+  };
+in
+{
+  imports =
+    [
+      ../_common/client.nix
+      ./hardware-configuration.nix
+    ];
+
+  _module.args = {
+    inherit systemSettings userSettings;
+  };
+
+  programs.obs-studio = {
+    enable = true;
+    enableVirtualCamera = true;
   };
 }

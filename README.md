@@ -1,52 +1,34 @@
 # My NixOS Config
 
-
-TO-DO:
-------
-
-    pyprland
-    hyprpicker
-    hyprcursor
-    hyprlock
-    hypridle
-    hyprpaper
-
-
-
-
-prebaciti sve stvari koje trebas uraditi u clickup
-
 - incorporate snowflake cli into system (mkBashScript ili nesto tako)
 
 - keepassxc rclone sync
 
+- natural scrolling on wayland and X11
 
- - natural scrolling on wayland and X11
+- add minimal defaults
 
- - add minimal defaults
+- check direnv installation in default home.nix
 
- - check direnv installation in default home.nix
+sessionVaribles for EDITOR TERM and BROWSER (work/home.nix example)
 
- sessionVaribles for EDITOR TERM and BROWSER (work/home.nix example)
+- CLI for quick commands based on librephoenix
 
- - CLI for quick commands based on librephoenix
+- DIgital clock plasma change display to dd/MM/yyyy
 
- - DIgital clock plasma change display to dd/MM/yyyy
+- cursors are not working https://stylix.danth.me/options/nixos.html?highlight=cursor#stylixcursorname
 
- - cursors are not working https://stylix.danth.me/options/nixos.html?highlight=cursor#stylixcursorname
+- what does nix flake update actually do?
 
- - what does nix flake update actually do?
-   - should it be run regularly?
+  - should it be run regularly?
 
- - Ikone kad ls opalis (vjerovatno nerf-fonts)
+- Ikone kad ls opalis (vjerovatno nerf-fonts)
 
- - clipboard like in plasma
+- clipboard like in plasma
 
- - CTRL + R u zsh kao sto imas u fishu
+- CTRL + R u zsh kao sto imas u fishu
 
-
-Cleanup
--------
+## Cleanup
 
 ```
 nix-env --list-generations
@@ -62,8 +44,7 @@ sudo nix-collect-garbage -d
 sudo /run/current-system/bin/switch-to-configuration boot
 ```
 
-Useful commands
----------------
+## Useful commands
 
 ```
 nix-shell -p nix-info --run "nix-info -m"
