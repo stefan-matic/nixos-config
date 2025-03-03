@@ -108,6 +108,7 @@
   users.users.${userSettings.username} = {
     isNormalUser = true;
     description = userSettings.name;
+    shell = pkgs.zsh;
     extraGroups = [ "networkmanager" "wheel" "dialout" "docker"];
     packages = with pkgs; [
       kdePackages.kate
@@ -117,6 +118,7 @@
 
   programs.firefox.enable = true;
   programs.kdeconnect.enable = true;
+  programs.zsh.enable = true;
 
   # Disabled cause conflict with gnupg agent with ssh support
   #programs.ssh.startAgent = true;

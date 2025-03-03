@@ -35,6 +35,7 @@ in
       terraform
       opentofu
       kubectl
+      awscli2
     ];
 }
 
