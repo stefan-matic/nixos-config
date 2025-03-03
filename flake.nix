@@ -54,6 +54,17 @@
           };
         };
 
+        t14 = nixpkgs.lib.nixosSystem {
+          inherit system;
+          modules = [
+            ./hosts/t14/configuration.nix
+          ];
+          specialArgs = {
+            inherit pkgs;
+            inherit inputs;
+          };
+        };
+
         nix-vm = nixpkgs.lib.nixosSystem {
           inherit system;
           modules = [

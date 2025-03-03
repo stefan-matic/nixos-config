@@ -9,7 +9,7 @@ in
   imports =
     [
       ./hardware-configuration.nix
-      ../_common.nix
+      ../_common/client.nix
     ];
 
   _module.args = {
