@@ -35,7 +35,27 @@ in
         src = ./p10k;
         file = "p10k.zsh";
       }
+      {
+        name = "zsh-powerlevel10k";
+        src = "${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/";
+        file = "powerlevel10k.zsh-theme";
+      }
     ];
+
+    oh-my-zsh = {
+      enable = true;
+      # Standard OMZ plugins pre-installed to $ZSH/plugins/
+      # Custom OMZ plugins are added to $ZSH_CUSTOM/plugins/
+      # Enabling too many plugins will slowdown shell startup
+      plugins = [
+        "git"
+        "sudo" # press Esc twice to get the previous command prefixed with sudo https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/sudo
+      ];
+      extraConfig = ''
+        # Display red dots whilst waiting for completion.
+        COMPLETION_WAITING_DOTS="true"
+      '';
+    };
   };
 
   programs.bash = {

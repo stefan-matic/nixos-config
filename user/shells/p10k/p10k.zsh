@@ -22,7 +22,7 @@ ied in order. The
     '*'       DEFAULT)
     typeset -g POWERLEVEL9K_KUBECONTEXT_DEFAULT_FOREGROUND=134
     # typeset -g POWERLEVEL9K_KUBECONTEXT_DEFAULT_VISUAL_IDENTIFIER_EXPANSION='⭐'
-
+    
     # Use POWERLEVEL9K_KUBECONTEXT_CONTENT_EXPANSION to specify the content displayed by kubecontext
     # segment. Parameter expansions are very flexible and fast, too. See reference:
     # http://zsh.sourceforge.net/Doc/Release/Expansion.html#Parameter-Expansion.
@@ -68,10 +68,10 @@ ied in order. The
     POWERLEVEL9K_KUBECONTEXT_DEFAULT_CONTENT_EXPANSION+='${P9K_KUBECONTEXT_CLOUD_CLUSTER:-${P9K_KUBECONTEXT_NAME}}'
     # Append the current context's namespace if it's not "default".
     POWERLEVEL9K_KUBECONTEXT_DEFAULT_CONTENT_EXPANSION+='${${:-/$P9K_KUBECONTEXT_NAMESPACE}:#/default}'
-
+    
     # Custom prefix.
     # typeset -g POWERLEVEL9K_KUBECONTEXT_PREFIX='%fat '
-
+    
     ################[ terraform: terraform workspace (https://www.terraform.io) ]#################
     # Don't show terraform workspace if it's literally "default".
     typeset -g POWERLEVEL9K_TERRAFORM_SHOW_DEFAULT=false
@@ -104,18 +104,18 @@ ied in order. The
     '*'         OTHER)
     typeset -g POWERLEVEL9K_TERRAFORM_OTHER_FOREGROUND=38
     # typeset -g POWERLEVEL9K_TERRAFORM_OTHER_VISUAL_IDENTIFIER_EXPANSION='⭐'
-
+    
     #############[ terraform_version: terraform version (https://www.terraform.io) ]##############
     # Terraform version color.
     typeset -g POWERLEVEL9K_TERRAFORM_VERSION_FOREGROUND=38
     # Custom icon.
     # typeset -g POWERLEVEL9K_TERRAFORM_VERSION_VISUAL_IDENTIFIER_EXPANSION='⭐'
-
+    
     #[ aws: aws profile (https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html) ]#
     # Show aws only when the command you are typing invokes one of these tools.
     # Tip: Remove the next line to always show aws.
     typeset -g POWERLEVEL9K_AWS_SHOW_ON_COMMAND='aws|awless|terraform|pulumi|terragrunt'
-
+    
     # POWERLEVEL9K_AWS_CLASSES is an array with even number of elements. The first element
     # in each pair defines a pattern against which the current AWS profile gets matched.
     # More specifically, it's P9K_CONTENT prior to the application of context expansion (see below)
@@ -145,19 +145,19 @@ ied in order. The
     '*'       DEFAULT)
     typeset -g POWERLEVEL9K_AWS_DEFAULT_FOREGROUND=208
     # typeset -g POWERLEVEL9K_AWS_DEFAULT_VISUAL_IDENTIFIER_EXPANSION='⭐'
-
+    
     # AWS segment format. The following parameters are available within the expansion.
     #
     # - P9K_AWS_PROFILE  The name of the current AWS profile.
     # - P9K_AWS_REGION   The region associated with the current AWS profile.
     typeset -g POWERLEVEL9K_AWS_CONTENT_EXPANSION='${P9K_AWS_PROFILE//\%/%%}${P9K_AWS_REGION:+ ${P9K_AWS_REGION//\%/%%}}'
-
+    
     #[ aws_eb_env: aws elastic beanstalk environment (https://aws.amazon.com/elasticbeanstalk/) ]#
     # AWS Elastic Beanstalk environment color.
     typeset -g POWERLEVEL9K_AWS_EB_ENV_FOREGROUND=70
     # Custom icon.
     # typeset -g POWERLEVEL9K_AWS_EB_ENV_VISUAL_IDENTIFIER_EXPANSION='⭐'
-
+    
     ##########[ azure: azure account name (https://docs.microsoft.com/en-us/cli/azure) ]##########
     # Show azure only when the command you are typing invokes one of these tools.
     # Tip: Remove the next line to always show azure.
@@ -166,14 +166,14 @@ ied in order. The
     typeset -g POWERLEVEL9K_AZURE_FOREGROUND=32
     # Custom icon.
     # typeset -g POWERLEVEL9K_AZURE_VISUAL_IDENTIFIER_EXPANSION='⭐'
-
+    
     ##########[ gcloud: google cloud account and project (https://cloud.google.com/) ]###########
     # Show gcloud only when the command you are typing invokes one of these tools.
     # Tip: Remove the next line to always show gcloud.
     typeset -g POWERLEVEL9K_GCLOUD_SHOW_ON_COMMAND='gcloud|gcs|gsutil'
     # Google cloud color.
     typeset -g POWERLEVEL9K_GCLOUD_FOREGROUND=32
-
+    
     # Google cloud format. Change the value of POWERLEVEL9K_GCLOUD_PARTIAL_CONTENT_EXPANSION and/or
     # POWERLEVEL9K_GCLOUD_COMPLETE_CONTENT_EXPANSION if the default is too verbose or not informative
     # enough. You can use the following parameters in the expansions. Each of them corresponds to the
@@ -199,20 +199,20 @@ ied in order. The
     # POWERLEVEL9K_GCLOUD_PARTIAL_CONTENT_EXPANSION to empty.
     typeset -g POWERLEVEL9K_GCLOUD_PARTIAL_CONTENT_EXPANSION='${P9K_GCLOUD_PROJECT_ID//\%/%%}'
     typeset -g POWERLEVEL9K_GCLOUD_COMPLETE_CONTENT_EXPANSION='${P9K_GCLOUD_PROJECT_NAME//\%/%%}'
-
+    
     # Send a request to Google (by means of `gcloud projects describe ...`) to obtain project name
     # this often. Negative value disables periodic polling. In this mode project name is retrieved
     # only when the current configuration, account or project id changes.
     typeset -g POWERLEVEL9K_GCLOUD_REFRESH_PROJECT_NAME_SECONDS=60
-
+    
     # Custom icon.
     # typeset -g POWERLEVEL9K_GCLOUD_VISUAL_IDENTIFIER_EXPANSION='⭐'
-
+    
     #[ google_app_cred: google application credentials (https://cloud.google.com/docs/authentication/production) ]#
     # Show google_app_cred only when the command you are typing invokes one of these tools.
     # Tip: Remove the next line to always show google_app_cred.
     typeset -g POWERLEVEL9K_GOOGLE_APP_CRED_SHOW_ON_COMMAND='terraform|pulumi|terragrunt'
-
+    
     # Google application credentials classes for the purpose of using different colors, icons and
     # expansions with different credentials.
     #
@@ -245,7 +245,7 @@ ied in order. The
     '*'             DEFAULT)
     typeset -g POWERLEVEL9K_GOOGLE_APP_CRED_DEFAULT_FOREGROUND=32
     # typeset -g POWERLEVEL9K_GOOGLE_APP_CRED_DEFAULT_VISUAL_IDENTIFIER_EXPANSION='⭐'
-
+    
     # Use POWERLEVEL9K_GOOGLE_APP_CRED_CONTENT_EXPANSION to specify the content displayed by
     # google_app_cred segment. Parameter expansions are very flexible and fast, too. See reference:
     # http://zsh.sourceforge.net/Doc/Release/Expansion.html#Parameter-Expansion.
@@ -261,7 +261,7 @@ ied in order. The
     #
     # Note: ${VARIABLE//\%/%%} expands to ${VARIABLE} with all occurrences of '%' replaced by '%%'.
     typeset -g POWERLEVEL9K_GOOGLE_APP_CRED_DEFAULT_CONTENT_EXPANSION='${P9K_GOOGLE_APP_CRED_PROJECT_ID//\%/%%}'
-
+    
     ##############[ toolbox: toolbox name (https://github.com/containers/toolbox) ]###############
     # Toolbox color.
     typeset -g POWERLEVEL9K_TOOLBOX_FOREGROUND=178
@@ -271,13 +271,13 @@ ied in order. The
     # typeset -g POWERLEVEL9K_TOOLBOX_VISUAL_IDENTIFIER_EXPANSION='⭐'
     # Custom prefix.
     # typeset -g POWERLEVEL9K_TOOLBOX_PREFIX='%fin '
-
+    
     ###############################[ public_ip: public IP address ]###############################
     # Public IP color.
     typeset -g POWERLEVEL9K_PUBLIC_IP_FOREGROUND=94
     # Custom icon.
     # typeset -g POWERLEVEL9K_PUBLIC_IP_VISUAL_IDENTIFIER_EXPANSION='⭐'
-
+    
     ########################[ vpn_ip: virtual private network indicator ]#########################
     # VPN IP color.
     typeset -g POWERLEVEL9K_VPN_IP_FOREGROUND=81
@@ -293,7 +293,7 @@ ied in order. The
     typeset -g POWERLEVEL9K_VPN_IP_SHOW_ALL=false
     # Custom icon.
     # typeset -g POWERLEVEL9K_VPN_IP_VISUAL_IDENTIFIER_EXPANSION='⭐'
-
+    
     ###########[ ip: ip address and bandwidth usage for a specified network interface ]###########
     # IP color.
     typeset -g POWERLEVEL9K_IP_FOREGROUND=38
@@ -315,13 +315,13 @@ ied in order. The
     typeset -g POWERLEVEL9K_IP_INTERFACE='[ew].*'
     # Custom icon.
     # typeset -g POWERLEVEL9K_IP_VISUAL_IDENTIFIER_EXPANSION='⭐'
-
+    
     #########################[ proxy: system-wide http/https/ftp proxy ]##########################
     # Proxy color.
     typeset -g POWERLEVEL9K_PROXY_FOREGROUND=68
     # Custom icon.
     # typeset -g POWERLEVEL9K_PROXY_VISUAL_IDENTIFIER_EXPANSION='⭐'
-
+    
     ################################[ battery: internal battery ]#################################
     # Show battery in red when it's below this level and not connected to power supply.
     typeset -g POWERLEVEL9K_BATTERY_LOW_THRESHOLD=20
@@ -334,13 +334,13 @@ ied in order. The
     typeset -g POWERLEVEL9K_BATTERY_STAGES='\uf58d\uf579\uf57a\uf57b\uf57c\uf57d\uf57e\uf57f\uf580\uf581\uf578'
     # Don't show the remaining time to charge/discharge.
     typeset -g POWERLEVEL9K_BATTERY_VERBOSE=false
-
+    
     #####################################[ wifi: wifi speed ]#####################################
     # WiFi color.
     typeset -g POWERLEVEL9K_WIFI_FOREGROUND=68
     # Custom icon.
     # typeset -g POWERLEVEL9K_WIFI_VISUAL_IDENTIFIER_EXPANSION='⭐'
-
+    
     # Use different colors and icons depending on signal strength ($P9K_WIFI_BARS).
     #
     #   # Wifi colors and icons for different signal strength levels (low to high).
@@ -360,7 +360,7 @@ ied in order. The
     #   P9K_WIFI_RSSI         | signal strength in dBm, from -120 to 0
     #   P9K_WIFI_NOISE        | noise in dBm, from -120 to 0
     #   P9K_WIFI_BARS         | signal strength in bars, from 0 to 4 (derived from P9K_WIFI_RSSI and P9K_WIFI_NOISE)
-
+    
     ####################################[ time: current time ]####################################
     # Current time color.
     typeset -g POWERLEVEL9K_TIME_FOREGROUND=66
@@ -374,7 +374,7 @@ ied in order. The
     # typeset -g POWERLEVEL9K_TIME_VISUAL_IDENTIFIER_EXPANSION='⭐'
     # Custom prefix.
     # typeset -g POWERLEVEL9K_TIME_PREFIX='%fat '
-
+    
     # Example of a user-defined prompt segment. Function prompt_example will be called on every
     # prompt if `example` prompt segment is added to POWERLEVEL9K_LEFT_PROMPT_ELEMENTS or
     # POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS. It displays an icon and orange text greeting the user.
@@ -383,7 +383,7 @@ ied in order. The
     function prompt_example() {
         p10k segment -f 208 -i '⭐' -t 'hello, %n'
     }
-
+    
     # User-defined prompt segments may optionally provide an instant_prompt_* function. Its job
     # is to generate the prompt segment for display in instant prompt. See
     # https://github.com/romkatv/powerlevel10k/blob/master/README.md#instant-prompt.
@@ -402,11 +402,11 @@ ied in order. The
         # and regular prompts.
         prompt_example
     }
-
+    
     # User-defined prompt segments can be customized the same way as built-in segments.
     # typeset -g POWERLEVEL9K_EXAMPLE_FOREGROUND=208
     # typeset -g POWERLEVEL9K_EXAMPLE_VISUAL_IDENTIFIER_EXPANSION='⭐'
-
+    
     # Transient prompt works similarly to the builtin transient_rprompt option. It trims down prompt
     # when accepting a command line. Supported values:
     #
@@ -415,7 +415,7 @@ ied in order. The
     #   - same-dir: Trim down prompt when accepting a command line unless this is the first command
     #               typed after changing current working directory.
     typeset -g POWERLEVEL9K_TRANSIENT_PROMPT=always
-
+    
     # Instant prompt mode.
     #
     #   - off:     Disable instant prompt. Choose this if you've tried instant prompt and found
@@ -427,13 +427,13 @@ ied in order. The
     #              zsh initialization. Choose this if you've never tried instant prompt, haven't
     #              seen the warning, or if you are unsure what this all means.
     typeset -g POWERLEVEL9K_INSTANT_PROMPT=verbose
-
+    
     # Hot reload allows you to change POWERLEVEL9K options after Powerlevel10k has been initialized.
     # For example, you can type POWERLEVEL9K_BACKGROUND=red and see your prompt turn red. Hot reload
     # can slow down prompt by 1-2 milliseconds, so it's better to keep it turned off unless you
     # really need it.
     typeset -g POWERLEVEL9K_DISABLE_HOT_RELOAD=true
-
+    
     # If p10k is already loaded, reload configuration.
     # This works even with POWERLEVEL9K_DISABLE_HOT_RELOAD=true.
     (( ! $+functions[p10k] )) || p10k reload

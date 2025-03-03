@@ -31,6 +31,10 @@ in
       dbeaver-bin
       slack
       #yubioath-flutter
+
+      terraform
+      opentofu
+      kubectl
     ];
 }
 
