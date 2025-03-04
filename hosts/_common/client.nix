@@ -4,7 +4,6 @@
   imports =
     [
       ./server.nix
-      ../../system/security/firewall.nix
       ../../system/app/virtualization.nix
     ];
 
@@ -25,6 +24,8 @@
     pcsclite
 
     gparted
+
+    unstable.code-cursor
   ];
 
   fonts.packages = with pkgs; [

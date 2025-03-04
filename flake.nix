@@ -11,95 +11,38 @@
     stylix.url = "github:danth/stylix";
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, ... }:
-    let
-      system = "x86_64-linux";
-
-      pkgs = import nixpkgs {
-        inherit system;
-        config = {
-          allowUnfree = true;
-          allowUnfreePredicate = (_: true);
-        };
-        overlays = [ self.overlays.default ];
-      };
-
-    in
-    {
-
-      overlays.default = final: prev: {
-        stefan = final.callPackage ./custom-pkgs/figurine.nix { };
-      };
-
-      nixosConfigurations = {
-        RWTF = nixpkgs.lib.nixosSystem {
-          inherit system;
-          modules = [
-            ./hosts/starlabs/configuration.nix
-          ];
-          specialArgs = {
-            inherit pkgs;
-            inherit inputs;
-          };
-        };
-
-        ZVIJER = nixpkgs.lib.nixosSystem {
-          inherit system;
-          modules = [
-            ./hosts/zvijer/configuration.nix
-          ];
-          specialArgs = {
-            inherit pkgs;
-            inherit inputs;
-          };
-        };
-
-        stefan-t14 = nixpkgs.lib.nixosSystem {
-          inherit system;
-          modules = [
-            ./hosts/t14/configuration.nix
-          ];
-          specialArgs = {
-            inherit pkgs;
-            inherit inputs;
-          };
-        };
-
-        nix-vm = nixpkgs.lib.nixosSystem {
-          inherit system;
-          modules = [
-            ./hosts/nix-vm/configuration.nix
-          ];
-          specialArgs = {
-            inherit pkgs;
-            inherit inputs;
-          };
-        };
-      };
-
-      homeConfigurations = {
-        stefanmatic = home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-          modules = [
-            ./home/stefanmatic.nix
-          ];
-          extraSpecialArgs = {
-            inherit pkgs;
-            inherit inputs;
-          };
-        };
-
-        fallen = home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-          modules = [
-            ./home/fallen.nix
-          ];
-          extraSpecialArgs = {
-            inherit pkgs;
-            inherit inputs;
-          };
-        };
+   outputs = {
+    self,
+    home-manager,
+    nixpkgs,
+    ...
+  } @ inputs: let
+    inherit (self) outputs;
+    systems = [
+      "aarch64-linux"
+      "i686-linux"
+      "x86_64-linux"
+      "aarch64-darwin"
+      "x86_64-darwin"
+    ];
+    forAllSystems = nixpkgs.lib.genAttrs systems;
+  in {
+    packages =
+      forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
+    overlays = import ./overlays {inherit inputs;};
+    nixosConfigurations = {
+      stefan-t14 = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        modules = [./hosts/t14/configuration.nix];
       };
     };
+    homeConfigurations = {
+      "stefanmatic" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages."x86_64-linux";
+        extraSpecialArgs = {inherit inputs outputs;};
+        modules = [./home/stefanmatic.nix];
+      };
+    };
+  };
 }
 
