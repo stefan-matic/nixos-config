@@ -25,7 +25,6 @@ in
 
   home.packages =
     with pkgs; [
-      viber
       prusa-slicer
 
       dbeaver-bin
@@ -36,7 +35,6 @@ in
       opentofu
       kubectl
       awscli2
-      code-cursor
     ];
 }
 

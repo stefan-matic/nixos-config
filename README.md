@@ -1,5 +1,11 @@
 # My NixOS Config
 
+## After resurrect
+
+- Switch gpg agent for ssh agent because gpg keeps a copy of keys which i don't want
+
+## Tasks before resurrect
+
 - incorporate snowflake cli into system (mkBashScript ili nesto tako)
 
 - keepassxc rclone sync

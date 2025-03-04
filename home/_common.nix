@@ -1,6 +1,8 @@
 { config, pkgs, userSettings, ... }:
 
 {
+  nixpkgs.config.allowUnfree = true;
+
   programs.home-manager.enable = true;
 
   home.stateVersion = "24.11";
@@ -16,6 +18,7 @@
     ../user/shells/sh.nix
     #../user/style/stylix.nix # Styling and themes for my apps
     ../user/app/browser/chrome.nix
+    ../user/app/chat/viber.nix
   ];
 
   news.display = "silent";
@@ -41,7 +44,7 @@
       # network tools
       ipcalc
       ldns
-      
+
       # monitors
       btop
       iotop
