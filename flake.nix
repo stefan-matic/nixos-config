@@ -35,6 +35,10 @@
         specialArgs = {inherit inputs outputs;};
         modules = [./hosts/t14/configuration.nix];
       };
+      ZVIJER = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        modules = [./hosts/zvijer-t14-copy/configuration.nix];
+      };
     };
     homeConfigurations = {
       "stefanmatic" = home-manager.lib.homeManagerConfiguration {
