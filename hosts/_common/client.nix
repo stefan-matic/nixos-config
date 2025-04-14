@@ -28,14 +28,14 @@
 
     unstable.code-cursor
     powershell
+
+    glxinfo
   ];
 
   fonts.packages = with pkgs; [
     font-awesome
     fira-code
     fira-code-symbols
-    #(nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
-    nerdfonts
     powerline-fonts
     powerline-symbols
   ];
@@ -60,3 +60,6 @@
   };
 
 }
+
+
+##(nerdfonts.override { fonts = [ "JetBrainsMono" ]; })

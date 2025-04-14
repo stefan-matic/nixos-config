@@ -64,8 +64,7 @@
       };
     };
 
-    # Hardware configuration
-    hardware.pulseaudio.enable = false;
+    services.pulseaudio.enable = false;
     security.rtkit.enable = true;
 
     # User configuration
@@ -102,9 +101,9 @@
       font-awesome
       fira-code
       fira-code-symbols
-      nerdfonts
       powerline-fonts
       powerline-symbols
+      nerd-fonts.droid-sans-mono
     ];
 
     # System version
