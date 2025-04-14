@@ -56,7 +56,6 @@
     # System services
     services = {
       printing.enable = true;
-      cloudflare-warp.enable = true;
       pipewire = {
         enable = true;
         alsa.enable = true;

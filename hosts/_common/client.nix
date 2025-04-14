@@ -16,7 +16,8 @@
 
     git
 
-    cloudflare-warp
+    unstable.cloudflare-warp
+    #cloudflare-warp
     #yubikey-personalization
     #yubikey-personalization-gui
 
@@ -26,6 +27,7 @@
     gparted
 
     unstable.code-cursor
+    powershell
   ];
 
   fonts.packages = with pkgs; [
