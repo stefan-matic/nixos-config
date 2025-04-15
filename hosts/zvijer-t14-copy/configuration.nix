@@ -102,7 +102,10 @@ in
 
 
     # Printing
-    services.printing.enable = true;
+    services.printing = {
+      enable = true;
+      drivers = [ pkgs.cups-kyocera ]; # Add Kyocera drivers if available in nixpkgs
+    };
 
     services.avahi = {
       enable = true;
@@ -110,19 +113,38 @@ in
       openFirewall = true;
     };
 
-    hardware.printers = {
-      ensurePrinters = [
-        {
-          name = "Matic-Printer";
-          location = "Home";
-          deviceUri = "http://10.100.10.251:631/";
-          model = "/home/stefanmatic/Documents/Matic-Printer.ppd";
-          ppdOptions = {
-            PageSize = "A4";
-          };
-        }
-      ];
-      ensureDefaultPrinter = "Matic-Printer";
+    # Create a package containing both the PPD file and the Kyocera filters
+    nixpkgs.config.packageOverrides = pkgs: {
+      kyocera-drivers = pkgs.runCommand "kyocera-drivers" {} ''
+        mkdir -p $out/share/cups/model
+        mkdir -p $out/lib/cups/filter
+
+        # Copy your PPD file
+        cp ${../../system/drivers/Matic-Printer.ppd} $out/share/cups/model/TA-p-4025w.ppd
+        chmod 644 $out/share/cups/model/TA-p-4025w.ppd
+
+        # Copy Kyocera filter files (you need to adjust the path to where you extracted the drivers)
+        cp /path/to/kyocera/drivers/kyofilter_* $out/lib/cups/filter/
+        chmod 755 $out/lib/cups/filter/*
+      '';
+    };
+
+    # Make sure the package is installed
+    environment.systemPackages = [ pkgs.kyocera-drivers ];
+
+    # Create a custom systemd service to set up the printer after boot
+    systemd.services.setup-matic-printer = {
+      # ... other settings as before ...
+      script = ''
+        sleep 5
+        /run/current-system/sw/bin/lpadmin -p Matic-Printer \
+          -v http://10.100.10.251:631/ \
+          -m drv:///sample.drv/generic.ppd \
+          -L "Home" \
+          -E
+        /run/current-system/sw/bin/lpoptions -d Matic-Printer
+        /run/current-system/sw/bin/lpoptions -p Matic-Printer -o PageSize=A4
+      '';
     };
   };
 }
