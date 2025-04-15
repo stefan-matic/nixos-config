@@ -34,14 +34,6 @@
     kdePackages.kcalc
   ];
 
-  fonts.packages = with pkgs; [
-    font-awesome
-    fira-code
-    fira-code-symbols
-    powerline-fonts
-    powerline-symbols
-  ];
-
 
   # OBS VIRTUAL CAM
   boot = {

@@ -99,7 +99,7 @@
       fira-code-symbols
       powerline-fonts
       powerline-symbols
-      nerd-fonts.droid-sans-mono
+      nerd-fonts.jetbrains-mono
     ];
 
     # System version

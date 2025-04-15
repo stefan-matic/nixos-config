@@ -8,8 +8,6 @@
 
 - keepassxc rclone sync // treba li ovo jos s obzirom da imas syncthing? Treba jer offsite backup
 
-- natural scrolling on wayland and X11
-
 - check direnv installation in default home.nix
 
 - sessionVaribles for EDITOR TERM and BROWSER (work/home.nix example)
@@ -17,6 +15,14 @@
 - cursors are not working https://stylix.danth.me/options/nixos.html?highlight=cursor#stylixcursorname
 
 - Ikone kad ls opalis (vjerovatno nerf-fonts)
+
+- Package deej-dev app
+
+## KDE shortcuts
+
+https://github.com/nix-community/plasma-manager
+
+- natural scrolling on wayland and X11
 
 ## HYPRLAND things
 
