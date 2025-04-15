@@ -30,6 +30,8 @@
     powershell
 
     glxinfo
+
+    kdePackages.kcalc
   ];
 
   fonts.packages = with pkgs; [

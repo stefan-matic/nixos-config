@@ -35,10 +35,7 @@ in
 
     # Add required packages
     environment.systemPackages = with pkgs; [
-      ghostscript
-      cups-filters
-      gutenprint
-      gutenprintBin
+
     ];
 
     services.syncthing = {
