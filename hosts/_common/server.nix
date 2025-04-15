@@ -84,10 +84,6 @@
       firefox.enable = true;
       kdeconnect.enable = true;
       zsh.enable = true;
-      gnupg.agent = {
-        enable = true;
-        enableSSHSupport = true;
-      };
     };
 
     # Package configuration

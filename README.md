@@ -2,37 +2,25 @@
 
 ## After resurrect
 
-- Switch gpg agent for ssh agent because gpg keeps a copy of keys which i don't want
-
-## Tasks before resurrect
+- CTRL + R u zsh kao sto imas u fishu
 
 - incorporate snowflake cli into system (mkBashScript ili nesto tako)
 
-- keepassxc rclone sync
+- keepassxc rclone sync // treba li ovo jos s obzirom da imas syncthing? Treba jer offsite backup
 
 - natural scrolling on wayland and X11
 
-- add minimal defaults
-
 - check direnv installation in default home.nix
 
-sessionVaribles for EDITOR TERM and BROWSER (work/home.nix example)
-
-- CLI for quick commands based on librephoenix
-
-- DIgital clock plasma change display to dd/MM/yyyy
+- sessionVaribles for EDITOR TERM and BROWSER (work/home.nix example)
 
 - cursors are not working https://stylix.danth.me/options/nixos.html?highlight=cursor#stylixcursorname
 
-- what does nix flake update actually do?
-
-  - should it be run regularly?
-
 - Ikone kad ls opalis (vjerovatno nerf-fonts)
 
-- clipboard like in plasma
+## HYPRLAND things
 
-- CTRL + R u zsh kao sto imas u fishu
+- clipboard like in plasma
 
 ## Cleanup
 
