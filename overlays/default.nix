@@ -19,4 +19,12 @@
       config.allowUnfree = true;
     };
   };
+
+  stable-packages = final: prev: {
+    stable = import inputs.nixpkgs-stable {
+      inherit (prev) system;
+      config.allowUnfree = true;
+    };
+  };
 }
+

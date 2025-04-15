@@ -82,7 +82,7 @@
     # Program configuration
     programs = {
       firefox.enable = true;
-      kdeconnect.enable = true;
+      #kdeconnect.enable = true;
       zsh.enable = true;
     };
 
