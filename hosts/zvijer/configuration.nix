@@ -111,5 +111,11 @@ in
 
     # Enable the printer
     hardware.printers.TA-p-4025w.enable = true;
+
+    programs.steam = {
+      enable = true;
+      remotePlay.openFirewall = true;
+      dedicatedServer.openFirewall = true;
+    };
   };
 }
