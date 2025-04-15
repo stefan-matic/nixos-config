@@ -30,7 +30,13 @@
   fileSystems."/mnt/win" =
     { device = "/dev/disk/by-uuid/16925B65925B47FF";
       fsType = "ntfs3";
+      options = [ "rw" "uid=1000" "gid=100" "umask=0022" "fmask=0022" "dmask=0022" "nofail" ];
     };
+
+  # Ensure mount point ownership is set correctly
+  systemd.tmpfiles.rules = [
+    "d /mnt/win 0755 stefanmatic users -"
+  ];
 
   swapDevices = [ ];
 
