@@ -99,5 +99,30 @@ in
         obs-composite-blur
       ];
     };
+
+
+    # Printing
+    services.printing.enable = true;
+
+    services.avahi = {
+      enable = true;
+      nssmdns4 = true;
+      openFirewall = true;
+    };
+
+    hardware.printers = {
+      ensurePrinters = [
+        {
+          name = "Matic-Printer";
+          location = "Home";
+          deviceUri = "http://10.100.10.251:631/";
+          model = "/home/stefanmatic/Documents/Matic-Printer.ppd";
+          ppdOptions = {
+            PageSize = "A4";
+          };
+        }
+      ];
+      ensureDefaultPrinter = "Matic-Printer";
+    };
   };
 }
