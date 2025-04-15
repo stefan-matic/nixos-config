@@ -47,8 +47,8 @@ in {
         # Use Ghostscript for PDF rendering
         pdftops-renderer ghostscript
         pdftops-renderer-default ghostscript
+        LogLevel debug2
       '';
-      logLevel = "debug";  # Enable debug logging
     };
 
     services.avahi = {
@@ -66,51 +66,87 @@ in {
         Type = "oneshot";
         User = "root";
         RemainAfterExit = true;
+        Restart = "on-failure";
+        RestartSec = "5s";
       };
+      path = with pkgs; [
+        cups
+        gutenprint
+        gutenprintBin
+      ];
       script = ''
+        set -euo pipefail
+
         # Wait for CUPS to be fully started
         while ! systemctl is-active --quiet cups.service; do
           sleep 1
         done
-        sleep 5  # Additional wait to ensure CUPS is fully initialized
+        sleep 5
 
-        # Remove existing printer if it exists
-        /run/current-system/sw/bin/lpadmin -x ${cfg.name} || true
+        # Debug information
+        echo "=== Printer Setup Debug Information ==="
+        echo "Printer: ${cfg.name}"
+        echo "IP: ${cfg.ip}"
+        echo "Port: ${toString cfg.port}"
+        echo "Location: ${cfg.location}"
+        echo "----------------------------------------"
 
-        # List available drivers for debugging
-        echo "Available drivers:"
-        /run/current-system/sw/bin/lpinfo -m | grep -i "triumph\|adler" || true
+        # Check printer status
+        if lpstat -p ${cfg.name} >/dev/null 2>&1; then
+          echo "Printer ${cfg.name} exists, checking configuration..."
+          if ! lpstat -p ${cfg.name} -l | grep -q "enabled"; then
+            echo "Printer exists but is not enabled, reconfiguring..."
+            lpadmin -x ${cfg.name}
+          else
+            echo "Printer exists and is enabled"
+            exit 0
+          fi
+        fi
 
-        # Add the printer using a generic driver first
-        if ! /run/current-system/sw/bin/lpadmin -p ${cfg.name} \
+        # Add printer with Gutenprint driver
+        echo "Adding printer with Gutenprint driver..."
+        if ! lpadmin -p ${cfg.name} \
           -v ipps://${cfg.ip}:${toString cfg.port} \
-          -m everywhere \
+          -m gutenprint.5.3://triumph-adler/expert \
           -L "${cfg.location}" \
           -E; then
-          echo "Failed to add printer with generic driver, trying Gutenprint..."
-          if ! /run/current-system/sw/bin/lpadmin -p ${cfg.name} \
+          echo "Failed with Gutenprint, trying generic driver..."
+          if ! lpadmin -p ${cfg.name} \
             -v ipps://${cfg.ip}:${toString cfg.port} \
-            -m gutenprint.5.3://triumph-adler/expert \
+            -m everywhere \
             -L "${cfg.location}" \
             -E; then
-            echo "Failed to add printer with Gutenprint driver"
+            echo "Failed to add printer with any driver"
             exit 1
           fi
         fi
 
-        # Set the printer to use Ghostscript for PDF rendering
-        /run/current-system/sw/bin/lpoptions -p ${cfg.name} -o pdftops-renderer=ghostscript
+        # Configure printer
+        echo "Configuring printer..."
+        lpoptions -p ${cfg.name} -o pdftops-renderer=ghostscript
+        cupsenable ${cfg.name}
+        cupsaccept ${cfg.name}
 
-        # Enable the printer
-        /run/current-system/sw/bin/cupsenable ${cfg.name}
-        /run/current-system/sw/bin/cupsaccept ${cfg.name}
-
-        # Verify printer setup
-        if ! /run/current-system/sw/bin/lpstat -p ${cfg.name}; then
+        # Verify setup
+        if ! lpstat -p ${cfg.name} >/dev/null 2>&1; then
           echo "Failed to verify printer setup"
           exit 1
         fi
+
+        echo "=== Final Printer Status ==="
+        lpstat -p ${cfg.name} -l
+        echo "Printer setup completed successfully"
       '';
+    };
+
+    # Periodic check timer
+    systemd.timers."check-${cfg.name}" = {
+      wantedBy = [ "timers.target" ];
+      timerConfig = {
+        OnBootSec = "1min";
+        OnUnitActiveSec = "5min";
+        Unit = "setup-${cfg.name}.service";
+      };
     };
   };
 }

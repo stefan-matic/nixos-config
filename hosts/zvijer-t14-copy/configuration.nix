@@ -107,26 +107,26 @@ in
       ];
     };
 
-    # Configure CUPS
-    services.printing = {
-      enable = true;
-      drivers = with pkgs; [
-        gutenprint
-        gutenprintBin
-      ];
-      extraConf = ''
-        # Use Ghostscript for PDF rendering
-        pdftops-renderer ghostscript
-        pdftops-renderer-default ghostscript
-      '';
-      logLevel = "debug";  # Enable debug logging
-    };
-
-    services.avahi = {
-      enable = true;
-      nssmdns4 = true;
-      openFirewall = true;
-    };
+#    # Configure CUPS
+#    services.printing = {
+#      enable = true;
+#      drivers = with pkgs; [
+#        gutenprint
+#        gutenprintBin
+#      ];
+#      extraConf = ''
+#        # Use Ghostscript for PDF rendering
+#        pdftops-renderer ghostscript
+#        pdftops-renderer-default ghostscript
+#      '';
+#      logLevel = "debug";  # Enable debug logging
+#    };
+#
+#    services.avahi = {
+#      enable = true;
+#      nssmdns4 = true;
+#      openFirewall = true;
+#    };
 
     # Enable the printer
     hardware.printers.TA-p-4025w.enable = true;
