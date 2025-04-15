@@ -57,6 +57,11 @@ in
           };
         };
         folders = {
+          "dotfiles" = {
+            path = "/home/stefanmatic/";
+            devices = [ "unraid" ];
+            id = "dotfiles";
+          };
           "KeePass" = {
             path = "/home/stefanmatic/KeePass";
             devices = [ "unraid" ];
