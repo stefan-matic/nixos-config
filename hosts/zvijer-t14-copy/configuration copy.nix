@@ -10,7 +10,6 @@ in
     [
       ./hardware-configuration.nix
       ../_common/client.nix
-      ../../system/devices/TA-p-4025w
     ];
 
   options = {
@@ -110,9 +109,8 @@ in
     # Configure CUPS
     services.printing = {
       enable = true;
-      drivers = with pkgs; [
-        gutenprint
-        gutenprintBin
+      drivers = [
+        (pkgs.callPackage ../../system/drivers/TA-p-4025w {})
       ];
       extraConf = ''
         # Use Ghostscript for PDF rendering
@@ -128,7 +126,29 @@ in
       openFirewall = true;
     };
 
-    # Enable the printer
-    hardware.printers.TA-p-4025w.enable = true;
+    # Simple printer setup service
+    systemd.services.setup-matic-printer = {
+      description = "Setup Matic Printer";
+      wantedBy = [ "multi-user.target" ];
+      after = [ "network.target" "cups.service" ];
+      serviceConfig = {
+        Type = "oneshot";
+        User = "root";
+      };
+      script = ''
+        # Wait for CUPS to be fully started
+        sleep 5
+
+        # Add the printer
+        /run/current-system/sw/bin/lpadmin -p Matic-Printer \
+          -v ipps://10.100.10.251:633/ipp \
+          -m TA-p-4025w.ppd \
+          -L "Home" \
+          -E
+
+        # Set the printer to use Ghostscript for PDF rendering
+        /run/current-system/sw/bin/lpoptions -p Matic-Printer -o pdftops-renderer=ghostscript
+      '';
+    };
   };
 }

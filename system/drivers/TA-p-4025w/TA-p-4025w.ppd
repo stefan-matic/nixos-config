@@ -45,7 +45,10 @@
 *1284DeviceID: "MFG:UTAX;MODEL:P-4025w MFP;COMMAND SET: POSTSCRIPT,PJL,PCL"
 
 *cupsPreFilter: "application/pdf 0 kyofilter_pre_H"
-*cupsFilter: "application/vnd.cups-postscript 0 /usr/lib/cups/filter/kyofilter_H"
+*cupsFilter: "application/vnd.cups-postscript 0 kyofilter_H"
+*cupsFilter: "application/pdf 0 kyofilter_pdf_H"
+*cupsFilter: "application/vnd.cups-raster 0 kyofilter_ras_H"
+*cupsFilter: "application/vnd.cups-command 0 kyofilter_kpsl_H"
 
 *% Basic Device Capabilities
 *SupportsCustomJobName: True
@@ -101,7 +104,7 @@
 *1284Modes Parallel: Compat Nibble ECP
 *1284DeviceID: "MFG:UTAX;MODEL:P-4025w MFP;COMMAND SET: POSTSCRIPT,PJL,PCL"
 
-*% JCL Information 
+*% JCL Information
 *JCLBegin: "<1B>%-12345X@PJL JOB<0A>"
 *JCLToPSInterpreter: "@PJL ENTER LANGUAGE=POSTSCRIPT<0A>"
 *JCLEnd: "<1B>%-12345X@PJL EOJ<0A><1B>%-12345X"
@@ -604,7 +607,7 @@ globaldict /ct_AddStdCIDMap get dup
 globaldict /ct_AddStdCIDMap get
 0 get length 1 exch
 put put setglobal
-} if} if} if} if} if} if} if"
+} if} if} if} if} if} if"
 *End
 *CloseUI: *KCVersion
 
@@ -1086,7 +1089,7 @@ put put setglobal
 *UIConstraints: *InputSlot PF1100B *PageRegion B6
 *UIConstraints: *PageRegion B6 *InputSlot PF1100B
 
- 
+
 
 *UIConstraints: *Coll False *KCCollate1 QuickCopy
 *UIConstraints: *KCCollate1 QuickCopy *Coll False
@@ -2840,6 +2843,7 @@ put put setglobal
 *es.Tmed Internal/Bandeja 1: ""
 *es.Tmed PF1100A/Bandeja 2: ""
 *es.Tmed PF1100B/Bandeja 3: ""
+*es.Tmed MF1/Bandeja MP: ""
 *es.Translation Pmed/Papel para las páginas: ""
 *es.Pmed PrnDef/No especificado: ""
 *es.Pmed Plain/Plain: ""
@@ -3330,17 +3334,17 @@ put put setglobal
 *de.Mact -3.0/-3.0: ""
 *de.Mact -2.0/-2.0: ""
 *de.Mact -1.0/-1.0: ""
-*de.Mact 0/0: ""
-*de.Mact 1.0/1.0: ""
-*de.Mact 2.0/2.0: ""
-*de.Mact 3.0/3.0: ""
-*de.Mact 4.0/4.0: ""
-*de.Mact 5.0/5.0: ""
-*de.Mact 6.0/6.0: ""
-*de.Mact 7.0/7.0: ""
-*de.Mact 8.0/8.0: ""
-*de.Mact 9.0/9.0: ""
-*de.Mact 10.0/10.0: ""
+*de.Malt 0/0: ""
+*de.Malt 1.0/1.0: ""
+*de.Malt 2.0/2.0: ""
+*de.Malt 3.0/3.0: ""
+*de.Malt 4.0/4.0: ""
+*de.Malt 5.0/5.0: ""
+*de.Malt 6.0/6.0: ""
+*de.Malt 7.0/7.0: ""
+*de.Malt 8.0/8.0: ""
+*de.Malt 9.0/9.0: ""
+*de.Malt 10.0/10.0: ""
 *de.Translation KmWatermark/Wasserzeichen: ""
 *de.Translation Wren/Wasserzeichen: ""
 *de.Wren False/Aus: ""
