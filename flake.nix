@@ -38,7 +38,7 @@
       };
       ZVIJER = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
-        modules = [./hosts/zvijer-t14-copy/configuration.nix];
+        modules = [./hosts/zvijer/configuration.nix];
       };
     };
     homeConfigurations = {
