@@ -35,7 +35,8 @@ in
 
     # Add required packages
     environment.systemPackages = with pkgs; [
-
+      kdialog
+      (import ../../pkgs {}).select-browser
     ];
 
     services.syncthing = {

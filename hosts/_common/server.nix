@@ -74,8 +74,8 @@
       shell = pkgs.zsh;
       extraGroups = [ "networkmanager" "wheel" "dialout" "docker" ];
       packages = with pkgs; [
-        kdePackages.kate
         vscode
+        #stable.rustdesk
       ];
     };
 
@@ -90,6 +90,7 @@
     nixpkgs.config.allowUnfree = true;
     environment.systemPackages = with pkgs; [
       git
+      dig
     ];
 
     # Font configuration

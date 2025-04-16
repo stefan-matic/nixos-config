@@ -32,6 +32,7 @@
     glxinfo
 
     kdePackages.kcalc
+    kdePackages.kate
   ];
 
 
