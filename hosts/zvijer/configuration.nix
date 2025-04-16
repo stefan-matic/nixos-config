@@ -12,7 +12,6 @@ in
       ./hardware-configuration.nix
       ../_common/client.nix
       ../../system/devices/TA-p-4025w
-      ./hardware/arduino.nix
     ];
 
   options = {
