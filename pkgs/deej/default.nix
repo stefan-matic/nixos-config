@@ -1,66 +1,55 @@
-{ stdenv, lib, fetchFromGitHub, go, pkg-config, gtk3, libappindicator-gtk3, webkitgtk, buildGoModule, makeWrapper }:
+{ lib
+, stdenv
+, fetchFromGitHub
+, buildGoModule
+, pkg-config
+, glib
+, gtk3
+, libappindicator
+, webkitgtk_4_0
+}:
 
-buildGoModule rec {
-  pname = "deej";
+let
   version = "0.9.10";
+in
+
+buildGoModule {
+  pname = "deej";
+  inherit version;
 
   src = fetchFromGitHub {
     owner = "omriharel";
-    repo = pname;
+    repo = "deej";
     rev = "v${version}";
-    sha256 = "sha256-T6S3FQ9vxl4R3D+uiJ83z1ueK+3pfASEjpRI+HjIV0M==";
+    hash = "sha256-T6S3FQ9vxl4R3D+uiJ83z1ueK+3pfASEjpRI+HjIV0M=";
   };
 
   vendorHash = "sha256-1gjFPD7YV2MTp+kyC+hsj+NThmYG3hlt6AlOzXmEKyA=";
 
-  nativeBuildInputs = [
-    pkg-config
-    makeWrapper
-  ];
+  nativeBuildInputs = [ pkg-config ];
+  buildInputs = [ glib gtk3 libappindicator webkitgtk_4_0 ];
 
-  buildInputs = [
-    gtk3
-    libappindicator-gtk3
-    webkitgtk
-  ];
-
-  # Build the main package
+  # The main executable is in the cmd directory
   buildPhase = ''
-    export GOPATH=$TMPDIR/go
-    export CGO_ENABLED=1
-    export GOOS=linux
-    export GOARCH=amd64
-    go build -o deej ./cmd
+    runHook preBuild
+    cd cmd
+    go build -o deej
+    runHook postBuild
   '';
 
+  # Install the binary
   installPhase = ''
+    runHook preInstall
     mkdir -p $out/bin
-    cp deej $out/bin/deej-bin
-
-    # Create wrapper script
-    cat > $out/bin/deej << EOF
-    #!${stdenv.shell}
-    mkdir -p ~/.config/deej
-    cd ~/.config/deej
-    exec "$out/bin/deej-bin" "\$@"
-    EOF
-
-    chmod +x $out/bin/deej
-
-    # Wrap the script with required environment variables
-    makeWrapper $out/bin/deej $out/bin/deej-wrapped \
-      --prefix PATH : ${lib.makeBinPath [ gtk3 libappindicator-gtk3 webkitgtk ]} \
-      --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath [ gtk3 libappindicator-gtk3 webkitgtk ]}
-
-    # Replace the original script with the wrapped version
-    mv $out/bin/deej-wrapped $out/bin/deej
+    cp deej $out/bin/
+    runHook postInstall
   '';
 
   meta = with lib; {
-    description = "An open-source hardware volume mixer for Windows and Linux PCs";
+    description = "Set app volumes with real sliders! deej is an Arduino & Go project to let you build your own hardware mixer for Windows and Linux";
     homepage = "https://github.com/omriharel/deej";
     license = licenses.mit;
-    maintainers = [ maintainers.stefanmatic ];
+    maintainers = with maintainers; [ ];
     platforms = platforms.linux;
   };
 }

@@ -4,6 +4,7 @@ let
   env = import ./env.nix {inherit pkgs; };
   inherit (env) systemSettings userSettings;
   customPkgs = import ../../pkgs { inherit pkgs; };
+  ./hardware/arduino.nix
 in
 
 {
@@ -12,6 +13,7 @@ in
       ./hardware-configuration.nix
       ../_common/client.nix
       ../../system/devices/TA-p-4025w
+      ./hardware/arduino.nix
     ];
 
   options = {
@@ -43,6 +45,18 @@ in
       libappindicator-gtk3
       webkitgtk
     ];
+
+    # Add user to required groups
+    users.users.${userSettings.username} = {
+      extraGroups = [ "dialout" "uucp" "plugdev" ];
+    };
+
+    # Add udev rules for Arduino
+    services.udev.extraRules = ''
+      SUBSYSTEM=="tty", ATTRS{idVendor}=="2341", ATTRS{idProduct}=="*", GROUP="dialout", MODE="0660"
+      SUBSYSTEM=="tty", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="*", GROUP="dialout", MODE="0660"
+      SUBSYSTEM=="tty", ATTRS{idVendor}=="2a03", ATTRS{idProduct}=="*", GROUP="dialout", MODE="0660"
+    '';
 
     services.syncthing = {
       enable = true;

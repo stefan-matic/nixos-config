@@ -43,6 +43,12 @@ in
     indicator = true;
   };
 
+  # Add user to dialout group for Arduino access
+  home.activation.addToDialoutGroup = pkgs.lib.hm.dag.entryAfter ["writeBoundary"] ''
+    echo "Adding user to dialout group for Arduino access..."
+    sudo usermod -a -G dialout ${userSettings.username}
+  '';
+
   # deej configuration
   xdg.configFile."deej/config.yaml".text = ''
     # Slider mapping
@@ -77,6 +83,10 @@ in
     # Adjust noise reduction based on your hardware quality
     # Supported values: "low" (excellent hardware), "default" (regular hardware), "high" (bad, noisy hardware)
     noise_reduction: default
+
+    # Additional debug settings
+    debug: true
+    log_level: debug
   '';
 }
 

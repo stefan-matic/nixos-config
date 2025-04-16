@@ -56,6 +56,11 @@
 
   programs.ssh.startAgent = true;
 
+  # Add udev rules for Arduino permissions
+  services.udev.extraRules = ''
+    # Arduino permissions
+    SUBSYSTEM=="tty", ATTRS{idVendor}=="2341", ATTRS{idProduct}=="0043", MODE="0666", GROUP="dialout", SYMLINK+="arduino"
+  '';
 }
 
 
