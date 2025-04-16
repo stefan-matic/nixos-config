@@ -35,13 +35,25 @@ buildGoModule rec {
 
   installPhase = ''
     mkdir -p $out/bin
-    cp deej $out/bin/
+    cp deej $out/bin/deej-bin
+
+    # Create wrapper script
+    cat > $out/bin/deej << EOF
+    #!${stdenv.shell}
+    mkdir -p ~/.config/deej
+    cd ~/.config/deej
+    exec "$out/bin/deej-bin" "\$@"
+    EOF
+
     chmod +x $out/bin/deej
 
-    # Create a wrapper script that sets up the environment
-    makeWrapper $out/bin/deej $out/bin/deej-wrapper \
+    # Wrap the script with required environment variables
+    makeWrapper $out/bin/deej $out/bin/deej-wrapped \
       --prefix PATH : ${lib.makeBinPath [ gtk3 libappindicator-gtk3 webkitgtk ]} \
       --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath [ gtk3 libappindicator-gtk3 webkitgtk ]}
+
+    # Replace the original script with the wrapped version
+    mv $out/bin/deej-wrapped $out/bin/deej
   '';
 
   meta = with lib; {

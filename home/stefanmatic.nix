@@ -45,33 +45,37 @@ in
 
   # deej configuration
   xdg.configFile."deej/config.yaml".text = ''
-    # process names are case-insensitive
-    # you can use 'master' to indicate the master channel, or a list of process names to create a group
-    # you can use 'mic' to control your mic input level (uses the default recording device)
-    # you can use 'deej.unmapped' to control all apps that aren't bound to any slider (this ignores master, system, mic and device-targeting sessions)
-    # windows only - you can use 'deej.current' to control the currently active app (whether full-screen or not)
-    # windows only - you can use a device's full name, i.e. "Speakers (Realtek High Definition Audio)", to bind it. this works for both output and input devices
-    # windows only - you can use 'system' to control the "system sounds" volume
-    # important: slider indexes start at 0, regardless of which analog pins you're using!
+    # Slider mapping
     slider_mapping:
       0: master
       1: google-chrome-stable
-      2: deej.unmapped
-      3:
-        - pathofexile_x64.exe
-        - rocketleague.exe
-        - diablo iv.exe
-      4: mic
+      2: spotify
+      3: discord
+      4: firefox
 
-    # set this to true if you want the controls inverted (i.e. top is 0%, bottom is 100%)
+    # Process names are case-sensitive
+    # You can use 'master' to indicate system-wide volume
+    # You can use 'mic' to control your microphone's input level
+    # On Linux, use the process command line (eg. 'firefox' or 'firefox-bin')
+
+    # Set this to true if you want the controls inverted (i.e. top is 0%, bottom is 100%)
     invert_sliders: false
 
-    # settings for connecting to the arduino board
+    # Set this to true if you want to use your system tray to display a deej icon
+    tray_icon: true
+
+    # Set this to true if you want the tray icon to be colored
+    colored_tray_icon: true
+
+    # Set this to true if you want to see verbose debug prints in your console
+    verbose_logging: true
+
+    # Serial connection (adjust this based on your Arduino device)
     com_port: /dev/ttyACM0
     baud_rate: 9600
 
-    # adjust the amount of signal noise reduction depending on your hardware quality
-    # supported values are "low" (excellent hardware), "default" (regular hardware) or "high" (bad, noisy hardware)
+    # Adjust noise reduction based on your hardware quality
+    # Supported values: "low" (excellent hardware), "default" (regular hardware), "high" (bad, noisy hardware)
     noise_reduction: default
   '';
 }
