@@ -12,7 +12,6 @@ in
       ./hardware-configuration.nix
       ../_common/client.nix
       ../../system/devices/TA-p-4025w
-      ../../system/app/deej.nix
     ];
 
   options = {
@@ -137,9 +136,10 @@ in
       dedicatedServer.openFirewall = true;
     };
 
-    apps.deej = {
-      enable = true;
-      user = userSettings.username;
-    };
+    # Commented out in favor of home-manager service
+    #apps.deej = {
+    #  enable = true;
+    #  user = userSettings.username;
+    #};
   };
 }

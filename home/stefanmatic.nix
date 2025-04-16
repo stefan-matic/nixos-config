@@ -17,6 +17,7 @@ in
 	imports = [
     ./_common.nix
     #../user/app/obs-studio.nix
+    ./services/deej-serial-control.nix
   ];
 
   _module.args = {
@@ -41,6 +42,9 @@ in
     enable = true;
     indicator = true;
   };
+
+  # Enable deej-serial-control as a home-manager service
+  services.deej-serial-control.enable = true;
 
   # deej configuration
   xdg.configFile."deej/config.yaml".text = ''

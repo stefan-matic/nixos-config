@@ -35,7 +35,7 @@ in {
       };
 
       Service = {
-        Environment = "XDG_RUNTIME_DIR=/run/user/1000";
+        ExecStartPre = "${pkgs.coreutils}/bin/sleep 2"; # Brief delay to ensure audio is ready
         ExecStart = "${customPkgs.deej-serial-control}/bin/serial-volume-control.sh";
         Restart = "on-failure";
         RestartSec = 5;
@@ -51,5 +51,13 @@ in {
         WantedBy = [ "graphical-session.target" ];
       };
     };
+
+    # Ensure user has access to the serial port
+    assertions = [
+      {
+        assertion = with config.home; username == "stefanmatic";
+        message = "The deej-serial-control service is currently only configured for stefanmatic user.";
+      }
+    ];
   };
 }

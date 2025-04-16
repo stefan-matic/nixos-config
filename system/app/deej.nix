@@ -46,12 +46,17 @@ in {
 
       # Wait for the user's session to be active
       requires = [ "network.target" ];
-      after = [ "network.target" "sound.target" ];
+      after = [ "network.target" "sound.target" "display-manager.service" ];
+
+      # Don't start until the user has logged in
+      bindsTo = [ "graphical-session.target" ];
+      partOf = [ "graphical-session.target" ];
 
       serviceConfig = {
         Type = "simple";
         User = cfg.user;
         Group = "users";
+        ExecStartPre = "/run/current-system/sw/bin/sleep 10"; # Wait for audio to initialize
         ExecStart = "${customPkgs.deej-serial-control}/bin/serial-volume-control.sh";
         Restart = "always";
         RestartSec = "5s";
@@ -61,6 +66,13 @@ in {
         CPUWeight = 50;
         IOSchedulingClass = "idle";
         Nice = 10;
+
+        # Environment variables for PulseAudio
+        Environment = [
+          "XDG_RUNTIME_DIR=/run/user/1000"
+          "PULSE_SERVER=unix:/run/user/1000/pulse/native"
+          "DISPLAY=:0"
+        ];
       };
     };
   };
