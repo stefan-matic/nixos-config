@@ -3,6 +3,7 @@
 let
   env = import ./env.nix {inherit pkgs; };
   inherit (env) systemSettings userSettings;
+  customPkgs = import ../../pkgs { inherit pkgs; };
 in
 
 {
@@ -36,7 +37,7 @@ in
     # Add required packages
     environment.systemPackages = with pkgs; [
       kdePackages.kdialog
-      (import ../../pkgs {}).select-browser
+      customPkgs.select-browser
     ];
 
     services.syncthing = {
