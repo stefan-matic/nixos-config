@@ -39,9 +39,6 @@ in
       kdePackages.kdialog
       customPkgs.select-browser
       customPkgs.deej-serial-control
-      gtk3
-      libappindicator-gtk3
-      webkitgtk
     ];
 
     # Add user to required groups
