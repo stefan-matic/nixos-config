@@ -8,7 +8,7 @@ buildGoModule rec {
     owner = "omriharel";
     repo = pname;
     rev = "v${version}";
-    sha256 = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="; # We'll need to update this
+    sha256 = "sha256-T6S3FQ9vxl4R3D+uiJ83z1ueK+3pfASEjpRI+HjIV0M=="; # We'll need to update this
   };
 
   vendorHash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="; # We'll need to update this
