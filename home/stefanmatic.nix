@@ -46,12 +46,6 @@ in
   # Enable the deej-serial-control service
   services.deej-serial-control.enable = true;
 
-  # Add user to dialout group for Arduino access
-  home.activation.addToDialoutGroup = lib.hm.dag.entryAfter ["writeBoundary"] ''
-    echo "Adding user to dialout group for Arduino access..."
-    sudo usermod -a -G dialout ${userSettings.username}
-  '';
-
   # deej configuration
   xdg.configFile."deej/config.yaml".text = ''
     # Slider mapping

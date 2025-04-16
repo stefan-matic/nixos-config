@@ -18,8 +18,9 @@ stdenv.mkDerivation {
     cp $src/serial-volume-control.sh $out/bin/serial-volume-control.sh
     chmod +x $out/bin/serial-volume-control.sh
 
-    # Copy the systemd service file
-    cp $src/serial-volume-control.service $out/share/systemd/user/serial-volume-control.service
+    # Copy and modify the systemd service file
+    substitute $src/serial-volume-control.service $out/share/systemd/user/serial-volume-control.service \
+      --replace '@PACKAGE_BIN_DIR@' $out/bin
 
     # Wrap the script with required dependencies
     wrapProgram $out/bin/serial-volume-control.sh \

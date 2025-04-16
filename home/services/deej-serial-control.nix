@@ -4,13 +4,16 @@ with lib;
 
 let
   cfg = config.services.deej-serial-control;
+
+  # Get the custom packages
+  customPkgs = import ../../pkgs { inherit pkgs; };
 in {
   options.services.deej-serial-control = {
     enable = mkEnableOption "deej-serial-control service";
   };
 
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [ deej-serial-control ];
+    home.packages = [ customPkgs.deej-serial-control ];
 
     systemd.user.services.serial-volume-control = {
       Unit = {
@@ -21,7 +24,7 @@ in {
 
       Service = {
         Environment = "XDG_RUNTIME_DIR=/run/user/1000";
-        ExecStart = "${pkgs.deej-serial-control}/bin/serial-volume-control.sh";
+        ExecStart = "${customPkgs.deej-serial-control}/bin/serial-volume-control.sh";
         Restart = "on-failure";
         RestartSec = 5;
       };

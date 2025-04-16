@@ -5,7 +5,7 @@ PartOf=graphical-session.target
 
 [Service]
 Environment=XDG_RUNTIME_DIR=/run/user/1000
-ExecStart=/bin/serial-volume-control.sh
+ExecStart=@PACKAGE_BIN_DIR@/serial-volume-control.sh
 Restart=on-failure
 RestartSec=5s
 
