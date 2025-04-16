@@ -33,19 +33,54 @@ in {
         After = [ "graphical-session.target" "pipewire.service" "pulseaudio.service" ];
         PartOf = [ "graphical-session.target" ];
         ConditionPathExists = [ cfg.serialPort ];
+
+        # Delay startup to ensure audio system is ready
+        StartLimitIntervalSec = 5;
+        StartLimitBurst = 3;
       };
 
       Service = {
-        ExecStartPre = "${pkgs.coreutils}/bin/sleep 2"; # Brief delay to ensure audio is ready
+        # Environment variables
+        Environment = [
+          "XDG_RUNTIME_DIR=/run/user/1000"
+          "PATH=${pkgs.pulseaudio}/bin:${pkgs.bash}/bin:${pkgs.coreutils}/bin:${pkgs.gnugrep}/bin:${pkgs.gnused}/bin:/run/current-system/sw/bin"
+        ];
+
+        # Add a delay before starting to ensure audio system is ready
+        ExecStartPre = "${pkgs.coreutils}/bin/sleep 3";
         ExecStart = "${customPkgs.deej-serial-control}/bin/serial-volume-control.sh";
         Restart = "on-failure";
-        RestartSec = 5;
+        RestartSec = 3;
 
-        # Additional settings for better performance
-        CPUSchedulingPolicy = "idle";
-        CPUWeight = 50;
-        IOSchedulingClass = "idle";
-        Nice = 10;
+        # Optimize for responsiveness but use supported policies
+        Nice = -5;
+      };
+
+      Install = {
+        WantedBy = [ "graphical-session.target" ];
+      };
+    };
+
+    # Add an additional "delayed start" service to handle cases where audio isn't ready
+    systemd.user.services.serial-volume-control-delayed = {
+      Unit = {
+        Description = "Delayed Arduino Serial Volume Control";
+        PartOf = [ "graphical-session.target" ];
+        # Only start if the main service failed
+        BindsTo = [ "serial-volume-control.service" ];
+        After = [ "serial-volume-control.service" ];
+        ConditionPathExists = [ cfg.serialPort ];
+      };
+
+      Service = {
+        Type = "oneshot";
+        ExecStart = pkgs.writeShellScript "restart-deej.sh" ''
+          # Wait 30 seconds after login
+          sleep 30
+          # Restart the main service
+          systemctl --user restart serial-volume-control.service
+        '';
+        RemainAfterExit = true;
       };
 
       Install = {

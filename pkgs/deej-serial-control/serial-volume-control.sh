@@ -4,12 +4,48 @@
 PORT=/dev/ttyACM0
 BAUD=9600
 
-# Set up the serial port
+# Wait for the device to be available (max 5 seconds)
+for i in {1..5}; do
+  if [ -e "$PORT" ]; then
+    break
+  fi
+  echo "Waiting for device $PORT... ($i/5)"
+  sleep 0.5
+done
+
+# Check if the device exists
+if [ ! -e "$PORT" ]; then
+  echo "Error: Serial port $PORT not found after waiting. Exiting."
+  exit 1
+fi
+
+# Set up the serial port with reliable settings
 stty -F $PORT $BAUD raw -echo
 
-# Get the main sink name
-SINK=$(pactl list sinks short | head -1 | cut -f2)
-echo "Using audio sink: $SINK"
+# Function to get the audio sink
+get_audio_sink() {
+  # Try to get the default sink
+  local sink
+  sink=$(pactl get-default-sink 2>/dev/null)
+
+  # If that failed, try the old method
+  if [ -z "$sink" ]; then
+    sink=$(pactl list sinks short 2>/dev/null | head -1 | cut -f2)
+  fi
+
+  echo "$sink"
+}
+
+# Wait for audio system to initialize (try for 10 seconds)
+for i in {1..20}; do
+  SINK=$(get_audio_sink)
+  if [ -n "$SINK" ]; then
+    echo "Using audio sink: $SINK"
+    break
+  fi
+  echo "Waiting for audio system to initialize... ($i/20)"
+  sleep 0.5
+done
 
 # Cache for previous values to avoid unnecessary volume changes
 declare -A PREV_VOLUMES
@@ -17,8 +53,12 @@ for i in {0..4}; do
   PREV_VOLUMES[$i]=-1
 done
 
+# Track when we last refreshed the sink
+LAST_SINK_REFRESH=$(date +%s)
+
 # Minimum change threshold (out of 1023) to register a new value
-CHANGE_THRESHOLD=10
+# Lower value means more responsiveness but more CPU usage
+CHANGE_THRESHOLD=3
 
 # Verbosity (0=quiet, 1=normal, 2=verbose)
 VERBOSE=1
@@ -35,17 +75,39 @@ log() {
 set_master_volume() {
   local value=$1
 
+  # Check if we need to refresh the sink (every 15 seconds)
+  local now=$(date +%s)
+  if [[ $((now - LAST_SINK_REFRESH)) -gt 15 ]]; then
+    local new_sink=$(get_audio_sink)
+    if [[ -n "$new_sink" && "$new_sink" != "$SINK" ]]; then
+      SINK="$new_sink"
+      log 1 "Updated audio sink to: $SINK"
+    fi
+    LAST_SINK_REFRESH=$now
+  fi
+
+  # If no sink, skip this update
+  if [ -z "$SINK" ]; then
+    return
+  fi
+
   # Convert to percentage (0-100)
   local volume=$((value * 100 / 1023))
 
-  # Round to nearest 5%
-  volume=$(( (volume + 2) / 5 * 5 ))
-
-  # Only update if the volume has changed by at least 5%
+  # Update if the volume has changed at all
   if [[ $volume -ne ${PREV_VOLUMES[0]} ]]; then
     log 1 "Setting master volume to $volume%"
-    pactl set-sink-volume $SINK ${volume}% 2>/dev/null
-    PREV_VOLUMES[0]=$volume
+    if pactl set-sink-volume "$SINK" ${volume}% 2>/dev/null; then
+      PREV_VOLUMES[0]=$volume
+    else
+      # If command failed, try to refresh the sink immediately
+      SINK=$(get_audio_sink)
+      log 1 "Refreshed sink after failure: $SINK"
+      # Try again with the new sink
+      if [ -n "$SINK" ]; then
+        pactl set-sink-volume "$SINK" ${volume}% 2>/dev/null && PREV_VOLUMES[0]=$volume
+      fi
+    fi
   fi
 }
 
@@ -58,10 +120,7 @@ set_app_volume() {
   # Convert to percentage (0-100)
   local volume=$((value * 100 / 1023))
 
-  # Round to nearest 5%
-  volume=$(( (volume + 2) / 5 * 5 ))
-
-  # Only update if the volume has changed by at least 5%
+  # Update if the volume has changed at all
   if [[ $volume -ne ${PREV_VOLUMES[$index]} ]]; then
     # Find sink inputs matching the app name
     local sink_inputs
@@ -80,8 +139,9 @@ set_app_volume() {
 log 0 "Starting volume control"
 log 0 "Reading from $PORT at $BAUD baud"
 
-# Main loop
-while IFS='|' read -r -d $'\n' line; do
+# Main loop - back to original approach but with faster looping
+exec < $PORT
+while read -r line; do
   log 2 "Received: $line"
 
   # Skip empty lines
@@ -113,7 +173,4 @@ while IFS='|' read -r -d $'\n' line; do
   if [[ "${#values[@]}" -gt 4 && "${values[4]}" =~ ^[0-9]+$ ]]; then
     set_app_volume ${values[4]} "spotify" 4
   fi
-
-  # Small sleep to reduce CPU usage
-  sleep 0.01
-done < $PORT
+done
