@@ -17,7 +17,6 @@ in
 	imports = [
     ./_common.nix
     #../user/app/obs-studio.nix
-    ./services/deej-serial-control.nix
   ];
 
   _module.args = {
