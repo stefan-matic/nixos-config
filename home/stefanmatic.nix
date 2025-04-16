@@ -46,7 +46,4 @@ in
   # Enable deej-serial-control as a home-manager service
   # You can manually override this in host-specific configurations if needed
   services.deej-serial-control.enable = true;
-
 }
-
-

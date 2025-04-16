@@ -171,6 +171,6 @@ while read -r line; do
   fi
 
   if [[ "${#values[@]}" -gt 4 && "${values[4]}" =~ ^[0-9]+$ ]]; then
-    set_app_volume ${values[4]} "spotify" 4
+    set_app_volume ${values[4]} "Warframe.x64.exe" 4
   fi
 done
