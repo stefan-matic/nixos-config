@@ -43,9 +43,6 @@ in
     indicator = true;
   };
 
-  # Enable the deej-serial-control service
-  services.deej-serial-control.enable = true;
-
   # deej configuration
   xdg.configFile."deej/config.yaml".text = ''
     # Slider mapping

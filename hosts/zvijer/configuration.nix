@@ -135,5 +135,10 @@ in
       remotePlay.openFirewall = true;
       dedicatedServer.openFirewall = true;
     };
+
+    apps.deej = {
+      enable = true;
+      user = userSettings.username;
+    };
   };
 }
