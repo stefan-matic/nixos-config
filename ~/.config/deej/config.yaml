@@ -1,0 +1,24 @@
+slider_mapping:
+  0: "alsa_output.usb-Focusrite_Scarlett_2i2_4th_Gen_S2C9N58350A4E8-00.pro-output-0" # Master volume for your Focusrite
+  1: "Google Chrome" # Chrome volume
+  2: "firefox" # Firefox volume (if installed and running)
+  3: "Discord" # Discord volume (if installed and running)
+  4: "system" # System sounds
+
+invert_sliders: false
+tray_icon: false
+colored_tray_icon: false
+verbose_logging: true
+
+# Arduino settings - these seem to be working correctly
+com_port: /dev/ttyACM0
+baud_rate: 9600
+
+noise_reduction: default
+
+# Add extra logging for PulseAudio sessions
+pulse:
+  # Send feedback when a deej slider affects the system
+  notify_feedback: true
+  # Check for new sessions more frequently (in milliseconds)
+  refresh_interval: 500

@@ -4,7 +4,6 @@ let
   env = import ./env.nix {inherit pkgs; };
   inherit (env) systemSettings userSettings;
   customPkgs = import ../../pkgs { inherit pkgs; };
-  ./hardware/arduino.nix
 in
 
 {
@@ -40,7 +39,7 @@ in
     environment.systemPackages = with pkgs; [
       kdePackages.kdialog
       customPkgs.select-browser
-      customPkgs.deej
+      customPkgs.deej-serial-control
       gtk3
       libappindicator-gtk3
       webkitgtk

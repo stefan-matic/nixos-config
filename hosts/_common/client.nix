@@ -27,7 +27,7 @@
     gparted
 
     unstable.code-cursor
-    powershell
+    #powershell #jebem te cvijo
 
     glxinfo
 

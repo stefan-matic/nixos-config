@@ -1,0 +1,13 @@
+[Unit]
+Description=Arduino Serial Volume Control
+After=graphical-session.target pipewire.service
+PartOf=graphical-session.target
+
+[Service]
+Environment=XDG_RUNTIME_DIR=/run/user/1000
+ExecStart=/bin/serial-volume-control.sh
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=graphical-session.target

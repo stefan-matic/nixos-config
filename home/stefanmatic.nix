@@ -17,6 +17,7 @@ in
 	imports = [
     ./_common.nix
     #../user/app/obs-studio.nix
+    ./services/deej-serial-control.nix
   ];
 
   _module.args = {
@@ -35,13 +36,15 @@ in
       opentofu
       kubectl
       awscli2
-      outputs.packages.${pkgs.system}.deej
     ];
 
   services.kdeconnect = {
     enable = true;
     indicator = true;
   };
+
+  # Enable the deej-serial-control service
+  services.deej-serial-control.enable = true;
 
   # Add user to dialout group for Arduino access
   home.activation.addToDialoutGroup = pkgs.lib.hm.dag.entryAfter ["writeBoundary"] ''
