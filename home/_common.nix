@@ -36,7 +36,6 @@
       #p7zip
 
       # utils
-      kdePackages.kdeconnect-kde
 
       which
       tree
