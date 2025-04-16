@@ -35,7 +35,7 @@ in
 
     # Add required packages
     environment.systemPackages = with pkgs; [
-      kdialog
+      kdePackages.kdialog
       (import ../../pkgs {}).select-browser
     ];
 

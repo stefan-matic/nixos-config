@@ -1,4 +1,4 @@
-{ stdenv, lib, kdialog, makeWrapper }:
+{ stdenv, lib, kdePackages, makeWrapper }:
 
 stdenv.mkDerivation {
   pname = "select-browser";
@@ -14,7 +14,7 @@ stdenv.mkDerivation {
     chmod +x $out/bin/select-browser
 
     wrapProgram $out/bin/select-browser \
-      --prefix PATH : ${lib.makeBinPath [ kdialog ]}
+      --prefix PATH : ${lib.makeBinPath [ kdePackages.kdialog ]}
   '';
 
   meta = with lib; {
