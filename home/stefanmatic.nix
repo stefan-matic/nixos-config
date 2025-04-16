@@ -36,6 +36,11 @@ in
       kubectl
       awscli2
     ];
+
+  services.kdeconnect = {
+    enable = true;
+    indicator = true;
+  };
 }
 
 
