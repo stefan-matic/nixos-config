@@ -6,7 +6,7 @@ let
   myAliases = {
     ls = "eza --icons -l -T -L=1";
     cat = "bat";
-    htop = "btm";
+    #htop = "btm";
     fd = "fd -Lu";
     w3m = "w3m -no-cookie -v";
     neofetch = "disfetch";

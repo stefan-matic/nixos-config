@@ -36,7 +36,7 @@
       #p7zip
 
       # utils
-      stable.kdePackages.kdeconnect-kde
+      kdePackages.kdeconnect-kde
 
       which
       tree
@@ -46,8 +46,9 @@
       ipcalc
       ldns
 
-      # monitors
-      btop
+      # monitors\
+      htop
+      #btop
       iotop
       iftop
 
