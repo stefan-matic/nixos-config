@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, outputs, ... }:
+{ config, pkgs, inputs, outputs, lib, ... }:
 
 let
   userSettings = {
@@ -47,7 +47,7 @@ in
   services.deej-serial-control.enable = true;
 
   # Add user to dialout group for Arduino access
-  home.activation.addToDialoutGroup = pkgs.lib.hm.dag.entryAfter ["writeBoundary"] ''
+  home.activation.addToDialoutGroup = lib.hm.dag.entryAfter ["writeBoundary"] ''
     echo "Adding user to dialout group for Arduino access..."
     sudo usermod -a -G dialout ${userSettings.username}
   '';
