@@ -38,6 +38,10 @@ in
     environment.systemPackages = with pkgs; [
       kdePackages.kdialog
       customPkgs.select-browser
+      customPkgs.deej
+      gtk3
+      libappindicator-gtk3
+      webkitgtk
     ];
 
     services.syncthing = {
