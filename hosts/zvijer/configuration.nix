@@ -12,6 +12,7 @@ in
       ./hardware-configuration.nix
       ../_common/client.nix
       ../../system/devices/TA-p-4025w
+      ../../system/app/deej.nix
     ];
 
   options = {
