@@ -49,3 +49,15 @@ sudo /run/current-system/bin/switch-to-configuration boot
 ```
 nix-shell -p nix-info --run "nix-info -m"
 ```
+
+## Deej Serial Control
+
+Arduino-based volume control for applications using a serial connection. Setup includes:
+
+- Home-manager service for controlling volume via serial connection
+- Make sure Arduino is connected via USB
+- User needs to be in the `dialout` group (configured automatically)
+- Service auto-restarts on failure with optimal performance settings
+- Control individual application volumes with physical sliders
+
+Configuration is in `~/.config/deej/config.yaml` and allows mapping sliders to different applications.

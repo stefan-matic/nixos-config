@@ -32,6 +32,7 @@ in {
         Description = "Arduino Serial Volume Control";
         After = [ "graphical-session.target" "pipewire.service" "pulseaudio.service" ];
         PartOf = [ "graphical-session.target" ];
+        ConditionPathExists = [ cfg.serialPort ];
       };
 
       Service = {

@@ -44,9 +44,10 @@ in
   };
 
   # Enable deej-serial-control as a home-manager service
+  # You can manually override this in host-specific configurations if needed
   services.deej-serial-control.enable = true;
 
-  # deej configuration
+  # deej configuration (always include the config file, even if service is disabled)
   xdg.configFile."deej/config.yaml".text = ''
     # Slider mapping
     slider_mapping:
