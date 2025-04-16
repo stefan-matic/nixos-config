@@ -1,6 +1,6 @@
-{ stdenv, lib, fetchFromGitHub, go, pkg-config, gtk3, libappindicator-gtk3, webkitgtk }:
+{ stdenv, lib, fetchFromGitHub, go, pkg-config, gtk3, libappindicator-gtk3, webkitgtk, buildGoModule }:
 
-stdenv.mkDerivation rec {
+buildGoModule rec {
   pname = "deej";
   version = "0.9.10";
 
@@ -11,8 +11,9 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="; # We'll need to update this
   };
 
+  vendorSha256 = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="; # We'll need to update this
+
   nativeBuildInputs = [
-    go
     pkg-config
   ];
 
