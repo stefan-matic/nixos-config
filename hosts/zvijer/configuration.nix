@@ -34,11 +34,35 @@ in
       inherit systemSettings userSettings;
     };
 
-    # Add required packages
+    # Boot loader configuration
+    boot.loader = {
+      efi = {
+        canTouchEfiVariables = true;
+        efiSysMountPoint = "/boot";
+      };
+      grub = {
+        enable = true;
+        devices = [ "nodev" ];
+        efiSupport = true;
+        useOSProber = false;
+        configurationLimit = 20;
+        extraEntries = ''
+          menuentry "Windows 11" {
+            search --fs-uuid --set=root 16925B65925B47FF
+            chainloader ($root)/EFI/Microsoft/Boot/bootmgfw.efi
+          }
+        '';
+      };
+      systemd-boot.enable = lib.mkForce false;
+      timeout = 5;
+    };
+
+    # Add os-prober to detect Windows
     environment.systemPackages = with pkgs; [
+      os-prober
+      ntfs3g
       kdePackages.kdialog
       customPkgs.select-browser
-      customPkgs.deej-serial-control
     ];
 
     # Add user to required groups
