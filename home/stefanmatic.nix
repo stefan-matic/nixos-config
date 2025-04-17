@@ -48,6 +48,6 @@ in
   # You can manually override this in host-specific configurations if needed
   #services.deej-serial-control.enable = true;
 
-  # Enable the new deej service (commented out until package is ready)
-  services.deej-new.enable = false;
+  # Enable the new deej service
+  services.deej-new.enable = true;
 }

@@ -7,6 +7,37 @@ let
 
   # Get the custom packages
   customPkgs = import ../../pkgs { inherit pkgs; };
+
+  # Create a customized config file with the right serial port and baud rate
+  configFile = pkgs.writeTextFile {
+    name = "deej-config.yaml";
+    text = ''
+      slider_mapping:
+        0: master
+        1:
+          - google-chrome-stable
+          - zen
+        2:
+          - .Discord-wrapped
+          - electron
+        3: firefox
+        4: deej.unmapped
+        5: mic
+
+      # set this to true if you want the controls inverted (i.e. top is 0%, bottom is 100%)
+      invert_sliders: false
+
+      # settings for connecting to the arduino board
+      com_port: ${cfg.serialPort}
+      baud_rate: ${toString cfg.baudRate}
+
+      # adjust the amount of signal noise reduction depending on your hardware quality
+      # 0.015: (excellent hardware)
+      # 0.025 (regular hardware)
+      # 0.035 (bad, noisy hardware)
+      noise_reduction: ${toString cfg.noiseReduction}
+    '';
+  };
 in {
   options.services.deej-new = {
     enable = mkEnableOption "deej-new service";
@@ -23,24 +54,24 @@ in {
       description = "Baud rate for serial communication";
     };
 
-    configFile = mkOption {
-      type = types.path;
-      default = "${customPkgs.deej-new}/share/deej/config.yaml";
-      description = "Path to the deej config file";
+    noiseReduction = mkOption {
+      type = types.float;
+      default = 0.025;
+      description = "Amount of noise reduction (0.015 for excellent hardware, 0.025 for regular, 0.035 for noisy)";
     };
 
-    logFile = mkOption {
-      type = types.str;
-      default = "$HOME/deej.log";
-      description = "Path to write logs";
+    verbose = mkOption {
+      type = types.bool;
+      default = true;
+      description = "Enable verbose logging";
     };
   };
 
   config = mkIf cfg.enable {
     home.packages = [ customPkgs.deej-new ];
 
-    # Link the config file to the home directory
-    xdg.configFile."deej/config.yaml".source = cfg.configFile;
+    # Link the config file to the expected location
+    xdg.configFile."deej/config.yaml".source = configFile;
 
     systemd.user.services.deej-new = {
       Unit = {
@@ -57,15 +88,29 @@ in {
           "PATH=${lib.makeBinPath [ pkgs.pulseaudio ]}:$PATH"
         ];
 
-        # Add a delay before starting to ensure audio system is ready
-        ExecStartPre = "${pkgs.coreutils}/bin/sleep 3";
+        # Setup steps before running
+        ExecStartPre = [
+          # Add a delay before starting to ensure audio system is ready
+          "${pkgs.coreutils}/bin/sleep 3"
+          # Create a directory for the service to use as working directory
+          "${pkgs.coreutils}/bin/mkdir -p %h/.config/deej"
+        ];
 
-        # Run with the correct arguments
-        # Note: deej-linux fork has different arguments than original deej
-        ExecStart = "${customPkgs.deej-new}/bin/deej-linux --config ${cfg.configFile} --com ${cfg.serialPort} --baud ${toString cfg.baudRate} --logfile ${cfg.logFile}";
+        # Run with the correct arguments - this fork has minimal CLI options
+        ExecStart = "${customPkgs.deej-new}/bin/deej-linux ${optionalString cfg.verbose "-v"}";
 
+        # Make sure we run from the directory with config.yaml
+        WorkingDirectory = "%h/.config/deej";
+
+        # Service configuration
         Restart = "on-failure";
-        RestartSec = 3;
+        RestartSec = 10;
+
+        # Set a timeout so the service doesn't get restarted unnecessarily
+        TimeoutStopSec = 30;
+
+        # Ensure it's properly supervised so systemd doesn't think it's crashed
+        Type = "simple";
 
         # Optimize for responsiveness
         Nice = -5;
