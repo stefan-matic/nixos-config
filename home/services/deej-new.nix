@@ -15,14 +15,16 @@ let
       slider_mapping:
         0: master
         1:
-          - google-chrome-stable
-          - zen
+          - chrome
         2:
-          - .Discord-wrapped
-          - electron
-        3: firefox
-        4: deej.unmapped
-        5: mic
+          - Kiwi Clicker.exe
+          - wine64-preloader
+          - Kiwi
+          - Warframe.x64.exe
+          - Warframe
+          - wine64-preloader Warframe
+        3: deej.unmapped
+        4: mic
 
       # set this to true if you want the controls inverted (i.e. top is 0%, bottom is 100%)
       invert_sliders: false
