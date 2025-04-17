@@ -18,6 +18,7 @@ in
     ./_common.nix
     #../user/app/obs-studio.nix
     ./services/deej-serial-control.nix
+    ./services/deej-new.nix
   ];
 
   _module.args = {
@@ -45,5 +46,8 @@ in
 
   # Enable deej-serial-control as a home-manager service
   # You can manually override this in host-specific configurations if needed
-  services.deej-serial-control.enable = true;
+  #services.deej-serial-control.enable = true;
+
+  # Enable the new deej service (commented out until package is ready)
+  services.deej-new.enable = false;
 }
