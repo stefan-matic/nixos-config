@@ -37,6 +37,8 @@ in
       opentofu
       kubectl
       awscli2
+
+      discord
     ];
 
   services.kdeconnect = {
