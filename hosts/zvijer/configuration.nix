@@ -66,6 +66,11 @@ in
       veracrypt
       lutris
       wineWowPackages.stable
+      winetricks
+      vulkan-tools
+      vulkan-loader
+      vulkan-validation-layers
+      amdvlk
     ];
 
     # Add user to required groups
