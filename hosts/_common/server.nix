@@ -91,6 +91,7 @@
     environment.systemPackages = with pkgs; [
       git
       dig
+      wget
     ];
 
     # Font configuration
