@@ -56,13 +56,16 @@ in
       systemd-boot.enable = lib.mkForce false;
       timeout = 5;
     };
-
     # Add os-prober to detect Windows
     environment.systemPackages = with pkgs; [
       os-prober
       ntfs3g
       kdePackages.kdialog
       customPkgs.select-browser
+      kdePackages.kdenlive
+      veracrypt
+      lutris
+      wineWowPackages.stable
     ];
 
     # Add user to required groups
