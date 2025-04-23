@@ -27,6 +27,7 @@ in
      %F{green}→%f "
     RPROMPT="%F{red}▂%f%F{yellow}▄%f%F{green}▆%f%F{cyan}█%f%F{blue}▆%f%F{magenta}▄%f%F{white}▂%f"
     [ $TERM = "dumb" ] && unsetopt zle && PS1='$ '
+    source <(fzf --zsh)
     '';
 
     plugins = [
@@ -50,6 +51,10 @@ in
       plugins = [
         "git"
         "sudo" # press Esc twice to get the previous command prefixed with sudo https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/sudo
+        "terraform"
+        "systemadmin"
+        "fzf"
+        "kubectx"
       ];
       extraConfig = ''
         # Display red dots whilst waiting for completion.
