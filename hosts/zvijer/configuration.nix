@@ -71,6 +71,18 @@ in
       vulkan-loader
       vulkan-validation-layers
       amdvlk
+
+      # Java
+      #openjdk
+      #jre_minimal
+      #adoptopenjdk-icedtea-web
+      #javaPackages.openjfx17
+
+      quickemu
+
+      libreoffice-qt6-fresh
+
+      protonvpn-gui
     ];
 
     # Add user to required groups

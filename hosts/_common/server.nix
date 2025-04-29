@@ -92,6 +92,7 @@
       git
       dig
       wget
+      openssl
     ];
 
     # Font configuration
