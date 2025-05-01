@@ -37,22 +37,6 @@
       LC_TIME = "bs_BA.UTF-8";
     };
 
-    # Desktop environment configuration
-    services.desktopManager.plasma6.enable = true;
-    services.displayManager = {
-      defaultSession = "plasma";
-      sddm = {
-        enable = true;
-        wayland.enable = true;
-      };
-    };
-
-    # X11 configuration
-    services.xserver.xkb = {
-      layout = "us";
-      variant = "";
-    };
-
     # System services
     services = {
       printing.enable = true;
