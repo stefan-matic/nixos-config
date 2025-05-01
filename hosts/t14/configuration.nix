@@ -32,6 +32,10 @@ in
       inherit systemSettings userSettings;
     };
 
+    # Bootloader configuration
+    boot.loader.systemd-boot.enable = true;
+    boot.loader.efi.canTouchEfiVariables = true;
+
     services.syncthing = {
       enable = true;
       user = "stefanmatic";  # Replace with your actual username
