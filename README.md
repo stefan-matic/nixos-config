@@ -87,3 +87,13 @@ nix-build -E "with import <nixpkgs> {}; callPackage ./pkgs/deej-new {}"
 ```
 
 Then copy the error message's expected hash into the package definition.
+
+### Fresh install commands
+
+export NIX_CONFIG="experimental-features = nix-command flakes"
+
+nix-shell -p git
+
+sudo nixos-rebuild switch --flake ~/.dotfiles
+
+home-manager install
