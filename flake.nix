@@ -40,6 +40,10 @@
         specialArgs = {inherit inputs outputs;};
         modules = [./hosts/zvijer/configuration.nix];
       };
+      z420 = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        modules = [./hosts/z420/configuration.nix];
+      };
     };
     homeConfigurations = {
       "stefanmatic" = home-manager.lib.homeManagerConfiguration {
