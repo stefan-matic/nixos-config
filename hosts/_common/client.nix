@@ -33,6 +33,10 @@
 
     kdePackages.kcalc
     kdePackages.kate
+
+    remmina
+
+    kooha
   ];
 
 
