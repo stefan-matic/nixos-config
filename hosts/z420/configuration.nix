@@ -33,6 +33,19 @@ in
       inherit systemSettings userSettings;
     };
 
+    boot.loader.grub.enable = true;
+    boot.loader.grub.device = "/dev/sdb";
+    boot.loader.grub.useOSProber = true;
+
+    services.desktopManager.plasma6.enable = true;
+    services.displayManager = {
+      defaultSession = "plasma";
+      sddm = {
+        enable = true;
+        wayland.enable = true;
+      };
+    };
+
     services.syncthing = {
       enable = true;
       user = "stefanmatic";  # Replace with your actual username
