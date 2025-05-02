@@ -36,6 +36,7 @@ in
       terraform
       opentofu
       kubectl
+      kubernetes-helm
       awscli2
 
       discord

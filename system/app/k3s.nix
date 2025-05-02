@@ -12,7 +12,7 @@
   networking.firewall = {
       enable = true;
       allowedTCPPorts = [
-        6443 # k3s
+        6443 80 443 # k3s
       ];
     };
 }

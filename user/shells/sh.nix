@@ -22,7 +22,7 @@ in
     syntaxHighlighting.enable = true;
     enableCompletion = true;
     shellAliases = myAliases;
-    initExtra = ''
+    initContent = ''
     PROMPT=" ◉ %U%F{magenta}%n%f%u@%U%F{blue}%m%f%u:%F{yellow}%~%f
      %F{green}→%f "
     RPROMPT="%F{red}▂%f%F{yellow}▄%f%F{green}▆%f%F{cyan}█%f%F{blue}▆%f%F{magenta}▄%f%F{white}▂%f"
@@ -51,6 +51,7 @@ in
       plugins = [
         "git"
         "sudo" # press Esc twice to get the previous command prefixed with sudo https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/sudo
+        "z"
         "terraform"
         "systemadmin"
         "fzf"

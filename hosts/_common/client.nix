@@ -59,6 +59,8 @@
     remmina
 
     kooha
+
+    lens
   ];
 
 
