@@ -27,10 +27,21 @@
       "x86_64-darwin"
     ];
     forAllSystems = nixpkgs.lib.genAttrs systems;
+
+    # Apply overlays to nixpkgs
+    overlays = import ./overlays {inherit inputs;};
+    pkgs = nixpkgs.legacyPackages."x86_64-linux".extend (self: super: {
+      overlays = [
+        overlays.additions
+        overlays.modifications
+        overlays.stable-packages
+        overlays.unstable-packages
+      ];
+    });
   in {
     packages =
       forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
-    overlays = import ./overlays {inherit inputs;};
+    inherit overlays;
     nixosConfigurations = {
       stefan-t14 = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
@@ -47,7 +58,7 @@
     };
     homeConfigurations = {
       "stefanmatic" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages."x86_64-linux";
+        pkgs = pkgs;
         extraSpecialArgs = {inherit inputs outputs;};
         modules = [./home/stefanmatic.nix];
       };
