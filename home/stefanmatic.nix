@@ -36,6 +36,7 @@ in
       terraform
       opentofu
       kubectl
+      kubectx
       kubernetes-helm
       awscli2
 

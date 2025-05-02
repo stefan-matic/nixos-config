@@ -56,6 +56,7 @@ in
         "systemadmin"
         "fzf"
         "kubectx"
+
       ];
       extraConfig = ''
         # Display red dots whilst waiting for completion.
