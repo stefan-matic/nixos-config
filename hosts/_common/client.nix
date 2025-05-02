@@ -1,6 +1,13 @@
-{ config, pkgs, inputs, userSettings, systemSettings, ... }:
-
 {
+  lib,
+  inputs,
+  outputs,
+  config,
+  pkgs,
+  userSettings,
+  systemSettings,
+  ...
+}: {
   imports =
     [
       ./default.nix
