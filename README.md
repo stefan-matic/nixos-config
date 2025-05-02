@@ -97,3 +97,7 @@ nix-shell -p git
 sudo nixos-rebuild switch --flake ~/.dotfiles
 
 home-manager install
+
+NIX_SSHOPTS="-A" nixos-rebuild --flake ~/.dotfiles --target-host z420 --use-remote-sudo switch
+
+nixos-rebuild switch --flake ~/.dotfiles#z420 --target-host z420 --use-remote-sudo

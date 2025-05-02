@@ -3,7 +3,7 @@
 {
   imports =
     [
-      ./server.nix
+      ./default.nix
       ../../system/app/virtualization.nix
     ];
 
