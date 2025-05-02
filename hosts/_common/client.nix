@@ -58,7 +58,7 @@
 
     remmina
 
-    kooha
+    wayfarer
 
     lens
   ];
