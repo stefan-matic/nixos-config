@@ -29,7 +29,7 @@
 
   fileSystems."/mnt/win" =
     { device = "/dev/disk/by-uuid/16925B65925B47FF";
-      fsType = "ntfs3";
+      fsType = "ntfs-3g";
       options = [ "rw" "uid=1000" "gid=100" "umask=0022" "fmask=0022" "dmask=0022" "nofail" ];
     };
 
