@@ -36,6 +36,10 @@ in
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;
 
+    environment.systemPackages = with pkgs; [
+      unstable.cloudflare-warp
+    ];
+
     services.syncthing = {
       enable = true;
       user = "stefanmatic";  # Replace with your actual username
