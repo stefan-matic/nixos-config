@@ -61,6 +61,10 @@
     wayfarer
 
     lens
+
+    xdotool
+    kdotool
+    ydotool
   ];
 
 

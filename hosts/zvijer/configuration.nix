@@ -48,7 +48,7 @@ in
         configurationLimit = 20;
         extraEntries = ''
           menuentry "Windows 11" {
-            search --fs-uuid --set=root 16925B65925B47FF
+            search --fs-uuid --set=root EA7D-5648
             chainloader ($root)/EFI/Microsoft/Boot/bootmgfw.efi
           }
         '';
@@ -83,18 +83,24 @@ in
       libreoffice-qt6-fresh
 
       protonvpn-gui
+      zoom-us
+
+      devbox
     ];
 
     # Add user to required groups
     users.users.${userSettings.username} = {
-      extraGroups = [ "dialout" "uucp" "plugdev" ];
+      extraGroups = [ "dialout" "uucp" "plugdev" "video" ];
     };
 
-    # Add udev rules for Arduino
+    # Add udev rules for Arduino and webcam
     services.udev.extraRules = ''
       SUBSYSTEM=="tty", ATTRS{idVendor}=="2341", ATTRS{idProduct}=="*", GROUP="dialout", MODE="0660"
       SUBSYSTEM=="tty", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="*", GROUP="dialout", MODE="0660"
       SUBSYSTEM=="tty", ATTRS{idVendor}=="2a03", ATTRS{idProduct}=="*", GROUP="dialout", MODE="0660"
+
+      # Webcam permissions
+      SUBSYSTEM=="video4linux", GROUP="video", MODE="0660"
     '';
 
     services.syncthing = {
