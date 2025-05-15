@@ -49,7 +49,7 @@ in
         extraEntries = ''
           menuentry "Windows 11" {
             search --fs-uuid --set=root EA7D-5648
-            chainloader ($root)/EFI/Microsoft/Boot/bootmgfw.efi
+            chainloader /EFI/Microsoft/Boot/bootmgfw.efi
           }
         '';
       };
