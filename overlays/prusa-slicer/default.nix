@@ -48,7 +48,11 @@ let
   wxGTK-prusa = wxGTK32.overrideAttrs (old: {
     pname = "wxwidgets-prusa3d-patched";
     version = "3.2.0";
-    configureFlags = old.configureFlags ++ [ "--disable-glcanvasegl" ];
+    configureFlags = old.configureFlags ++ [
+      "--disable-glcanvasegl"
+      "--enable-shared"
+      "--with-opengl"
+    ];
     patches = [ ./wxWidgets-Makefile.in-fix.patch ];
     src = fetchFromGitHub {
       owner = "prusa3d";
@@ -57,6 +61,55 @@ let
       hash = "sha256-rYvmNmvv48JSKVT4ph9AS+JdstnLSRmcpWz1IdgBzQo=";
       fetchSubmodules = true;
     };
+
+    # Ensure CMake can find wxWidgets properly
+    postInstall = (old.postInstall or "") + ''
+      # Find the actual wx-config file and create a generic symlink
+      mkdir -p $out/bin
+      WX_CONFIG_FILE=$(find $out/bin -name "wx-config*" | head -1)
+      if [ -n "$WX_CONFIG_FILE" ] && [ -f "$WX_CONFIG_FILE" ]; then
+        ln -sf $(basename "$WX_CONFIG_FILE") $out/bin/wx-config
+      fi
+
+      # Alternative: create wx-config symlink to the lib config file if bin version doesn't exist
+      if [ ! -f "$out/bin/wx-config" ] && [ -f "$out/lib/wx/config/gtk3-unicode-3.2" ]; then
+        ln -sf ../lib/wx/config/gtk3-unicode-3.2 $out/bin/wx-config
+      fi
+
+      # Ensure CMake files are properly installed
+      mkdir -p $out/lib/cmake/wxWidgets
+      if [ ! -f $out/lib/cmake/wxWidgets/wxWidgetsConfig.cmake ]; then
+        # Get actual library list
+        WXLIBS=$(find $out/lib -name "libwx_*.so" -o -name "libwx_*.a" | sed 's|$out/lib/lib||; s|\.so.*||; s|\.a||' | tr '\n' ';')
+
+        cat > $out/lib/cmake/wxWidgets/wxWidgetsConfig.cmake << EOF
+# wxWidgets CMake configuration file
+set(wxWidgets_FOUND TRUE)
+set(wxWidgets_INCLUDE_DIRS "$out/include/wx-3.2")
+set(wxWidgets_LIBRARIES "\''${WXLIBS}")
+set(wxWidgets_LIBRARY_DIRS "$out/lib")
+set(wxWidgets_VERSION "3.2.0")
+set(wxWidgets_VERSION_MAJOR 3)
+set(wxWidgets_VERSION_MINOR 2)
+set(wxWidgets_VERSION_PATCH 0)
+set(wxWidgets_USE_DEBUG OFF)
+set(wxWidgets_USE_UNICODE ON)
+set(wxWidgets_USE_UNIVERSAL OFF)
+set(wxWidgets_USE_STATIC OFF)
+
+# Include directories
+set(wxWidgets_INCLUDE_DIRS "$out/include/wx-3.2" "$out/lib/wx/include/gtk3-unicode-3.2")
+
+# Libraries with full paths
+foreach(lib \''${wxWidgets_LIBRARIES})
+  if(EXISTS "$out/lib/lib\''${lib}.so")
+    list(APPEND wxWidgets_LIBRARIES_FULL "$out/lib/lib\''${lib}.so")
+  endif()
+endforeach()
+set(wxWidgets_LIBRARIES "\''${wxWidgets_LIBRARIES_FULL}")
+EOF
+      fi
+    '';
   });
   nanosvg-fltk = nanosvg.overrideAttrs (old: rec {
     pname = "nanosvg-fltk";
@@ -170,6 +223,11 @@ stdenv.mkDerivation (finalAttrs: {
   # prusa-slicer uses dlopen on `libudev.so` at runtime
   NIX_LDFLAGS = lib.optionalString withSystemd "-ludev";
 
+  # Help wxWidgets detection
+  WX_CONFIG = "${wxGTK-override'}/bin/wx-config";
+  wxWidgets_ROOT_DIR = "${wxGTK-override'}";
+  wxWidgets_CONFIG_EXECUTABLE = "${wxGTK-override'}/bin/wx-config";
+
   prePatch = ''
     # Since version 2.5.0 of nlopt we need to link to libnlopt, as libnlopt_cxx
     # now seems to be integrated into the main lib.
@@ -201,6 +259,11 @@ stdenv.mkDerivation (finalAttrs: {
     "-DSLIC3R_FHS=1"
     "-DSLIC3R_GTK=3"
     "-DCMAKE_CXX_FLAGS=-DBOOST_LOG_DYN_LINK"
+    # Help CMake find wxWidgets
+    "-DwxWidgets_CONFIG_EXECUTABLE=${wxGTK-override'}/bin/wx-config"
+    "-DwxWidgets_ROOT_DIR=${wxGTK-override'}"
+    "-DwxWidgets_INCLUDE_DIRS=${wxGTK-override'}/include/wx-3.2"
+    "-DwxWidgets_LIBRARIES=${wxGTK-override'}/lib"
   ];
 
   postInstall = ''
