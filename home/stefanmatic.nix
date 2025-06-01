@@ -80,4 +80,6 @@ in
         "https://github.com/ful1e5/fuchsia-cursor/releases/download/v2.0.1/Fuchsia.tar.xz"
         "sha256-TuhU8UFo0hbVShqsWy9rTKnMV8/WHqsxmpqWg1d9f84="
         "Fuchsia";
+
+  services.mpris-proxy.enable = true;
 }

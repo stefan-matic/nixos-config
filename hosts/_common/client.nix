@@ -12,6 +12,7 @@
     [
       ./default.nix
       ../../system/app/virtualization.nix
+      ../../system/bluetooth.nix
     ];
 
   # Desktop environment configuration
