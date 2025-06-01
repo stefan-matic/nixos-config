@@ -5,5 +5,5 @@
   hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
 
   services.blueman.enable = true;
-  services.blueman-applet.enable = true;
+  #services.blueman-applet.enable = true;
 }
