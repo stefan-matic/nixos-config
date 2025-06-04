@@ -183,6 +183,8 @@ in
       dedicatedServer.openFirewall = true;
     };
 
+    services.teamviewer.enable = true;
+
     # Commented out in favor of home-manager service
     #apps.deej = {
     #  enable = true;
