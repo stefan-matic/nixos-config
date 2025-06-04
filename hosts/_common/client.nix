@@ -66,6 +66,8 @@
     xdotool
     kdotool
     ydotool
+
+    nix-prefetch-git
   ];
 
   # Yubico Authenticator
