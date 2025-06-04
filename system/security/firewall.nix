@@ -6,6 +6,7 @@
     enable = true;
     allowedTCPPorts = [
       22000 21027 # syncthing
+      3389 # RDP
     ];
     allowedUDPPorts = [
       22000 21027 # syncthing
