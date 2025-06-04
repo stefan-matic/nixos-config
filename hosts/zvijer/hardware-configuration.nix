@@ -8,7 +8,7 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  boot.kernelPackages = pkgs.linuxPackages_latest ;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
@@ -31,7 +31,7 @@
     [ { device = "/dev/disk/by-uuid/1958948c-a5cc-48e0-9333-6eca68ab6267"; }
     ];
 
-  
+
   fileSystems."/mnt/win" =
     { device = "/dev/disk/by-uuid/322666BE266682A9";
       fsType = "ntfs-3g";
