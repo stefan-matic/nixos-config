@@ -8,13 +8,13 @@
   modifications = final: prev:
     {
       # Import Prusa Slicer overlay
-      prusa-slicer = import ./prusa-slicer {
-        inherit (prev) stdenv lib binutils fetchFromGitHub fetchpatch cmake pkg-config python3
-          wrapGAppsHook3 boost cereal cgal curl darwin dbus eigen expat glew glib glib-networking
-          gmp gtk3 hicolor-icon-theme ilmbase libpng mpfr nanosvg nlopt opencascade-occt_7_6_1
-          openvdb pcre qhull tbb_2021_11 wxGTK32 xorg libbgcode heatshrink catch2_3 webkitgtk_4_0 z3
-          systemd;
-      };
+      #prusa-slicer = import ./prusa-slicer {
+      #  inherit (prev) stdenv lib binutils fetchFromGitHub fetchpatch cmake pkg-config python3
+      #    wrapGAppsHook3 boost cereal cgal curl darwin dbus eigen expat glew glib glib-networking
+      #    gmp gtk3 hicolor-icon-theme ilmbase libpng mpfr nanosvg nlopt opencascade-occt_7_6_1
+      #    openvdb pcre qhull tbb_2021_11 wxGTK32 xorg libbgcode heatshrink catch2_3 webkitgtk_4_0 z3
+      #    systemd;
+      #};
     };
 
     # Simplified unstable packages overlay

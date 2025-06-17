@@ -27,16 +27,14 @@ in
 
   home.packages =
     with pkgs; [
-      (prusa-slicer.overrideAttrs (old: {
-        version = "2.9.2";
-      }))
+      #(prusa-slicer.overrideAttrs (old: {
+      #  version = "2.9.2";
+      #}))
 
       dbeaver-bin
       slack
       #yubioath-flutter
 
-      terraform
-      opentofu
       kubectl
       kubectx
       kubernetes-helm

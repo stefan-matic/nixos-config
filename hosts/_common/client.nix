@@ -68,6 +68,10 @@
     ydotool
 
     nix-prefetch-git
+
+    terraform
+    terragrunt
+    opentofu
   ];
 
   # Yubico Authenticator

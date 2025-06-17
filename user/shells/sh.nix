@@ -13,6 +13,8 @@ let
     fetch = "disfetch";
     gitfetch = "onefetch";
     "," = "comma";
+    tf = "terraform";
+    tg = "terragrunt";
   };
 in
 {
