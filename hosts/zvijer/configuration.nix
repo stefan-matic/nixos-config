@@ -86,6 +86,8 @@ in
       zoom-us
 
       devbox
+
+      nodejs
     ];
 
     # Add user to required groups
