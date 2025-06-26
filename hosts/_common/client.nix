@@ -72,6 +72,8 @@
     terraform
     terragrunt
     opentofu
+
+    prusa-slicer
   ];
 
   # Yubico Authenticator
