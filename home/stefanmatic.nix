@@ -27,9 +27,6 @@ in
 
   home.packages =
     with pkgs; [
-      #(prusa-slicer.overrideAttrs (old: {
-      #  version = "2.9.2";
-      #}))
 
       dbeaver-bin
       slack
