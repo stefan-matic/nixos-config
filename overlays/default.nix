@@ -6,19 +6,25 @@
   # You can change versions, add patches, set compilation flags, anything really.
   # https://nixos.wiki/wiki/Overlays
   modifications = final: prev:
-    # Simplified unstable packages overlay
-    unstable-packages = final: prev: {
-      unstable = import inputs.nixpkgs-unstable {
-        inherit (prev) system;
-        config.allowUnfree = true;
-      };
+    {
+      # example = prev.example.overrideAttrs (oldAttrs: rec {
+      # ...
+      # });
     };
 
-    stable-packages = final: prev: {
-      stable = import inputs.nixpkgs-stable {
-        inherit (prev) system;
-        config.allowUnfree = true;
-      };
+  # Simplified unstable packages overlay
+  unstable-packages = final: prev: {
+    unstable = import inputs.nixpkgs-unstable {
+      inherit (prev) system;
+      config.allowUnfree = true;
     };
+  };
+
+  stable-packages = final: prev: {
+    stable = import inputs.nixpkgs-stable {
+      inherit (prev) system;
+      config.allowUnfree = true;
+    };
+  };
 }
 
