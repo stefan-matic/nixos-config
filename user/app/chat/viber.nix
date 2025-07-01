@@ -1,33 +1,26 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, ... }:
 
 let
-  viberWrapper = pkgs.writeScriptBin "viber-wrapped" ''
-    #!${pkgs.bash}/bin/bash
-    export HOME="${config.home.homeDirectory}"
-    cd "$HOME"
-    exec ${pkgs.viber}/opt/viber/Viber "$@"
-  '';
+  # Use libxml2 version that provides libxml2.so.2
+  libxml2-compat = pkgs.libxml2.overrideAttrs (oldAttrs: rec {
+    version = "2.13.8";
+    src = pkgs.fetchurl {
+      url = "https://download.gnome.org/sources/libxml2/${pkgs.lib.versions.majorMinor version}/libxml2-${version}.tar.xz";
+      hash = "sha256-J3KUyzMRmrcbK8gfL0Rem8lDW4k60VuyzSsOhZoO6Eo=";
+    };
+  });
+
+  # Create a wrapped version of Viber with the correct libxml2
+  viber-fixed = pkgs.symlinkJoin {
+    name = "viber-fixed";
+    paths = [ pkgs.viber ];
+    buildInputs = [ pkgs.makeWrapper ];
+    postBuild = ''
+      wrapProgram $out/bin/viber \
+        --prefix LD_LIBRARY_PATH : "${libxml2-compat.out}/lib"
+    '';
+  };
 in
 {
-  home.packages = [ viberWrapper pkgs.viber ];
-
-  # Create required directories
-  home.file.".local/share/Viber".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.local/share/Viber";
-  home.file.".config/Viber".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/Viber";
-
-  # Create a custom desktop entry that uses our wrapper
-  xdg.desktopEntries.viber = {
-    name = "Viber";
-    exec = "viber-wrapped %U";
-    icon = "${pkgs.viber}/share/icons/hicolor/128x128/apps/viber.png";
-    terminal = false;
-    categories = [ "Network" "InstantMessaging" ];
-    mimeType = [ "x-scheme-handler/viber" ];
-  };
-
-  # Ensure the directories exist
-  systemd.user.tmpfiles.rules = [
-    "d ${config.home.homeDirectory}/.local/share/Viber 0755 ${config.home.username} users"
-    "d ${config.home.homeDirectory}/.config/Viber 0755 ${config.home.username} users"
-  ];
+  home.packages = [ viber-fixed libxml2-compat ];
 }

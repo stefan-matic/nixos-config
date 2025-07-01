@@ -18,6 +18,7 @@
     ../user/shells/sh.nix
     #../user/style/stylix.nix # Styling and themes for my apps
     ../user/app/browser/chrome.nix
+    # workaround for viber being a shitty mess
     ../user/app/chat/viber.nix
   ];
 
@@ -67,8 +68,9 @@
       # brightness
       brightnessctl
 
+      # viber moved to separate module with libxml2 compatibility fix
+
       vlc
-      flameshot
       wl-clipboard
       grim
       slurp
