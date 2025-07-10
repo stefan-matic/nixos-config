@@ -22,5 +22,5 @@ let
   };
 in
 {
-  home.packages = [ viber-fixed libxml2-compat ];
+  home.packages = [ viber-fixed ];
 }
