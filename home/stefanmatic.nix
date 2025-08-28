@@ -37,6 +37,9 @@ in
       kubernetes-helm
       awscli2
 
+      #azure-cli
+      #azure-cli-extensions.azure-firewall
+
       discord
       direnv
       pre-commit

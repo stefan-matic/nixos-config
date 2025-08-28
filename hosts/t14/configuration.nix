@@ -3,6 +3,7 @@
 let
   env = import ./env.nix {inherit pkgs; };
   inherit (env) systemSettings userSettings;
+  customPkgs = import ../../pkgs { inherit pkgs; };
 in
 
 {
@@ -38,6 +39,7 @@ in
 
     environment.systemPackages = with pkgs; [
       unstable.cloudflare-warp
+      customPkgs.select-browser
     ];
 
     services.syncthing = {
@@ -56,6 +58,11 @@ in
           };
         };
         folders = {
+          "dotfiles" = {
+            path = "/home/stefanmatic/";
+            devices = [ "unraid" ];
+            id = "dotfiles";
+          };
           "KeePass" = {
             path = "/home/stefanmatic/KeePass";
             devices = [ "unraid" ];
