@@ -89,10 +89,7 @@ in
 
       nodejs
 
-      (inputs.nixpkgs-stable.legacyPackages.x86_64-linux.azure-cli.withExtensions [
-        inputs.nixpkgs-stable.legacyPackages.x86_64-linux.azure-cli.extensions.azure-firewall
-        inputs.nixpkgs-stable.legacyPackages.x86_64-linux.azure-cli.extensions.bastion
-      ])
+      azure-cli
 
       claude-code
     ];
