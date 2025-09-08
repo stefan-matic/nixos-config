@@ -40,6 +40,10 @@ in
     environment.systemPackages = with pkgs; [
       unstable.cloudflare-warp
       customPkgs.select-browser
+
+      claude-code
+
+      azure-cli
     ];
 
     services.syncthing = {

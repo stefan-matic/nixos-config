@@ -90,6 +90,14 @@ in
       nodejs
 
       azure-cli
+      azure-cli-extensions.bastion
+      azure-cli-extensions.azure-firewall
+      azure-cli-extensions.log-analytics
+      azure-cli-extensions.log-analytics-solution
+      azure-cli-extensions.monitor-control-service
+      azure-cli-extensions.resource-graph
+      azure-cli-extensions.scheduled-query
+      azure-cli-extensions.application-insights
 
       claude-code
     ];
