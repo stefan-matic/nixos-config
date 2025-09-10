@@ -41,6 +41,8 @@ in
       unstable.cloudflare-warp
       customPkgs.select-browser
 
+      libreoffice-qt6-fresh
+
       claude-code
 
       azure-cli
