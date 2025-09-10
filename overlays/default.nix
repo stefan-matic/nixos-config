@@ -7,19 +7,7 @@
   # https://nixos.wiki/wiki/Overlays
     modifications = final: prev:
     {
-      # Override pyscard to use version 2.2.1 instead of 2.2.2
-      python3Packages = prev.python3Packages.override {
-        overrides = python-final: python-prev: {
-          pyscard = python-prev.pyscard.overrideAttrs (oldAttrs: rec {
-            version = "2.2.1";
-            src = prev.fetchPypi {
-              pname = "pyscard";
-              version = version;
-              sha256 = "sha256-kg5oilEIIkyxm5FcP9fqfPPRqjeVh//Qh5c+hME/jZQ=";
-            };
-          });
-        };
-      };
+
     };
 
   # Simplified unstable packages overlay
