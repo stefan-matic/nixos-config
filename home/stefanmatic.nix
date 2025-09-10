@@ -30,15 +30,11 @@ in
 
       dbeaver-bin
       slack
-      #yubioath-flutter
 
       kubectl
       kubectx
       kubernetes-helm
       awscli2
-
-      #azure-cli
-      #azure-cli-extensions.azure-firewall
 
       discord
       direnv
