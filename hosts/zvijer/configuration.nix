@@ -100,6 +100,8 @@ in
       azure-cli-extensions.application-insights
 
       claude-code
+
+      element-desktop
     ];
 
     # Add user to required groups
@@ -122,6 +124,7 @@ in
       user = "stefanmatic";  # Replace with your actual username
       dataDir = "/home/stefanmatic/.config/syncthing";  # Explicitly set the data directory
       configDir = "/home/stefanmatic/.config/syncthing";
+      extraFlags = [ "--allow-newer-config" ];
       settings = {
         gui = {
           theme = "dark";
