@@ -102,6 +102,8 @@ in
       claude-code
 
       element-desktop
+
+      unstable.kiro
     ];
 
     # Add user to required groups
