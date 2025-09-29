@@ -31,6 +31,10 @@ stdenv.mkDerivation rec {
     # Copy all files from source
     cp -r $src/* $out/share/streamdeck-plus-software/
     
+    # Create bin directory and symlink python3
+    mkdir -p $out/share/streamdeck-plus-software/bin
+    ln -s ${python3}/bin/python3 $out/share/streamdeck-plus-software/bin/python3
+    
     # Create wrapper script
     cat > $out/bin/streamdeck-plus-software << EOF
 #!/bin/sh
@@ -38,6 +42,7 @@ cd $out/share/streamdeck-plus-software
 export PYTHONPATH="${python3.pkgs.makePythonPath (with python3.pkgs; [
   cairocffi opencv4 pillow pynput pyperclip requests streamdeck
 ])}:\$PYTHONPATH"
+export PATH="$out/share/streamdeck-plus-software/bin:${python3}/bin:\$PATH"
 exec ${python3}/bin/python3 sdplus.py "\$@"
 EOF
     chmod +x $out/bin/streamdeck-plus-software
@@ -49,6 +54,7 @@ cd $out/share/streamdeck-plus-software
 export PYTHONPATH="${python3.pkgs.makePythonPath (with python3.pkgs; [
   cairocffi opencv4 pillow pynput pyperclip requests streamdeck
 ])}:\$PYTHONPATH"
+export PATH="$out/share/streamdeck-plus-software/bin:${python3}/bin:\$PATH"
 exec ${python3}/bin/python3 install.py "\$@"
 EOF
     chmod +x $out/bin/streamdeck-plus-install
