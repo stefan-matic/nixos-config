@@ -1,5 +1,17 @@
-{ lib, python3, copyDesktopItems, makeDesktopItem, stdenv }:
+{ lib, python3, copyDesktopItems, makeDesktopItem, stdenv, tk }:
 
+let
+  pythonWithTk = python3.withPackages (ps: with ps; [
+    cairocffi
+    opencv4
+    pillow
+    pynput
+    pyperclip
+    requests
+    streamdeck
+    tkinter
+  ]);
+in
 stdenv.mkDerivation rec {
   pname = "streamdeck-plus-software";
   version = "0.0.1";
@@ -8,17 +20,11 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [
     copyDesktopItems
-    python3
+    pythonWithTk
   ];
 
-  buildInputs = with python3.pkgs; [
-    cairocffi
-    opencv4
-    pillow
-    pynput
-    pyperclip
-    requests
-    streamdeck
+  buildInputs = [
+    tk
   ];
 
   dontBuild = true;
@@ -33,17 +39,14 @@ stdenv.mkDerivation rec {
     
     # Create bin directory and symlink python3
     mkdir -p $out/share/streamdeck-plus-software/bin
-    ln -s ${python3}/bin/python3 $out/share/streamdeck-plus-software/bin/python3
+    ln -s ${pythonWithTk}/bin/python3 $out/share/streamdeck-plus-software/bin/python3
     
     # Create wrapper script
     cat > $out/bin/streamdeck-plus-software << EOF
 #!/bin/sh
 cd $out/share/streamdeck-plus-software
-export PYTHONPATH="${python3.pkgs.makePythonPath (with python3.pkgs; [
-  cairocffi opencv4 pillow pynput pyperclip requests streamdeck
-])}:\$PYTHONPATH"
-export PATH="$out/share/streamdeck-plus-software/bin:${python3}/bin:\$PATH"
-exec ${python3}/bin/python3 sdplus.py "\$@"
+export PATH="$out/share/streamdeck-plus-software/bin:${pythonWithTk}/bin:\$PATH"
+exec ${pythonWithTk}/bin/python3 sdplus.py "\$@"
 EOF
     chmod +x $out/bin/streamdeck-plus-software
     
@@ -51,11 +54,8 @@ EOF
     cat > $out/bin/streamdeck-plus-install << EOF
 #!/bin/sh
 cd $out/share/streamdeck-plus-software
-export PYTHONPATH="${python3.pkgs.makePythonPath (with python3.pkgs; [
-  cairocffi opencv4 pillow pynput pyperclip requests streamdeck
-])}:\$PYTHONPATH"
-export PATH="$out/share/streamdeck-plus-software/bin:${python3}/bin:\$PATH"
-exec ${python3}/bin/python3 install.py "\$@"
+export PATH="$out/share/streamdeck-plus-software/bin:${pythonWithTk}/bin:\$PATH"
+exec ${pythonWithTk}/bin/python3 install.py "\$@"
 EOF
     chmod +x $out/bin/streamdeck-plus-install
   '';
