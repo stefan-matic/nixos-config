@@ -104,6 +104,9 @@ in
       element-desktop
 
       unstable.kiro
+
+      streamdeck-ui
+      customPkgs.streamdeck-plus-software
     ];
 
     # Add user to required groups
