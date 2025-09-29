@@ -107,8 +107,7 @@ in
 
       unstable.kiro
 
-      streamdeck-ui
-      customPkgs.streamdeck-plus-software
+      streamcontroller
     ];
 
     # Add user to required groups
@@ -116,7 +115,10 @@ in
       extraGroups = [ "dialout" "uucp" "plugdev" "video" ];
     };
 
-    # Add udev rules for Arduino and webcam
+    # Ensure plugdev group exists
+    users.groups.plugdev = {};
+
+    # Add udev rules for Arduino, webcam, and Stream Deck
     services.udev.extraRules = ''
       SUBSYSTEM=="tty", ATTRS{idVendor}=="2341", ATTRS{idProduct}=="*", GROUP="dialout", MODE="0660"
       SUBSYSTEM=="tty", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="*", GROUP="dialout", MODE="0660"
@@ -124,6 +126,13 @@ in
 
       # Webcam permissions
       SUBSYSTEM=="video4linux", GROUP="video", MODE="0660"
+
+      # Stream Deck devices (Elgato)
+      SUBSYSTEM=="usb", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="*", GROUP="plugdev", MODE="0666"
+      SUBSYSTEM=="hidraw", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="*", GROUP="plugdev", MODE="0666"
+      # Stream Deck Plus specific rules
+      SUBSYSTEM=="usb", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="0084", GROUP="plugdev", MODE="0666"
+      SUBSYSTEM=="hidraw", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="0084", GROUP="plugdev", MODE="0666"
     '';
 
     services.syncthing = {
