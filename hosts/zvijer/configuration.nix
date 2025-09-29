@@ -88,6 +88,8 @@ in
       devbox
 
       nodejs
+      python3
+      python3.pkgs.pip
 
       azure-cli
       azure-cli-extensions.bastion
@@ -212,5 +214,11 @@ in
     #  enable = true;
     #  user = userSettings.username;
     #};
+
+    # Create /bin/python3 symlink for applications that expect it
+    systemd.tmpfiles.rules = [
+      "L+ /bin/python3 - - - - ${pkgs.python3}/bin/python3"
+      "L+ /bin/python - - - - ${pkgs.python3}/bin/python3"
+    ];
   };
 }
