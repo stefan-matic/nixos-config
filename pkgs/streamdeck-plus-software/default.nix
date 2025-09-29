@@ -1,12 +1,17 @@
-{ lib, python3, fetchFromGitHub, copyDesktopItems, makeDesktopItem }:
+{ lib, python3, copyDesktopItems, makeDesktopItem, stdenv }:
 
-python3.pkgs.buildPythonApplication rec {
+stdenv.mkDerivation rec {
   pname = "streamdeck-plus-software";
   version = "0.0.1";
 
-  src = /home/stefanmatic/Workspace/personal/streamdeck-plus-software;
+  src = ./src;
 
-  propagatedBuildInputs = with python3.pkgs; [
+  nativeBuildInputs = [
+    copyDesktopItems
+    python3
+  ];
+
+  buildInputs = with python3.pkgs; [
     cairocffi
     opencv4
     pillow
@@ -16,27 +21,23 @@ python3.pkgs.buildPythonApplication rec {
     streamdeck
   ];
 
-  nativeBuildInputs = [
-    copyDesktopItems
-  ];
+  dontBuild = true;
 
   # Install the Python scripts
   installPhase = ''
     mkdir -p $out/bin
     mkdir -p $out/share/streamdeck-plus-software
     
-    # Copy all Python files
-    cp *.py $out/share/streamdeck-plus-software/
-    
-    # Copy resource files
-    cp *.zip $out/share/streamdeck-plus-software/
-    cp *.png $out/share/streamdeck-plus-software/
-    cp *.txt $out/share/streamdeck-plus-software/
+    # Copy all files from source
+    cp -r $src/* $out/share/streamdeck-plus-software/
     
     # Create wrapper script
     cat > $out/bin/streamdeck-plus-software << EOF
 #!/bin/sh
 cd $out/share/streamdeck-plus-software
+export PYTHONPATH="${python3.pkgs.makePythonPath (with python3.pkgs; [
+  cairocffi opencv4 pillow pynput pyperclip requests streamdeck
+])}:\$PYTHONPATH"
 exec ${python3}/bin/python sdplus.py "\$@"
 EOF
     chmod +x $out/bin/streamdeck-plus-software
@@ -45,6 +46,9 @@ EOF
     cat > $out/bin/streamdeck-plus-install << EOF
 #!/bin/sh
 cd $out/share/streamdeck-plus-software
+export PYTHONPATH="${python3.pkgs.makePythonPath (with python3.pkgs; [
+  cairocffi opencv4 pillow pynput pyperclip requests streamdeck
+])}:\$PYTHONPATH"
 exec ${python3}/bin/python install.py "\$@"
 EOF
     chmod +x $out/bin/streamdeck-plus-install
