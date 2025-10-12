@@ -17,7 +17,7 @@
     #../user/app/direnv/direnv.nix
     ../user/shells/sh.nix
     #../user/style/stylix.nix # Styling and themes for my apps
-    ../user/app/browser/chrome.nix
+    #../user/app/browser/chrome.nix
     # workaround for viber being a shitty mess
     ../user/app/chat/viber.nix
   ];

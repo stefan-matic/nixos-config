@@ -39,6 +39,8 @@
 
     git
 
+    unstable.google-chrome
+
     unstable.cloudflare-warp
     #cloudflare-warp
     #yubikey-personalization

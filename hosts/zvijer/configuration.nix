@@ -108,11 +108,27 @@ in
       unstable.kiro
 
       streamcontroller
+
+      openrazer-daemon
+      razergenie
+      input-remapper
+
+    ];
+
+    # Enable OpenRazer hardware daemon
+    hardware.openrazer = {
+      enable = true;
+      users = [ userSettings.username ];
+    };
+
+    # Ensure OpenRazer kernel modules are available
+    boot.extraModulePackages = with config.boot.kernelPackages; [
+      openrazer
     ];
 
     # Add user to required groups
     users.users.${userSettings.username} = {
-      extraGroups = [ "dialout" "uucp" "plugdev" "video" ];
+      extraGroups = [ "dialout" "uucp" "plugdev" "video" "openrazer" ];
     };
 
     # Ensure plugdev group exists

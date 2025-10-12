@@ -46,6 +46,10 @@ in
       claude-code
 
       azure-cli
+
+      openrazer-daemon
+      razergenie
+      input-remapper
     ];
 
     services.syncthing = {
