@@ -76,6 +76,9 @@
     opentofu
 
     prusa-slicer
+
+    unstable.gnumake
+    unstable.affine
   ];
 
   # Yubico Authenticator
