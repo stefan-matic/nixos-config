@@ -40,10 +40,11 @@ in
     environment.systemPackages = with pkgs; [
       unstable.cloudflare-warp
       customPkgs.select-browser
+      customPkgs.nordvpn
 
       libreoffice-qt6-fresh
 
-      claude-code
+      unstable.claude-code
 
       azure-cli
 
@@ -51,6 +52,8 @@ in
       razergenie
       input-remapper
     ];
+
+    services.teamviewer.enable = true;
 
     services.syncthing = {
       enable = true;
