@@ -19,4 +19,6 @@
       { from = 1714; to = 1764; } # KDE Connect
     ];
   };
+
+    networking.firewall.checkReversePath = "loose"; #NordVPN needs this, check if we can skip it or smth
 }
