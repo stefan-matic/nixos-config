@@ -3,9 +3,9 @@
 {
   home.packages = [ pkgs.git ];
   programs.git.enable = true;
-  programs.git.userName = userSettings.name;
-  programs.git.userEmail = userSettings.email;
-  programs.git.extraConfig = {
+  programs.git.settings.user.name = userSettings.name;
+  programs.git.settings.user.email = userSettings.email;
+  programs.git.settings = {
     init.defaultBranch = "main";
   };
 }
