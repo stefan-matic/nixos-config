@@ -17,8 +17,8 @@ in
 	imports = [
     ./_common.nix
     #../user/app/obs-studio.nix
-    ./services/deej-serial-control.nix
-    ./services/deej-new.nix
+    #./services/deej-serial-control.nix
+    #./services/deej-new.nix
   ];
 
   _module.args = {
@@ -51,7 +51,7 @@ in
   #services.deej-serial-control.enable = true;
 
   # Enable the new deej service
-  services.deej-new.enable = true;
+  #services.deej-new.enable = true;
 
   home.pointerCursor =
     let
