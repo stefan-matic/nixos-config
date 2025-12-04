@@ -14,7 +14,7 @@
     ../user/app/git/git.nix
     ../user/app/terminal/kitty.nix
     ../user/lang/python/python.nix
-    #../user/app/direnv/direnv.nix
+    ../user/app/direnv/direnv.nix
     ../user/shells/sh.nix
     #../user/style/stylix.nix # Styling and themes for my apps
     #../user/app/browser/chrome.nix

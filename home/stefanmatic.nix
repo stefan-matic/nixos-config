@@ -37,7 +37,6 @@ in
       awscli2
 
       discord
-      direnv
       pre-commit
     ];
 
