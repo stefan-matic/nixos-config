@@ -2,7 +2,6 @@
 
 {
   systemSettings = {
-    system = "x86_64-linux";
     hostname = "ZVIJER";
     host = "ZVIJER";
     timezone = "Europe/Sarajevo";

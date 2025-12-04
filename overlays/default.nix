@@ -13,14 +13,14 @@
   # Simplified unstable packages overlay
   unstable-packages = final: prev: {
     unstable = import inputs.nixpkgs-unstable {
-      inherit (prev) system;
+      system = prev.stdenv.hostPlatform.system;
       config.allowUnfree = true;
     };
   };
 
   stable-packages = final: prev: {
     stable = import inputs.nixpkgs-stable {
-      inherit (prev) system;
+      system = prev.stdenv.hostPlatform.system;
       config.allowUnfree = true;
     };
   };

@@ -2,7 +2,6 @@
 
 {
   systemSettings = {
-    system = "x86_64-linux";
     hostname = "stefan-t14";
     host = "t14";
     timezone = "Europe/Sarajevo";

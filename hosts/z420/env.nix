@@ -2,7 +2,6 @@
 
 {
   systemSettings = {
-    system = "x86_64-linux";
     hostname = "z420";
     host = "Z420";
     timezone = "Europe/Sarajevo";
