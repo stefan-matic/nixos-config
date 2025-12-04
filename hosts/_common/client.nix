@@ -54,7 +54,7 @@
     unstable.code-cursor
     #powershell #jebem te cvijo
 
-    glxinfo
+    mesa-demos
 
     kdePackages.kcalc
     kdePackages.kate
