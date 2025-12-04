@@ -68,6 +68,7 @@
       wget
       openssl
       kdePackages.kcalc
+      inetutils
     ];
 
     # Font configuration
