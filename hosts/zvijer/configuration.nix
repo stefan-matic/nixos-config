@@ -62,6 +62,8 @@ in
       ntfs3g
       kdePackages.kdialog
       customPkgs.select-browser
+      customPkgs.nordvpn
+
       kdePackages.kdenlive
       veracrypt
       lutris
@@ -70,7 +72,6 @@ in
       vulkan-tools
       vulkan-loader
       vulkan-validation-layers
-      amdvlk
 
       # Java
       #openjdk
@@ -100,8 +101,12 @@ in
       azure-cli-extensions.resource-graph
       azure-cli-extensions.scheduled-query
       azure-cli-extensions.application-insights
+      kubelogin
+      k9s
 
-      claude-code
+      unstable.claude-code
+      unstable.claude-monitor
+      unstable.amazon-q-cli
 
       element-desktop
 
@@ -112,6 +117,12 @@ in
       openrazer-daemon
       razergenie
       input-remapper
+
+      ghostty
+      fastfetch
+      viu
+      mpv
+      timg
 
     ];
 
