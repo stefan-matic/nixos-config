@@ -79,6 +79,8 @@
 
     unstable.gnumake
     unstable.affine
+
+    qdirstat
   ];
 
   # Yubico Authenticator

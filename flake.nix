@@ -56,6 +56,16 @@
         specialArgs = {inherit inputs outputs;};
         modules = [./hosts/z420/configuration.nix];
       };
+      # Minimal liveboot host configuration
+      liveboot = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        modules = [./hosts/liveboot/configuration.nix];
+      };
+      # Bootable ISO image based on liveboot configuration
+      liveboot-iso = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        modules = [./hosts/liveboot/iso.nix];
+      };
     };
     homeConfigurations = {
       "stefanmatic" = home-manager.lib.homeManagerConfiguration {
