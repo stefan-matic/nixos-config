@@ -62,7 +62,8 @@ in
       ntfs3g
       kdePackages.kdialog
       customPkgs.select-browser
-      customPkgs.nordvpn
+      # Temporarily disabled - libxml2 2.15 compatibility issue
+      #customPkgs.nordvpn
 
       kdePackages.kdenlive
       veracrypt
@@ -124,6 +125,9 @@ in
       mpv
       timg
 
+      uv
+
+      eksctl
     ];
 
     # Enable OpenRazer hardware daemon
@@ -132,10 +136,10 @@ in
       users = [ userSettings.username ];
     };
 
-    # Ensure OpenRazer kernel modules are available
-    boot.extraModulePackages = with config.boot.kernelPackages; [
-      openrazer
-    ];
+    # Temporarily disabled - OpenRazer doesn't support kernel 6.18 yet
+    # boot.extraModulePackages = with config.boot.kernelPackages; [
+    #   openrazer
+    # ];
 
     # Add user to required groups
     users.users.${userSettings.username} = {
@@ -225,7 +229,8 @@ in
 
     programs.obs-studio = {
       enable = true;
-      enableVirtualCamera = true;
+      # Temporarily disabled - v4l2loopback doesn't support kernel 6.18 yet
+      enableVirtualCamera = false;
       plugins = with pkgs.obs-studio-plugins; [
         wlrobs
         obs-backgroundremoval
