@@ -56,6 +56,10 @@
         specialArgs = {inherit inputs outputs;};
         modules = [./hosts/z420/configuration.nix];
       };
+      starlabs = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        modules = [./hosts/starlabs/configuration.nix];
+      };
       # Minimal liveboot host configuration
       liveboot = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
