@@ -1,35 +1,124 @@
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, lib, inputs, ... }:
 
 let
-  systemSettings = {
-    system = "x86_64-linux";
-    hostname = "RWTF";
-    host = "starlabs";
-    timezone = "Europe/Sarajevo";
-    locale = "en_US.UTF-8";
-  };
-
-  # Rec is recursive when you need more complex sets and nests
-  #userSettings = rec {
-  userSettings = {
-    username = "fallen";
-    name = "Fallen";
-    email = "lordmata94@gmail.com";
-    theme = "dracula";
-    term = "alacritty"; # Default terminal command;
-    font = "Intel One Mono"; # Selected font
-    #fontPkg = pkgs.intel-one-mono; # Font package
-    editor = "nano"; # Default editor;
-  };
+  env = import ./env.nix {inherit pkgs; };
+  inherit (env) systemSettings userSettings;
+  customPkgs = import ../../pkgs { inherit pkgs; };
 in
+
 {
   imports =
     [
-      ../_common.nix
       ./hardware-configuration.nix
+      ../_common/client.nix
     ];
 
-  _module.args = {
-    inherit systemSettings userSettings;
+  options = {
+    userSettings = lib.mkOption {
+      type = lib.types.attrs;
+      default = userSettings;
+      description = "User settings including username";
+    };
+
+    systemSettings = lib.mkOption {
+      type = lib.types.attrs;
+      default = systemSettings;
+      description = "System settings including hostname";
+    };
+  };
+
+  config = {
+    # Pass settings to child modules
+    _module.args = {
+      inherit systemSettings userSettings;
+    };
+
+    # Bootloader configuration
+    boot.loader.systemd-boot.enable = true;
+    boot.loader.efi.canTouchEfiVariables = true;
+
+    environment.systemPackages = with pkgs; [
+      unstable.cloudflare-warp
+      customPkgs.select-browser
+      customPkgs.nordvpn
+
+      libreoffice-qt6-fresh
+
+      unstable.claude-code
+
+    ];
+
+    services.teamviewer.enable = true;
+
+    services.syncthing = {
+      enable = true;
+      user = "fallen";  # Replace with your actual username
+      dataDir = "/home/stefanmatic/.config/syncthing";  # Explicitly set the data directory
+      configDir = "/home/stefanmatic/.config/syncthing";
+      settings = {
+        gui = {
+          theme = "dark";
+          user = userSettings.username;
+        };
+        devices = {
+          unraid = {
+            id = "2T25XJC-SXWEDMA-DF4P57K-55AQCXQ-2MYHHLJ-IXF24KU-HNMUWRN-4W2R3AY";
+          };
+        };
+        folders = {
+          "dotfiles" = {
+            path = "/home/stefanmatic/";
+            devices = [ "unraid" ];
+            id = "dotfiles";
+          };
+          "KeePass" = {
+            path = "/home/stefanmatic/KeePass";
+            devices = [ "unraid" ];
+            id = "72iax-2g67s";
+          };
+          #"Desktop" = {
+          #  path = "/home/stefanmatic/Desktop";
+          #  devices = [ "unraid" ];
+          #  id = "b4w9b-c7epm";
+          #};
+          #"Documents" = {
+          #  path = "/home/stefanmatic/Documents";
+          #  devices = [ "unraid" ];
+          #  id = "zmgjt-pjaqa";
+          #};
+          #"Pictures" = {
+          #  path = "/home/stefanmatic/Pictures";
+          #  devices = [ "unraid" ];
+          #  id = "bnzvt-hpsu6";
+          #};
+          #"Videos" = {
+          #  path = "/home/stefanmatic/Videos";
+          #  devices = [ "unraid" ];
+          #  id = "uzfcf-ijz7p";
+          #};
+          "Scripts" = {
+            path = "/home/stefanmatic/Scripts";
+            devices = [ "unraid" ];
+            id = "udqbf-4zpw3";
+          };
+          #"Workspace" = {
+          #  path = "/home/stefanmatic/Workspace";
+          #  devices = [ "unraid" ];
+          #  id = "cypve-yruqr";
+          #};
+        };
+      };
+    };
+
+    programs.obs-studio = {
+      enable = true;
+      enableVirtualCamera = true;
+      plugins = with pkgs.obs-studio-plugins; [
+        wlrobs
+        obs-backgroundremoval
+        obs-pipewire-audio-capture
+        obs-composite-blur
+      ];
+    };
   };
 }
