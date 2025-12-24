@@ -77,6 +77,11 @@
         extraSpecialArgs = {inherit inputs outputs;};
         modules = [./home/stefanmatic.nix];
       };
+      "fallen" = home-manager.lib.homeManagerConfiguration {
+        pkgs = pkgs;
+        extraSpecialArgs = {inherit inputs outputs;};
+        modules = [./home/fallen.nix];
+      };
     };
   };
 }
