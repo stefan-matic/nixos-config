@@ -146,9 +146,9 @@ in
     programs.dankMaterialShell = {
       enable = true;
 
-      # Systemd service for auto-start
+      # Systemd service disabled - DMS is spawned by Niri instead
       systemd = {
-        enable = true;
+        enable = false;
         restartIfChanged = true;
       };
 
