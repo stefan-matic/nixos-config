@@ -57,9 +57,9 @@ in
 
     services.syncthing = {
       enable = true;
-      user = "stefanmatic";  # Replace with your actual username
-      dataDir = "/home/stefanmatic/.config/syncthing";  # Explicitly set the data directory
-      configDir = "/home/stefanmatic/.config/syncthing";
+      user = userSettings.username;
+      dataDir = "/home/${userSettings.username}/.config/syncthing";
+      configDir = "/home/${userSettings.username}/.config/syncthing";
       settings = {
         gui = {
           theme = "dark";
@@ -72,42 +72,42 @@ in
         };
         folders = {
           "dotfiles" = {
-            path = "/home/stefanmatic/";
+            path = "/home/${userSettings.username}/";
             devices = [ "unraid" ];
             id = "dotfiles";
           };
           "KeePass" = {
-            path = "/home/stefanmatic/KeePass";
+            path = "/home/${userSettings.username}/KeePass";
             devices = [ "unraid" ];
             id = "72iax-2g67s";
           };
           "Desktop" = {
-            path = "/home/stefanmatic/Desktop";
+            path = "/home/${userSettings.username}/Desktop";
             devices = [ "unraid" ];
             id = "b4w9b-c7epm";
           };
           "Documents" = {
-            path = "/home/stefanmatic/Documents";
+            path = "/home/${userSettings.username}/Documents";
             devices = [ "unraid" ];
             id = "zmgjt-pjaqa";
           };
           "Pictures" = {
-            path = "/home/stefanmatic/Pictures";
+            path = "/home/${userSettings.username}/Pictures";
             devices = [ "unraid" ];
             id = "bnzvt-hpsu6";
           };
           "Videos" = {
-            path = "/home/stefanmatic/Videos";
+            path = "/home/${userSettings.username}/Videos";
             devices = [ "unraid" ];
             id = "uzfcf-ijz7p";
           };
           "Scripts" = {
-            path = "/home/stefanmatic/Scripts";
+            path = "/home/${userSettings.username}/Scripts";
             devices = [ "unraid" ];
             id = "udqbf-4zpw3";
           };
           "Workspace" = {
-            path = "/home/stefanmatic/Workspace";
+            path = "/home/${userSettings.username}/Workspace";
             devices = [ "unraid" ];
             id = "cypve-yruqr";
           };

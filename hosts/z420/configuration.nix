@@ -48,9 +48,9 @@ in
 
     services.syncthing = {
       enable = true;
-      user = "stefanmatic";  # Replace with your actual username
-      dataDir = "/home/stefanmatic/.config/syncthing";  # Explicitly set the data directory
-      configDir = "/home/stefanmatic/.config/syncthing";
+      user = userSettings.username;
+      dataDir = "/home/${userSettings.username}/.config/syncthing";
+      configDir = "/home/${userSettings.username}/.config/syncthing";
       settings = {
         gui = {
           theme = "dark";
@@ -63,7 +63,7 @@ in
         };
         folders = {
           "dotfiles" = {
-            path = "/home/stefanmatic/";
+            path = "/home/${userSettings.username}/";
             devices = [ "unraid" ];
             id = "dotfiles";
           };
