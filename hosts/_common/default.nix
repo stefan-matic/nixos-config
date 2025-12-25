@@ -79,6 +79,7 @@
       powerline-fonts
       powerline-symbols
       nerd-fonts.jetbrains-mono
+      nerd-fonts.overpass
     ];
 
     # Module arguments
