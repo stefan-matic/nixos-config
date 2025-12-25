@@ -16,6 +16,7 @@ in
 {
 	imports = [
     ./_common.nix
+    ../user/wm/dms/dms.nix
     #../user/app/obs-studio.nix
     #./services/deej-serial-control.nix
     #./services/deej-new.nix

@@ -4,6 +4,12 @@ let
   env = import ./env.nix {inherit pkgs; };
   inherit (env) systemSettings userSettings;
   customPkgs = import ../../pkgs { inherit pkgs; };
+
+  # Import unstable nixpkgs for DMS
+  unstablePkgs = import inputs.nixpkgs-unstable {
+    system = pkgs.stdenv.hostPlatform.system;
+    config.allowUnfree = true;
+  };
 in
 
 {
@@ -128,6 +134,10 @@ in
       uv
 
       eksctl
+
+      openscad
+      imagemagick
+
     ];
 
     # Enable OpenRazer hardware daemon

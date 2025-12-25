@@ -85,6 +85,9 @@
     qdirstat
   ];
 
+  # Enable Niri wayland compositor
+  programs.niri.enable = true;
+
   # Yubico Authenticator
   services.pcscd.enable = true;
   services.udev.packages = [ pkgs.yubikey-personalization ];
@@ -94,7 +97,8 @@
     enableSSHSupport = false;
   };
 
-  programs.ssh.startAgent = true;
+  # SSH agent - disabled when Niri is enabled (Niri uses GNOME keyring gcr-ssh-agent)
+  programs.ssh.startAgent = lib.mkDefault (!config.programs.niri.enable);
 
   # Add udev rules for Arduino permissions
   services.udev.extraRules = ''
