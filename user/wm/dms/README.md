@@ -6,21 +6,24 @@ This directory contains the NixOS/home-manager configuration for DankMaterialShe
 
 ```
 user/wm/dms/
-├── dms.nix       # Main DMS configuration file
+├── dms.nix       # Niri configuration for DMS
 ├── PLUGINS.md    # Plugin installation guide
+├── THEMING.md    # Matugen theming guide
 └── README.md     # This file
 ```
 
 ## Configuration Overview
 
-DMS is configured via home-manager with all features enabled:
+DMS is configured at the **system level** via NixOS with all features enabled.
+Home-manager only manages the Niri configuration file.
 
+**Enabled Features:**
 - ✅ System Monitoring (dgop)
-- ✅ Clipboard History Manager
+- ✅ Clipboard History Manager (cliphist)
 - ✅ VPN Management Widget
 - ✅ Brightness Control
 - ✅ Color Picker
-- ✅ Dynamic Theming (wallpaper-based via matugen)
+- ✅ Dynamic Theming (wallpaper-based via **matugen** - see THEMING.md)
 - ✅ Audio Visualizer (cava)
 - ✅ Calendar Integration (khal)
 - ✅ System Sound Support
@@ -45,12 +48,15 @@ DMS is optimized for use with the Niri wayland compositor. The DMS home-manager 
 ## System Configuration
 
 ### NixOS (system-level)
-- **Location**: `hosts/_common/client.nix`
-- **Package**: `niri` compositor is installed system-wide
+- **DMS Location**: `hosts/zvijer/configuration.nix` (lines 143-163)
+- **DMS Module**: `inputs.dms.nixosModules.dankMaterialShell`
+- **Niri**: Enabled via `programs.niri.enable` in `hosts/_common/client.nix`
+- **Utilities**: `cliphist`, `grimblast` for clipboard and screenshots
 
 ### Home Manager (user-level)
 - **Location**: `home/stefanmatic.nix` imports `user/wm/dms/dms.nix`
-- **Module**: DMS flake module from `github:AvengeMedia/DankMaterialShell/stable`
+- **Purpose**: Only manages Niri `config.kdl` file and DMS config structure
+- **Theming**: Handled by matugen (not stylix)
 
 ## Usage
 

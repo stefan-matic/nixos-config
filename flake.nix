@@ -10,8 +10,6 @@
     home-manager.url = "github:nix-community/home-manager?ref=release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    stylix.url = "github:danth/stylix";
-
     dms = {
       url = "github:AvengeMedia/DankMaterialShell/stable";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
