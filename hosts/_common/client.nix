@@ -69,6 +69,8 @@
     kdotool
     ydotool
 
+    zbar
+
     nix-prefetch-git
 
     terraform
