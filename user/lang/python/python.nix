@@ -3,8 +3,9 @@
 {
   home.packages = with pkgs; [
       # Python setup
-      python3Full
+      python3
       python3.pkgs.pip
+      python3.pkgs.tkinter  # tkinter is now a separate package
       imath
       pystring
   ];

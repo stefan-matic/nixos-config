@@ -1,120 +1,96 @@
-{ config, pkgs, lib, inputs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
-  # Import DMS home-manager module
-  imports = [
-    inputs.dms.homeModules.dankMaterialShell
-  ];
+  # Niri configuration file for DMS integration
+  # DMS itself is installed at system-level in hosts/zvijer/configuration.nix
 
-  # DankMaterialShell configuration
-  # The DMS module handles Niri integration automatically
-  programs.dankMaterialShell = {
-    enable = true;
+  home.file.".config/niri/config.kdl".text = ''
+    // Niri configuration for DankMaterialShell
 
-    # Systemd service for auto-start
-    systemd = {
-      enable = true;
-      restartIfChanged = true;
-    };
+    // Spawn DMS at startup
+    spawn-at-startup "dms" "run"
 
-    # Core features - all enabled by default
-    enableSystemMonitoring = true;      # System monitoring widgets (dgop)
-    enableClipboard = true;              # Clipboard history manager
-    enableVPN = true;                    # VPN management widget
-    enableBrightnessControl = true;      # Brightness/backlight support
-    enableColorPicker = true;            # Color picking support
-    enableDynamicTheming = true;         # Wallpaper-based theming (matugen)
-    enableAudioWavelength = true;        # Audio visualizer (cava)
-    enableCalendarEvents = true;         # Calendar integration (khal)
-    enableSystemSound = true;            # System sound support
-  };
+    // Environment variables
+    environment {
+      XDG_CURRENT_DESKTOP "niri"
+      QT_QPA_PLATFORM "wayland"
+      ELECTRON_OZONE_PLATFORM_HINT "auto"
+      QT_QPA_PLATFORMTHEME "qt5ct"
+    }
 
-  # Niri compositor configuration for DMS integration
-  wayland.windowManager.niri = {
-    settings = {
-      # Spawn DMS at startup
-      spawn-at-startup = [
-        { command = ["dms" "run"]; }
-      ];
+    // Layout configuration
+    layout {
+      gaps 8
+      center-focused-column "never"
 
-      # Prefer dark appearance
-      prefer-no-csd = true;
+      default-column-width { proportion 0.5; }
 
-      # Environment variables for optimal DMS experience
-      environment = {
-        XDG_CURRENT_DESKTOP = "niri";
-        QT_QPA_PLATFORM = "wayland";
-        ELECTRON_OZONE_PLATFORM_HINT = "auto";
-        QT_QPA_PLATFORMTHEME = "qt5ct";
-      };
+      preset-column-widths {
+        proportion 0.33
+        proportion 0.5
+        proportion 0.66
+      }
+    }
 
-      # Layout configuration optimized for DMS
-      layout = {
-        gaps = 8;
-        center-focused-column = "never";
-        default-column-width = { proportion = 0.5; };
-        preset-column-widths = [
-          { proportion = 0.33; }
-          { proportion = 0.5; }
-          { proportion = 0.66; }
-        ];
-      };
+    // Layer rules for DMS integration
+    layer-rule {
+      match namespace="^quickshell$"
+      place-within-backdrop true
+    }
 
-      # DMS-specific layer rules
-      window-rule = [
-        # Quickshell windows (DMS UI elements) should float
-        {
-          matches = [{ app-id = "^org\\.quickshell.*$"; }];
-          open-floating = true;
-        }
-      ];
+    layer-rule {
+      match namespace="dms:blurwallpaper"
+      place-within-backdrop true
+    }
 
-      # DMS keybindings
-      binds = with config.lib.niri.actions; {
-        # DMS application launcher
-        "Mod+Space".action = spawn "dms" "ipc" "call" "spotlight" "toggle";
+    // Window rules - Quickshell windows should float
+    window-rule {
+      match app-id=r#"^org\.quickshell.*$"#
+      open-floating true
+    }
 
-        # DMS process list/system monitor
-        "Mod+M".action = spawn "dms" "ipc" "call" "processlist" "focusOrToggle";
+    // DMS keybindings
+    binds {
+      // DMS controls
+      Mod+Space { spawn "dms" "ipc" "call" "spotlight" "toggle"; }
+      Mod+M { spawn "dms" "ipc" "call" "processlist" "focusOrToggle"; }
+      Mod+Comma { spawn "dms" "ipc" "call" "settings" "focusOrToggle"; }
+      Mod+Alt+L { spawn "dms" "ipc" "call" "lock" "lock"; }
 
-        # DMS settings
-        "Mod+Comma".action = spawn "dms" "ipc" "call" "settings" "focusOrToggle";
+      // Window management
+      Mod+Q { close-window; }
+      Mod+Return { spawn "ghostty"; }
 
-        # DMS lock screen
-        "Mod+Alt+L".action = spawn "dms" "ipc" "call" "lock" "lock";
+      // Window focus (Vim-style)
+      Mod+H { focus-column-left; }
+      Mod+L { focus-column-right; }
+      Mod+J { focus-window-down; }
+      Mod+K { focus-window-up; }
 
-        # Standard Niri keybindings
-        "Mod+Q".action = close-window;
-        "Mod+Return".action = spawn "ghostty";
+      // Window movement
+      Mod+Shift+H { move-column-left; }
+      Mod+Shift+L { move-column-right; }
+      Mod+Shift+J { move-window-down; }
+      Mod+Shift+K { move-window-up; }
 
-        # Window focus
-        "Mod+H".action = focus-column-left;
-        "Mod+L".action = focus-column-right;
-        "Mod+J".action = focus-window-down;
-        "Mod+K".action = focus-window-up;
+      // Workspaces
+      Mod+1 { focus-workspace 1; }
+      Mod+2 { focus-workspace 2; }
+      Mod+3 { focus-workspace 3; }
+      Mod+4 { focus-workspace 4; }
+      Mod+5 { focus-workspace 5; }
 
-        # Window movement
-        "Mod+Shift+H".action = move-column-left;
-        "Mod+Shift+L".action = move-column-right;
-        "Mod+Shift+J".action = move-window-down;
-        "Mod+Shift+K".action = move-window-up;
+      Mod+Shift+1 { move-column-to-workspace 1; }
+      Mod+Shift+2 { move-column-to-workspace 2; }
+      Mod+Shift+3 { move-column-to-workspace 3; }
+      Mod+Shift+4 { move-column-to-workspace 4; }
+      Mod+Shift+5 { move-column-to-workspace 5; }
 
-        # Workspaces
-        "Mod+1".action = focus-workspace 1;
-        "Mod+2".action = focus-workspace 2;
-        "Mod+3".action = focus-workspace 3;
-        "Mod+4".action = focus-workspace 4;
-        "Mod+5".action = focus-workspace 5;
+      // Screenshot
+      Print { spawn "sh" "-c" "grimblast copy area"; }
+    }
 
-        "Mod+Shift+1".action = move-column-to-workspace 1;
-        "Mod+Shift+2".action = move-column-to-workspace 2;
-        "Mod+Shift+3".action = move-column-to-workspace 3;
-        "Mod+Shift+4".action = move-column-to-workspace 4;
-        "Mod+Shift+5".action = move-column-to-workspace 5;
-
-        # Screenshot
-        "Print".action = spawn "sh" "-c" "grimblast copy area";
-      };
-    };
-  };
+    // Prefer dark theme
+    prefer-no-csd true
+  '';
 }
