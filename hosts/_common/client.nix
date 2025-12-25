@@ -83,6 +83,10 @@
     unstable.affine
 
     qdirstat
+
+    # Niri/DMS utilities
+    cliphist          # Clipboard history for DMS
+    grimblast         # Screenshot utility
   ];
 
   # Enable Niri wayland compositor
