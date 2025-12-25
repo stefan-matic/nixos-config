@@ -46,6 +46,15 @@ in
 
       unstable.claude-code
 
+      ghostty
+      fastfetch
+      viu
+      mpv
+      timg
+
+      #things for niri
+      fuzzel
+
     ];
 
     services.teamviewer.enable = true;
@@ -53,8 +62,8 @@ in
     services.syncthing = {
       enable = true;
       user = "fallen";  # Replace with your actual username
-      dataDir = "/home/stefanmatic/.config/syncthing";  # Explicitly set the data directory
-      configDir = "/home/stefanmatic/.config/syncthing";
+      dataDir = "/home/fallen/.config/syncthing";  # Explicitly set the data directory
+      configDir = "/home/fallen/.config/syncthing";
       settings = {
         gui = {
           theme = "dark";
@@ -67,12 +76,12 @@ in
         };
         folders = {
           "dotfiles" = {
-            path = "/home/stefanmatic/";
+            path = "/home/fallen/";
             devices = [ "unraid" ];
             id = "dotfiles";
           };
           "KeePass" = {
-            path = "/home/stefanmatic/KeePass";
+            path = "/home/fallen/KeePass";
             devices = [ "unraid" ];
             id = "72iax-2g67s";
           };
@@ -97,12 +106,12 @@ in
           #  id = "uzfcf-ijz7p";
           #};
           "Scripts" = {
-            path = "/home/stefanmatic/Scripts";
+            path = "/home/fallen/Scripts";
             devices = [ "unraid" ];
             id = "udqbf-4zpw3";
           };
           #"Workspace" = {
-          #  path = "/home/stefanmatic/Workspace";
+          #  path = "/home/fallen/Workspace";
           #  devices = [ "unraid" ];
           #  id = "cypve-yruqr";
           #};
@@ -119,6 +128,27 @@ in
         obs-pipewire-audio-capture
         obs-composite-blur
       ];
+    };
+
+    programs.niri = {
+      enable = true;
+    };
+
+    programs.dms-shell = {
+      enable = true;
+
+      systemd = {
+        enable = true;             # Systemd service for auto-start
+        restartIfChanged = true;   # Auto-restart dms.service when dms-shell changes
+      };
+
+      # Core features
+      enableSystemMonitoring = true;     # System monitoring widgets (dgop)
+      enableClipboard = true;            # Clipboard history manager
+      enableVPN = true;                  # VPN management widget
+      enableDynamicTheming = true;       # Wallpaper-based theming (matugen)
+      enableAudioWavelength = true;      # Audio visualizer (cava)
+      enableCalendarEvents = true;       # Calendar integration (khal)
     };
   };
 }
