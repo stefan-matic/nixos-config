@@ -117,6 +117,15 @@
       default-column-width { proportion 0.5; }
     }
 
+    // Select-browser dialog - small floating window
+    window-rule {
+      match app-id="org.kde.kdialog"
+      match title="Select your browser"
+      open-floating true
+      default-column-width { fixed 400; }
+      default-window-height { fixed 300; }
+    }
+
     // DMS keybindings
     binds {
       // Application Launchers
