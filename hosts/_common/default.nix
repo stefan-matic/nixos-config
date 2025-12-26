@@ -54,23 +54,6 @@
     services.pulseaudio.enable = false;
     security.rtkit.enable = true;
 
-    # Allow wheel group to run Nix maintenance commands without password
-    security.sudo.extraRules = [
-      {
-        groups = [ "wheel" ];
-        commands = [
-          {
-            command = "${pkgs.nix}/bin/nix-collect-garbage";
-            options = [ "NOPASSWD" ];
-          }
-          {
-            command = "${pkgs.nixos-rebuild}/bin/nixos-rebuild";
-            options = [ "NOPASSWD" ];
-          }
-        ];
-      }
-    ];
-
     # Program configuration
     programs = {
       firefox.enable = true;
