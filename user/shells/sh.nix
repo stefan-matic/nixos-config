@@ -74,7 +74,16 @@ in
   };
 
   home.packages = with pkgs; [
+    # System info & fetch tools
     disfetch lolcat cowsay onefetch
+    fastfetch  # Fast neofetch alternative
+
+    # ASCII art generators
+    figlet     # 3D ASCII text
+    toilet     # Enhanced figlet with more fonts
+    fortune    # Random quotes
+
+    # Standard tools
     gnugrep gnused fzf
     bat eza bottom fd bc
     direnv nix-direnv

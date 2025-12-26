@@ -2,8 +2,6 @@
 
 ## After resurrect
 
-- CTRL + R u zsh kao sto imas u fishu
-
 - incorporate snowflake cli into system (mkBashScript ili nesto tako)
 
 - keepassxc rclone sync // treba li ovo jos s obzirom da imas syncthing? Treba jer offsite backup
@@ -12,21 +10,13 @@
 
 - sessionVaribles for EDITOR TERM and BROWSER (work/home.nix example)
 
-- cursors are not working https://stylix.danth.me/options/nixos.html?highlight=cursor#stylixcursorname
-
 - Ikone kad ls opalis (vjerovatno nerf-fonts)
-
-- Package deej-dev app
 
 ## KDE shortcuts
 
 https://github.com/nix-community/plasma-manager
 
 - natural scrolling on wayland and X11
-
-## HYPRLAND things
-
-- clipboard like in plasma
 
 ## Cleanup
 
