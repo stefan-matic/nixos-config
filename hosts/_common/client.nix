@@ -92,6 +92,8 @@
     # Nautilus file manager support
     gvfs              # Virtual filesystem (USB devices, network shares, etc.)
     gnome-disk-utility # Disk management
+
+    wgnord
   ];
 
   # Enable Niri wayland compositor

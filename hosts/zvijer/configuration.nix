@@ -71,7 +71,7 @@ in
       kdePackages.kdialog
       customPkgs.select-browser
       # Temporarily disabled - libxml2 2.15 compatibility issue
-      #customPkgs.nordvpn
+      customPkgs.nordvpn
 
       kdePackages.kdenlive
       veracrypt
