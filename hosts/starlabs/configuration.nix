@@ -11,6 +11,8 @@ in
     [
       ./hardware-configuration.nix
       ../_common/client.nix
+      # Import DMS NixOS module
+      inputs.dms.nixosModules.dankMaterialShell
     ];
 
   options = {
@@ -134,21 +136,26 @@ in
       enable = true;
     };
 
-    programs.dms-shell = {
+    # DankMaterialShell - system-level installation
+    programs.dankMaterialShell = {
       enable = true;
 
+      # Systemd service for auto-start
       systemd = {
-        enable = true;             # Systemd service for auto-start
-        restartIfChanged = true;   # Auto-restart dms.service when dms-shell changes
+        enable = true;
+        restartIfChanged = true;
       };
 
-      # Core features
-      enableSystemMonitoring = true;     # System monitoring widgets (dgop)
-      enableClipboard = true;            # Clipboard history manager
-      enableVPN = true;                  # VPN management widget
-      enableDynamicTheming = true;       # Wallpaper-based theming (matugen)
-      enableAudioWavelength = true;      # Audio visualizer (cava)
-      enableCalendarEvents = true;       # Calendar integration (khal)
+      # Core features - all enabled by default
+      enableSystemMonitoring = true;      # System monitoring widgets (dgop)
+      enableClipboard = true;              # Clipboard history manager
+      enableVPN = true;                    # VPN management widget
+      enableBrightnessControl = true;      # Brightness/backlight support
+      enableColorPicker = true;            # Color picking support
+      enableDynamicTheming = true;         # Wallpaper-based theming (matugen)
+      enableAudioWavelength = true;        # Audio visualizer (cava)
+      enableCalendarEvents = true;         # Calendar integration (khal)
+      enableSystemSound = true;            # System sound support
     };
   };
 }

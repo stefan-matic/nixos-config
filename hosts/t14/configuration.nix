@@ -11,6 +11,8 @@ in
     [
       ./hardware-configuration.nix
       ../_common/client.nix
+      # Import DMS NixOS module
+      inputs.dms.nixosModules.dankMaterialShell
     ];
 
   options = {
@@ -51,6 +53,15 @@ in
       openrazer-daemon
       razergenie
       input-remapper
+
+      ghostty
+      fastfetch
+      viu
+      mpv
+      timg
+
+      # Things for niri/DMS
+      fuzzel
     ];
 
     services.teamviewer.enable = true;
@@ -124,6 +135,32 @@ in
         obs-pipewire-audio-capture
         obs-composite-blur
       ];
+    };
+
+    programs.niri = {
+      enable = true;
+    };
+
+    # DankMaterialShell - system-level installation
+    programs.dankMaterialShell = {
+      enable = true;
+
+      # Systemd service for auto-start
+      systemd = {
+        enable = true;
+        restartIfChanged = true;
+      };
+
+      # Core features - all enabled by default
+      enableSystemMonitoring = true;      # System monitoring widgets (dgop)
+      enableClipboard = true;              # Clipboard history manager
+      enableVPN = true;                    # VPN management widget
+      enableBrightnessControl = true;      # Brightness/backlight support
+      enableColorPicker = true;            # Color picking support
+      enableDynamicTheming = true;         # Wallpaper-based theming (matugen)
+      enableAudioWavelength = true;        # Audio visualizer (cava)
+      enableCalendarEvents = true;         # Calendar integration (khal)
+      enableSystemSound = true;            # System sound support
     };
   };
 }
