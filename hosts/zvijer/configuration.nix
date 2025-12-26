@@ -20,6 +20,8 @@ in
       ../../system/devices/TA-p-4025w
       # Import DMS NixOS module
       inputs.dms.nixosModules.dankMaterialShell
+      # Import NordVPN module
+      ../../modules/services/networking/nordvpn.nix
     ];
 
   options = {
@@ -70,8 +72,6 @@ in
       ntfs3g
       kdePackages.kdialog
       customPkgs.select-browser
-      # Temporarily disabled - libxml2 2.15 compatibility issue
-      customPkgs.nordvpn
 
       kdePackages.kdenlive
       veracrypt
@@ -162,6 +162,12 @@ in
       enableAudioWavelength = true;        # Audio visualizer (cava)
       enableCalendarEvents = true;         # Calendar integration (khal)
       enableSystemSound = true;            # System sound support
+    };
+
+    # Enable NordVPN service
+    services.nordvpn = {
+      enable = true;
+      package = customPkgs.nordvpn;
     };
 
     # Enable OpenRazer hardware daemon
