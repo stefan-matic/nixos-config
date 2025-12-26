@@ -26,11 +26,17 @@ nixos-rebuild switch --flake ~/.dotfiles#z420 --target-host z420 --use-remote-su
 ### Home Manager
 
 ```bash
-# Apply home-manager configuration
+# Apply home-manager configuration (legacy, defaults to current setup)
 home-manager switch --flake ~/.dotfiles
 
-# For specific user (from flake.nix homeConfigurations)
+# For specific user@host (recommended for host-specific configs like Niri)
+home-manager switch --flake ~/.dotfiles#stefanmatic@ZVIJER
+home-manager switch --flake ~/.dotfiles#stefanmatic@t14
+home-manager switch --flake ~/.dotfiles#stefanmatic@starlabs
+
+# For specific user only (no host-specific configs)
 home-manager switch --flake ~/.dotfiles#stefanmatic
+home-manager switch --flake ~/.dotfiles#fallen
 ```
 
 ### Maintenance
@@ -90,7 +96,9 @@ nix flake update
 ├── user/                     # User application configurations
 │   ├── app/                 # App configs (git, terminal, browsers)
 │   ├── lang/                # Language-specific setups
-│   └── shells/              # Shell configurations
+│   ├── shells/              # Shell configurations
+│   └── wm/                  # Window manager configurations
+│       └── niri/            # Host-specific Niri configs (ZVIJER.nix, t14.nix, etc.)
 ├── pkgs/                     # Custom package definitions
 │   ├── default.nix
 │   ├── select-browser/
@@ -152,6 +160,34 @@ nix-build -E "with import <nixpkgs> {}; callPackage ./pkgs/<package-name> {}"
 - deej-new: Volume control via serial connection (Arduino)
 - KDE Connect: Phone integration
 - mpris-proxy: Media controls
+
+### Niri/DMS Configuration
+
+Niri window manager configurations are host-specific and managed through home-manager:
+
+**Structure:**
+- System-level: DMS installed via `programs.dankMaterialShell` in host configs
+- User-level: Niri config.kdl written by home-manager per host
+- Location: `user/wm/niri/{HOSTNAME}.nix`
+
+**Per-host configs:**
+- `user/wm/niri/ZVIJER.nix` - 57" ultrawide optimized (3-column default, 20% widths for KeePassXC/Viber/Slack, dual monitor setup)
+- `user/wm/niri/laptop.nix` - Generic laptop config (2-column default, touchpad support, single screen) - shared by t14 and starlabs
+
+**Usage:**
+```bash
+# Apply ZVIJER-specific Niri config (ultrawide dual monitor)
+home-manager switch --flake ~/.dotfiles#stefanmatic@ZVIJER
+
+# Apply laptop Niri config (t14 or starlabs)
+home-manager switch --flake ~/.dotfiles#stefanmatic@t14
+home-manager switch --flake ~/.dotfiles#stefanmatic@starlabs
+```
+
+**Key patterns:**
+- Host-specific configs imported via flake homeConfigurations
+- Each host can have completely different layouts, startup apps, keybindings
+- Configs write to `~/.config/niri/config.kdl`
 
 ### Important Notes
 

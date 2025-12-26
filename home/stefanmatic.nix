@@ -11,14 +11,6 @@ let
     fontPkg = pkgs.intel-one-mono; # Font package
     editor = "nano"; # Default editor;
   };
-
-  # Get hostname from environment
-  hostname = builtins.getEnv "HOSTNAME";
-
-  # Conditionally import host-specific Niri config
-  niriConfig = if builtins.pathExists (../user/wm/niri + "/${hostname}.nix")
-    then [ (../user/wm/niri + "/${hostname}.nix") ]
-    else [];
 in
 
 {
@@ -27,7 +19,7 @@ in
     #../user/app/obs-studio.nix
     #./services/deej-serial-control.nix
     #./services/deej-new.nix
-  ] ++ niriConfig;
+  ];
 
   _module.args = {
     inherit userSettings;

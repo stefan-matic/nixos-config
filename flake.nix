@@ -75,11 +75,45 @@
       };
     };
     homeConfigurations = {
+      # Legacy config (defaults to ZVIJER for backward compatibility)
       "stefanmatic" = home-manager.lib.homeManagerConfiguration {
         pkgs = pkgs;
         extraSpecialArgs = {inherit inputs outputs;};
         modules = [./home/stefanmatic.nix];
       };
+
+      # Host-specific configs for stefanmatic
+      "stefanmatic@ZVIJER" = home-manager.lib.homeManagerConfiguration {
+        pkgs = pkgs;
+        extraSpecialArgs = {inherit inputs outputs;};
+        modules = [
+          ./home/stefanmatic.nix
+          {
+            imports = [ ./user/wm/niri/ZVIJER.nix ];
+          }
+        ];
+      };
+      "stefanmatic@t14" = home-manager.lib.homeManagerConfiguration {
+        pkgs = pkgs;
+        extraSpecialArgs = {inherit inputs outputs;};
+        modules = [
+          ./home/stefanmatic.nix
+          {
+            imports = [ ./user/wm/niri/laptop.nix ];
+          }
+        ];
+      };
+      "stefanmatic@starlabs" = home-manager.lib.homeManagerConfiguration {
+        pkgs = pkgs;
+        extraSpecialArgs = {inherit inputs outputs;};
+        modules = [
+          ./home/stefanmatic.nix
+          {
+            imports = [ ./user/wm/niri/laptop.nix ];
+          }
+        ];
+      };
+
       "fallen" = home-manager.lib.homeManagerConfiguration {
         pkgs = pkgs;
         extraSpecialArgs = {inherit inputs outputs;};
