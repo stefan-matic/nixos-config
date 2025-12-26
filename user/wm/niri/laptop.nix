@@ -216,9 +216,9 @@
       Mod+Shift+Page_Down { move-column-to-workspace-down; }
       Mod+Shift+Page_Up { move-column-to-workspace-up; }
 
-      // Screenshot
-      Print { spawn "sh" "-c" "grimblast copy area"; }
-      Ctrl+Shift+X { spawn "sh" "-c" "grimblast copy area"; }
+      // Screenshot - select area and copy to clipboard
+      Print { spawn "sh" "-c" "grim -g \"$(slurp)\" - | wl-copy"; }
+      Ctrl+Shift+X { spawn "sh" "-c" "grim -g \"$(slurp)\" - | wl-copy"; }
 
       // Niri essentials
       Mod+Shift+Slash { show-hotkey-overlay; }

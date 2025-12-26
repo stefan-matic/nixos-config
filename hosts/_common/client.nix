@@ -86,7 +86,8 @@
 
     # Niri/DMS utilities
     cliphist          # Clipboard history for DMS
-    grimblast         # Screenshot utility
+    grim              # Screenshot utility for Wayland
+    slurp             # Screen area selection for Wayland
 
     # Nautilus file manager support
     gvfs              # Virtual filesystem (USB devices, network shares, etc.)
