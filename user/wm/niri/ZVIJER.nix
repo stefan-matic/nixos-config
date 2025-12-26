@@ -55,18 +55,20 @@
     }
 
     // Display configuration for dual monitor setup
+    // Xiaomi 34" Monitor (DP-2) - Secondary display at top
+    // Logical size: 3440/1.30 = 2646x1108
+    output "DP-2" {
+      mode "3440x1440@144.000"
+      scale 1.30
+      position x=1749 y=0
+    }
+
     // Samsung 57" Odyssey G95NC (DP-4) - Primary display at bottom
+    // Logical size: 7680/1.25 = 6144x1728
     output "DP-4" {
       mode "7680x2160@240.000"
       scale 1.25
-      position x=0 y=1440
-    }
-
-    // Xiaomi 34" Monitor (DP-2) - Secondary display at top
-    output "DP-2" {
-      mode "3440x1440@144.000"
-      scale 1.0
-      position x=1352 y=0
+      position x=0 y=1108
     }
 
     // Environment variables
