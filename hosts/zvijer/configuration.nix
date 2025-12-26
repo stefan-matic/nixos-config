@@ -20,10 +20,6 @@ in
       ../../system/devices/TA-p-4025w
       # Import DMS NixOS module
       inputs.dms.nixosModules.dankMaterialShell
-      # Import Niri system module
-      ../../system/wm/niri
-      # Import ZVIJER-specific Niri config
-      ./niri.nix
     ];
 
   options = {
