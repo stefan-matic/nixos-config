@@ -1,0 +1,10 @@
+{
+  "generationsCommand": ["sh", "-c", "nixos-rebuild list-generations 2>/dev/null | tail -n +2 | wc -l"],
+  "storeSizeCommand": ["sh", "-c", "nix path-info --all --json 2>/dev/null | jq -r '.[].narSize' | awk '{s+=$1} END {printf \"%.1fG\", s/1024/1024/1024}'"],
+  "rebuildCommand": ["bash", "-c", "sudo nixos-rebuild switch --flake /home/stefanmatic/.dotfiles#ZVIJER 2>&1"],
+  "homeManagerCommand": ["bash", "-c", "home-manager switch --flake /home/stefanmatic/.dotfiles#stefanmatic@ZVIJER 2>&1"],
+  "gcCommand": ["bash", "-c", "sudo nix-collect-garbage -d 2>&1"],
+  "updateInterval": 300,
+  "nixpkgsChannel": "nixos-25.11",
+  "gcThresholdGB": 200
+}
