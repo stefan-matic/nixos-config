@@ -13,6 +13,7 @@
     ../user/app/keepassxc.nix
     ../user/app/git/git.nix
     ../user/app/terminal/kitty.nix
+    ../user/app/terminal/ghostty.nix
     ../user/lang/python/python.nix
     ../user/app/direnv/direnv.nix
     ../user/shells/sh.nix

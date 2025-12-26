@@ -94,6 +94,9 @@
       shell = pkgs.zsh;
       extraGroups = [ "networkmanager" "wheel" "dialout" "docker" "nordvpn" ];
       packages = with pkgs; [
+        (pkgs.writeShellScriptBin "code" ''
+          exec ${vscode}/bin/code --disable-gpu "$@"
+        '')
         vscode
         #stable.rustdesk
       ];
