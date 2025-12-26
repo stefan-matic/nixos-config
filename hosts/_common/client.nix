@@ -87,10 +87,17 @@
     # Niri/DMS utilities
     cliphist          # Clipboard history for DMS
     grimblast         # Screenshot utility
+
+    # Nautilus file manager support
+    gvfs              # Virtual filesystem (USB devices, network shares, etc.)
+    gnome-disk-utility # Disk management
   ];
 
   # Enable Niri wayland compositor
   programs.niri.enable = true;
+
+  # Enable GVFS for Nautilus USB/network device support
+  services.gvfs.enable = true;
 
   # Yubico Authenticator
   services.pcscd.enable = true;
