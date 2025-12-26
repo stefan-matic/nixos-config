@@ -45,7 +45,11 @@
 
     // Startup applications with delays for proper layout
     // Launch sequentially: KeePassXC -> wait for Viber (9s) -> Slack -> Chrome
-    spawn-at-startup "bash" "-c" "keepassxc & sleep 2 && viber & sleep 10 && slack & sleep 2 && google-chrome-stable &"
+    //spawn-at-startup "bash" "-c" "keepassxc & sleep 2 && viber & sleep 10 && slack & sleep 2 && google-chrome-stable &"
+    spawn-at-startup "keepassxc"
+    spawn-at-startup "slack"
+    spawn-at-startup "google-chrome-stable"
+    spawn-at-startup "code"
 
     // Input configuration
     input {
