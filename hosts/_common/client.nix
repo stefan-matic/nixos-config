@@ -88,16 +88,21 @@
     cliphist          # Clipboard history for DMS
     grim              # Screenshot utility for Wayland
     slurp             # Screen area selection for Wayland
+    xwayland-satellite # XWayland support for X11 apps (Steam, etc.)
 
     # Nautilus file manager support
-    gvfs              # Virtual filesystem (USB devices, network shares, etc.)
+    nautilus           # GNOME file manager
+    gvfs               # Virtual filesystem (USB devices, network shares, etc.)
     gnome-disk-utility # Disk management
 
     wgnord
   ];
 
-  # Enable Niri wayland compositor
-  programs.niri.enable = true;
+  # Enable Niri wayland compositor with XWayland support
+  programs.niri = {
+    enable = true;
+    package = pkgs.niri;
+  };
 
   # Enable GVFS for Nautilus USB/network device support
   services.gvfs.enable = true;

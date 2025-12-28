@@ -164,10 +164,11 @@
       default-column-width { proportion 0.33; }
     }
 
-    // KeePassXC - tiled window at 20% width
+    // KeePassXC - tiled window at 20% width on Xiaomi monitor
     window-rule {
       match app-id="org.keepassxc.KeePassXC"
       default-column-width { proportion 0.20; }
+      open-on-output "DP-2"
     }
 
     // Viber - tiled window at 20% width (will stack with Slack)
@@ -334,5 +335,5 @@
 
   # DMS Plugin Configurations
   home.file.".config/DankMaterialShell/plugins/nixMonitor/config.json".source =
-    ./dms-plugins/nixMonitor-config.json;
+    ../dms/dms-plugins/nixMonitor-config.json;
 }

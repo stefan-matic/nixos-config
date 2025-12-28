@@ -41,15 +41,15 @@
       ];
 
       # Startup command - random eye candy each time!
-      # Cases: 0=date banner, 1=fortune cow, 2=fastfetch, 3=date banner, 4=keep calm 3D
+      # Cases: 0=date banner, 1=fortune cow, 2=fastfetch, 3=keep calm 3D
       command = lib.concatStringsSep " " [
         "zsh -c '"
-        "CHOICE=$((RANDOM % ));"
+        "CHOICE=$((RANDOM % 4));"
         "case $CHOICE in"
         ''0) date "+%A %B %d, %Y" | figlet -c -f ~/.dotfiles/user/app/terminal/3d.flf | lolcat;;''
         "1) fortune | cowsay | lolcat;;"
         "2) fastfetch;;"
-        "3) figlet -c -f ~/.dotfiles/user/app/terminal/3d.flf \"keep calm and rm -rf\" | lolcat;;"
+        "3) figlet -c -f ~/.dotfiles/user/app/terminal/3d.flf \"keep calm and rm -rf /*\" | lolcat;;"
         "esac;"
         "exec zsh'"
       ];

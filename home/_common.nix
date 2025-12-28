@@ -28,7 +28,6 @@
     with pkgs; [
       chromium
       firefox
-      vscode
 
       # archives
       zip
