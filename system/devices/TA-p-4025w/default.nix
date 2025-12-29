@@ -34,6 +34,7 @@ in {
       cups-filters
       gutenprint
       gutenprintBin
+      system-config-printer
     ];
 
     # Configure CUPS
