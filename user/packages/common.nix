@@ -12,6 +12,9 @@
     # Terminal Emulator
     ghostty
 
+    # System Information
+    fastfetch
+
     # Network utilities (user-level)
     ipcalc
     ldns

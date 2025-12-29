@@ -14,8 +14,5 @@
     openrazer-daemon
     razergenie
     input-remapper
-
-    # System utilities for this specific setup
-    fastfetch
   ];
 }

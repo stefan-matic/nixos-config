@@ -278,7 +278,6 @@ Use the "Multiple Users Test": Would another user on this system want this exact
 **ZVIJER-specific (hosts/zvijer/packages.nix):**
 - kdialog (KDE utilities)
 - openrazer-daemon, razergenie, input-remapper (Razer hardware)
-- fastfetch
 
 **T14-specific (hosts/t14/packages.nix):**
 - None currently (common packages moved to client.nix for DRY)
@@ -296,6 +295,7 @@ Use the "Multiple Users Test": Would another user on this system want this exact
 **Common (user/packages/common.nix):**
 - chromium, firefox
 - ghostty (terminal emulator)
+- fastfetch (system information)
 - ipcalc, ldns
 - gnupg, veracrypt
 - vlc, mpv
@@ -466,6 +466,7 @@ After the initial multi-host refactor, duplicate packages were identified across
 
 **Moved to `user/packages/common.nix` (home-manager):**
 1. **ghostty** - Terminal emulator moved from system (ZVIJER) to user packages for all hosts following Philosophy B
+2. **fastfetch** - System information tool moved from system (ZVIJER) to user packages for all hosts following Philosophy B
 
 ### New Host Package Structure
 
@@ -474,7 +475,6 @@ Following this optimization, host-specific package files now contain only truly 
 **ZVIJER (`hosts/zvijer/packages.nix`):**
 - Razer hardware: `openrazer-daemon`, `razergenie`, `input-remapper`
 - KDE utilities: `kdialog`
-- Host-specific tools: `fastfetch`
 
 **T14 (`hosts/t14/packages.nix`):**
 - Empty (all packages moved to common)
