@@ -11,6 +11,7 @@ in
     [
       ./hardware-configuration.nix
       ../_common/client.nix
+      ./packages.nix  # StarLabs-specific system packages
       # Import DMS NixOS module
       inputs.dms.nixosModules.dankMaterialShell
     ];
@@ -39,28 +40,7 @@ in
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;
 
-    environment.systemPackages = with pkgs; [
-      unstable.cloudflare-warp
-      customPkgs.select-browser
-      #customPkgs.nordvpn
-
-      libreoffice-qt6-fresh
-
-      unstable.claude-code
-
-      ghostty
-      fastfetch
-      viu
-      mpv
-      timg
-
-      #things for niri
-      fuzzel
-
-    ];
-
-    services.teamviewer.enable = true;
-
+    # Syncthing - system service for user
     services.syncthing = {
       enable = true;
       user = userSettings.username;
@@ -87,40 +67,21 @@ in
             devices = [ "unraid" ];
             id = "72iax-2g67s";
           };
-          #"Desktop" = {
-          #  path = "/home/${userSettings.username}/Desktop";
-          #  devices = [ "unraid" ];
-          #  id = "b4w9b-c7epm";
-          #};
-          #"Documents" = {
-          #  path = "/home/${userSettings.username}/Documents";
-          #  devices = [ "unraid" ];
-          #  id = "zmgjt-pjaqa";
-          #};
-          #"Pictures" = {
-          #  path = "/home/${userSettings.username}/Pictures";
-          #  devices = [ "unraid" ];
-          #  id = "bnzvt-hpsu6";
-          #};
-          #"Videos" = {
-          #  path = "/home/${userSettings.username}/Videos";
-          #  devices = [ "unraid" ];
-          #  id = "uzfcf-ijz7p";
-          #};
+          # Desktop, Documents, Pictures, Videos, Workspace commented out
+          # Uncomment if needed for this host
           "Scripts" = {
             path = "/home/${userSettings.username}/Scripts";
             devices = [ "unraid" ];
             id = "udqbf-4zpw3";
           };
-          #"Workspace" = {
-          #  path = "/home/${userSettings.username}/Workspace";
-          #  devices = [ "unraid" ];
-          #  id = "cypve-yruqr";
-          #};
         };
       };
     };
 
+    # TeamViewer remote desktop service
+    services.teamviewer.enable = true;
+
+    # OBS Studio with plugins (system-level for proper integration)
     programs.obs-studio = {
       enable = true;
       enableVirtualCamera = true;
@@ -132,6 +93,7 @@ in
       ];
     };
 
+    # Enable Niri wayland compositor
     programs.niri = {
       enable = true;
     };

@@ -9,6 +9,9 @@
     chromium
     firefox
 
+    # Terminal Emulator
+    ghostty
+
     # Network utilities (user-level)
     ipcalc
     ldns

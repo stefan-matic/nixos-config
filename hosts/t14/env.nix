@@ -15,7 +15,7 @@
     name = "Stefan Matic";
     email = "stefanmatic94@gmail.com";
     theme = "dracula";
-    term = "alacritty"; # Default terminal command;
+    term = "ghostty"; # Default terminal command;
     font = "Intel One Mono"; # Selected font
     fontPkg = pkgs.intel-one-mono; # Font package
     editor = "nano"; # Default editor;

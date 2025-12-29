@@ -1,25 +1,19 @@
 { pkgs, ... }:
 
-let
-  customPkgs = import ../../pkgs { inherit pkgs; };
-in
-
 {
   # ZVIJER-specific system packages
   # Hardware-specific tools and system utilities unique to this host
+  #
+  # NOTE: select-browser has been moved to hosts/_common/client.nix (used by all hosts)
 
   environment.systemPackages = with pkgs; [
-    # Custom packages
-    customPkgs.select-browser
+    # KDE utilities (ZVIJER uses KDE desktop)
     kdePackages.kdialog
 
     # Razer hardware support (system-wide daemon needed)
     openrazer-daemon
     razergenie
     input-remapper
-
-    # Terminal (if needed system-wide, otherwise move to home-manager)
-    ghostty
 
     # System utilities for this specific setup
     fastfetch

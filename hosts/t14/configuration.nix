@@ -11,6 +11,7 @@ in
     [
       ./hardware-configuration.nix
       ../_common/client.nix
+      ./packages.nix  # T14-specific system packages
       # Import DMS NixOS module
       inputs.dms.nixosModules.dankMaterialShell
     ];
@@ -39,29 +40,7 @@ in
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;
 
-    environment.systemPackages = with pkgs; [
-      unstable.cloudflare-warp
-      customPkgs.select-browser
-      customPkgs.nordvpn
-
-      libreoffice-qt6-fresh
-
-      unstable.claude-code
-
-      azure-cli
-
-      ghostty
-      fastfetch
-      viu
-      mpv
-      timg
-
-      # Things for niri/DMS
-      fuzzel
-    ];
-
-    services.teamviewer.enable = true;
-
+    # Syncthing - system service for user
     services.syncthing = {
       enable = true;
       user = userSettings.username;
@@ -122,6 +101,10 @@ in
       };
     };
 
+    # TeamViewer remote desktop service
+    services.teamviewer.enable = true;
+
+    # OBS Studio with plugins (system-level for proper integration)
     programs.obs-studio = {
       enable = true;
       enableVirtualCamera = true;
@@ -133,6 +116,7 @@ in
       ];
     };
 
+    # Enable Niri wayland compositor
     programs.niri = {
       enable = true;
     };

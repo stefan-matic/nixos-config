@@ -27,8 +27,12 @@ This refactor implements a clean separation between NixOS system configuration a
 │   ├── gaming.nix         # Gaming tools & compatibility
 │   └── productivity.nix   # Notes, VPN, utilities
 │
-└── hosts/zvijer/
-    └── packages.nix        # NEW: ZVIJER-specific system packages
+├── hosts/zvijer/
+│   └── packages.nix        # NEW: ZVIJER-specific system packages
+├── hosts/t14/
+│   └── packages.nix        # NEW: T14-specific system packages
+└── hosts/starlabs/
+    └── packages.nix        # NEW: StarLabs-specific system packages
 ```
 
 ### 🔄 Major Migrations
@@ -109,6 +113,19 @@ This refactor implements a clean separation between NixOS system configuration a
 - Razer hardware: `openrazer-daemon`, `razergenie`, `input-remapper`
 - Custom packages: `select-browser`, `kdialog`
 - System utilities: `ghostty`, `fastfetch`
+
+**`hosts/t14/packages.nix`:** (NEW)
+- Custom packages: `select-browser`
+- Wayland tools: `fuzzel`
+- System services: `cloudflare-warp`
+
+**`hosts/starlabs/packages.nix`:** (NEW)
+- Custom packages: `select-browser`
+- Wayland tools: `fuzzel`
+- System services: `cloudflare-warp`
+
+**`hosts/z420/configuration.nix`:**
+- Already clean - server configuration with no extra packages
 
 #### Home Manager Configuration
 
@@ -253,19 +270,32 @@ Use the "Multiple Users Test": Would another user on this system want this exact
 
 **Client-specific (hosts/_common/client.nix):**
 - google-chrome, cloudflare-warp
+- select-browser (used by all client hosts)
+- fuzzel (Wayland launcher for Niri/DMS)
 - yubioath-flutter, pcsclite
 - zbar, nix-prefetch-git, os-prober
 
 **ZVIJER-specific (hosts/zvijer/packages.nix):**
-- select-browser, kdialog
-- openrazer-daemon, razergenie, input-remapper
-- ghostty, fastfetch
+- kdialog (KDE utilities)
+- openrazer-daemon, razergenie, input-remapper (Razer hardware)
+- fastfetch
+
+**T14-specific (hosts/t14/packages.nix):**
+- None currently (common packages moved to client.nix for DRY)
+- Placeholder for future T14-specific hardware packages
+
+**StarLabs-specific (hosts/starlabs/packages.nix):**
+- None currently (common packages moved to client.nix for DRY)
+- Placeholder for future StarLabs-specific hardware packages
+
+**Z420-specific:**
+- Clean server configuration, no extra packages needed
 
 ### User Packages (Total: ~80+)
 
 **Common (user/packages/common.nix):**
 - chromium, firefox
-- zip, xz, unzip, p7zip
+- ghostty (terminal emulator)
 - ipcalc, ldns
 - gnupg, veracrypt
 - vlc, mpv
@@ -363,3 +393,105 @@ Refer to:
 - `docs/nixos-vs-home-manager-guide.md` for philosophy and guidelines
 - Individual package module files for what's included where
 - Git history for detailed changes
+
+---
+
+## Multi-Host Support
+
+All hosts have been updated to follow the new structure:
+
+### ZVIJER (Gaming/Workstation Desktop)
+- **System packages**: ~6 host-specific (Razer hardware, custom tools)
+- **Services**: DMS, NordVPN, OpenRazer, Syncthing, OBS, Steam, TeamViewer
+- **User packages**: Full suite (~80 packages via home-manager)
+
+### T14 (Lenovo ThinkPad Laptop)
+- **System packages**: ~3 host-specific (fuzzel, cloudflare-warp)
+- **Services**: DMS, Syncthing, TeamViewer, OBS
+- **User packages**: Full suite (~80 packages via home-manager)
+
+### StarLabs (StarLabs Laptop)
+- **System packages**: ~3 host-specific (fuzzel, cloudflare-warp)
+- **Services**: DMS, Syncthing, TeamViewer, OBS
+- **User packages**: Full suite (~80 packages via home-manager)
+
+### Z420 (HP Workstation)
+- **System packages**: None (uses only common packages)
+- **Services**: Syncthing
+- **Configuration**: Server-oriented, minimal desktop
+
+### Building Each Host
+
+```bash
+# ZVIJER desktop
+sudo nixos-rebuild switch --flake ~/.dotfiles#ZVIJER
+home-manager switch --flake ~/.dotfiles#stefanmatic@ZVIJER
+
+# T14 laptop
+sudo nixos-rebuild switch --flake ~/.dotfiles#stefan-t14
+home-manager switch --flake ~/.dotfiles#stefanmatic@t14
+
+# StarLabs laptop
+sudo nixos-rebuild switch --flake ~/.dotfiles#starlabs
+home-manager switch --flake ~/.dotfiles#stefanmatic@starlabs
+
+# Z420 workstation
+sudo nixos-rebuild switch --flake ~/.dotfiles#z420
+home-manager switch --flake ~/.dotfiles#stefanmatic
+```
+
+### Personal Apps Removed from ALL Hosts
+
+The following packages were moved from system to home-manager across **all hosts**:
+
+- **Productivity**: libreoffice, affine
+- **Development**: claude-code, azure-cli, terraform, kubectl, etc.
+- **Media**: vlc, mpv, kdenlive
+- **Utilities**: ghostty, fastfetch, viu, timg
+
+These are now installed via `home/stefanmatic.nix` which imports the organized user package modules.
+
+---
+
+## DRY Optimization (December 2025)
+
+After the initial multi-host refactor, duplicate packages were identified across host configurations and consolidated following the DRY (Don't Repeat Yourself) principle.
+
+### Duplications Eliminated
+
+**Moved to `hosts/_common/client.nix`:**
+1. **select-browser** - Was duplicated in all three client hosts (ZVIJER, t14, starlabs)
+2. **fuzzel** - Was duplicated in both laptop hosts (t14, starlabs) for Niri/DMS launcher
+3. **cloudflare-warp** - Already in client.nix but duplicated in t14/starlabs packages
+
+### New Host Package Structure
+
+Following this optimization, host-specific package files now contain only truly unique packages:
+
+**ZVIJER (`hosts/zvijer/packages.nix`):**
+- Razer hardware: `openrazer-daemon`, `razergenie`, `input-remapper`
+- KDE utilities: `kdialog`
+- Host-specific tools: `fastfetch`
+
+**T14 (`hosts/t14/packages.nix`):**
+- Empty (all packages moved to common)
+- Kept as placeholder for future T14-specific hardware packages
+
+**StarLabs (`hosts/starlabs/packages.nix`):**
+- Empty (all packages moved to common)
+- Kept as placeholder for future StarLabs-specific hardware packages
+
+### Configuration Hierarchy
+
+This creates a clear three-tier hierarchy:
+
+1. **`hosts/_common/default.nix`** - Common to ALL hosts (servers + clients)
+2. **`hosts/_common/client.nix`** - Common to ALL client/desktop hosts
+3. **`hosts/{hostname}/packages.nix`** - Unique to specific host only
+
+### Benefits
+
+- **Reduced duplication**: Common packages defined once
+- **Easier maintenance**: Update client packages in one place
+- **Clear separation**: Immediately obvious which packages are host-specific
+- **Future-proof**: Clear pattern for adding new hosts

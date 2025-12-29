@@ -35,12 +35,17 @@
   # Cloudflare WARP
   services.cloudflare-warp.enable = true;
 
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = with pkgs; let
+    customPkgs = import ../../pkgs { inherit pkgs; };
+  in [
     # Essential system utilities
     unstable.google-chrome  # One browser for system-wide access
 
     # Cloudflare WARP
     unstable.cloudflare-warp
+
+    # Custom packages (common to all client hosts)
+    customPkgs.select-browser  # Browser selection utility
 
     # Yubikey support
     yubioath-flutter
