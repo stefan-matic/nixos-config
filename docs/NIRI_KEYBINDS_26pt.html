@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Niri + DMS Keybindings Cheat Sheet</title>
+<style>
+@page {
+  size: A4 landscape;
+  margin: 10mm;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', 'Helvetica', sans-serif;
+  font-size: 26pt;
+  line-height: 1.2;
+  background: #ffffff;
+  color: #000000;
+  padding: 15px;
+  width: 3508px;
+  height: 2480px;
+  margin: 0;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  width: 100%;
+  height: calc(100% - 40px);
+}
+
+.header {
+  grid-column: 1 / -1;
+  text-align: center;
+  border: 3px solid #000;
+  padding: 12px;
+  margin-bottom: 6px;
+  background: #f5f5f5;
+}
+
+.header h1 {
+  font-size: 36pt;
+  margin-bottom: 5px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.header .subtitle {
+  font-size: 26pt;
+  font-weight: 500;
+}
+
+.section {
+  border: 2px solid #000;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+}
+
+.section h2 {
+  font-size: 30pt;
+  margin-bottom: 8px;
+  padding-bottom: 5px;
+  border-bottom: 2px solid #000;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.section h3 {
+  font-size: 26pt;
+  margin-top: 8px;
+  margin-bottom: 4px;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.bind {
+  display: flex;
+  justify-content: space-between;
+  margin: 3px 0;
+  padding: 3px 6px;
+  border: 1px solid #ccc;
+  background: #f9f9f9;
+  font-size: 26pt;
+}
+
+.bind:nth-child(even) {
+  background: #ffffff;
+}
+
+.key {
+  font-weight: 700;
+  font-family: 'Courier New', monospace;
+  background: #000;
+  color: #fff;
+  padding: 2px 6px;
+  border: 1px solid #000;
+  white-space: nowrap;
+  font-size: 26pt;
+}
+
+.action {
+  text-align: right;
+  font-weight: 500;
+  flex: 1;
+  margin-left: 8px;
+  font-size: 26pt;
+}
+
+.quick-ref {
+  grid-column: 1 / -1;
+  border: 3px solid #000;
+  padding: 10px;
+  margin-top: 6px;
+  background: #f5f5f5;
+}
+
+.quick-ref h2 {
+  font-size: 30pt;
+  margin-bottom: 8px;
+  text-align: center;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-bottom: 2px solid #000;
+  padding-bottom: 5px;
+}
+
+.quick-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.quick-item {
+  border: 2px solid #000;
+  padding: 6px 8px;
+  text-align: center;
+  font-size: 26pt;
+  background: #ffffff;
+}
+
+.quick-item .key {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 26pt;
+}
+
+.info-box {
+  border: 2px solid #000;
+  padding: 8px;
+  margin-top: 8px;
+  background: #f5f5f5;
+  font-size: 26pt;
+  line-height: 1.4;
+}
+
+.info-box strong {
+  font-weight: 700;
+}
+
+.preset-grid {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  padding: 6px;
+  border: 1px solid #000;
+  background: #ffffff;
+}
+
+.preset-item {
+  font-weight: 700;
+  font-size: 26pt;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <h1>NIRI + DMS KEYBINDINGS CHEAT SHEET</h1>
+    <div class="subtitle">Mod = Super (Windows Key) | Dual Monitor Setup: 57" + 34" Ultrawide</div>
+  </div>
+
+  <div class="section">
+    <h2>DMS Applications</h2>
+    <div class="bind"><span class="key">Mod+Space</span><span class="action">Application Launcher</span></div>
+    <div class="bind"><span class="key">Mod+V</span><span class="action">Clipboard Manager</span></div>
+    <div class="bind"><span class="key">Mod+M</span><span class="action">Task Manager</span></div>
+    <div class="bind"><span class="key">Mod+,</span><span class="action">Settings</span></div>
+    <div class="bind"><span class="key">Mod+N</span><span class="action">Notification Center</span></div>
+    <div class="bind"><span class="key">Mod+Y</span><span class="action">Browse Wallpapers</span></div>
+    <div class="bind"><span class="key">Mod+Alt+L</span><span class="action">Lock Screen</span></div>
+
+    <h2 style="margin-top: 15px;">Window Management</h2>
+    <div class="bind"><span class="key">Mod+Q</span><span class="action">Close Window</span></div>
+    <div class="bind"><span class="key">Mod+Return</span><span class="action">Open Terminal</span></div>
+    <div class="bind"><span class="key">Mod+E</span><span class="action">File Manager</span></div>
+    <div class="bind"><span class="key">Mod+Tab</span><span class="action">Toggle Overview</span></div>
+    <div class="bind"><span class="key">Mod+O</span><span class="action">Toggle Overview</span></div>
+    <div class="bind"><span class="key">Mod+Shift+/</span><span class="action">Show Hotkey Help</span></div>
+    <div class="bind"><span class="key">Mod+Shift+E</span><span class="action">Quit Niri</span></div>
+  </div>
+
+  <div class="section">
+    <h2>Navigation</h2>
+    <h3>Vim Style</h3>
+    <div class="bind"><span class="key">Mod+H</span><span class="action">Focus Column Left</span></div>
+    <div class="bind"><span class="key">Mod+L</span><span class="action">Focus Column Right</span></div>
+    <div class="bind"><span class="key">Mod+J</span><span class="action">Focus Window Down</span></div>
+    <div class="bind"><span class="key">Mod+K</span><span class="action">Focus Window Up</span></div>
+
+    <h3>Arrow Keys</h3>
+    <div class="bind"><span class="key">Mod+Left</span><span class="action">Focus Column Left</span></div>
+    <div class="bind"><span class="key">Mod+Right</span><span class="action">Focus Column Right</span></div>
+    <div class="bind"><span class="key">Mod+Down</span><span class="action">Focus Window Down</span></div>
+    <div class="bind"><span class="key">Mod+Up</span><span class="action">Focus Window Up</span></div>
+
+    <h3>Mouse</h3>
+    <div class="bind"><span class="key">Mod+Wheel Right</span><span class="action">Focus Column Right</span></div>
+    <div class="bind"><span class="key">Mod+Wheel Left</span><span class="action">Focus Column Left</span></div>
+
+    <h2 style="margin-top: 15px;">Move Windows</h2>
+    <div class="bind"><span class="key">Mod+Shift+H</span><span class="action">Move Column Left</span></div>
+    <div class="bind"><span class="key">Mod+Shift+L</span><span class="action">Move Column Right</span></div>
+    <div class="bind"><span class="key">Mod+Shift+J</span><span class="action">Move Window Down</span></div>
+    <div class="bind"><span class="key">Mod+Shift+K</span><span class="action">Move Window Up</span></div>
+  </div>
+
+  <div class="section">
+    <h2>Workspaces</h2>
+    <h3>Switch Workspace</h3>
+    <div class="bind"><span class="key">Mod+1-5</span><span class="action">Switch to WS 1-5</span></div>
+    <div class="bind"><span class="key">Mod+Page Down</span><span class="action">Next Workspace</span></div>
+    <div class="bind"><span class="key">Mod+Page Up</span><span class="action">Previous Workspace</span></div>
+
+    <h3>Move to Workspace</h3>
+    <div class="bind"><span class="key">Mod+Shift+1-5</span><span class="action">Move to WS 1-5</span></div>
+    <div class="bind"><span class="key">Mod+Shift+Page Down</span><span class="action">Move to Next WS</span></div>
+    <div class="bind"><span class="key">Mod+Shift+Page Up</span><span class="action">Move to Previous WS</span></div>
+
+    <h2 style="margin-top: 15px;">Monitor Control</h2>
+    <div class="bind"><span class="key">Mod+Ctrl+H</span><span class="action">Focus Monitor Left</span></div>
+    <div class="bind"><span class="key">Mod+Ctrl+L</span><span class="action">Focus Monitor Right</span></div>
+    <div class="bind"><span class="key">Mod+Ctrl+Shift+H</span><span class="action">Move to Monitor Left</span></div>
+    <div class="bind"><span class="key">Mod+Ctrl+Shift+L</span><span class="action">Move to Monitor Right</span></div>
+
+    <h2 style="margin-top: 15px;">Screenshots</h2>
+    <div class="bind"><span class="key">Print Screen</span><span class="action">Area to Clipboard</span></div>
+    <div class="bind"><span class="key">Ctrl+Shift+X</span><span class="action">Area to Clipboard</span></div>
+  </div>
+
+  <div class="section">
+    <h2>Window Resizing</h2>
+    <div class="bind"><span class="key">Mod+R</span><span class="action">Cycle Preset Width</span></div>
+    <div class="bind"><span class="key">Mod+F</span><span class="action">Maximize Column</span></div>
+    <div class="bind"><span class="key">Mod+Shift+F</span><span class="action">Fullscreen Window</span></div>
+    <div class="bind"><span class="key">Mod+=</span><span class="action">Increase Width +10%</span></div>
+    <div class="bind"><span class="key">Mod+-</span><span class="action">Decrease Width -10%</span></div>
+    <div class="bind"><span class="key">Mod+[</span><span class="action">Consume/Expel Left</span></div>
+    <div class="bind"><span class="key">Mod+]</span><span class="action">Consume/Expel Right</span></div>
+
+    <h2 style="margin-top: 15px;">Floating Windows</h2>
+    <div class="bind"><span class="key">Mod+Shift+Space</span><span class="action">Toggle Float</span></div>
+    <div class="bind"><span class="key">Mod+Escape</span><span class="action">Switch Tile/Float</span></div>
+
+    <h2 style="margin-top: 15px;">Media Controls</h2>
+    <h3>Audio</h3>
+    <div class="bind"><span class="key">F1 (Vol Up)</span><span class="action">Volume +3%</span></div>
+    <div class="bind"><span class="key">F2 (Vol Down)</span><span class="action">Volume -3%</span></div>
+    <div class="bind"><span class="key">F3 (Mute)</span><span class="action">Toggle Mute</span></div>
+
+    <h3>Brightness</h3>
+    <div class="bind"><span class="key">F5 (Bright Up)</span><span class="action">Brightness +5%</span></div>
+    <div class="bind"><span class="key">F6 (Bright Down)</span><span class="action">Brightness -5%</span></div>
+
+    <div class="info-box" style="margin-top: 15px;">
+      <strong>Column Width Presets:</strong>
+      <div class="preset-grid">
+        <span class="preset-item">25%</span>
+        <span class="preset-item">33%</span>
+        <span class="preset-item">50%</span>
+        <span class="preset-item">66%</span>
+        <span class="preset-item">75%</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" style="grid-column: 1 / -1; padding: 8px;">
+    <h2 style="font-size: 22pt; margin-bottom: 4px;">AVAILABLE KEYBINDS - Fill in Your Custom Commands</h2>
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 4px; font-size: 18pt;">
+      <div>
+        <h3 style="font-size: 18pt; margin-top: 4px; margin-bottom: 2px;">General</h3>
+        <div class="bind" style="margin: 1px 0; padding: 2px 4px; font-size: 18pt;"><span class="key" style="font-size: 18pt; padding: 1px 4px;">Mod+A</span><span class="action" style="font-size: 18pt;">__________________</span></div>
+        <div class="bind" style="margin: 1px 0; padding: 2px 4px; font-size: 18pt;"><span class="key" style="font-size: 18pt; padding: 1px 4px;">Mod+B</span><span class="action" style="font-size: 18pt;">__________________</span></div>
+        <div class="bind" style="margin: 1px 0; padding: 2px 4px; font-size: 18pt;"><span class="key" style="font-size: 18pt; padding: 1px 4px;">Mod+C</span><span class="action" style="font-size: 18pt;">__________________</span></div>
+        <div class="bind" style="margin: 1px 0; padding: 2px 4px; font-size: 18pt;"><span class="key" style="font-size: 18pt; padding: 1px 4px;">Mod+D</span><span class="action" style="font-size: 18pt;">__________________</span></div>
+        <div class="bind" style="margin: 1px 0; padding: 2px 4px; font-size: 18pt;"><span class="key" style="font-size: 18pt; padding: 1px 4px;">Mod+G</span><span class="action" style="font-size: 18pt;">__________________</span></div>
+      </div>
+      <div>
+        <h3 style="font-size: 18pt; margin-top: 4px; margin-bottom: 2px;">With Shift</h3>
+        <div class="bind" style="margin: 1px 0; padding: 2px 4px; font-size: 18pt;"><span class="key" style="font-size: 18pt; padding: 1px 4px;">Mod+Shift+A</span><span class="action" style="font-size: 18pt;">__________________</span></div>
+        <div class="bind" style="margin: 1px 0; padding: 2px 4px; font-size: 18pt;"><span class="key" style="font-size: 18pt; padding: 1px 4px;">Mod+Shift+B</span><span class="action" style="font-size: 18pt;">__________________</span></div>
+        <div class="bind" style="margin: 1px 0; padding: 2px 4px; font-size: 18pt;"><span class="key" style="font-size: 18pt; padding: 1px 4px;">Mod+Shift+C</span><span class="action" style="font-size: 18pt;">__________________</span></div>
+        <div class="bind" style="margin: 1px 0; padding: 2px 4px; font-size: 18pt;"><span class="key" style="font-size: 18pt; padding: 1px 4px;">Mod+Shift+D</span><span class="action" style="font-size: 18pt;">__________________</span></div>
+        <div class="bind" style="margin: 1px 0; padding: 2px 4px; font-size: 18pt;"><span class="key" style="font-size: 18pt; padding: 1px 4px;">Mod+Shift+G</span><span class="action" style="font-size: 18pt;">__________________</span></div>
+      </div>
+      <div>
+        <h3 style="font-size: 18pt; margin-top: 4px; margin-bottom: 2px;">With Alt</h3>
+        <div class="bind" style="margin: 1px 0; padding: 2px 4px; font-size: 18pt;"><span class="key" style="font-size: 18pt; padding: 1px 4px;">Mod+Alt+A</span><span class="action" style="font-size: 18pt;">__________________</span></div>
+        <div class="bind" style="margin: 1px 0; padding: 2px 4px; font-size: 18pt;"><span class="key" style="font-size: 18pt; padding: 1px 4px;">Mod+Alt+R</span><span class="action" style="font-size: 18pt;">__________________</span></div>
+        <div class="bind" style="margin: 1px 0; padding: 2px 4px; font-size: 18pt;"><span class="key" style="font-size: 18pt; padding: 1px 4px;">Mod+Alt+S</span><span class="action" style="font-size: 18pt;">__________________</span></div>
+        <div class="bind" style="margin: 1px 0; padding: 2px 4px; font-size: 18pt;"><span class="key" style="font-size: 18pt; padding: 1px 4px;">Mod+Alt+B</span><span class="action" style="font-size: 18pt;">__________________</span></div>
+        <div class="bind" style="margin: 1px 0; padding: 2px 4px; font-size: 18pt;"><span class="key" style="font-size: 18pt; padding: 1px 4px;">Mod+Alt+P</span><span class="action" style="font-size: 18pt;">__________________</span></div>
+      </div>
+      <div>
+        <h3 style="font-size: 18pt; margin-top: 4px; margin-bottom: 2px;">With Ctrl</h3>
+        <div class="bind" style="margin: 1px 0; padding: 2px 4px; font-size: 18pt;"><span class="key" style="font-size: 18pt; padding: 1px 4px;">Mod+Ctrl+R</span><span class="action" style="font-size: 18pt;">__________________</span></div>
+        <div class="bind" style="margin: 1px 0; padding: 2px 4px; font-size: 18pt;"><span class="key" style="font-size: 18pt; padding: 1px 4px;">Mod+Ctrl+S</span><span class="action" style="font-size: 18pt;">__________________</span></div>
+        <div class="bind" style="margin: 1px 0; padding: 2px 4px; font-size: 18pt;"><span class="key" style="font-size: 18pt; padding: 1px 4px;">Mod+Ctrl+B</span><span class="action" style="font-size: 18pt;">__________________</span></div>
+        <div class="bind" style="margin: 1px 0; padding: 2px 4px; font-size: 18pt;"><span class="key" style="font-size: 18pt; padding: 1px 4px;">Mod+Ctrl+P</span><span class="action" style="font-size: 18pt;">__________________</span></div>
+        <div class="bind" style="margin: 1px 0; padding: 2px 4px; font-size: 18pt;"><span class="key" style="font-size: 18pt; padding: 1px 4px;">Mod+Ctrl+T</span><span class="action" style="font-size: 18pt;">__________________</span></div>
+      </div>
+    </div>
+    <div style="margin-top: 4px; padding: 4px; border: 2px dashed #000; background: #f5f5f5; font-size: 16pt; font-style: italic;">
+      <strong>Ideas:</strong> Reboot (Ctrl+R) • Suspend (Alt+S) • Apps (A/B/C) • Screenshot edit (Shift+S) • Power (Ctrl+P)
+    </div>
+  </div>
+
+  <div class="quick-ref">
+    <h2>QUICK REFERENCE - MOST USED COMMANDS</h2>
+    <div class="quick-grid">
+      <div class="quick-item">
+        <span class="key">Mod+Space</span>
+        App Launcher
+      </div>
+      <div class="quick-item">
+        <span class="key">Mod+Return</span>
+        Terminal
+      </div>
+      <div class="quick-item">
+        <span class="key">Mod+Q</span>
+        Close Window
+      </div>
+      <div class="quick-item">
+        <span class="key">Mod+H/L</span>
+        Navigate Columns
+      </div>
+      <div class="quick-item">
+        <span class="key">Mod+J/K</span>
+        Navigate Windows
+      </div>
+      <div class="quick-item">
+        <span class="key">Mod+1-5</span>
+        Switch Workspaces
+      </div>
+      <div class="quick-item">
+        <span class="key">Mod+Tab</span>
+        Overview
+      </div>
+      <div class="quick-item">
+        <span class="key">Mod+V</span>
+        Clipboard
+      </div>
+      <div class="quick-item">
+        <span class="key">Mod+R</span>
+        Resize Preset
+      </div>
+      <div class="quick-item">
+        <span class="key">Mod+F</span>
+        Maximize
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
