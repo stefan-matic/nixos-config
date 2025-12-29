@@ -9,104 +9,43 @@
   home.username = userSettings.username;
   home.homeDirectory = "/home/"+userSettings.username;
 
-	imports = [
+  imports = [
+    # Application configurations (dotfiles)
     ../user/app/keepassxc.nix
     ../user/app/git/git.nix
     ../user/app/terminal/kitty.nix
     ../user/app/terminal/ghostty.nix
-    ../user/lang/python/python.nix
     ../user/app/direnv/direnv.nix
     ../user/shells/sh.nix
-    #../user/app/browser/chrome.nix
-    # workaround for viber being a shitty mess
+    ../user/lang/python/python.nix
+
+    # Workaround for viber being a shitty mess
     ../user/app/chat/viber.nix
+
+    # User package lists (organized by category)
+    ../user/packages/common.nix
   ];
 
   news.display = "silent";
 
-  home.packages =
-    with pkgs; [
-      chromium
-      firefox
-
-      # archives
-      zip
-      xz
-      unzip
-      #p7zip
-
-      # utils
-
-      which
-      tree
-      gnupg
-
-      # network tools
-      ipcalc
-      ldns
-
-      # monitors\
-      htop
-      #btop
-      iotop
-      iftop
-
-      #system call monitors
-      strace
-      ltrace
-      lsof
-
-      # system tools
-      lm_sensors
-      pciutils
-      usbutils
-
-      # Za waybar sound control
-      pavucontrol
-      pamixer
-      # brightness
-      brightnessctl
-
-      # viber moved to separate module with libxml2 compatibility fix
-
-      vlc
-      wl-clipboard
-      grim
-      slurp
-      tesseract4
-
-
-      (pkgs.writeScriptBin "screenshot-ocr" ''
-      #!/bin/sh
-      imgname="/tmp/screenshot-ocr-$(date +%Y%m%d%H%M%S).png"
-      txtname="/tmp/screenshot-ocr-$(date +%Y%m%d%H%M%S)"
-      txtfname=$txtname.txt
-      grim -g "$(slurp)" $imgname;
-      tesseract $imgname $txtname;
-      wl-copy -n < $txtfname
-    '')
-
-    ];
-
-    xdg.enable = true;
-    xdg.userDirs = {
-      enable = true;
-      createDirectories = true;
-      music = "${config.home.homeDirectory}/Music";
-      videos = "${config.home.homeDirectory}/Videos";
-      pictures = "${config.home.homeDirectory}/Pictures";
-      templates = "${config.home.homeDirectory}/Templates";
-      download = "${config.home.homeDirectory}/Downloads";
-      documents = "${config.home.homeDirectory}/Documents";
-      desktop = null;
-      publicShare = null;
-      extraConfig = {
-        XDG_DOTFILES_DIR = "${config.home.homeDirectory}/.dotfiles";
-        XDG_VM_DIR = "${config.home.homeDirectory}/VMs";
-        XDG_WORKSPACE_DIR = "${config.home.homeDirectory}/Workspace";
-        XDG_APPLICATION_DIR = "${config.home.homeDirectory}/Applications";
-      };
+  # XDG directories and user environment
+  xdg.enable = true;
+  xdg.userDirs = {
+    enable = true;
+    createDirectories = true;
+    music = "${config.home.homeDirectory}/Music";
+    videos = "${config.home.homeDirectory}/Videos";
+    pictures = "${config.home.homeDirectory}/Pictures";
+    templates = "${config.home.homeDirectory}/Templates";
+    download = "${config.home.homeDirectory}/Downloads";
+    documents = "${config.home.homeDirectory}/Documents";
+    desktop = null;
+    publicShare = null;
+    extraConfig = {
+      XDG_DOTFILES_DIR = "${config.home.homeDirectory}/.dotfiles";
+      XDG_VM_DIR = "${config.home.homeDirectory}/VMs";
+      XDG_WORKSPACE_DIR = "${config.home.homeDirectory}/Workspace";
+      XDG_APPLICATION_DIR = "${config.home.homeDirectory}/Applications";
     };
+  };
 }
-
-

@@ -17,6 +17,7 @@ in
     [
       ./hardware-configuration.nix
       ../_common/client.nix
+      ./packages.nix  # ZVIJER-specific system packages
       ../../system/devices/TA-p-4025w
       # Import DMS NixOS module
       inputs.dms.nixosModules.dankMaterialShell
@@ -66,80 +67,10 @@ in
       systemd-boot.enable = lib.mkForce false;
       timeout = 5;
     };
-    # Add os-prober to detect Windows
+
+    # System packages for dual-boot and filesystems
     environment.systemPackages = with pkgs; [
-      os-prober
-      ntfs3g
-      kdePackages.kdialog
-      customPkgs.select-browser
-
-      kdePackages.kdenlive
-      veracrypt
-      lutris
-      wineWowPackages.stable
-      winetricks
-      vulkan-tools
-      vulkan-loader
-      vulkan-validation-layers
-
-      # Java
-      #openjdk
-      #jre_minimal
-      #adoptopenjdk-icedtea-web
-      #javaPackages.openjfx17
-
-      quickemu
-
-      libreoffice-qt6-fresh
-
-      protonvpn-gui
-      zoom-us
-
-      devbox
-
-      nodejs
-      python3
-      python3.pkgs.pip
-
-      azure-cli
-      azure-cli-extensions.bastion
-      azure-cli-extensions.azure-firewall
-      azure-cli-extensions.log-analytics
-      azure-cli-extensions.log-analytics-solution
-      azure-cli-extensions.monitor-control-service
-      azure-cli-extensions.resource-graph
-      azure-cli-extensions.scheduled-query
-      azure-cli-extensions.application-insights
-      kubelogin
-      k9s
-
-      unstable.claude-code
-      unstable.claude-monitor
-      unstable.amazon-q-cli
-
-      element-desktop
-
-      unstable.kiro
-
-      streamcontroller
-
-      openrazer-daemon
-      razergenie
-      input-remapper
-
-      ghostty
-      fastfetch
-      viu
-      mpv
-      timg
-
-      uv
-
-      eksctl
-
-      openscad
-      imagemagick
-
+      ntfs3g  # NTFS filesystem support for Windows partition
     ];
 
     # DankMaterialShell - system-level installation
@@ -206,6 +137,7 @@ in
       SUBSYSTEM=="hidraw", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="0084", GROUP="plugdev", MODE="0666"
     '';
 
+    # Syncthing - system service for user
     services.syncthing = {
       enable = true;
       user = userSettings.username;
@@ -267,6 +199,7 @@ in
       };
     };
 
+    # OBS Studio with plugins (system-level for proper integration)
     programs.obs-studio = {
       enable = true;
       # Temporarily disabled - v4l2loopback doesn't support kernel 6.18 yet
@@ -282,19 +215,15 @@ in
     # Enable the printer
     hardware.printers.TA-p-4025w.enable = true;
 
+    # Steam gaming platform (system-level)
     programs.steam = {
       enable = true;
       remotePlay.openFirewall = true;
       dedicatedServer.openFirewall = true;
     };
 
+    # TeamViewer remote desktop service
     services.teamviewer.enable = true;
-
-    # Commented out in favor of home-manager service
-    #apps.deej = {
-    #  enable = true;
-    #  user = userSettings.username;
-    #};
 
     # Create /bin/python3 symlink for applications that expect it
     systemd.tmpfiles.rules = [

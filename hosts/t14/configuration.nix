@@ -50,10 +50,6 @@ in
 
       azure-cli
 
-      openrazer-daemon
-      razergenie
-      input-remapper
-
       ghostty
       fastfetch
       viu

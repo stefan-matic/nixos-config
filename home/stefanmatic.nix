@@ -14,8 +14,17 @@ let
 in
 
 {
-	imports = [
+  imports = [
     ./_common.nix
+
+    # Additional package categories
+    ../user/packages/development.nix
+    ../user/packages/communication.nix
+    ../user/packages/productivity.nix
+    ../user/packages/creative.nix
+    ../user/packages/gaming.nix
+
+    # Commented out services - uncomment if needed
     #../user/app/obs-studio.nix
     #./services/deej-serial-control.nix
     #./services/deej-new.nix
@@ -25,33 +34,19 @@ in
     inherit userSettings;
   };
 
-  home.packages =
-    with pkgs; [
-
-      dbeaver-bin
-      slack
-
-      kubectl
-      kubectx
-      kubernetes-helm
-      awscli2
-
-      discord
-      pre-commit
-    ];
-
+  # User services
   services.kdeconnect = {
     enable = true;
     indicator = true;
   };
 
-  # Enable deej-serial-control as a home-manager service
-  # You can manually override this in host-specific configurations if needed
-  #services.deej-serial-control.enable = true;
+  services.mpris-proxy.enable = true;
 
-  # Enable the new deej service
+  # Enable deej services if needed
+  #services.deej-serial-control.enable = true;
   #services.deej-new.enable = true;
 
+  # Cursor theme
   home.pointerCursor =
     let
       getFrom = url: hash: name: {
@@ -73,6 +68,4 @@ in
         "https://github.com/ful1e5/fuchsia-cursor/releases/download/v2.0.1/Fuchsia.tar.xz"
         "sha256-TuhU8UFo0hbVShqsWy9rTKnMV8/WHqsxmpqWg1d9f84="
         "Fuchsia";
-
-  services.mpris-proxy.enable = true;
 }
