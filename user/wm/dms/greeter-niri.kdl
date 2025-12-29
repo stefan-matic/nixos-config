@@ -1,0 +1,110 @@
+// Custom Niri configuration for DMS Greeter
+// This file will be deployed to /etc/greetd/dms-niri.kdl
+// It provides a minimal, clean configuration suitable for a login screen
+
+// Input configuration
+input {
+  keyboard {
+    numlock
+  }
+
+  // Touchpad for laptops
+  touchpad {
+    tap
+    natural-scroll
+    accel-speed 0.2
+  }
+}
+
+// Environment variables for Wayland session
+environment {
+  XDG_CURRENT_DESKTOP "niri"
+  QT_QPA_PLATFORM "wayland"
+  ELECTRON_OZONE_PLATFORM_HINT "wayland"
+  QT_QPA_PLATFORMTHEME "gtk3"
+  QT_QPA_PLATFORMTHEME_QT6 "gtk3"
+  NIXOS_OZONE_WL "1"
+}
+
+// Simple layout for greeter
+layout {
+  center-focused-column "always"
+  default-column-width { proportion 0.5; }
+
+  focus-ring {
+    width 2
+  }
+
+  gaps 10
+}
+
+// Layer rules for DMS greeter integration
+layer-rule {
+  match namespace="^quickshell$"
+  place-within-backdrop true
+}
+
+layer-rule {
+  match namespace="dms:blurwallpaper"
+  place-within-backdrop true
+}
+
+// Window rules for DMS greeter
+window-rule {
+  match app-id=r#"org.quickshell$"#
+  open-floating true
+}
+
+// GNOME apps styling (for any system dialogs)
+window-rule {
+  match app-id=r#"^org\.gnome\."#
+  draw-border-with-background false
+  geometry-corner-radius 12
+  clip-to-geometry true
+}
+
+// Default rounded corners
+window-rule {
+  geometry-corner-radius 12
+  clip-to-geometry true
+}
+
+// Inactive windows opacity
+window-rule {
+  match is-active=false
+  opacity 0.95
+}
+
+// Basic keybindings for greeter (minimal set)
+binds {
+  // Essential DMS controls
+  Mod+Space {
+    spawn "dms" "ipc" "call" "spotlight" "toggle";
+  }
+
+  Mod+Alt+L {
+    spawn "dms" "ipc" "call" "lock" "lock";
+  }
+
+  // Audio controls (for greeter session)
+  XF86AudioRaiseVolume allow-when-locked=true {
+    spawn "dms" "ipc" "call" "audio" "increment" "3";
+  }
+  XF86AudioLowerVolume allow-when-locked=true {
+    spawn "dms" "ipc" "call" "audio" "decrement" "3";
+  }
+  XF86AudioMute allow-when-locked=true {
+    spawn "dms" "ipc" "call" "audio" "mute";
+  }
+
+  // Brightness controls (for laptops)
+  XF86MonBrightnessUp allow-when-locked=true {
+    spawn "dms" "ipc" "call" "brightness" "increment" "5" "";
+  }
+  XF86MonBrightnessDown allow-when-locked=true {
+    spawn "dms" "ipc" "call" "brightness" "decrement" "5" "";
+  }
+}
+
+// Prefer dark theme
+prefer-no-csd true

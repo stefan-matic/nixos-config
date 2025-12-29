@@ -14,6 +14,11 @@
       url = "github:AvengeMedia/DankMaterialShell/stable";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+
+    danksearch = {
+      url = "github:AvengeMedia/danksearch";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
    outputs = {
@@ -89,7 +94,10 @@
         modules = [
           ./home/stefanmatic.nix
           {
-            imports = [ ./user/wm/niri/ZVIJER.nix ];
+            imports = [
+              ./user/wm/niri/ZVIJER.nix
+              ./user/wm/dms/dsearch.nix
+            ];
           }
         ];
       };

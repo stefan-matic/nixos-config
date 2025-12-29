@@ -6,10 +6,16 @@ This directory contains the NixOS/home-manager configuration for DankMaterialShe
 
 ```
 user/wm/dms/
-├── dms.nix       # Niri configuration for DMS
-├── PLUGINS.md    # Plugin installation guide
-├── THEMING.md    # Matugen theming guide
-└── README.md     # This file
+├── dms.nix                  # Niri configuration for DMS
+├── dsearch.nix              # DankSearch configuration
+├── greeter.nix              # DMS greeter NixOS module
+├── greeter-niri.kdl         # Custom Niri config for greeter
+├── greeter-example.nix      # Example greeter configuration
+├── sync-greeter-theme.sh    # Theme synchronization script
+├── PLUGINS.md               # Plugin installation guide
+├── THEMING.md               # Matugen theming guide
+├── GREETER.md               # Greeter setup guide
+└── README.md                # This file
 ```
 
 ## Configuration Overview
@@ -19,6 +25,7 @@ Home-manager only manages the Niri configuration file.
 
 **Enabled Features:**
 - ✅ System Monitoring (dgop)
+- ✅ File Search & Indexing (DankSearch/dsearch)
 - ✅ Clipboard History Manager (cliphist)
 - ✅ VPN Management Widget
 - ✅ Brightness Control
@@ -28,6 +35,95 @@ Home-manager only manages the Niri configuration file.
 - ✅ Calendar Integration (khal)
 - ✅ System Sound Support
 - ✅ Systemd service integration
+
+## DMS Greeter
+
+DMS includes a unified login interface (greeter) for greetd that matches the visual style of the DMS lock screen.
+
+**Features:**
+- Multi-user login support
+- Session memory (remembers last session and user)
+- Theme synchronization with user DMS configuration
+- Support for Niri, Hyprland, Sway, and mangowc compositors
+
+**Quick Setup:**
+1. Import `greeter.nix` in your host configuration
+2. Enable with `services.dms-greeter.enable = true;`
+3. Configure theme sync: `services.dms-greeter.themeSyncUsers = [ "stefanmatic" ];`
+
+See **[GREETER.md](./GREETER.md)** for detailed installation and configuration instructions.
+
+## DankSearch (dsearch)
+
+DankSearch provides fast file indexing and search capabilities for DMS integration.
+
+**Features:**
+- Fast file indexing with configurable depth and exclusions
+- Auto-reindex on file changes
+- Systemd user service (auto-starts on login)
+- Configurable file size limits and worker threads
+- Text file content indexing
+
+**Configuration:**
+- Located in: `user/wm/dms/dsearch.nix`
+- Enabled for ZVIJER via home-manager
+- Indexes: `~/.dotfiles`, home directory (with blacklist), `/etc/nixos`
+- API server: `127.0.0.1:43654`
+
+**Usage:**
+```bash
+# Check service status
+systemctl --user status dsearch
+
+# View logs
+journalctl --user -u dsearch -f
+
+# Force reindex
+dsearch index --force
+
+# Search files
+dsearch search "pattern"
+```
+
+**Customization:**
+Edit `user/wm/dms/dsearch.nix` to:
+- Add/remove indexed paths
+- Adjust blacklist directories
+- Change file size limits
+- Modify text file extensions
+
+## System Monitoring (dgop)
+
+dgop is a lightweight system monitoring tool providing real-time system information to DMS widgets.
+
+**Features:**
+- Single static binary with zero dependencies
+- CPU, memory, disk, and network monitoring
+- GPU monitoring (with nvidia-smi)
+- Process management integration
+
+**Configuration:**
+- Automatically installed via DMS module
+- Enabled with: `enableSystemMonitoring = true;` in DMS config
+- No additional configuration needed
+
+**Usage:**
+```bash
+# Check version
+dgop version
+
+# View system info
+dgop system
+
+# Start server mode (for DMS integration)
+dgop server
+```
+
+**Integration:**
+dgop is automatically used by DMS for:
+- System resource widgets in the bar
+- Process list/task manager (Mod+M)
+- Performance monitoring graphs
 
 ## Niri Compositor
 
@@ -132,4 +228,8 @@ DMS module automatically installs dependencies based on enabled features. If som
 
 - [DMS Official Docs](https://danklinux.com/docs/dankmaterialshell)
 - [DMS GitHub](https://github.com/AvengeMedia/DankMaterialShell)
+- [DMS Greeter Docs](https://github.com/AvengeMedia/DankMaterialShell/tree/master/quickshell/Modules/Greetd)
 - [Niri Compositor](https://github.com/YaLTeR/niri)
+- **[GREETER.md](./GREETER.md)** - Local greeter setup guide
+- **[PLUGINS.md](./PLUGINS.md)** - Plugin installation guide
+- **[THEMING.md](./THEMING.md)** - Matugen theming guide
