@@ -4,6 +4,11 @@
     "-c",
     "nixos-rebuild list-generations 2>/dev/null | tail -n +2 | wc -l"
   ],
+  "homeManagerGenerationsCommand": [
+    "sh",
+    "-c",
+    "home-manager generations 2>/dev/null | wc -l"
+  ],
   "storeSizeCommand": [
     "sh",
     "-c",
