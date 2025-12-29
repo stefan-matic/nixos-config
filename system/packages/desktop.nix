@@ -8,6 +8,7 @@
     # Wayland/Niri Infrastructure
     grim              # Screenshot utility for Wayland
     slurp             # Screen area selection for Wayland
+    swappy            # Screenshot annotation tool
     wl-clipboard      # Wayland clipboard utilities
     cliphist          # Clipboard history manager
     xwayland-satellite # XWayland support for X11 apps

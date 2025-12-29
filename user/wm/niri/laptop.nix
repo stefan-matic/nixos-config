@@ -216,9 +216,9 @@
       Mod+Shift+Page_Down { move-column-to-workspace-down; }
       Mod+Shift+Page_Up { move-column-to-workspace-up; }
 
-      // Screenshot - select area and copy to clipboard
-      Print { spawn "sh" "-c" "grim -g \"$(slurp)\" - | wl-copy"; }
-      Ctrl+Shift+X { spawn "sh" "-c" "grim -g \"$(slurp)\" - | wl-copy"; }
+      // Screenshot - select area, annotate, then save/copy
+      Print { spawn "sh" "-c" "grim -g \"$(slurp)\" - | swappy -f -"; }
+      Ctrl+Shift+X { spawn "sh" "-c" "grim -g \"$(slurp)\" - | swappy -f -"; }
 
       // Niri essentials
       Mod+Shift+Slash { show-hotkey-overlay; }

@@ -24,6 +24,9 @@ in
     ../user/packages/creative.nix
     ../user/packages/gaming.nix
 
+    # Application configurations
+    ../user/app/swappy
+
     # Commented out services - uncomment if needed
     #../user/app/obs-studio.nix
     #./services/deej-serial-control.nix
