@@ -464,6 +464,9 @@ After the initial multi-host refactor, duplicate packages were identified across
 2. **fuzzel** - Was duplicated in both laptop hosts (t14, starlabs) for Niri/DMS launcher
 3. **cloudflare-warp** - Already in client.nix but duplicated in t14/starlabs packages
 
+**Moved to `user/packages/common.nix` (home-manager):**
+1. **ghostty** - Terminal emulator moved from system (ZVIJER) to user packages for all hosts following Philosophy B
+
 ### New Host Package Structure
 
 Following this optimization, host-specific package files now contain only truly unique packages:
