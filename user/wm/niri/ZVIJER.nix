@@ -54,6 +54,13 @@
     // Input configuration
     input {
       keyboard {
+        xkb {
+          // English US, Serbian Latin, Serbian Cyrillic
+          layout "us,rs,rs"
+          variant ",latin,"
+          // Switch layouts with Alt+Shift
+          options "grp:alt_shift_toggle"
+        }
         numlock
       }
     }
@@ -224,6 +231,11 @@
       // Security
       Mod+Alt+L hotkey-overlay-title="Lock Screen" {
         spawn "dms" "ipc" "call" "lock" "lock";
+      }
+
+      // DMS Notepad
+      F12 hotkey-overlay-title="Toggle Notepad" {
+        spawn "dms" "ipc" "call" "notepad" "toggle";
       }
 
       // Audio Controls
