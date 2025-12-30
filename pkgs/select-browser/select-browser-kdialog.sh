@@ -25,26 +25,24 @@ fi
 BROWSER=$(kdialog --title "Select your browser" --radiolist "Choose a browser" \
     1 "Chrome - Main" off \
     2 "Firefox - Trustsoft" off \
-    3 "Chrome - Second profile" off \
-4 "Ne znam jos" off )
+    3 "Chrome - Trustsoft" off \
+    4 "Chrome - OpenVPN" off )
 
 
 case "${BROWSER}" in
     "1")
-        BROWSER_CMD="google-chrome-stable %U"
+        exec google-chrome-stable "$@"
     ;;
     "2")
-        BROWSER_CMD="firefox"
+        exec firefox "$@"
     ;;
     "3")
-        BROWSER_CMD="google-chrome-stable --profile-directory=\"Trustsoft\" %U"
+        exec google-chrome-stable --profile-directory="Profile 1" "$@"
     ;;
     "4")
-        BROWSER_CMD="firefox"
+        exec google-chrome-stable --profile-directory="Profile 2" "$@"
     ;;
     *)
         exit 1
     ;;
 esac
-
-${BROWSER_CMD} "${*}"
