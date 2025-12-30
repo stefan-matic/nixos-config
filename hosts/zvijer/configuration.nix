@@ -195,6 +195,11 @@ in
             devices = [ "unraid" ];
             id = "cypve-yruqr";
           };
+          "3D Print" = {
+            path = "/home/${userSettings.username}/3D Print";
+            devices = [ "unraid" ];
+            id = "pxhhj-4rptz";
+          };
         };
       };
     };
