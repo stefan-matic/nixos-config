@@ -59,6 +59,8 @@
 
     # Boot/OS tools
     os-prober  # For dual-boot detection
+
+    wl-mirror
   ];
 
   # Enable Niri wayland compositor with XWayland support
