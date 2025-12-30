@@ -126,6 +126,14 @@
       default-window-height { fixed 300; }
     }
 
+    // KCalc - floating calculator
+    window-rule {
+      match app-id="org.kde.kcalc"
+      open-floating true
+      default-column-width { fixed 400; }
+      default-window-height { fixed 300; }
+    }
+
     // DMS keybindings
     binds {
       // Application Launchers
