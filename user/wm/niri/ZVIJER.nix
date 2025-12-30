@@ -4,6 +4,20 @@
   # Niri configuration file for DMS integration
   # DMS itself is installed at system-level in hosts/zvijer/configuration.nix
 
+  # Fix Viber icon - override desktop entry with correct icon path
+  xdg.dataFile."applications/viber.desktop".text = ''
+    [Desktop Entry]
+    Name=Viber
+    Comment=Viber VoIP and messenger
+    Exec=${pkgs.viber}/opt/viber/Viber %u
+    Path=${pkgs.viber}/opt/viber/
+    Icon=${pkgs.viber}/share/icons/hicolor/scalable/apps/Viber.svg
+    Terminal=false
+    Type=Application
+    Categories=Network;InstantMessaging;P2P;
+    MimeType=x-scheme-handler/viber;
+  '';
+
   # Create DMS config directory structure
   home.file.".config/niri/dms/colors.kdl".text = ''
     // DMS color configuration
