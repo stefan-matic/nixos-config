@@ -31,7 +31,7 @@ BROWSER=$(kdialog --title "Select your browser" --radiolist "Choose a browser" \
 
 case "${BROWSER}" in
     "1")
-        exec google-chrome-stable "$@"
+        exec google-chrome-stable --profile-directory="Default" "$@"
     ;;
     "2")
         exec firefox "$@"
