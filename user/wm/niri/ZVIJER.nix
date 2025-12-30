@@ -354,6 +354,6 @@
   '';
 
   # DMS Plugin Configurations
-  home.file.".config/DankMaterialShell/plugins/nixMonitor/config.json".source =
+  home.file.".config/DankMaterialShell/plugins/NixMonitor/config.json".source =
     ../dms/dms-plugins/nixMonitor-config.json;
 }
