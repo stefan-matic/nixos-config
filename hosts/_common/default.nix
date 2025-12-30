@@ -24,17 +24,7 @@
     # Time and locale settings
     time.timeZone = systemSettings.timezone;
     i18n.defaultLocale = systemSettings.locale;
-    i18n.extraLocaleSettings = {
-      LC_ADDRESS = "bs_BA.UTF-8";
-      LC_IDENTIFICATION = "bs_BA.UTF-8";
-      LC_MEASUREMENT = "bs_BA.UTF-8";
-      LC_MONETARY = "bs_BA.UTF-8";
-      LC_NAME = "bs_BA.UTF-8";
-      LC_NUMERIC = "bs_BA.UTF-8";
-      LC_PAPER = "bs_BA.UTF-8";
-      LC_TELEPHONE = "bs_BA.UTF-8";
-      LC_TIME = "bs_BA.UTF-8";
-    };
+    i18n.extraLocaleSettings = systemSettings.extraLocaleSettings;
 
     # Networking configuration
     networking = {
@@ -75,6 +65,8 @@
       powerline-symbols
       nerd-fonts.jetbrains-mono
       nerd-fonts.overpass
+      noto-fonts-cjk-sans  # Japanese/Chinese/Korean characters (ツ, etc.)
+      noto-fonts-color-emoji     # Emoji support
     ];
 
     # Module arguments
