@@ -1,0 +1,214 @@
+{
+    "brightness": {
+        "value": 75
+    },
+    "keys": {
+        "3x1": {
+            "states": {
+                "0": {
+                    "actions": [
+                        {
+                            "id": "com_core447_MicMute::ToggleMute",
+                            "settings": {
+                                "device": "Mic"
+                            }
+                        }
+                    ],
+                    "image-control-action": 0,
+                    "label-control-actions": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "background-control-action": 0
+                }
+            }
+        },
+        "2x1": {
+            "states": {
+                "0": {
+                    "actions": [
+                        {
+                            "id": "com_core447_DeckPlugin::ChangePage",
+                            "settings": {
+                                "selected_page": "/home/stefanmatic/.var/app/com.core447.StreamController/data/pages/Emoji.json",
+                                "deck_number": "5A42712QEM3"
+                            }
+                        }
+                    ],
+                    "image-control-action": 0,
+                    "label-control-actions": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "background-control-action": 0
+                }
+            }
+        },
+        "1x0": {
+            "states": {
+                "0": {
+                    "actions": [
+                        {
+                            "id": "com_core447_Weather::Weather",
+                            "settings": {
+                                "lat": "44.7722",
+                                "lon": "17.1910"
+                            }
+                        }
+                    ],
+                    "image-control-action": 0,
+                    "label-control-actions": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "background-control-action": null,
+                    "labels": {
+                        "bottom": {
+                            "font-family": "DejaVu Sans",
+                            "style": "normal",
+                            "font-size": 30.0,
+                            "font-weight": 400
+                        }
+                    }
+                }
+            }
+        },
+        "0x0": {
+            "states": {
+                "0": {
+                    "actions": [
+                        {
+                            "id": "de_gensyn_HomeAssistantPlugin::HomeAssistantAction",
+                            "settings": {
+                                "entity.domain": "",
+                                "entity.entity": "",
+                                "service.call_service": false,
+                                "service.service": "",
+                                "service.service_parameters": {},
+                                "icon.show_icon": false,
+                                "icon.icon": "",
+                                "icon.color": [
+                                    0.93,
+                                    1,
+                                    0.1
+                                ],
+                                "icon.scale": 80,
+                                "icon.opacity": 100,
+                                "text.show_text": false,
+                                "text.position": "center",
+                                "text.attribute": "state",
+                                "text.round": false,
+                                "text.round_precision": 2,
+                                "text.text_size": 20,
+                                "text.text_color": [
+                                    1,
+                                    1,
+                                    1
+                                ],
+                                "text.outline_size": 2,
+                                "text.outline_color": [
+                                    0,
+                                    0,
+                                    0
+                                ],
+                                "text.show_unit": false,
+                                "text.unit_line_break": false,
+                                "customization.icon": [],
+                                "customization.text": []
+                            }
+                        }
+                    ],
+                    "image-control-action": 0,
+                    "label-control-actions": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "background-control-action": 0
+                }
+            }
+        }
+    },
+    "dials": {
+        "0": {
+            "states": {
+                "0": {
+                    "actions": [
+                        {
+                            "id": "com_gapls_AudioControl::DialController",
+                            "settings": {
+                                "volume-adjust": 1.0,
+                                "pulse-name": "alsa_output.usb-Focusrite_Scarlett_2i2_4th_Gen_S2C9N58350A4E8-00.HiFi__Line1__sink",
+                                "show-info": true,
+                                "show-device-name": true,
+                                "nick": "Main"
+                            }
+                        }
+                    ],
+                    "image-control-action": 0,
+                    "label-control-actions": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "background-control-action": 0
+                }
+            }
+        },
+        "1": {
+            "states": {
+                "0": {
+                    "actions": [
+                        {
+                            "id": "com_gapls_AudioControl::DialController",
+                            "settings": {
+                                "volume-adjust": 1.0,
+                                "pulse-name": "alsa_output.usb-Generic_USB_Audio-00.HiFi__SPDIF__sink",
+                                "use-standard": true,
+                                "show-info": true,
+                                "show-device-name": true,
+                                "nick": "Speakers"
+                            }
+                        }
+                    ],
+                    "image-control-action": 0,
+                    "label-control-actions": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "background-control-action": 0
+                }
+            }
+        },
+        "2": {
+            "states": {
+                "0": {
+                    "actions": [
+                        {
+                            "id": "com_gapls_AudioControl::DialController",
+                            "settings": {
+                                "volume-adjust": 1.0,
+                                "pulse-name": "alsa_input.usb-Focusrite_Scarlett_2i2_4th_Gen_S2C9N58350A4E8-00.HiFi__Mic2__source",
+                                "device-filter": "source",
+                                "show-device-name": true,
+                                "nick": "Mic",
+                                "show-info": true
+                            }
+                        }
+                    ],
+                    "image-control-action": 0,
+                    "label-control-actions": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "background-control-action": 0
+                }
+            }
+        }
+    }
+}

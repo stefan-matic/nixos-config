@@ -1,0 +1,13 @@
+{
+    "general": {
+        "app-launches": 4
+    },
+    "store": {
+        "responsibility-notes-agreed": true,
+        "check-for-updates-on-startup": false
+    },
+    "system": {
+        "keep-running": true,
+        "developer-mode": true
+    }
+}
