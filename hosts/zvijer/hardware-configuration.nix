@@ -41,9 +41,16 @@
       options = [ "rw" "uid=1000" "gid=100" "umask=0022" "fmask=0022" "dmask=0022" "nofail" ];
     };
 
+  fileSystems."/mnt/500gb" =
+    { device = "/dev/disk/by-uuid/63A390932FC7B574";
+      fsType = "ntfs-3g";
+      options = [ "rw" "uid=1000" "gid=100" "umask=0022" "fmask=0022" "dmask=0022" "nofail" ];
+    };
+
   # Ensure mount point ownership is set correctly
   systemd.tmpfiles.rules = [
     "d /mnt/win 0755 stefanmatic users -"
+    "d /mnt/500gb 0755 stefanmatic users -"
   ];
 
   networking.useDHCP = lib.mkDefault true;
