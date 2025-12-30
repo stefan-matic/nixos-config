@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Select Browser
+Comment=Choose which browser to open links with
+Exec=select-browser %U
+Terminal=false
+Type=Application
+Icon=web-browser
+Categories=Network;WebBrowser;
+MimeType=text/html;text/xml;application/xhtml+xml;application/xml;application/rss+xml;application/rdf+xml;image/gif;image/jpeg;image/png;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/chrome;text/mml;application/x-xpinstall;
+StartupNotify=true

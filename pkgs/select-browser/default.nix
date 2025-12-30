@@ -15,6 +15,9 @@ stdenv.mkDerivation {
 
     wrapProgram $out/bin/select-browser \
       --prefix PATH : ${lib.makeBinPath [ kdePackages.kdialog ]}
+
+    mkdir -p $out/share/applications
+    cp select-browser.desktop $out/share/applications/
   '';
 
   meta = with lib; {

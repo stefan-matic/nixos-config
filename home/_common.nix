@@ -16,6 +16,7 @@
     ../user/app/terminal/kitty.nix
     ../user/app/terminal/ghostty.nix
     ../user/app/direnv/direnv.nix
+    ../user/app/browser/select-browser.nix
     ../user/shells/sh.nix
     ../user/lang/python/python.nix
 
