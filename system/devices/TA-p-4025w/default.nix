@@ -46,8 +46,8 @@ in {
       ];
       extraConf = ''
         # Use Ghostscript for PDF rendering
-        pdftops-renderer ghostscript
-        pdftops-renderer-default ghostscript
+        #pdftops-renderer ghostscript
+        #pdftops-renderer-default ghostscript
         LogLevel debug2
       '';
     };
