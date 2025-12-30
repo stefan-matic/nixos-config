@@ -21,21 +21,36 @@ This directory contains the managed configuration for StreamController (Stream D
 ### Main Page (Main.json)
 
 **Keys (Buttons):**
-- **0x0**: Home Assistant action (not configured)
-- **1x0**: Weather widget (Banja Luka)
-- **2x1**: Page switcher (to Emoji page)
-- **3x1**: 🎤 **Microphone Mute Toggle** (NEW)
+- **0x0**: 💡 **Elgato Key Light Toggle**
+  - Plugin: `de_gensyn_HomeAssistantPlugin::HomeAssistantAction`
+  - Entity: `light.elgato_key_light`
+  - Service: Toggle light on/off
+- **1x0**: 🌤️ **Weather Widget**
+  - Location: Banja Luka (44.7722, 17.1910)
+- **2x1**: 😊 **Emoji Page Switcher**
+  - Red background with emoticon icon
+  - Switches to Emoji page
+- **3x1**: 🎤 **Microphone Mute Toggle**
   - Plugin: `com_core447_MicMute::ToggleMute`
   - Device: "Mic" (Focusrite Scarlett 2i2)
   - Visual feedback:
     - Red background when muted
     - Black/transparent when unmuted
-  - Press to toggle mute/unmute
 
 **Dials (Rotary Encoders):**
 - **Dial 0**: Main output volume (Focusrite Scarlett Line1)
 - **Dial 1**: Speakers volume (USB Audio SPDIF)
 - **Dial 2**: Microphone input volume (Focusrite Scarlett Mic2)
+
+### Emoji Page (Emoji.json)
+
+**Keys (Buttons):**
+- **0x0**: ¯\_(ツ)_/¯ **Shrug**
+- **1x0**: (╯°□°)╯︵ ┻━┻ **Table Flip**
+- **2x0**: ಠ_ಠ **Look of Disapproval**
+- **3x0**: ( ͡° ͜ʖ ͡°) **Lenny Face**
+- **1x1**: ┬─┬ノ( º _ ºノ) **Table Unflip**
+- **3x1**: ⬅️ **Back to Main Page**
 
 ## Usage
 

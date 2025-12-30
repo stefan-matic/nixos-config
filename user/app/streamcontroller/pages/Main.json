@@ -42,7 +42,18 @@
                         0,
                         0
                     ],
-                    "background-control-action": 0
+                    "background-control-action": 0,
+                    "media": {
+                        "path": "/home/stefanmatic/.var/app/com.core447.StreamController/data/icons/com_core447_MaterialIcons/icons/insert_emoticon.png"
+                    },
+                    "background": {
+                        "color": [
+                            246,
+                            97,
+                            81,
+                            255
+                        ]
+                    }
                 }
             }
         },
@@ -83,10 +94,118 @@
                         {
                             "id": "de_gensyn_HomeAssistantPlugin::HomeAssistantAction",
                             "settings": {
-                                "entity.domain": "",
-                                "entity.entity": "",
-                                "service.call_service": false,
-                                "service.service": "",
+                                "entity.domain": "light",
+                                "entity.entity": "light.elgato_key_light",
+                                "service.call_service": true,
+                                "service.service": "toggle",
+                                "service.service_parameters": {},
+                                "icon.show_icon": false,
+                                "icon.icon": "",
+                                "icon.color": [
+                                    0.93,
+                                    1,
+                                    0.1
+                                ],
+                                "icon.scale": 80,
+                                "icon.opacity": 100,
+                                "text.show_text": false,
+                                "text.position": "center",
+                                "text.attribute": "state",
+                                "text.round": false,
+                                "text.round_precision": 2,
+                                "text.text_size": 20,
+                                "text.text_color": [
+                                    1,
+                                    1,
+                                    1
+                                ],
+                                "text.outline_size": 2,
+                                "text.outline_color": [
+                                    0,
+                                    0,
+                                    0
+                                ],
+                                "text.show_unit": false,
+                                "text.unit_line_break": false,
+                                "customization.icon": [],
+                                "customization.text": []
+                            }
+                        }
+                    ],
+                    "image-control-action": null,
+                    "label-control-actions": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "background-control-action": null,
+                    "media": {
+                        "path": "/home/stefanmatic/.var/app/com.core447.StreamController/data/icons/com_core447_MaterialIcons/icons/lightbulb-inv.png"
+                    },
+                    "labels": {
+                        "bottom": {
+                            "text": "Elgato",
+                            "font-family": "DejaVu Sans",
+                            "style": "normal",
+                            "font-size": 28.0,
+                            "font-weight": 400,
+                            "outline_width": 4
+                        }
+                    }
+                }
+            }
+        },
+        "0x1": {
+            "states": {
+                "0": {
+                    "actions": [
+                        {
+                            "id": "de_gensyn_HomeAssistantPlugin::HomeAssistantAction",
+                            "settings": {
+                                "entity.domain": "light",
+                                "entity.entity": "light.wled_office",
+                                "service.call_service": true,
+                                "service.service": "toggle",
+                                "service.service_parameters": {},
+                                "icon.show_icon": false,
+                                "icon.icon": "",
+                                "icon.color": [
+                                    0.93,
+                                    1,
+                                    0.1
+                                ],
+                                "icon.scale": 80,
+                                "icon.opacity": 100,
+                                "text.show_text": false,
+                                "text.position": "center",
+                                "text.attribute": "state",
+                                "text.round": false,
+                                "text.round_precision": 2,
+                                "text.text_size": 20,
+                                "text.text_color": [
+                                    1,
+                                    1,
+                                    1
+                                ],
+                                "text.outline_size": 2,
+                                "text.outline_color": [
+                                    0,
+                                    0,
+                                    0
+                                ],
+                                "text.show_unit": false,
+                                "text.unit_line_break": false,
+                                "customization.icon": [],
+                                "customization.text": []
+                            }
+                        },
+                        {
+                            "id": "de_gensyn_HomeAssistantPlugin::HomeAssistantAction",
+                            "settings": {
+                                "entity.domain": "light",
+                                "entity.entity": "light.office_wled_segment_1",
+                                "service.call_service": true,
+                                "service.service": "toggle",
                                 "service.service_parameters": {},
                                 "icon.show_icon": false,
                                 "icon.icon": "",
@@ -127,7 +246,19 @@
                         0,
                         0
                     ],
-                    "background-control-action": 0
+                    "background-control-action": 0,
+                    "labels": {
+                        "bottom": {
+                            "text": "WLED",
+                            "font-family": "DejaVu Sans",
+                            "style": "normal",
+                            "font-size": 20.0,
+                            "font-weight": 400
+                        }
+                    },
+                    "media": {
+                        "path": "/home/stefanmatic/.var/app/com.core447.StreamController/data/icons/com_core447_MaterialIcons/icons/insights-inv.png"
+                    }
                 }
             }
         }
