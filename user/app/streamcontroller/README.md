@@ -79,14 +79,21 @@ Using `home.activation` script to copy files ensures they're writable.
 ### After Making Changes in StreamController App
 
 1. Make your changes in the StreamController app
-2. Copy updated files back to dotfiles:
+2. Run the sync script to copy updated files back to dotfiles:
+   ```bash
+   cd ~/.dotfiles/user/app/streamcontroller
+   ./sync-from-live.sh
+   ```
+
+   Or manually copy files:
    ```bash
    cp ~/.var/app/com.core447.StreamController/data/pages/*.json ~/.dotfiles/user/app/streamcontroller/pages/
    cp ~/.var/app/com.core447.StreamController/data/settings/*.json ~/.dotfiles/user/app/streamcontroller/settings/
    ```
-3. Commit changes to git:
+3. Review and commit changes to git:
    ```bash
    cd ~/.dotfiles
+   git diff user/app/streamcontroller/
    git add user/app/streamcontroller/
    git commit -m "Update StreamController configuration"
    ```
