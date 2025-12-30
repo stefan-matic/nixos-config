@@ -17,20 +17,23 @@
   boot.supportedFilesystems = [ "ntfs" ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/fc0052b1-6c55-4ebb-9edc-d6a38ce7bfb3";
+    { device = "/dev/mapper/luks-03cb3418-dd05-48c8-ab5d-256951f428bc";
       fsType = "ext4";
     };
 
+  boot.initrd.luks.devices."luks-03cb3418-dd05-48c8-ab5d-256951f428bc".device = "/dev/disk/by-uuid/03cb3418-dd05-48c8-ab5d-256951f428bc";
+
+  boot.initrd.luks.devices."luks-ab15abdc-aefd-45e5-8ead-dbaf03c693cc".device = "/dev/disk/by-uuid/ab15abdc-aefd-45e5-8ead-dbaf03c693cc";
+
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/EA7D-5648";
+    { device = "/dev/disk/by-uuid/FDAE-C0AC";
       fsType = "vfat";
       options = [ "fmask=0077" "dmask=0077" ];
     };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/1958948c-a5cc-48e0-9333-6eca68ab6267"; }
+    [ { device = "/dev/mapper/luks-ab15abdc-aefd-45e5-8ead-dbaf03c693cc"; }
     ];
-
 
   fileSystems."/mnt/win" =
     { device = "/dev/disk/by-uuid/322666BE266682A9";
@@ -43,13 +46,7 @@
     "d /mnt/win 0755 stefanmatic users -"
   ];
 
-  # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
-  # (the default) this is the recommended approach. When using systemd-networkd it's
-  # still possible to use this option, but it's recommended to use it in conjunction
-  # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.eno1.useDHCP = lib.mkDefault true;
-  # networking.interfaces.wlp11s0.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
@@ -60,5 +57,4 @@
   };
 
   hardware.graphics.extraPackages = with pkgs; [ rocmPackages.clr.icd ];
-
 }
