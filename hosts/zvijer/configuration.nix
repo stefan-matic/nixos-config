@@ -120,7 +120,7 @@ in
     # Ensure plugdev group exists
     users.groups.plugdev = {};
 
-    # Add udev rules for Arduino, webcam, and Stream Deck
+    # Add udev rules for Arduino, webcam, Stream Deck, and Vial keyboard
     services.udev.extraRules = ''
       SUBSYSTEM=="tty", ATTRS{idVendor}=="2341", ATTRS{idProduct}=="*", GROUP="dialout", MODE="0660"
       SUBSYSTEM=="tty", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="*", GROUP="dialout", MODE="0660"
@@ -135,6 +135,9 @@ in
       # Stream Deck Plus specific rules
       SUBSYSTEM=="usb", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="0084", GROUP="plugdev", MODE="0666"
       SUBSYSTEM=="hidraw", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="0084", GROUP="plugdev", MODE="0666"
+
+      # Vial keyboard configuration
+      KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{serial}=="*vial:f64c2b3c*", MODE="0660", GROUP="plugdev", TAG+="uaccess", TAG+="udev-acl"
     '';
 
     # Syncthing - system service for user

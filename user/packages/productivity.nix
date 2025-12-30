@@ -20,5 +20,8 @@
 
     # Stream Deck & Hardware Control
     streamcontroller
+
+    # Jumpin keyboard
+    vial
   ];
 }
