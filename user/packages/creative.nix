@@ -8,6 +8,9 @@
     # Video Editing
     kdePackages.kdenlive
 
+    # Audio Effects & Production
+    easyeffects
+
     # 3D Modeling & Printing
     prusa-slicer
     openscad
