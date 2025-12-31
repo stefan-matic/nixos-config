@@ -59,5 +59,7 @@
 
     # Virtualization (user-level)
     quickemu
+
+    terminal-typeracer
   ];
 }

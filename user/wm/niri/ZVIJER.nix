@@ -4,20 +4,6 @@
   # Niri configuration file for DMS integration
   # DMS itself is installed at system-level in hosts/zvijer/configuration.nix
 
-  # Fix Viber icon - override desktop entry with correct icon path
-  xdg.dataFile."applications/viber.desktop".text = ''
-    [Desktop Entry]
-    Name=Viber
-    Comment=Viber VoIP and messenger
-    Exec=${pkgs.viber}/opt/viber/Viber %u
-    Path=${pkgs.viber}/opt/viber/
-    Icon=${pkgs.viber}/share/icons/hicolor/scalable/apps/Viber.svg
-    Terminal=false
-    Type=Application
-    Categories=Network;InstantMessaging;P2P;
-    MimeType=x-scheme-handler/viber;
-  '';
-
   # Create DMS config directory structure
   home.file.".config/niri/dms/colors.kdl".text = ''
     // DMS color configuration
@@ -216,7 +202,7 @@
       match app-id="org.kde.kdialog"
       match title="Select your browser"
       open-floating true
-      default-column-width { fixed 400; }
+      default-column-width { fixed 200; }
       default-window-height { fixed 300; }
     }
 
@@ -225,7 +211,7 @@
       match app-id="org.kde.kcalc"
       open-floating true
       default-column-width { fixed 400; }
-      default-window-height { fixed 300; }
+      default-window-height { fixed 550; }
     }
 
     // DMS keybindings
@@ -256,7 +242,7 @@
       }
 
       // DMS Notepad
-      F12 hotkey-overlay-title="Toggle Notepad" {
+      Mod+X hotkey-overlay-title="Toggle Notepad" {
         spawn "dms" "ipc" "call" "notepad" "toggle";
       }
 
@@ -283,6 +269,7 @@
       Mod+Q { close-window; }
       Mod+Return { spawn "ghostty"; }
       Mod+E { spawn "nautilus"; }
+      Mod+T hotkey-overlay-title="Kate Editor" { spawn "kate" "--new"; }
 
       // Window focus (Vim-style)
       Mod+H { focus-column-left; }
