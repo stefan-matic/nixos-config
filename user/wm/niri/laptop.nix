@@ -134,6 +134,14 @@
       default-window-height { fixed 300; }
     }
 
+    // RustDesk - floating remote desktop window
+    window-rule {
+      match app-id="rustdesk"
+      open-floating true
+      default-column-width { fixed 800; }
+      default-window-height { fixed 600; }
+    }
+
     // DMS keybindings
     binds {
       // Application Launchers
@@ -183,7 +191,8 @@
       // Window management
       Mod+Q { close-window; }
       Mod+Return { spawn "ghostty"; }
-      Mod+E { spawn "nautilus"; }
+      Mod+E { spawn "dolphin"; }
+      Mod+Alt+E { spawn "nautilus"; }
       Mod+T hotkey-overlay-title="Kate Editor" { spawn "kate" "--new"; }
 
       // Window focus (Vim-style)
@@ -243,6 +252,11 @@
       // Floating windows
       Mod+Shift+Space { toggle-window-floating; }
       Mod+Escape { switch-focus-between-floating-and-tiling; }
+
+      // Power Menu
+      Mod+Shift+Escape hotkey-overlay-title="Power Menu" {
+        spawn "dms" "ipc" "call" "powermenu" "toggle";
+      }
 
       // Consume/expel windows (smart directional - combines both operations)
       Mod+BracketLeft { consume-or-expel-window-left; }
