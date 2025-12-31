@@ -27,6 +27,9 @@ in
     # Application configurations
     ../user/app/swappy
 
+    # Services
+    ./services/rustdesk.nix
+
     # Commented out services - uncomment if needed
     #../user/app/obs-studio.nix
     #./services/deej-serial-control.nix
@@ -44,6 +47,9 @@ in
   };
 
   services.mpris-proxy.enable = true;
+
+  # RustDesk remote desktop service
+  services.rustdesk.enable = true;
 
   # Enable deej services if needed
   #services.deej-serial-control.enable = true;

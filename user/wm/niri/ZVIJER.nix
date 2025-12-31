@@ -180,7 +180,7 @@
 
     // Viber - tiled window at 20% width (will stack with Slack)
     window-rule {
-      match app-id="com.viber.Viber"
+      match app-id="ViberPC"
       default-column-width { proportion 0.20; }
       block-out-from "screencast"
     }
@@ -303,6 +303,9 @@
       // Workspace navigation with Page Up/Down
       Mod+Page_Down { focus-workspace-down; }
       Mod+Page_Up { focus-workspace-up; }
+      
+      Mod+WheelScrollDown cooldown-ms=150{ focus-workspace-down; }
+      Mod+WheelScrollUp cooldown-ms=150 { focus-workspace-up; }
 
       Mod+Shift+1 { move-column-to-workspace 1; }
       Mod+Shift+2 { move-column-to-workspace 2; }

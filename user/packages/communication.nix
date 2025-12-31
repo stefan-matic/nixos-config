@@ -14,5 +14,6 @@
 
     # Remote Desktop
     remmina
+    rustdesk
   ];
 }
