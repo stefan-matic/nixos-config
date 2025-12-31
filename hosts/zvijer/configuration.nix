@@ -95,6 +95,32 @@ in
       enableSystemSound = true;            # System sound support
     };
 
+    # XDG Desktop Portal for Wayland screen sharing (RustDesk, OBS, etc.)
+    xdg.portal = {
+      enable = true;
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-gtk  # GTK file chooser, etc.
+        xdg-desktop-portal-wlr  # Screen sharing for wlroots-based compositors
+      ];
+      config.common = {
+        default = [ "gtk" ];
+        # Use wlr portal for screen capture
+        "org.freedesktop.impl.portal.ScreenCast" = [ "wlr" ];
+        "org.freedesktop.impl.portal.Screenshot" = [ "wlr" ];
+      };
+    };
+
+    # Create a Niri Wayland session file for display manager
+    # This makes Niri appear as a proper GNOME-compatible session
+    environment.etc."wayland-sessions/niri.desktop".text = ''
+      [Desktop Entry]
+      Name=Niri
+      Comment=Niri Wayland Compositor
+      Exec=niri-session
+      Type=Application
+      DesktopNames=GNOME
+    '';
+
     # Enable NordVPN service
     services.nordvpn = {
       enable = true;
