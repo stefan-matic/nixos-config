@@ -79,7 +79,7 @@ in
 
       # Systemd service disabled - DMS is spawned by Niri instead
       systemd = {
-        enable = false;
+        enable = true;
         restartIfChanged = true;
       };
 
