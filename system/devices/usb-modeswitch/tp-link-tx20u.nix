@@ -22,10 +22,13 @@
     StandardEject=1
   '';
 
-  # Udev rules to trigger usb_modeswitch
+  # Udev rules to trigger usb_modeswitch and load driver
   services.udev.extraRules = ''
     # TP-Link TX20U AX1800 - switch from CDROM to WiFi mode
     ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="0bda", ATTRS{idProduct}=="1a2b", RUN+="${pkgs.usb-modeswitch}/bin/usb_modeswitch -v 0bda -p 1a2b -c /etc/usb_modeswitch.d/0bda:1a2b"
+
+    # Load 8852bu driver when TP-Link WiFi device appears (after modeswitch)
+    ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="35bc", ATTRS{idProduct}=="0100", RUN+="${pkgs.kmod}/bin/modprobe 8852bu"
   '';
 
   # Load the rtl8852bu kernel module (supports rtl8832bu chipset)
