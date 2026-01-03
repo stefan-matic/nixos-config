@@ -112,11 +112,11 @@
           }
         ];
       };
-      "stefanmatic@starlabs" = home-manager.lib.homeManagerConfiguration {
+      "fallen@starlabs" = home-manager.lib.homeManagerConfiguration {
         pkgs = pkgs;
         extraSpecialArgs = {inherit inputs outputs;};
         modules = [
-          ./home/stefanmatic.nix
+          ./home/fallen.nix
           {
             imports = [ ./user/wm/niri/laptop.nix ];
           }
