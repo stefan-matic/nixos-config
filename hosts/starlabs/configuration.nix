@@ -14,6 +14,8 @@ in
       ./packages.nix  # StarLabs-specific system packages
       # Import DMS NixOS module
       inputs.dms.nixosModules.dankMaterialShell
+      # TP-Link TX20U AX1800 USB WiFi configuration
+      ../../system/devices/usb-modeswitch/tp-link-tx20u.nix
     ];
 
   options = {
@@ -119,5 +121,6 @@ in
       enableCalendarEvents = true;         # Calendar integration (khal)
       enableSystemSound = true;            # System sound support
     };
-  };
+
+};
 }
