@@ -59,7 +59,11 @@ in
         configurationLimit = 20;
         extraEntries = ''
           menuentry "Windows 11" {
-            search --fs-uuid --set=root EA7D-5648
+            insmod part_gpt
+            insmod fat
+            insmod chain
+            # Search for EFI partition and chainload Windows bootloader
+            search --no-floppy --fs-uuid --set=root FDAE-C0AC
             chainloader /EFI/Microsoft/Boot/bootmgfw.efi
           }
         '';
@@ -79,6 +83,7 @@ in
 
       # Systemd service disabled - DMS is spawned by Niri instead
       systemd = {
+        #TODO: Check if this is needed after HM #stefanmatic@ZVIJER
         enable = true;
         restartIfChanged = true;
       };
@@ -95,18 +100,26 @@ in
       enableSystemSound = true;            # System sound support
     };
 
-    # XDG Desktop Portal for Wayland screen sharing (RustDesk, OBS, etc.)
+    # Enable GNOME keyring for secrets (required by niri portal config)
+    services.gnome.gnome-keyring.enable = true;
+
+    # XDG Desktop Portal - following niri's recommended configuration
+    # Reference: https://github.com/YaLTeR/niri/blob/main/resources/niri-portals.conf
     xdg.portal = {
       enable = true;
       extraPortals = with pkgs; [
-        xdg-desktop-portal-gtk  # GTK file chooser, etc.
-        xdg-desktop-portal-wlr  # Screen sharing for wlroots-based compositors
+        xdg-desktop-portal-gnome  # Primary portal implementation
+        xdg-desktop-portal-gtk    # GTK file chooser (fallback)
+        xdg-desktop-portal-wlr    # Screen sharing for wlroots-based compositors
       ];
       config.common = {
-        default = [ "gtk" ];
-        # Use wlr portal for screen capture
-        "org.freedesktop.impl.portal.ScreenCast" = [ "wlr" ];
-        "org.freedesktop.impl.portal.Screenshot" = [ "wlr" ];
+        default = [ "gnome" "gtk" ];  # Prefer GNOME, fallback to GTK
+        "org.freedesktop.impl.portal.Access" = [ "gtk" ];
+        "org.freedesktop.impl.portal.Notification" = [ "gtk" ];
+        "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];
+        # Use wlr portal for screen capture (RustDesk, OBS, etc.)
+        #"org.freedesktop.impl.portal.ScreenCast" = [ "wlr" ];
+        #"org.freedesktop.impl.portal.Screenshot" = [ "wlr" ];
       };
     };
 
