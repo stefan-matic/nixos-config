@@ -19,6 +19,9 @@
     ../user/app/browser/select-browser.nix
     ../user/app/nautilus.nix
     ../user/app/kate.nix
+    ../user/app/vlc.nix
+    ../user/app/prusa-slicer.nix
+    ../user/app/gwenview.nix
     ../user/shells/sh.nix
     ../user/lang/python/python.nix
 
