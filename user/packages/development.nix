@@ -61,5 +61,7 @@
     quickemu
 
     terminal-typeracer
+
+    winboat
   ];
 }
