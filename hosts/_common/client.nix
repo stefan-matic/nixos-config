@@ -33,7 +33,7 @@
   };
 
   # Cloudflare WARP
-  services.cloudflare-warp.enable = true;
+  # services.cloudflare-warp.enable = true;
 
   environment.systemPackages = with pkgs; let
     customPkgs = import ../../pkgs { inherit pkgs; };
@@ -42,7 +42,7 @@
     unstable.google-chrome  # One browser for system-wide access
 
     # Cloudflare WARP
-    unstable.cloudflare-warp
+    #unstable.cloudflare-warp
 
     # Custom packages (common to all client hosts)
     customPkgs.select-browser  # Browser selection utility
