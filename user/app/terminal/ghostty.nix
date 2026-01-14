@@ -9,7 +9,7 @@
 
       # Font configuration - using JetBrainsMono with ligatures
       font-family = "JetBrainsMono Nerd Font";
-      font-size = 12;
+      font-size = 9;
       font-feature = [
         "-calt"  # Enable contextual alternates
         "-liga"  # Enable ligatures
