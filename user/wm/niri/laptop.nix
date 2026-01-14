@@ -3,21 +3,48 @@
 {
   # Niri configuration for laptops (t14, starlabs)
   # Single screen, optimized for portability
+  # DMS itself is installed at system-level in hosts/zvijer/configuration.nix
+  # DMS will dynamically create and manage files in ~/.config/niri/dms/
+  # https://github.com/YaLTeR/niri/wiki/Getting-Started
 
   home.file.".config/niri/config.kdl".text = ''
-    // Niri configuration for laptop
+    // Niri configuration for DankMaterialShell
     // This config follows DMS official documentation:
     // https://danklinux.com/docs/dankmaterialshell/compositors
+
+    // Include DMS config files (colors, layout, alttab, binds)
+    include "dms/colors.kdl"
+    include "dms/layout.kdl"
+    include "dms/alttab.kdl"
+    include "dms/binds.kdl"
 
     // Spawn DMS at startup
     spawn-at-startup "dms" "run"
 
-    // Clipboard history
+    // Clipboard history (optional)
     spawn-at-startup "bash" "-c" "wl-paste --watch cliphist store &"
+
+    // Startup applications with delays for proper layout
+    // Launch sequentially: KeePassXC -> wait for Viber (9s) -> Slack -> Chrome
+    //spawn-at-startup "bash" "-c" "keepassxc & sleep 2 && viber & sleep 10 && slack & sleep 2 && google-chrome-stable &"
+    spawn-at-startup "keepassxc"
+    spawn-at-startup "slack"
+    spawn-at-startup "google-chrome-stable"
+    spawn-at-startup "code"
+    spawn-at-startup "winboat"
+    spawn-at-startup "steam"
+    spawn-at-startup "viber"
 
     // Input configuration
     input {
       keyboard {
+        xkb {
+          // English US, Serbian Latin, Serbian Cyrillic
+          layout "us,rs,rs"
+          variant ",latin,"
+          // Switch layouts with Alt+Shift
+          options "grp:alt_shift_toggle"
+        }
         numlock
       }
 
@@ -168,6 +195,11 @@
         spawn "dms" "ipc" "call" "lock" "lock";
       }
 
+      // DMS Notepad
+      Mod+X hotkey-overlay-title="Toggle Notepad" {
+        spawn "dms" "ipc" "call" "notepad" "toggle";
+      }
+
       // Audio Controls
       XF86AudioRaiseVolume allow-when-locked=true {
         spawn "dms" "ipc" "call" "audio" "increment" "3";
@@ -239,7 +271,7 @@
 
       // Niri essentials
       Mod+Shift+Slash { show-hotkey-overlay; }
-      Mod+Shift+E { quit; }
+      Mod+Shift+Escape { quit; }
       Mod+Tab { toggle-overview; }
       Mod+O { toggle-overview; }
 
@@ -253,7 +285,7 @@
       Mod+Escape { switch-focus-between-floating-and-tiling; }
 
       // Power Menu
-      Mod+Shift+Escape hotkey-overlay-title="Power Menu" {
+      Mod+Shift+E hotkey-overlay-title="Power Menu" {
         spawn "dms" "ipc" "call" "powermenu" "toggle";
       }
 

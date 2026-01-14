@@ -4,6 +4,7 @@
   # Niri configuration file for DMS integration
   # DMS itself is installed at system-level in hosts/zvijer/configuration.nix
   # DMS will dynamically create and manage files in ~/.config/niri/dms/
+  # https://github.com/YaLTeR/niri/wiki/Getting-Started
 
   home.file.".config/niri/config.kdl".text = ''
     // Niri configuration for DankMaterialShell
@@ -22,6 +23,18 @@
     // Clipboard history (optional)
     spawn-at-startup "bash" "-c" "wl-paste --watch cliphist store &"
 
+    workspace "main" {
+      // open-on-output "DP-2"
+    }
+
+    workspace "gaming" {
+      // open-on-output "DP-2"
+    }
+
+    workspace "windows" {
+      // open-on-output "DP-2"
+    }
+
     // Startup applications with delays for proper layout
     // Launch sequentially: KeePassXC -> wait for Viber (9s) -> Slack -> Chrome
     //spawn-at-startup "bash" "-c" "keepassxc & sleep 2 && viber & sleep 10 && slack & sleep 2 && google-chrome-stable &"
@@ -29,6 +42,9 @@
     spawn-at-startup "slack"
     spawn-at-startup "google-chrome-stable"
     spawn-at-startup "code"
+    spawn-at-startup "winboat"
+    spawn-at-startup "steam-fix"
+    spawn-at-startup "viber"
 
     // Input configuration
     input {
@@ -149,6 +165,8 @@
       default-column-width { proportion 0.33; }
     }
 
+    // niri msg windows
+
     // KeePassXC - tiled window at 20% width on Xiaomi monitor
     window-rule {
       match app-id="org.keepassxc.KeePassXC"
@@ -156,17 +174,37 @@
       open-on-output "DP-2"
     }
 
+    window-rule {
+      match app-id="com.yubico.yubioath"
+      default-column-width { proportion 0.20; }
+      open-on-output "DP-2"
+    }
+
+    // Steam (uses XWayland via xwayland-satellite - run 'xwayland-restart' if it won't launch)
+    window-rule {
+      match at-startup=true app-id="steam"
+      open-on-workspace "gaming"
+    }
+
+    // Winboat rdp
+    window-rule {
+      match app-id="xfreerdp"
+      open-on-workspace "windows"
+    }
+
     // Viber - tiled window at 20% width (will stack with Slack)
     window-rule {
-      match app-id="ViberPC"
+      match at-startup=true app-id="ViberPC"
       default-column-width { proportion 0.20; }
       block-out-from "screencast"
     }
 
     // Slack - tiled window at 20% width (will stack with Viber)
     window-rule {
-      match app-id="Slack"
+      //match app-id="Slack"
+      match at-startup=true app-id="Slack"
       default-column-width { proportion 0.20; }
+      open-on-workspace "gaming"
     }
 
     // Chrome - tiled window
@@ -310,7 +348,7 @@
 
       // Niri essentials
       Mod+Shift+Slash { show-hotkey-overlay; }
-      Mod+Shift+E { quit; }
+      Mod+Shift+Escape { quit; }
       Mod+Tab { toggle-overview; }
       Mod+O { toggle-overview; }
 
@@ -324,7 +362,7 @@
       Mod+Escape { switch-focus-between-floating-and-tiling; }
 
       // Power Menu
-      Mod+Shift+Escape hotkey-overlay-title="Power Menu" {
+      Mod+Shift+E hotkey-overlay-title="Power Menu" {
         spawn "dms" "ipc" "call" "powermenu" "toggle";
       }
 
