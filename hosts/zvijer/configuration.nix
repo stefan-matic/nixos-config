@@ -267,6 +267,8 @@ in
       enable = true;
       remotePlay.openFirewall = true;
       dedicatedServer.openFirewall = true;
+      # Enable gamescope (available if needed for specific games)
+      gamescopeSession.enable = false;
     };
 
     # TeamViewer remote desktop service
