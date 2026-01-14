@@ -11,7 +11,7 @@
   # hardware control utilities unique to this laptop model).
 
   environment.systemPackages = with pkgs; [
-    # Currently no T14-specific packages
-    # Add host-specific packages here as needed
+    # WireGuard VPN tools for mobile connectivity
+    wireguard-tools
   ];
 }
