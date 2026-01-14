@@ -31,7 +31,8 @@ let
     buildInputs = [ pkgs.makeWrapper ];
     postBuild = ''
       wrapProgram $out/bin/viber \
-        --prefix LD_LIBRARY_PATH : "${libxml2-compat.out}/lib"
+        --prefix LD_LIBRARY_PATH : "${libxml2-compat.out}/lib" \
+        --set QT_QPA_PLATFORM wayland
 
       # Create icon symlinks with correct app-id (ViberPC) for DMS
       mkdir -p $out/share/icons/hicolor/{scalable,48x48,64x64,128x128,256x256}/apps
