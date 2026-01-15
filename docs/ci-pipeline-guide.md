@@ -40,7 +40,10 @@ Runs only when explicitly enabled via CI/CD variable `RUN_FULL_BUILDS=true`:
 
 Fast feedback on code quality issues:
 
-- **nix-fmt-check**: Validates Nix code formatting using alejandra or nixpkgs-fmt
+**Always runs:**
+- **nix-fmt-check**: Validates Nix code formatting using nixfmt (RFC style)
+
+**Only during full builds (`RUN_FULL_BUILDS=true`):**
 - **statix-lint**: Detects Nix anti-patterns and suggests improvements
 - **deadnix-check**: Identifies unused/dead Nix code
 

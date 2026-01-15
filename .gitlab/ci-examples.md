@@ -60,15 +60,15 @@ Now:
 
 ### Default Mode (Fast)
 
-- ✓ Nix syntax checking (alejandra/nixpkgs-fmt)
-- ✓ Anti-pattern detection (statix)
-- ✓ Dead code detection (deadnix)
+- ✓ Nix syntax checking (nixfmt)
 - ✓ Flake structure validation
 - ✓ Configuration evaluation (all hosts and home-manager configs)
 
 ### Full Build Mode
 
 - ✓ Everything from default mode
+- ✓ Anti-pattern detection (statix)
+- ✓ Dead code detection (deadnix)
 - ✓ Build all NixOS configurations (ZVIJER, T14, StarLabs, Z420)
 - ✓ Build all Home Manager configurations
 - ✓ Download and compile all packages

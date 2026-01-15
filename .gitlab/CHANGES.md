@@ -22,9 +22,12 @@ The GitLab CI pipeline has been optimized to avoid massive package downloads on 
 
 ### Pipeline Stages (Always Run)
 
-**Stage 1: Lint**
+**Stage 1: Lint** (Always runs)
 
-- `nix-fmt-check`: Code formatting validation
+- `nix-fmt-check`: Code formatting validation (always)
+
+**Stage 1: Lint** (Only when `RUN_FULL_BUILDS=true`)
+
 - `statix-lint`: Anti-pattern detection
 - `deadnix-check`: Dead code detection
 

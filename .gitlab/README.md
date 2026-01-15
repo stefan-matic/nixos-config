@@ -57,18 +57,21 @@ cd ~/.dotfiles
 ```
 ┌─────────────────────────────────────────────────┐
 │           Every Commit (Default)                │
-│  ✓ Syntax checks (1-2 min, no downloads)       │
-│  ✓ Linting and validation                      │
+│  ✓ Format checking (nixfmt)                    │
+│  ✓ Flake validation                            │
 │  ✓ Configuration evaluation                    │
+│  ⚡ Fast: 1-2 min, no downloads                 │
 └─────────────────────────────────────────────────┘
                      │
                      ▼
 ┌─────────────────────────────────────────────────┐
 │     When RUN_FULL_BUILDS=true (Optional)       │
 │  ✓ Everything above, plus:                     │
-│  ✓ Build all NixOS configs (10-30 min)         │
+│  ✓ Code linting (statix, deadnix)              │
+│  ✓ Build all NixOS configs                     │
 │  ✓ Build all Home Manager configs              │
 │  ✓ Download all packages                       │
+│  ⏱️  Slower: 10-30 min                          │
 └─────────────────────────────────────────────────┘
 ```
 

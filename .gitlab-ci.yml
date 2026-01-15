@@ -61,9 +61,10 @@ statix-lint:
     - echo "Running statix linter for Nix anti-patterns..."
     - nix run nixpkgs#statix -- check .
   allow_failure: true # Don't block pipeline on linting suggestions
-  only:
-    - merge_requests
-    - main
+  rules:
+    - if: $RUN_FULL_BUILDS == "true"
+      when: on_success
+    - when: never
 
 deadnix-check:
   stage: lint
@@ -71,9 +72,10 @@ deadnix-check:
     - echo "Checking for dead/unused Nix code..."
     - nix run nixpkgs#deadnix -- --fail .
   allow_failure: true # Don't block pipeline on dead code
-  only:
-    - merge_requests
-    - main
+  rules:
+    - if: $RUN_FULL_BUILDS == "true"
+      when: on_success
+    - when: never
 
 ###################
 # Validation Stage

@@ -43,15 +43,15 @@ Environment scope: main
 ### ✓ Always (Fast Mode)
 
 - Syntax errors
-- Code formatting (alejandra)
-- Anti-patterns (statix)
-- Dead code (deadnix)
+- Code formatting (nixfmt)
 - Flake structure
 - Config evaluation
 
 ### ✓ When Full Builds Enabled
 
 - All of the above, plus:
+- Anti-patterns (statix)
+- Dead code (deadnix)
 - Build ZVIJER config
 - Build T14 config
 - Build StarLabs config
