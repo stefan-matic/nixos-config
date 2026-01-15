@@ -1,0 +1,55 @@
+{
+  // Nix language settings
+  "[nix]": {
+    "editor.defaultFormatter": "jnoortheen.nix-ide",
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true
+  },
+
+  // Markdown formatting
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.wordWrap": "on"
+  },
+
+  // YAML formatting
+  "[yaml]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2
+  },
+
+  // JSON formatting
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2
+  },
+
+  // General editor settings
+  "editor.formatOnSave": true,
+  "editor.rulers": [100],
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+
+  // Nix-specific settings
+  "nix.enableLanguageServer": true,
+  "nix.serverPath": "nil",
+  "nix.formatterPath": "nixfmt",
+
+  // File associations
+  "files.associations": {
+    "*.nix": "nix",
+    "flake.lock": "json"
+  },
+
+  // Exclude files from file watcher
+  "files.watcherExclude": {
+    "**/result": true,
+    "**/result-*": true,
+    "**/.direnv": true
+  }
+}

@@ -61,6 +61,8 @@
     os-prober  # For dual-boot detection
 
     wl-mirror
+
+    nixfmt-rfc-style
   ];
 
   # Enable Niri wayland compositor with XWayland support

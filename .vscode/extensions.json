@@ -1,0 +1,22 @@
+{
+  "recommendations": [
+    // Nix language support
+    "jnoortheen.nix-ide",
+
+    // Formatting
+    "esbenp.prettier-vscode",
+
+    // Git
+    "eamodio.gitlens",
+
+    // Markdown
+    "yzhang.markdown-all-in-one",
+
+    // YAML
+    "redhat.vscode-yaml",
+
+    // Utilities
+    "editorconfig.editorconfig"
+  ],
+  "unwantedRecommendations": []
+}

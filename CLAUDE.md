@@ -396,6 +396,30 @@ home-manager switch --switch-generation <number>
 git checkout <previous-commit>
 ```
 
+## Code Formatting
+
+This project uses **nixfmt** (RFC style) for consistent code formatting:
+
+```bash
+# Format all files
+treefmt
+
+# Check formatting
+nixfmt --check .
+
+# VS Code: Auto-format on save (install recommended extensions)
+```
+
+**Setup:**
+- `.vscode/settings.json` - VS Code auto-format on save
+- `treefmt.toml` - Multi-language formatter config
+- `.editorconfig` - Universal editor settings
+- `shell.nix` - Dev environment with all tools
+
+**Documentation:**
+- Quick reference: `docs/formatting-quick-reference.md`
+- Complete guide: `docs/code-style-guide.md`
+
 ## Documentation
 
 - `docs/REFACTOR-SUMMARY.md` - Complete Philosophy B implementation details
@@ -403,6 +427,8 @@ git checkout <previous-commit>
 - `docs/devbox-guide.md` - Per-project development environments with Devbox
 - `docs/nixos-vs-home-manager-guide.md` - Package placement philosophy
 - `docs/ci-pipeline-guide.md` - GitLab CI/CD pipeline setup and validation
+- `docs/code-style-guide.md` - Code formatting and style standards
+- `docs/formatting-quick-reference.md` - Quick formatting reference
 
 ## Troubleshooting
 

@@ -24,3 +24,23 @@ indent_size = 4
 # Match diffs, avoid to trim trailing whitespace
 [*.{diff,patch}]
 trim_trailing_whitespace = false
+
+# Match Markdown files
+[*.md]
+indent_style = space
+indent_size = 2
+trim_trailing_whitespace = false
+
+# Match YAML files
+[*.{yml,yaml}]
+indent_style = space
+indent_size = 2
+
+# Match JSON files
+[*.json]
+indent_style = space
+indent_size = 2
+
+# Match Makefiles
+[Makefile]
+indent_style = tab

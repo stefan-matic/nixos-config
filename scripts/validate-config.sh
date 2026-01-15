@@ -46,12 +46,12 @@ run_check "Flake metadata" "nix flake metadata"
 
 # Format checking (optional)
 echo -e "${BLUE}=== Code Quality Checks ===${NC}"
-if command -v alejandra &> /dev/null; then
-    run_check "Alejandra formatting" "alejandra --check ."
-elif command -v nixpkgs-fmt &> /dev/null; then
-    run_check "nixpkgs-fmt formatting" "nixpkgs-fmt --check ."
+if command -v nixfmt &> /dev/null; then
+    run_check "nixfmt (RFC style) formatting" "nixfmt --check ."
+elif nix run nixpkgs#nixfmt-rfc-style -- --version &> /dev/null; then
+    run_check "nixfmt (RFC style) formatting" "nix run nixpkgs#nixfmt-rfc-style -- --check ."
 else
-    echo -e "${YELLOW}⚠ No formatter found (alejandra/nixpkgs-fmt), skipping format check${NC}"
+    echo -e "${YELLOW}⚠ nixfmt not found, skipping format check${NC}"
     echo ""
 fi
 

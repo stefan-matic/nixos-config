@@ -1,0 +1,28 @@
+# treefmt configuration for NixOS dotfiles
+# Run with: treefmt
+# Format specific file: treefmt path/to/file.nix
+# Check without formatting: treefmt --fail-on-change
+
+[formatter.nix]
+command = "nixfmt"
+includes = ["*.nix"]
+# Exclude generated or external files
+excludes = [
+  "hardware-configuration.nix",
+]
+
+[formatter.markdown]
+command = "prettier"
+options = ["--write"]
+includes = ["*.md"]
+
+[formatter.yaml]
+command = "prettier"
+options = ["--write"]
+includes = ["*.yml", "*.yaml"]
+
+[formatter.json]
+command = "prettier"
+options = ["--write"]
+includes = ["*.json"]
+excludes = ["flake.lock"]

@@ -48,16 +48,8 @@ stages:
 nix-fmt-check:
   stage: lint
   script:
-    - echo "Checking Nix code formatting..."
-    - |
-      # Check if alejandra is available, otherwise use nixpkgs-fmt
-      if nix run nixpkgs#alejandra -- --version &>/dev/null; then
-        echo "Using alejandra formatter"
-        nix run nixpkgs#alejandra -- --check .
-      else
-        echo "Using nixpkgs-fmt formatter"
-        nix run nixpkgs#nixpkgs-fmt -- --check .
-      fi
+    - echo "Checking Nix code formatting with nixfmt (RFC style)..."
+    - nix run nixpkgs#nixfmt-rfc-style -- --check .
   allow_failure: true  # Don't block pipeline on formatting issues
   only:
     - merge_requests
