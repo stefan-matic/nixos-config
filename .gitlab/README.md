@@ -5,12 +5,14 @@ This directory contains documentation and examples for the NixOS flake CI/CD pip
 ## 📚 Documentation Index
 
 ### Start Here
+
 - **[QUICK-START.md](QUICK-START.md)** - Quick reference guide (START HERE!)
   - Pipeline modes overview
   - Common actions (run full builds, schedules, etc.)
   - Best practices cheatsheet
 
 ### Detailed Guides
+
 - **[ci-examples.md](ci-examples.md)** - Comprehensive examples
   - Step-by-step instructions for all use cases
   - Cost optimization strategies
@@ -29,12 +31,14 @@ This directory contains documentation and examples for the NixOS flake CI/CD pip
 ## 🚀 Quick Actions
 
 ### Run Full Build (One-time)
+
 ```
 GitLab → CI/CD → Pipelines → Run Pipeline
 Add: RUN_FULL_BUILDS = true
 ```
 
 ### Schedule Weekly Full Builds
+
 ```
 GitLab → CI/CD → Schedules → New Schedule
 Cron: 0 2 * * 0
@@ -42,6 +46,7 @@ Variable: RUN_FULL_BUILDS = true
 ```
 
 ### Local Validation
+
 ```bash
 cd ~/.dotfiles
 ./scripts/validate-config.sh
@@ -70,11 +75,13 @@ cd ~/.dotfiles
 ## 🎯 Recommended Setup
 
 **For most projects:**
+
 - Default: Fast validation on all commits
 - Schedule: Weekly full builds (Sunday 2 AM)
 - Manual: Full build before releases
 
 **Cost savings:**
+
 - Time: ~90% faster (1-2 min vs 10-30 min)
 - Bandwidth: ~95% less (50 MB vs 5-10 GB)
 - CI minutes: ~85% savings

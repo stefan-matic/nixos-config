@@ -65,6 +65,7 @@ nix flake update
 ### Flake Structure
 
 **Inputs:**
+
 - `nixpkgs` - Main channel (currently nixos-25.11)
 - `nixpkgs-stable` - Stable channel (25.11)
 - `nixpkgs-unstable` - Unstable packages
@@ -72,6 +73,7 @@ nix flake update
 - `dms` - DankMaterialShell (Wayland desktop shell)
 
 **Outputs:**
+
 - `nixosConfigurations` - Hosts: ZVIJER, stefan-t14, starlabs, z420, liveboot, liveboot-iso
 - `homeConfigurations` - Users: stefanmatic (+ host-specific), fallen
 - `packages` - Custom packages from ./pkgs
@@ -155,17 +157,20 @@ Each host configuration follows this pattern:
 5. Define host-specific services and options
 
 **Three-tier hierarchy:**
+
 1. `hosts/_common/default.nix` - Common to ALL hosts (servers + clients)
 2. `hosts/_common/client.nix` - Common to ALL client/desktop hosts
 3. `hosts/{hostname}/packages.nix` - Unique to specific host only
 
 **Key settings passed to modules:**
+
 - `userSettings`: username, name, email, theme, terminal, font, editor
 - `systemSettings`: hostname, timezone, locale
 
 ### Philosophy B: System vs Home Manager
 
 **System packages** (`system/packages/` and `hosts/{host}/packages.nix`):
+
 - Essential system tools (git, vim, wget)
 - Hardware-related tools (lm_sensors, pciutils)
 - System monitoring & debugging (htop, iotop, strace)
@@ -173,6 +178,7 @@ Each host configuration follows this pattern:
 - Hardware-specific packages (Razer tools for ZVIJER)
 
 **User packages** (`user/packages/`):
+
 - Development tools (IDEs, cloud CLIs, DevOps tools)
 - Communication apps (Slack, Discord, Zoom)
 - Productivity software (LibreOffice, notes, VPN)
@@ -181,6 +187,7 @@ Each host configuration follows this pattern:
 - Media players, browsers, utilities
 
 **Decision framework:**
+
 - Multiple users need it? → System
 - Requires root/system-level access? → System
 - Hardware-related? → System
@@ -193,12 +200,14 @@ See `docs/nixos-vs-home-manager-guide.md` and `docs/REFACTOR-SUMMARY.md` for det
 ### Package Organization
 
 **System Packages** (~40 total):
+
 - `system/packages/common.nix` - git, vim, wget, compression tools, python3
 - `system/packages/hardware.nix` - sensors, pciutils, usbutils, brightnessctl, gparted
 - `system/packages/monitoring.nix` - htop, iotop, iftop, strace, ltrace, lsof
 - `system/packages/desktop.nix` - Wayland tools, nautilus, KDE utilities, xdotool
 
 **User Packages** (~80+ total):
+
 - `user/packages/common.nix` - Browsers, ghostty, fastfetch, media players, LibreOffice
 - `user/packages/development.nix` - Cursor, kubectl, awscli2, terraform, claude-code
 - `user/packages/communication.nix` - Slack, Discord, Element, Zoom, Remmina
@@ -207,11 +216,13 @@ See `docs/nixos-vs-home-manager-guide.md` and `docs/REFACTOR-SUMMARY.md` for det
 - `user/packages/productivity.nix` - Affine, ProtonVPN, custom utilities
 
 **Host-specific packages:**
+
 - `hosts/zvijer/packages.nix` - Razer hardware (openrazer-daemon, razergenie, input-remapper), kdialog
 - `hosts/t14/packages.nix` - Empty (placeholder for T14-specific hardware)
 - `hosts/starlabs/packages.nix` - Empty (placeholder for StarLabs-specific hardware)
 
 **Common client packages** (`hosts/_common/client.nix`):
+
 - google-chrome, cloudflare-warp, select-browser, fuzzel
 - Yubikey support (yubioath-flutter, pcsclite)
 - Utilities (zbar, nix-prefetch-git, os-prober)
@@ -230,11 +241,13 @@ Access unstable packages in configs with: `pkgs.unstable.<package>`
 ### Custom Packages
 
 Custom packages are defined in `pkgs/default.nix` and available via the additions overlay:
+
 - `select-browser` - Browser selection utility
 - `deej-serial-control` - Arduino-based volume control script
 - `deej-new` - Go-based deej implementation
 
 To build/test custom package:
+
 ```bash
 nix-build -E "with import <nixpkgs> {}; callPackage ./pkgs/<package-name> {}"
 ```
@@ -242,6 +255,7 @@ nix-build -E "with import <nixpkgs> {}; callPackage ./pkgs/<package-name> {}"
 ### Special Configurations
 
 **ZVIJER (Gaming/Workstation Desktop):**
+
 - Gaming setup with Steam, Lutris, Wine (via home-manager)
 - OBS Studio with plugins for streaming (system-level)
 - Razer hardware support (openrazer daemon, razergenie, input-remapper)
@@ -253,23 +267,27 @@ nix-build -E "with import <nixpkgs> {}; callPackage ./pkgs/<package-name> {}"
 - 57" ultrawide + secondary monitor setup
 
 **T14 (Lenovo ThinkPad Laptop):**
+
 - DankMaterialShell (DMS) with Niri compositor
 - Laptop-optimized Niri config (2-column default, touchpad)
 - Syncthing, TeamViewer, OBS
 - Full user package suite via home-manager
 
 **StarLabs (StarLabs Laptop):**
+
 - DankMaterialShell (DMS) with Niri compositor
 - Laptop-optimized Niri config (shared with T14)
 - Syncthing, TeamViewer, OBS
 - Full user package suite via home-manager
 
 **Z420 (HP Workstation Server):**
+
 - Minimal server configuration
 - Syncthing only
 - No desktop environment
 
 **Home-manager services:**
+
 - deej-new: Volume control via serial connection (Arduino)
 - KDE Connect: Phone integration
 - mpris-proxy: Media controls
@@ -279,15 +297,18 @@ nix-build -E "with import <nixpkgs> {}; callPackage ./pkgs/<package-name> {}"
 Niri window manager configurations are host-specific and managed through home-manager:
 
 **Structure:**
+
 - System-level: DMS installed via `programs.dankMaterialShell` in host configs
 - User-level: Niri config.kdl written by home-manager per host
 - Location: `user/wm/niri/{HOSTNAME}.nix`
 
 **Per-host configs:**
+
 - `user/wm/niri/ZVIJER.nix` - 57" ultrawide optimized (3-column default, 20% widths for KeePassXC/Viber/Slack, dual monitor setup)
 - `user/wm/niri/laptop.nix` - Generic laptop config (2-column default, touchpad support, single screen) - shared by t14 and starlabs
 
 **Usage:**
+
 ```bash
 # Apply ZVIJER-specific Niri config (ultrawide dual monitor)
 home-manager switch --flake ~/.dotfiles#stefanmatic@ZVIJER
@@ -298,6 +319,7 @@ home-manager switch --flake ~/.dotfiles#stefanmatic@starlabs
 ```
 
 **Key patterns:**
+
 - Host-specific configs imported via flake homeConfigurations
 - Each host can have completely different layouts, startup apps, keybindings
 - Configs write to `~/.config/niri/config.kdl`
@@ -319,6 +341,7 @@ home-manager switch --flake ~/.dotfiles#stefanmatic@starlabs
 ### Adding Packages
 
 **User Application (most common):**
+
 ```nix
 # Add to appropriate file in user/packages/
 # Example: user/packages/development.nix
@@ -328,6 +351,7 @@ home.packages = with pkgs; [
 ```
 
 **System Tool:**
+
 ```nix
 # Add to appropriate file in system/packages/
 # Example: system/packages/monitoring.nix
@@ -337,6 +361,7 @@ environment.systemPackages = with pkgs; [
 ```
 
 **Host-specific System Package:**
+
 ```nix
 # Add to hosts/{hostname}/packages.nix
 # Example: hosts/zvijer/packages.nix
@@ -360,6 +385,7 @@ home-manager switch --flake ~/.dotfiles#stefanmatic@ZVIJER
 ### CI/CD and Validation
 
 **Local validation before pushing:**
+
 ```bash
 # Run comprehensive validation script
 ./scripts/validate-config.sh
@@ -371,6 +397,7 @@ nix build .#homeConfigurations."stefanmatic@ZVIJER".activationPackage --dry-run
 ```
 
 **GitLab CI Pipeline:**
+
 - **Quick start**: See `.gitlab/QUICK-START.md` for common tasks
 - `.gitlab-ci.yml` - Two-mode pipeline:
   - **Default**: Fast syntax/evaluation checks only (no package downloads, ~1-2 min)
@@ -411,12 +438,14 @@ nixfmt --check .
 ```
 
 **Setup:**
+
 - `.vscode/settings.json` - VS Code auto-format on save
 - `treefmt.toml` - Multi-language formatter config
 - `.editorconfig` - Universal editor settings
 - `shell.nix` - Dev environment with all tools
 
 **Documentation:**
+
 - Quick reference: `docs/formatting-quick-reference.md`
 - Complete guide: `docs/code-style-guide.md`
 
@@ -433,19 +462,23 @@ nixfmt --check .
 ## Troubleshooting
 
 **Build fails with package conflict:**
+
 - Check for duplicate packages in system and user configs
 - Review `docs/REFACTOR-SUMMARY.md` for package inventory
 
 **Application not found after rebuild:**
+
 - System packages: rebuild system with `sudo nixos-rebuild switch`
 - User packages: rebuild home-manager with `home-manager switch`
 - Check if package is in correct location (system vs user)
 
 **Niri config not applied:**
+
 - Ensure using host-specific home-manager: `home-manager switch --flake ~/.dotfiles#stefanmatic@ZVIJER`
 - Check `~/.config/niri/config.kdl` was generated
 
 **DMS not starting:**
+
 - Check systemd service: `systemctl --user status dms`
 - Check logs: `journalctl --user -u dms`
 - Restart: `systemctl --user restart dms`

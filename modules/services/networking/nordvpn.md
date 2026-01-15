@@ -1,8 +1,8 @@
 # NordVPN {#module-services-nordvpn}
 
-*Source:* {file}`modules/services/networking/nordvpn.nix`
+_Source:_ {file}`modules/services/networking/nordvpn.nix`
 
-*Upstream documentation:* <https://github.com/NordSecurity/nordvpn-linux>
+_Upstream documentation:_ <https://github.com/NordSecurity/nordvpn-linux>
 
 NordVPN offers a paid virtual private network (VPN) service.
 The service operates as closed-source,

@@ -10,9 +10,9 @@ image: nixos/nix:latest
 
 variables:
   NIX_CONFIG: "experimental-features = nix-command flakes"
-  NIX_BUILD_CORES: "2"  # Lower for fast validation
-  NIXPKGS_ALLOW_UNFREE: "1"  # Allow unfree packages
-  NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM: "1"  # Allow unsupported systems
+  NIX_BUILD_CORES: "2" # Lower for fast validation
+  NIXPKGS_ALLOW_UNFREE: "1" # Allow unfree packages
+  NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM: "1" # Allow unsupported systems
 
 cache:
   key: nix-store-cache

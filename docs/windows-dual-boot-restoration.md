@@ -48,6 +48,7 @@ list volume
 ```
 
 Look for:
+
 - **Windows partition**: The NTFS partition with Windows installed (should be ~931 GB for nvme0n1p2)
 - **EFI partition**: FAT32 partition (should be ~512 MB for nvme1n1p1)
 
@@ -76,6 +77,7 @@ bcdboot C:\Windows /s Z: /f UEFI
 This copies Windows boot files from `C:\Windows` to the EFI partition mounted at `Z:`.
 
 Expected output:
+
 ```
 Boot files successfully created.
 ```
@@ -121,6 +123,7 @@ boot.loader.grub = {
 ```
 
 **Important**: Replace `FDAE-C0AC` with your actual EFI partition UUID from:
+
 ```bash
 lsblk -f | grep vfat
 # or
@@ -161,6 +164,7 @@ boot.loader.grub = {
 **Cause**: Windows boot files not on the EFI partition or wrong UUID in GRUB config.
 
 **Solution**: Verify Windows boot files exist:
+
 ```bash
 ls -la /boot/EFI/Microsoft/Boot/
 ```
@@ -172,6 +176,7 @@ If missing, repeat Steps 1-6 to restore boot files.
 **Cause**: BCD (Boot Configuration Data) references old disk.
 
 **Solution**: In Windows Recovery Command Prompt:
+
 ```cmd
 bootrec /rebuildbcd
 bootrec /fixboot
@@ -190,6 +195,7 @@ bootrec /fixboot
 **Explanation**: Some Windows installations store the bootloader on the NTFS partition itself rather than a separate EFI partition. The UEFI firmware can boot from this using a boot entry stored in NVRAM, but GRUB expects boot files on the EFI partition.
 
 **Diagnosis**:
+
 1. Check if Windows boots when manually selecting the drive from BIOS
 2. Check UEFI boot entries: `efibootmgr -v`
 3. Look for Windows boot files on the mounted Windows partition:
@@ -198,6 +204,7 @@ bootrec /fixboot
    ```
 
 **Solution**: Copy Windows boot files from NTFS to EFI partition:
+
 ```bash
 # Ensure Windows partition is mounted (check hardware-configuration.nix)
 sudo mkdir -p /boot/EFI/Microsoft
@@ -219,6 +226,7 @@ When changing disks in the future, follow this checklist:
 ### Before Changing NixOS Drive:
 
 1. **Backup your configuration**:
+
    ```bash
    cd ~/.dotfiles
    git add -A
@@ -227,6 +235,7 @@ When changing disks in the future, follow this checklist:
    ```
 
 2. **Document current drive layout**:
+
    ```bash
    lsblk -f > ~/disk-layout-backup.txt
    blkid > ~/blkid-backup.txt
@@ -240,6 +249,7 @@ When changing disks in the future, follow this checklist:
 ### After Installing NixOS on New Drive:
 
 1. **Mount Windows partition** (add to hardware-configuration.nix):
+
    ```nix
    fileSystems."/mnt/win" = {
      device = "/dev/disk/by-uuid/YOUR-WINDOWS-UUID";

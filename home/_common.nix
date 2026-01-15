@@ -1,4 +1,9 @@
-{ config, pkgs, userSettings, ... }:
+{
+  config,
+  pkgs,
+  userSettings,
+  ...
+}:
 
 {
   nixpkgs.config.allowUnfree = true;
@@ -7,7 +12,7 @@
 
   home.stateVersion = "24.11";
   home.username = userSettings.username;
-  home.homeDirectory = "/home/"+userSettings.username;
+  home.homeDirectory = "/home/" + userSettings.username;
 
   imports = [
     # Application configurations (dotfiles)

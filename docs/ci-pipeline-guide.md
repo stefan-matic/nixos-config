@@ -7,7 +7,9 @@ This document describes the GitLab CI/CD pipeline for validating the NixOS flake
 The pipeline has two modes:
 
 ### Default Mode (Fast Validation)
+
 Runs on every commit automatically:
+
 - ✓ Syntax checking and linting (no package downloads)
 - ✓ Flake structure validation
 - ✓ Configuration evaluation (ensures all Nix code is valid)
@@ -15,7 +17,9 @@ Runs on every commit automatically:
 - 💾 **Lightweight**: No package downloads, minimal bandwidth usage
 
 ### Full Build Mode (Optional)
+
 Runs only when explicitly enabled via CI/CD variable `RUN_FULL_BUILDS=true`:
+
 - ✓ Everything from default mode
 - ✓ Actually builds all NixOS configurations
 - ✓ Actually builds all Home Manager configurations
@@ -24,6 +28,7 @@ Runs only when explicitly enabled via CI/CD variable `RUN_FULL_BUILDS=true`:
 - 💾 **Heavy**: Downloads gigabytes of packages
 
 **When to use full builds:**
+
 - Before major releases or merges to main
 - When testing package changes
 - When you need to verify that all packages can actually be built
@@ -32,21 +37,24 @@ Runs only when explicitly enabled via CI/CD variable `RUN_FULL_BUILDS=true`:
 ## Pipeline Structure
 
 ### Stage 1: Linting (Parallel)
+
 Fast feedback on code quality issues:
 
 - **nix-fmt-check**: Validates Nix code formatting using alejandra or nixpkgs-fmt
 - **statix-lint**: Detects Nix anti-patterns and suggests improvements
 - **deadnix-check**: Identifies unused/dead Nix code
 
-*Note: All linting jobs allow failure to not block the pipeline on style issues.*
+_Note: All linting jobs allow failure to not block the pipeline on style issues._
 
 ### Stage 2: Validation (Sequential)
+
 Validates flake structure and evaluation:
 
 - **flake-check**: Runs `nix flake check` to validate the entire flake
 - **flake-eval**: Ensures all configuration outputs can be evaluated
 
 ### Stage 3: Build System Configurations (Parallel)
+
 Builds all NixOS host configurations:
 
 - **build-zvijer**: Gaming/Workstation desktop
@@ -57,6 +65,7 @@ Builds all NixOS host configurations:
 - **build-liveboot-iso**: ISO image build (optional, can be slow)
 
 ### Stage 4: Build Home Manager Configurations (Parallel)
+
 Builds all Home Manager user configurations:
 
 - **build-home-stefanmatic-zvijer**: Host-specific config for ZVIJER
@@ -66,6 +75,7 @@ Builds all Home Manager user configurations:
 - **build-home-fallen**: Secondary user config (optional)
 
 ### Stage 5: Summary (.post)
+
 - **validation-summary**: Prints summary of successful validation
 
 ## Local Validation
@@ -83,6 +93,7 @@ nix build .#homeConfigurations."stefanmatic@ZVIJER".activationPackage --dry-run
 ```
 
 The `validate-config.sh` script:
+
 - Mirrors the GitLab CI checks
 - Uses `--dry-run` for faster validation
 - Provides colored output for easy reading
@@ -93,6 +104,7 @@ The `validate-config.sh` script:
 There are several ways to enable full builds:
 
 ### Method 1: Manual Pipeline Run (One-time)
+
 1. In GitLab, go to: **CI/CD → Pipelines**
 2. Click **Run Pipeline**
 3. Add variable:
@@ -101,6 +113,7 @@ There are several ways to enable full builds:
 4. Click **Run Pipeline**
 
 ### Method 2: Project-level Variable (Always on)
+
 1. In GitLab, go to: **Settings → CI/CD → Variables**
 2. Click **Add Variable**
 3. Set:
@@ -112,6 +125,7 @@ There are several ways to enable full builds:
 **Note**: This will run full builds on every commit. Consider using Method 3 instead.
 
 ### Method 3: Scheduled Pipelines (Recommended)
+
 1. In GitLab, go to: **CI/CD → Schedules**
 2. Click **New Schedule**
 3. Set schedule (e.g., weekly on Sundays at 2 AM)
@@ -121,6 +135,7 @@ There are several ways to enable full builds:
 5. Save
 
 ### Method 4: Branch-specific Variable
+
 1. In GitLab, go to: **Settings → CI/CD → Variables**
 2. Add variable with environment scope:
    - Key: `RUN_FULL_BUILDS`
@@ -144,6 +159,7 @@ This runs full builds only on the `main` branch.
 ### Enabling the Pipeline
 
 1. Push `.gitlab-ci.yml` to your repository:
+
 ```bash
 git add .gitlab-ci.yml
 git commit -m "Add GitLab CI pipeline for NixOS validation"
@@ -226,6 +242,7 @@ nix-fmt-check:
 
 - Increase runner disk space
 - Add garbage collection to pipeline:
+
 ```yaml
 after_script:
   - nix-collect-garbage -d

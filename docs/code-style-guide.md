@@ -5,6 +5,7 @@ This document describes the code style and formatting standards for this NixOS c
 ## Overview
 
 This project uses **nixfmt** (RFC style) for all Nix code formatting. The formatting is enforced through:
+
 - **VS Code**: Auto-format on save
 - **treefmt**: Project-wide formatting tool
 - **GitLab CI**: Automated format checking
@@ -48,12 +49,14 @@ nixfmt --check .
 **Official Nix formatter** following [RFC 166](https://github.com/NixOS/rfcs/blob/master/rfcs/0166-nix-formatting.md).
 
 **Features:**
+
 - Consistent formatting across all Nix files
 - 2-space indentation
 - Automatic line breaking at 100 characters
 - Standardized attribute set formatting
 
 **Installation:**
+
 ```bash
 # Already available via nix run
 nix run nixpkgs#nixfmt-rfc-style -- --help
@@ -63,6 +66,7 @@ nix profile install nixpkgs#nixfmt-rfc-style
 ```
 
 **Usage:**
+
 ```bash
 # Format a file in place
 nixfmt file.nix
@@ -79,11 +83,13 @@ nixfmt .
 **Multi-language formatter** that runs all formatters in one command.
 
 **Features:**
+
 - Formats Nix, Markdown, YAML, JSON
 - Fast (only formats changed files)
 - Configurable via `treefmt.toml`
 
 **Installation:**
+
 ```bash
 # Run via nix
 nix run nixpkgs#treefmt
@@ -93,6 +99,7 @@ nix-shell -p treefmt
 ```
 
 **Usage:**
+
 ```bash
 # Format all files
 treefmt
@@ -115,6 +122,7 @@ See `treefmt.toml` in the project root.
 **Universal editor configuration** that works across all editors.
 
 **Features:**
+
 - Sets indentation, line endings, charset
 - Works in VS Code, Vim, Emacs, IntelliJ, etc.
 - No installation needed (most editors support it)
@@ -167,14 +175,17 @@ Project settings are in `.vscode/settings.json`:
 ### Nix Code
 
 **Indentation:**
+
 - 2 spaces (no tabs)
 - Consistent across all files
 
 **Line length:**
+
 - Soft limit: 100 characters
 - Hard limit: None (nixfmt handles wrapping)
 
 **Attribute sets:**
+
 ```nix
 # Good
 {
@@ -187,6 +198,7 @@ Project settings are in `.vscode/settings.json`:
 ```
 
 **Function arguments:**
+
 ```nix
 # Good (short)
 { pkgs, lib, ... }:
@@ -203,6 +215,7 @@ Project settings are in `.vscode/settings.json`:
 ```
 
 **Lists:**
+
 ```nix
 # Good (short)
 [ "foo" "bar" "baz" ]
@@ -216,6 +229,7 @@ Project settings are in `.vscode/settings.json`:
 ```
 
 **Let expressions:**
+
 ```nix
 let
   foo = "bar";
@@ -229,18 +243,22 @@ in
 ### Markdown
 
 **Line length:**
+
 - No hard limit
 - Use word wrap in editor
 
 **Headings:**
+
 - Use ATX style (`#` headers)
 - One space after `#`
 
 **Lists:**
+
 - Use `-` for unordered lists
 - Use `1.` for ordered lists
 
 **Code blocks:**
+
 ````markdown
 ```nix
 # Nix code here
@@ -250,16 +268,19 @@ in
 ### YAML
 
 **Indentation:**
+
 - 2 spaces
 - No tabs
 
 **Quotes:**
+
 - Use quotes for strings with special characters
 - Unquoted for simple strings
 
 ### JSON
 
 **Indentation:**
+
 - 2 spaces
 - No trailing commas
 
@@ -284,6 +305,7 @@ fi
 ```
 
 Make it executable:
+
 ```bash
 chmod +x .git/hooks/pre-commit
 ```
@@ -291,11 +313,13 @@ chmod +x .git/hooks/pre-commit
 ### Option 2: Using pre-commit Framework
 
 Install pre-commit:
+
 ```bash
 nix-shell -p pre-commit
 ```
 
 Create `.pre-commit-config.yaml`:
+
 ```yaml
 repos:
   - repo: local
@@ -313,6 +337,7 @@ repos:
 ```
 
 Install hooks:
+
 ```bash
 pre-commit install
 ```

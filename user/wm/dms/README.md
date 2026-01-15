@@ -24,6 +24,7 @@ DMS is configured at the **system level** via NixOS with all features enabled.
 Home-manager only manages the Niri configuration file.
 
 **Enabled Features:**
+
 - ✅ System Monitoring (dgop)
 - ✅ File Search & Indexing (DankSearch/dsearch)
 - ✅ Clipboard History Manager (cliphist)
@@ -41,12 +42,14 @@ Home-manager only manages the Niri configuration file.
 DMS includes a unified login interface (greeter) for greetd that matches the visual style of the DMS lock screen.
 
 **Features:**
+
 - Multi-user login support
 - Session memory (remembers last session and user)
 - Theme synchronization with user DMS configuration
 - Support for Niri, Hyprland, Sway, and mangowc compositors
 
 **Quick Setup:**
+
 1. Import `greeter.nix` in your host configuration
 2. Enable with `services.dms-greeter.enable = true;`
 3. Configure theme sync: `services.dms-greeter.themeSyncUsers = [ "stefanmatic" ];`
@@ -58,6 +61,7 @@ See **[GREETER.md](./GREETER.md)** for detailed installation and configuration i
 DankSearch provides fast file indexing and search capabilities for DMS integration.
 
 **Features:**
+
 - Fast file indexing with configurable depth and exclusions
 - Auto-reindex on file changes
 - Systemd user service (auto-starts on login)
@@ -65,12 +69,14 @@ DankSearch provides fast file indexing and search capabilities for DMS integrati
 - Text file content indexing
 
 **Configuration:**
+
 - Located in: `user/wm/dms/dsearch.nix`
 - Enabled for ZVIJER via home-manager
 - Indexes: `~/.dotfiles`, home directory (with blacklist), `/etc/nixos`
 - API server: `127.0.0.1:43654`
 
 **Usage:**
+
 ```bash
 # Check service status
 systemctl --user status dsearch
@@ -87,6 +93,7 @@ dsearch search "pattern"
 
 **Customization:**
 Edit `user/wm/dms/dsearch.nix` to:
+
 - Add/remove indexed paths
 - Adjust blacklist directories
 - Change file size limits
@@ -97,17 +104,20 @@ Edit `user/wm/dms/dsearch.nix` to:
 dgop is a lightweight system monitoring tool providing real-time system information to DMS widgets.
 
 **Features:**
+
 - Single static binary with zero dependencies
 - CPU, memory, disk, and network monitoring
 - GPU monitoring (with nvidia-smi)
 - Process management integration
 
 **Configuration:**
+
 - Automatically installed via DMS module
 - Enabled with: `enableSystemMonitoring = true;` in DMS config
 - No additional configuration needed
 
 **Usage:**
+
 ```bash
 # Check version
 dgop version
@@ -121,6 +131,7 @@ dgop server
 
 **Integration:**
 dgop is automatically used by DMS for:
+
 - System resource widgets in the bar
 - Process list/task manager (Mod+M)
 - Performance monitoring graphs
@@ -144,12 +155,14 @@ DMS is optimized for use with the Niri wayland compositor. The DMS home-manager 
 ## System Configuration
 
 ### NixOS (system-level)
+
 - **DMS Location**: `hosts/zvijer/configuration.nix` (lines 143-163)
 - **DMS Module**: `inputs.dms.nixosModules.dankMaterialShell`
 - **Niri**: Enabled via `programs.niri.enable` in `hosts/_common/client.nix`
 - **Utilities**: `cliphist`, `grimblast` for clipboard and screenshots
 
 ### Home Manager (user-level)
+
 - **Location**: `home/stefanmatic.nix` imports `user/wm/dms/dms.nix`
 - **Purpose**: Only manages Niri `config.kdl` file and DMS config structure
 - **Theming**: Handled by matugen (not stylix)
@@ -167,6 +180,7 @@ DMS is optimized for use with the Niri wayland compositor. The DMS home-manager 
 DMS can also run on KDE Plasma Wayland session, though Niri is the recommended compositor for best integration.
 
 To test DMS without switching sessions:
+
 ```bash
 systemctl --user start dms
 ```
@@ -180,6 +194,7 @@ home-manager switch --flake ~/.dotfiles#stefanmatic
 ```
 
 For system changes (like updating Niri):
+
 ```bash
 sudo nixos-rebuild switch --flake ~/.dotfiles#ZVIJER
 ```
@@ -189,6 +204,7 @@ sudo nixos-rebuild switch --flake ~/.dotfiles#ZVIJER
 ### Modifying DMS Configuration
 
 Edit `user/wm/dms/dms.nix` to:
+
 - Enable/disable features
 - Adjust systemd behavior
 - Add custom packages
@@ -210,18 +226,22 @@ wayland.windowManager.niri.settings = {
 ## Troubleshooting
 
 ### DMS not starting
+
 ```bash
 systemctl --user status dms
 journalctl --user -u dms
 ```
 
 ### Keybindings not working
+
 Ensure you're running in a Niri session. Check compositor:
+
 ```bash
 echo $XDG_CURRENT_DESKTOP
 ```
 
 ### Missing dependencies
+
 DMS module automatically installs dependencies based on enabled features. If something is missing, check the feature flags in `dms.nix`.
 
 ## References

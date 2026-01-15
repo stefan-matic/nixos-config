@@ -21,6 +21,7 @@ This directory contains the managed configuration for StreamController (Stream D
 ### Main Page (Main.json)
 
 **Keys (Buttons):**
+
 - **0x0**: 💡 **Elgato Key Light Toggle**
   - Plugin: `de_gensyn_HomeAssistantPlugin::HomeAssistantAction`
   - Entity: `light.elgato_key_light`
@@ -44,6 +45,7 @@ This directory contains the managed configuration for StreamController (Stream D
     - Black/transparent when unmuted
 
 **Dials (Rotary Encoders):**
+
 - **Dial 0**: Main output volume (Focusrite Scarlett Line1)
 - **Dial 1**: Speakers volume (USB Audio SPDIF)
 - **Dial 2**: Microphone input volume (Focusrite Scarlett Mic2)
@@ -51,11 +53,12 @@ This directory contains the managed configuration for StreamController (Stream D
 ### Emoji Page (Emoji.json)
 
 **Keys (Buttons):**
-- **0x0**: ¯\_(ツ)_/¯ **Shrug**
+
+- **0x0**: ¯\_(ツ)\_/¯ **Shrug**
 - **1x0**: (╯°□°)╯︵ ┻━┻ **Table Flip**
 - **2x0**: ಠ_ಠ **Look of Disapproval**
 - **3x0**: ( ͡° ͜ʖ ͡°) **Lenny Face**
-- **1x1**: ┬─┬ノ( º _ ºノ) **Table Unflip**
+- **1x1**: ┬─┬ノ( º \_ ºノ) **Table Unflip**
 - **3x1**: ⬅️ **Back to Main Page**
 
 ## Usage
@@ -67,6 +70,7 @@ home-manager switch --flake ~/.dotfiles#stefanmatic@ZVIJER
 ```
 
 Files are managed as follows:
+
 - **Page files** (`pages/*.json`): **COPIED** (not symlinked) - fully writable
 - **Settings files** (`settings/*.json`): **COPIED** (not symlinked) - fully writable
 - **Skip onboarding flag**: Created as empty file via symlink
@@ -77,6 +81,7 @@ Symlinks point to read-only Nix store files, causing `PermissionError: [Errno 13
 Using `home.activation` script to copy files ensures they're writable.
 
 **Location:**
+
 - `~/.var/app/com.core447.StreamController/data/pages/` - writable copies
 - `~/.var/app/com.core447.StreamController/data/settings/` - writable copies
 
@@ -86,16 +91,19 @@ Using `home.activation` script to copy files ensures they're writable.
 
 1. Make your changes in the StreamController app
 2. Run the sync script to copy updated files back to dotfiles:
+
    ```bash
    cd ~/.dotfiles/user/app/streamcontroller
    ./sync-from-live.sh
    ```
 
    Or manually copy files:
+
    ```bash
    cp ~/.var/app/com.core447.StreamController/data/pages/*.json ~/.dotfiles/user/app/streamcontroller/pages/
    cp ~/.var/app/com.core447.StreamController/data/settings/*.json ~/.dotfiles/user/app/streamcontroller/settings/
    ```
+
 3. Review and commit changes to git:
    ```bash
    cd ~/.dotfiles
@@ -125,6 +133,7 @@ This will restore your pages and settings from the dotfiles repo.
 ## Flatpak Data Location
 
 StreamController (Flatpak) stores all data in:
+
 ```
 ~/.var/app/com.core447.StreamController/data/
 ```
@@ -134,11 +143,13 @@ StreamController (Flatpak) stores all data in:
 StreamController can be slow to start due to network checks (plugin store, auto-updates). The configuration includes:
 
 **Developer Mode Enabled:**
+
 - Disables auto-update checks on startup
 - Disables plugin store update checks
 - Significantly faster startup (5s vs 2-3 minutes)
 
 **Settings in `settings.json`:**
+
 ```json
 {
   "store": {
@@ -151,6 +162,7 @@ StreamController can be slow to start due to network checks (plugin store, auto-
 ```
 
 **Launch with `--devel` flag:**
+
 ```bash
 streamcontroller --devel -b
 ```
@@ -158,14 +170,17 @@ streamcontroller --devel -b
 ## Troubleshooting
 
 ### Slow Startup (2-3 minutes)
+
 **Cause**: Network checks for updates (GitHub CDN, Cloudflare)
 **Solution**: Enable developer mode (already configured)
 
 ### Permission Errors
+
 **Cause**: Read-only symlinks to Nix store
 **Solution**: Using activation script to copy files (already implemented)
 
 ### Home Assistant Plugin Errors
+
 **Cause**: Wrong port configuration (was 4, should be 8123)
 **Solution**: Port fixed to 8123 in plugin settings
 

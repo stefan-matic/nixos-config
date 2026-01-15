@@ -5,11 +5,13 @@
 The key principle is: **NixOS manages the system, Home Manager manages the user environment.**
 
 ### **NixOS System Configuration** (`hosts/`)
+
 - **What it affects**: The entire system, all users, system services
 - **Requires**: `sudo nixos-rebuild switch` (root privileges)
 - **Scope**: System-wide configuration
 
-### **Home Manager Configuration** (`home/`)  
+### **Home Manager Configuration** (`home/`)
+
 - **What it affects**: Individual user environment, dotfiles, user applications
 - **Requires**: `home-manager switch` (user privileges)
 - **Scope**: Per-user configuration
@@ -19,6 +21,7 @@ The key principle is: **NixOS manages the system, Home Manager manages the user 
 ### ✅ **NixOS System Config Should Handle:**
 
 #### 1. **System Services & Daemons**
+
 ```nix
 # In hosts/*/configuration.nix or system/
 services = {
@@ -34,6 +37,7 @@ services = {
 ```
 
 #### 2. **Hardware & Kernel Configuration**
+
 ```nix
 # Hardware, drivers, kernel modules
 hardware = {
@@ -49,6 +53,7 @@ boot = {
 ```
 
 #### 3. **Network & Security**
+
 ```nix
 # Network interfaces, firewalls, VPNs
 networking = {
@@ -65,6 +70,7 @@ security = {
 ```
 
 #### 4. **System-Wide Programs**
+
 ```nix
 # Tools needed by system or multiple users
 environment.systemPackages = with pkgs; [
@@ -84,6 +90,7 @@ programs = {
 ```
 
 #### 5. **Desktop Environment / Window Manager**
+
 ```nix
 # Display managers, desktop environments
 services = {
@@ -92,7 +99,7 @@ services = {
     displayManager.gdm.enable = true;
     desktopManager.gnome.enable = true;
   };
-  
+
   # OR for a window manager setup
   displayManager.sddm.enable = true;
 };
@@ -102,6 +109,7 @@ programs.hyprland.enable = true;
 ```
 
 #### 6. **User Account Management**
+
 ```nix
 users.users.stefanmatic = {
   isNormalUser = true;
@@ -112,6 +120,7 @@ users.users.stefanmatic = {
 ```
 
 #### 7. **Font Installation (System-Wide)**
+
 ```nix
 fonts.packages = with pkgs; [
   noto-fonts
@@ -127,6 +136,7 @@ fonts.packages = with pkgs; [
 ### ✅ **Home Manager Should Handle:**
 
 #### 1. **Application Configuration & Dotfiles**
+
 ```nix
 # User-specific app configs
 programs = {
@@ -139,7 +149,7 @@ programs = {
       pull.rebase = true;
     };
   };
-  
+
   zsh = {
     enable = true;
     enableCompletion = true;
@@ -151,7 +161,7 @@ programs = {
       theme = "agnoster";
     };
   };
-  
+
   kitty = {
     enable = true;
     font.name = "JetBrains Mono";
@@ -164,25 +174,26 @@ programs = {
 ```
 
 #### 2. **User Applications & Packages**
+
 ```nix
 home.packages = with pkgs; [
   # Development tools
   vscode
   discord
   slack
-  
+
   # Media & productivity
   vlc
   firefox
   chromium
   libreoffice
-  
+
   # CLI tools (user preference)
   ripgrep
   fd
   bat
   exa
-  
+
   # Language-specific tools
   nodejs
   python3
@@ -191,6 +202,7 @@ home.packages = with pkgs; [
 ```
 
 #### 3. **User Services**
+
 ```nix
 services = {
   # User-level services
@@ -198,16 +210,17 @@ services = {
     enable = true;
     indicator = true;
   };
-  
+
   syncthing.enable = true;         # Personal file sync
   mpris-proxy.enable = true;       # Media keys
-  
+
   # Custom user services
   deej-new.enable = true;          # Volume control
 };
 ```
 
 #### 4. **XDG Directories & User Environment**
+
 ```nix
 xdg = {
   enable = true;
@@ -219,7 +232,7 @@ xdg = {
     download = "${config.home.homeDirectory}/Downloads";
     music = "${config.home.homeDirectory}/Music";
   };
-  
+
   configFile = {
     "some-app/config.yml".text = ''
       key: value
@@ -234,6 +247,7 @@ home.file = {
 ```
 
 #### 5. **Desktop & Theme Configuration**
+
 ```nix
 # GTK/Qt themes, cursors, icons
 gtk = {
@@ -257,6 +271,7 @@ home.pointerCursor = {
 ### **From Home Manager to NixOS System:**
 
 #### **1. System Services Currently in Home Manager**
+
 ```nix
 # MOVE these from home/ to hosts/*/configuration.nix:
 
@@ -275,23 +290,24 @@ services.pipewire.enable = true;
 ```
 
 #### **2. Hardware-Related Packages**
+
 ```nix
 # MOVE from home.packages to environment.systemPackages:
 environment.systemPackages = with pkgs; [
   # Hardware tools
   pciutils          # lspci
-  usbutils          # lsusb  
+  usbutils          # lsusb
   lm_sensors        # sensors
-  
+
   # System monitoring (if used system-wide)
   htop
   iotop
   iftop
-  
+
   # Hardware control
   brightnessctl     # Backlight control
   pavucontrol       # Audio control GUI
-  
+
   # System debugging
   strace
   ltrace
@@ -300,6 +316,7 @@ environment.systemPackages = with pkgs; [
 ```
 
 #### **3. Shell Configuration (Partial)**
+
 ```nix
 # MOVE shell enablement to system, keep config in home-manager
 # In system configuration:
@@ -316,27 +333,29 @@ programs.zsh = {
 ### **From NixOS System to Home Manager:**
 
 #### **1. User-Specific Applications**
+
 ```nix
 # MOVE from environment.systemPackages to home.packages:
 home.packages = with pkgs; [
   # Development
   vscode
   dbeaver-bin
-  
-  # Communication  
+
+  # Communication
   discord
   slack
-  
+
   # Browsers (user choice)
   chromium
   firefox
-  
+
   # Media
   vlc
 ];
 ```
 
 #### **2. Language Development Tools**
+
 ```nix
 # MOVE to home-manager for per-user management:
 home.packages = with pkgs; [
@@ -347,7 +366,7 @@ home.packages = with pkgs; [
   awscli2
   terraform
   terragrunt
-  
+
   # Programming languages
   nodejs
   python3
@@ -362,13 +381,15 @@ home.packages = with pkgs; [
 ### **Check Your `hosts/_common/client.nix`:**
 
 **❌ Should Move to Home Manager:**
+
 - `chromium` → Personal browser choice
-- `firefox` → Personal browser choice  
+- `firefox` → Personal browser choice
 - `vscode` → Development tool
 - `discord` → Communication app
 - Individual development tools
 
 **✅ Keep in System:**
+
 - `git` → Often needed by system
 - `yubikey-personalization` → Hardware support
 - `pcscd` service → Hardware service
@@ -378,13 +399,15 @@ home.packages = with pkgs; [
 ### **Check Your `home/_common.nix`:**
 
 **❌ Should Move to System:**
+
 - `pavucontrol` → Audio hardware control
-- `brightnessctl` → Hardware control  
+- `brightnessctl` → Hardware control
 - `lm_sensors`, `pciutils`, `usbutils` → Hardware tools
 - `htop`, `iotop`, `iftop` → System monitoring
 - `strace`, `ltrace`, `lsof` → System debugging
 
 **✅ Keep in Home Manager:**
+
 - Personal applications (`vlc`, `discord`, etc.)
 - Development tools (`kubectl`, `awscli2`)
 - User scripts and dotfiles
@@ -395,19 +418,23 @@ home.packages = with pkgs; [
 ## 🎯 **Best Practices**
 
 ### **1. The "Multiple Users" Test**
+
 - If another user on the system would benefit → **NixOS System**
 - If it's your personal preference → **Home Manager**
 
-### **2. The "Root Required" Test**  
+### **2. The "Root Required" Test**
+
 - Needs root/sudo to configure → **NixOS System**
 - Can be configured as user → **Home Manager**
 
 ### **3. The "Hardware/System" Test**
+
 - Controls hardware or system behavior → **NixOS System**
 - Configures user applications → **Home Manager**
 
 ### **4. The "Service" Test**
-- System daemon/service → **NixOS System**  
+
+- System daemon/service → **NixOS System**
 - User session service → **Home Manager**
 
 ---
@@ -415,32 +442,37 @@ home.packages = with pkgs; [
 ## 🔧 **Recommended Refactor Plan**
 
 ### **Phase 1: Move Hardware/System Tools**
+
 1. Move `lm_sensors`, `pciutils`, `usbutils` to system
-2. Move `htop`, `iotop`, `iftop` to system  
+2. Move `htop`, `iotop`, `iftop` to system
 3. Move `strace`, `ltrace`, `lsof` to system
 4. Move `pavucontrol`, `brightnessctl` to system
 
 ### **Phase 2: Move User Applications**
+
 1. Move browsers from system to home-manager
 2. Move development IDEs to home-manager
 3. Move communication apps to home-manager
 4. Move media applications to home-manager
 
 ### **Phase 3: Services Audit**
+
 1. Review each service in both configs
 2. Move system services to NixOS
 3. Keep user services in home-manager
 4. Check for duplicates
 
 ### **Phase 4: Clean Up**
+
 1. Remove duplicate package definitions
 2. Organize modules logically
 3. Document the separation in comments
 4. Test configurations
 
 This separation will give you:
+
 - **Faster home-manager rebuilds** (fewer packages)
-- **Cleaner system configuration** 
+- **Cleaner system configuration**
 - **Better multi-user support**
 - **Clearer mental model** of what goes where
 
@@ -452,11 +484,12 @@ After analyzing your `user/` configuration modules, here are additional recommen
 
 ### **✅ Correctly Placed in Home Manager (`user/`):**
 
-#### **1. Application Configurations** 
+#### **1. Application Configurations**
+
 ```nix
 # These are perfect for home-manager:
 user/app/git/git.nix           # ✅ Personal git config
-user/app/terminal/kitty.nix    # ✅ Terminal preferences  
+user/app/terminal/kitty.nix    # ✅ Terminal preferences
 user/app/browser/*             # ✅ Browser configurations
 user/app/chat/viber.nix        # ✅ Communication apps
 user/app/keepassxc.nix         # ✅ Personal password manager
@@ -464,6 +497,7 @@ user/style/stylix.nix          # ✅ Personal theming
 ```
 
 #### **2. Shell Customizations**
+
 ```nix
 # user/shells/sh.nix - Personal shell configuration ✅
 programs.zsh = {
@@ -483,6 +517,7 @@ home.packages = [
 ```
 
 #### **3. Window Manager Configuration**
+
 ```nix
 # user/wm/hyprland/ - Personal WM setup ✅
 wayland.windowManager.hyprland = {
@@ -497,10 +532,11 @@ wayland.windowManager.hyprland = {
 ```
 
 #### **4. Programming Language Tools**
+
 ```nix
 # user/lang/ - Development environment ✅
 user/lang/python/python.nix    # ✅ Personal Python setup
-user/lang/go/go.nix            # ✅ Personal Go setup  
+user/lang/go/go.nix            # ✅ Personal Go setup
 user/lang/nodejs/nodejs.nix    # ✅ Personal Node.js setup
 ```
 
@@ -509,6 +545,7 @@ user/lang/nodejs/nodejs.nix    # ✅ Personal Node.js setup
 ### **❌ Should Move from `user/` to System Config:**
 
 #### **1. Window Manager System Support**
+
 ```nix
 # MOVE from user/wm/hyprland/hyprland.nix to system config:
 
@@ -526,7 +563,7 @@ environment.systemPackages = with pkgs; [
   hyprpaper                     # Wallpaper daemon
   grim slurp                    # Screenshot tools (hardware related)
   brightnessctl                 # Hardware brightness control
-  pamixer                       # Audio hardware control  
+  pamixer                       # Audio hardware control
   nm-applet                     # Network manager GUI
   flameshot                     # Screenshot tool
 ];
@@ -538,6 +575,7 @@ environment.systemPackages = with pkgs; [
 ```
 
 #### **2. Shell System Enablement**
+
 ```nix
 # MOVE shell enablement to system, keep customization in home-manager
 
@@ -557,6 +595,7 @@ programs.zsh = {
 ```
 
 #### **3. Core CLI Tools for System Admin**
+
 ```nix
 # MOVE these from user/shells/sh.nix to system packages:
 
@@ -564,18 +603,19 @@ programs.zsh = {
 environment.systemPackages = with pkgs; [
   # Core GNU tools (useful for all users/system scripts)
   gnugrep
-  gnused  
+  gnused
   bc                           # Calculator (system scripts might need)
-  
+
   # System administration tools
   fzf                          # Fuzzy finder (useful in system scripts)
-  
+
   # Keep personal alternatives in home-manager:
   # bat, eza, bottom, fd, etc. - these are personal preferences
 ];
 ```
 
 #### **4. Programming Language System Support**
+
 ```nix
 # MOVE basic language support to system, keep dev tools in home-manager
 
@@ -599,6 +639,7 @@ home.packages = with pkgs; [
 ### **🔧 Specific Recommendations for Your Config:**
 
 #### **1. Waybar Configuration**
+
 ```nix
 # Current: user/app/waybar/waybar.nix
 
@@ -609,7 +650,7 @@ environment.systemPackages = with pkgs; [
   waybar                       # Status bar program
   # Dependencies waybar needs:
   pamixer                      # Audio control
-  brightnessctl               # Brightness control  
+  brightnessctl               # Brightness control
   playerctl                   # Media control
 ];
 
@@ -622,6 +663,7 @@ programs.waybar = {
 ```
 
 #### **2. Font Management**
+
 ```nix
 # Current: user/style/stylix.nix has font configuration
 
@@ -643,6 +685,7 @@ stylix.fonts = {
 ```
 
 #### **3. Hyprland Split Strategy**
+
 ```nix
 # System config (hosts/_common/client.nix or system/wm/):
 programs.hyprland = {
@@ -676,25 +719,29 @@ wayland.windowManager.hyprland = {
 
 ### **📋 Updated Refactor Action Plan:**
 
-#### **Phase 1: System Infrastructure** 
+#### **Phase 1: System Infrastructure**
+
 1. ✅ Move core CLI tools (`gnugrep`, `gnused`, `bc`, `fzf`) to system
-2. ✅ Move window manager system support to system config  
+2. ✅ Move window manager system support to system config
 3. ✅ Move shell enablement (`programs.zsh.enable`) to system
 4. ✅ Move font installation to system config
 5. ✅ Move Waybar and its dependencies to system packages
 
 #### **Phase 2: Hardware Tools** (from previous analysis)
+
 1. ✅ Move hardware control tools to system (`brightnessctl`, `pamixer`)
 2. ✅ Move system monitoring to system (`htop`, `iotop`, `iftop`)
 3. ✅ Move debugging tools to system (`strace`, `ltrace`, `lsof`)
 
 #### **Phase 3: Personal Applications**
+
 1. ✅ Keep all `user/app/` configurations in home-manager
-2. ✅ Keep development language tools in home-manager  
+2. ✅ Keep development language tools in home-manager
 3. ✅ Keep personal shell customizations in home-manager
 4. ✅ Keep window manager personal config in home-manager
 
 #### **Phase 4: Validation**
+
 1. ✅ Test that window manager works after system/home split
 2. ✅ Verify fonts are available system-wide but personally configured
 3. ✅ Ensure shell works with system enablement + personal config
@@ -705,7 +752,7 @@ wayland.windowManager.hyprland = {
 ```
 System Config (hosts/):
 ├── Window manager support (Hyprland enable, XDG portal)
-├── Core tools (basic languages, GNU tools, system fonts)  
+├── Core tools (basic languages, GNU tools, system fonts)
 ├── Hardware control (brightness, audio, monitoring)
 ├── System services (SSH, Docker, etc.)
 └── Desktop environment framework
@@ -713,7 +760,7 @@ System Config (hosts/):
 Home Manager (home/):
 ├── Personal applications (browsers, IDEs, communication)
 ├── Development environments (language tools, dev packages)
-├── Personal configurations (git, shell aliases, keybinds) 
+├── Personal configurations (git, shell aliases, keybinds)
 ├── User services (KDE connect, personal sync)
 └── Themes and personal preferences
 ```

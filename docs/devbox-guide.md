@@ -3,6 +3,7 @@
 A comprehensive guide to using Devbox for per-project development environments with automatic activation via direnv.
 
 ## Table of Contents
+
 1. [What is Devbox?](#what-is-devbox)
 2. [Why Devbox Over Nix Flakes?](#why-devbox-over-nix-flakes)
 3. [Basic Setup](#basic-setup)
@@ -22,6 +23,7 @@ A comprehensive guide to using Devbox for per-project development environments w
 **Devbox** is a command-line tool that creates isolated, reproducible development environments using Nix packages, but with a much simpler interface than raw Nix.
 
 **Key Features:**
+
 - ✅ **Simple**: No need to write Nix expressions
 - ✅ **Per-project**: Different tool versions per directory
 - ✅ **Automatic**: Integrates with direnv for auto-activation
@@ -30,6 +32,7 @@ A comprehensive guide to using Devbox for per-project development environments w
 - ✅ **Isolated**: Doesn't pollute global environment
 
 **Think of it as:**
+
 - Like `nvm` or `rbenv` but for ALL tools
 - Like Docker but without containers
 - Like virtual environments but for system packages
@@ -38,17 +41,18 @@ A comprehensive guide to using Devbox for per-project development environments w
 
 ## Why Devbox Over Nix Flakes?
 
-| Aspect | Nix Flakes | Devbox |
-|--------|-----------|--------|
-| **Learning Curve** | Steep (Nix language) | Gentle (simple commands) |
-| **Configuration** | `flake.nix` (Nix code) | `devbox.json` (simple JSON) |
-| **Adding Packages** | Edit Nix code | `devbox add terraform` |
-| **Activation** | `nix develop` | `devbox shell` or automatic |
-| **Version Pinning** | Manual in flake | `terraform@1.5.0` |
-| **Direnv Support** | Manual setup | Built-in |
-| **Team Adoption** | Requires Nix knowledge | Easy for anyone |
+| Aspect              | Nix Flakes             | Devbox                      |
+| ------------------- | ---------------------- | --------------------------- |
+| **Learning Curve**  | Steep (Nix language)   | Gentle (simple commands)    |
+| **Configuration**   | `flake.nix` (Nix code) | `devbox.json` (simple JSON) |
+| **Adding Packages** | Edit Nix code          | `devbox add terraform`      |
+| **Activation**      | `nix develop`          | `devbox shell` or automatic |
+| **Version Pinning** | Manual in flake        | `terraform@1.5.0`           |
+| **Direnv Support**  | Manual setup           | Built-in                    |
+| **Team Adoption**   | Requires Nix knowledge | Easy for anyone             |
 
 **Your Current Setup:**
+
 ```bash
 # Flake-based (manual, complex)
 cd ~/Workspace/trustsoft/adcubum
@@ -56,6 +60,7 @@ nix develop  # Or nix-shell
 ```
 
 **With Devbox:**
+
 ```bash
 # Devbox with direnv (automatic, simple)
 cd ~/Workspace/trustsoft/adcubum
@@ -684,17 +689,19 @@ git commit -m "Add devbox configuration"
 
 ### 3. Document in README
 
-```markdown
+````markdown
 ## Development Setup
 
 This project uses [Devbox](https://www.jetpack.io/devbox/) for development environment management.
 
 ### Prerequisites
+
 - [Nix](https://nixos.org/) (already installed on NixOS)
 - [Devbox](https://www.jetpack.io/devbox/docs/installing_devbox/)
 - [Direnv](https://direnv.net/)
 
 ### Setup
+
 ```bash
 # Clone repository
 git clone ...
@@ -706,7 +713,9 @@ direnv allow
 # Environment automatically loaded!
 terraform --version
 ```
-```
+````
+
+````
 
 ### 4. Use Init Hooks for Validation
 
@@ -725,7 +734,7 @@ terraform --version
     ]
   }
 }
-```
+````
 
 ### 5. Project Templates
 
@@ -945,6 +954,7 @@ devbox generate direnv && direnv allow
 ### Current State
 
 In your `user/packages/development.nix`:
+
 ```nix
 home.packages = with pkgs; [
   devbox        # ✅ Already installed
@@ -956,6 +966,7 @@ home.packages = with pkgs; [
 ### Shell Configuration
 
 Direnv hook is already in your shell config (`user/app/direnv/direnv.nix`):
+
 ```nix
 programs.direnv = {
   enable = true;
@@ -967,6 +978,7 @@ programs.direnv = {
 ### Everything is Ready!
 
 You can start using devbox immediately:
+
 ```bash
 cd ~/Workspace/any-project
 devbox init
@@ -979,18 +991,22 @@ devbox generate direnv && direnv allow
 ## Resources
 
 **Official Documentation:**
+
 - https://www.jetpack.io/devbox/docs/
 - https://www.jetpack.io/devbox/docs/devbox_examples/
 
 **Search Packages:**
+
 - https://www.nixhub.io/ (Devbox package search)
 - https://search.nixos.org/packages
 
 **Community:**
+
 - Devbox Discord: https://discord.gg/agbskTW3
 - GitHub: https://github.com/jetpack-io/devbox
 
 **Your Setup:**
+
 - Devbox: `user/packages/development.nix`
 - Direnv: `user/app/direnv/direnv.nix`
 - This guide: `docs/devbox-guide.md`

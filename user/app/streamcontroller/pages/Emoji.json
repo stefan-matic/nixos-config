@@ -1,186 +1,162 @@
 {
-    "auto-change": {
-        "enable": true,
-        "wm_class": "",
-        "title": "",
-        "stay_on_page": true
-    },
-    "keys": {
-        "0x0": {
-            "states": {
-                "0": {
-                    "actions": [
-                        {
-                            "id": "com_core447_OSPlugin::WriteText",
-                            "settings": {
-                                "text": "\u00af\\_(\u30c4)_/\u00af"
-                            }
-                        }
-                    ],
-                    "image-control-action": null,
-                    "label-control-actions": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "background-control-action": null,
-                    "labels": {
-                        "center": {
-                            "text": "\u00af\\_(\u30c4)_/\u00af",
-                            "font-family": "DejaVu Sans",
-                            "style": "normal",
-                            "font-size": 24.0,
-                            "font-weight": 400
-                        }
-                    }
-                }
+  "auto-change": {
+    "enable": true,
+    "wm_class": "",
+    "title": "",
+    "stay_on_page": true
+  },
+  "keys": {
+    "0x0": {
+      "states": {
+        "0": {
+          "actions": [
+            {
+              "id": "com_core447_OSPlugin::WriteText",
+              "settings": {
+                "text": "\u00af\\_(\u30c4)_/\u00af"
+              }
             }
-        },
-        "3x1": {
-            "states": {
-                "0": {
-                    "actions": [
-                        {
-                            "id": "com_core447_DeckPlugin::ChangePage",
-                            "settings": {
-                                "selected_page": "/home/stefanmatic/.var/app/com.core447.StreamController/data/pages/Main.json",
-                                "deck_number": null
-                            }
-                        }
-                    ],
-                    "image-control-action": 0,
-                    "label-control-actions": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "background-control-action": 0,
-                    "labels": {
-                        "bottom": {
-                            "text": "Back"
-                        }
-                    },
-                    "media": {
-                        "path": "/home/stefanmatic/.var/app/com.core447.StreamController/data/icons/com_core447_MaterialIcons/icons/undo-inv.png"
-                    }
-                }
+          ],
+          "image-control-action": null,
+          "label-control-actions": [0, 0, 0],
+          "background-control-action": null,
+          "labels": {
+            "center": {
+              "text": "\u00af\\_(\u30c4)_/\u00af",
+              "font-family": "DejaVu Sans",
+              "style": "normal",
+              "font-size": 24.0,
+              "font-weight": 400
             }
-        },
-        "1x0": {
-            "states": {
-                "0": {
-                    "actions": [
-                        {
-                            "id": "com_core447_OSPlugin::WriteText",
-                            "settings": {
-                                "text": "(\u256f\u00b0\u25a1\u00b0)\u256f\ufe35 \u253b\u2501\u253b"
-                            }
-                        }
-                    ],
-                    "image-control-action": null,
-                    "label-control-actions": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "background-control-action": null,
-                    "labels": {
-                        "center": {
-                            "text": "(\u256f\u00b0\u25a1\u00b0)\u256f\ufe35 \u253b\u2501\u253b",
-                            "font-family": "DejaVu Sans",
-                            "style": "normal",
-                            "font-size": 15.0,
-                            "font-weight": 400
-                        }
-                    }
-                }
-            }
-        },
-        "2x0": {
-            "states": {
-                "0": {
-                    "actions": [
-                        {
-                            "id": "com_core447_OSPlugin::WriteText",
-                            "settings": {
-                                "text": "\u0ca0_\u0ca0"
-                            }
-                        }
-                    ],
-                    "image-control-action": null,
-                    "label-control-actions": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "background-control-action": null,
-                    "labels": {
-                        "center": {
-                            "text": "\u0ca0_\u0ca0",
-                            "font-family": "DejaVu Sans",
-                            "style": "normal",
-                            "font-size": 22.0,
-                            "font-weight": 400
-                        }
-                    }
-                }
-            }
-        },
-        "3x0": {
-            "states": {
-                "0": {
-                    "labels": {
-                        "center": {
-                            "text": "Lenny"
-                        }
-                    },
-                    "actions": [
-                        {
-                            "id": "com_core447_OSPlugin::WriteText",
-                            "settings": {
-                                "text": "\u0361\u00b0 \u035c\u0296 \u0361\u00b0"
-                            }
-                        }
-                    ],
-                    "image-control-action": null,
-                    "label-control-actions": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "background-control-action": null
-                }
-            }
-        },
-        "1x1": {
-            "states": {
-                "0": {
-                    "actions": [
-                        {
-                            "id": "com_core447_OSPlugin::WriteText",
-                            "settings": {
-                                "text": "\u252c\u2500\u252c\u30ce( \u00ba _ \u00ba\u30ce)"
-                            }
-                        }
-                    ],
-                    "image-control-action": null,
-                    "label-control-actions": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "background-control-action": null,
-                    "labels": {
-                        "center": {
-                            "text": "\u252c\u2500\u252c\u30ce( \u00ba _ \u00ba\u30ce)",
-                            "font-family": "DejaVu Sans",
-                            "style": "normal",
-                            "font-size": 15.0,
-                            "font-weight": 400
-                        }
-                    }
-                }
-            }
+          }
         }
+      }
+    },
+    "3x1": {
+      "states": {
+        "0": {
+          "actions": [
+            {
+              "id": "com_core447_DeckPlugin::ChangePage",
+              "settings": {
+                "selected_page": "/home/stefanmatic/.var/app/com.core447.StreamController/data/pages/Main.json",
+                "deck_number": null
+              }
+            }
+          ],
+          "image-control-action": 0,
+          "label-control-actions": [0, 0, 0],
+          "background-control-action": 0,
+          "labels": {
+            "bottom": {
+              "text": "Back"
+            }
+          },
+          "media": {
+            "path": "/home/stefanmatic/.var/app/com.core447.StreamController/data/icons/com_core447_MaterialIcons/icons/undo-inv.png"
+          }
+        }
+      }
+    },
+    "1x0": {
+      "states": {
+        "0": {
+          "actions": [
+            {
+              "id": "com_core447_OSPlugin::WriteText",
+              "settings": {
+                "text": "(\u256f\u00b0\u25a1\u00b0)\u256f\ufe35 \u253b\u2501\u253b"
+              }
+            }
+          ],
+          "image-control-action": null,
+          "label-control-actions": [0, 0, 0],
+          "background-control-action": null,
+          "labels": {
+            "center": {
+              "text": "(\u256f\u00b0\u25a1\u00b0)\u256f\ufe35 \u253b\u2501\u253b",
+              "font-family": "DejaVu Sans",
+              "style": "normal",
+              "font-size": 15.0,
+              "font-weight": 400
+            }
+          }
+        }
+      }
+    },
+    "2x0": {
+      "states": {
+        "0": {
+          "actions": [
+            {
+              "id": "com_core447_OSPlugin::WriteText",
+              "settings": {
+                "text": "\u0ca0_\u0ca0"
+              }
+            }
+          ],
+          "image-control-action": null,
+          "label-control-actions": [0, 0, 0],
+          "background-control-action": null,
+          "labels": {
+            "center": {
+              "text": "\u0ca0_\u0ca0",
+              "font-family": "DejaVu Sans",
+              "style": "normal",
+              "font-size": 22.0,
+              "font-weight": 400
+            }
+          }
+        }
+      }
+    },
+    "3x0": {
+      "states": {
+        "0": {
+          "labels": {
+            "center": {
+              "text": "Lenny"
+            }
+          },
+          "actions": [
+            {
+              "id": "com_core447_OSPlugin::WriteText",
+              "settings": {
+                "text": "\u0361\u00b0 \u035c\u0296 \u0361\u00b0"
+              }
+            }
+          ],
+          "image-control-action": null,
+          "label-control-actions": [0, 0, 0],
+          "background-control-action": null
+        }
+      }
+    },
+    "1x1": {
+      "states": {
+        "0": {
+          "actions": [
+            {
+              "id": "com_core447_OSPlugin::WriteText",
+              "settings": {
+                "text": "\u252c\u2500\u252c\u30ce( \u00ba _ \u00ba\u30ce)"
+              }
+            }
+          ],
+          "image-control-action": null,
+          "label-control-actions": [0, 0, 0],
+          "background-control-action": null,
+          "labels": {
+            "center": {
+              "text": "\u252c\u2500\u252c\u30ce( \u00ba _ \u00ba\u30ce)",
+              "font-family": "DejaVu Sans",
+              "style": "normal",
+              "font-size": 15.0,
+              "font-weight": 400
+            }
+          }
+        }
+      }
     }
+  }
 }

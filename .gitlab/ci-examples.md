@@ -34,6 +34,7 @@ Set up a scheduled pipeline to run full builds weekly:
 ```
 
 This ensures:
+
 - Daily commits: Fast validation only (~1-2 min)
 - Weekly: Full package builds to catch any upstream issues
 
@@ -51,12 +52,14 @@ To always run full builds on `main` branch only:
    ```
 
 Now:
+
 - Commits to `main`: Full builds
 - Commits to other branches: Fast validation only
 
 ## What Gets Validated
 
 ### Default Mode (Fast)
+
 - ✓ Nix syntax checking (alejandra/nixpkgs-fmt)
 - ✓ Anti-pattern detection (statix)
 - ✓ Dead code detection (deadnix)
@@ -64,6 +67,7 @@ Now:
 - ✓ Configuration evaluation (all hosts and home-manager configs)
 
 ### Full Build Mode
+
 - ✓ Everything from default mode
 - ✓ Build all NixOS configurations (ZVIJER, T14, StarLabs, Z420)
 - ✓ Build all Home Manager configurations
@@ -73,6 +77,7 @@ Now:
 ## Pipeline Behavior
 
 ### Normal Commit to Feature Branch
+
 ```bash
 git commit -m "Update package"
 git push
@@ -80,6 +85,7 @@ git push
 ```
 
 ### Release to Main Branch (with scheduled full builds)
+
 ```bash
 git checkout main
 git merge feature-branch
@@ -89,6 +95,7 @@ git push
 ```
 
 ### Manual Full Build Verification
+
 ```bash
 # Before merging important changes
 # 1. Push your branch
@@ -103,11 +110,13 @@ git push
 ### CI Minutes Usage
 
 **Fast validation** (default):
+
 - ~1-2 minutes per run
 - Minimal compute usage
 - Can run on every commit
 
 **Full builds** (optional):
+
 - ~10-30 minutes per run
 - Significant compute usage
 - Run weekly or before releases
@@ -115,16 +124,19 @@ git push
 ### Recommendations
 
 **For public/hobby projects (limited CI minutes):**
+
 - Default: Fast validation on all commits
 - Schedule: Weekly full builds on Sunday
 - Total: ~7-14 min/day + 30 min/week = ~80-130 min/week
 
 **For professional projects (unlimited CI minutes):**
+
 - Default: Fast validation on feature branches
 - Main branch: Full builds on every commit
 - Schedule: Nightly full builds
 
 **For large teams:**
+
 - MRs: Fast validation only
 - Main: Full builds after merge
 - Schedule: Full builds 2x per week

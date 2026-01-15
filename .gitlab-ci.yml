@@ -50,7 +50,7 @@ nix-fmt-check:
   script:
     - echo "Checking Nix code formatting with nixfmt (RFC style)..."
     - nix run nixpkgs#nixfmt-rfc-style -- --check .
-  allow_failure: true  # Don't block pipeline on formatting issues
+  allow_failure: true # Don't block pipeline on formatting issues
   only:
     - merge_requests
     - main
@@ -60,7 +60,7 @@ statix-lint:
   script:
     - echo "Running statix linter for Nix anti-patterns..."
     - nix run nixpkgs#statix -- check .
-  allow_failure: true  # Don't block pipeline on linting suggestions
+  allow_failure: true # Don't block pipeline on linting suggestions
   only:
     - merge_requests
     - main
@@ -70,7 +70,7 @@ deadnix-check:
   script:
     - echo "Checking for dead/unused Nix code..."
     - nix run nixpkgs#deadnix -- --fail .
-  allow_failure: true  # Don't block pipeline on dead code
+  allow_failure: true # Don't block pipeline on dead code
   only:
     - merge_requests
     - main
@@ -215,7 +215,7 @@ build-home-fallen:
   script:
     - echo "Building Home Manager configuration for fallen..."
     - nix build .#homeConfigurations.fallen.activationPackage --show-trace
-  allow_failure: true  # If this user config is optional
+  allow_failure: true # If this user config is optional
   rules:
     - if: $RUN_FULL_BUILDS == "true"
       when: on_success

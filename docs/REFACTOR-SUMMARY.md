@@ -1,4 +1,5 @@
 # Configuration Refactor Summary
+
 **Philosophy B Implementation: Full System/Home-Manager Separation**
 
 ## Overview
@@ -38,9 +39,11 @@ This refactor implements a clean separation between NixOS system configuration a
 ### 🔄 Major Migrations
 
 #### Moved to Home Manager (from System)
+
 **~80 packages moved** - dramatically reducing system rebuild times
 
 **Development Tools:**
+
 - IDEs: `code-cursor`, `dbeaver-bin`
 - DevOps: `kubectl`, `kubectx`, `kubernetes-helm`, `k9s`, `kubelogin`, `eksctl`, `lens`
 - Cloud: `awscli2`, `azure-cli` (+ all extensions)
@@ -50,32 +53,40 @@ This refactor implements a clean separation between NixOS system configuration a
 - Environments: `devbox`, `quickemu`
 
 **Communication:**
+
 - `slack`, `discord`, `element-desktop`, `zoom-us`, `remmina`
 
 **Productivity:**
+
 - `libreoffice-qt6-fresh`, `affine`
 - `protonvpn-gui`, `wgnord`
 - `wayfarer`, `kiro`, `streamcontroller`
 
 **Creative:**
+
 - Video: `kdenlive`
 - 3D: `prusa-slicer`, `openscad`
 - Image: `imagemagick`, `viu`, `timg`
 
 **Gaming:**
+
 - `lutris`, `wineWowPackages.stable`, `winetricks`
 - `vulkan-tools`, `vulkan-loader`, `vulkan-validation-layers`
 
 **Media:**
+
 - `vlc`, `mpv`
 
 **Utilities:**
+
 - `veracrypt`, `qdirstat`
 
 **Browsers:**
+
 - `chromium`, `firefox` (moved to home-manager)
 
 #### Moved to System (from Home Manager)
+
 **Hardware & monitoring tools** - ensuring system-wide access
 
 - **Monitoring:** `htop`, `iotop`, `iftop`
@@ -84,6 +95,7 @@ This refactor implements a clean separation between NixOS system configuration a
 - **Hardware Control:** `pavucontrol`, `pamixer`, `brightnessctl`
 
 #### Eliminated Duplications
+
 - Removed duplicate `grim`, `slurp` (now only in system)
 - Removed duplicate `wl-clipboard` (now only in system)
 - Consolidated browser choices in home-manager
@@ -93,49 +105,58 @@ This refactor implements a clean separation between NixOS system configuration a
 #### System Configuration
 
 **`hosts/_common/default.nix`:**
+
 - Now imports `system/packages/{common,hardware,monitoring}.nix`
 - Keeps only essential system tools
 - Retains Firefox enablement, zsh, fonts
 
 **`hosts/_common/client.nix`:**
+
 - Imports `system/packages/desktop.nix`
 - **Reduced from ~30 packages to ~8 essential ones**
 - Keeps: google-chrome, cloudflare-warp, yubikey, zbar, nix-prefetch-git, os-prober
 - Removed: All personal apps, dev tools, productivity software
 
 **`hosts/zvijer/configuration.nix`:**
+
 - **Reduced from ~70 packages to ~1 (ntfs3g)**
 - Imports `./packages.nix` for host-specific hardware
 - Keeps only system services: DMS, NordVPN, OpenRazer, Syncthing, OBS, Steam, TeamViewer
 - Removed: All personal applications
 
 **`hosts/zvijer/packages.nix`:** (NEW)
+
 - Razer hardware: `openrazer-daemon`, `razergenie`, `input-remapper`
 - Custom packages: `select-browser`, `kdialog`
 - System utilities: `ghostty`, `fastfetch`
 
 **`hosts/t14/packages.nix`:** (NEW)
+
 - Custom packages: `select-browser`
 - Wayland tools: `fuzzel`
 - System services: `cloudflare-warp`
 
 **`hosts/starlabs/packages.nix`:** (NEW)
+
 - Custom packages: `select-browser`
 - Wayland tools: `fuzzel`
 - System services: `cloudflare-warp`
 
 **`hosts/z420/configuration.nix`:**
+
 - Already clean - server configuration with no extra packages
 
 #### Home Manager Configuration
 
 **`home/_common.nix`:**
+
 - **Reduced from ~30 packages to 0** (all moved to package modules)
 - Now imports `user/packages/common.nix`
 - Focuses on dotfile imports and XDG configuration
 - Cleaner, more maintainable
 
 **`home/stefanmatic.nix`:**
+
 - Imports all user package categories:
   - `development.nix`
   - `communication.nix`
@@ -148,21 +169,25 @@ This refactor implements a clean separation between NixOS system configuration a
 ## Benefits
 
 ### ✨ Performance
+
 - **Faster system rebuilds**: ~80 fewer packages in system config
 - **Faster home-manager rebuilds**: No hardware tools to build
 - **Parallel builds**: Can rebuild system and home-manager independently
 
 ### 🎯 Clarity
+
 - **Clear mental model**: System = infrastructure, Home = apps
 - **Easy to find packages**: Organized by category
 - **Better documentation**: Each module is self-documenting
 
 ### 🔧 Maintainability
+
 - **Modular structure**: Easy to add/remove package categories
 - **No duplications**: Single source of truth for each package
 - **Reusable modules**: Package categories can be shared across configs
 
 ### 👥 Multi-User Ready
+
 - User-specific apps don't pollute system
 - Each user can have different applications
 - System provides common infrastructure
@@ -172,6 +197,7 @@ This refactor implements a clean separation between NixOS system configuration a
 ### Adding Packages
 
 **User Application:**
+
 ```nix
 # Add to appropriate file in user/packages/
 # user/packages/development.nix
@@ -181,6 +207,7 @@ home.packages = with pkgs; [
 ```
 
 **System Tool:**
+
 ```nix
 # Add to appropriate file in system/packages/
 # system/packages/monitoring.nix
@@ -192,6 +219,7 @@ environment.systemPackages = with pkgs; [
 ### Enabling/Disabling Package Categories
 
 In `home/stefanmatic.nix`:
+
 ```nix
 imports = [
   ../user/packages/development.nix    # Keep
@@ -204,6 +232,7 @@ imports = [
 
 1. Create new file: `user/packages/category-name.nix`
 2. Define packages:
+
 ```nix
 { pkgs, ... }:
 {
@@ -213,6 +242,7 @@ imports = [
   ];
 }
 ```
+
 3. Import in `home/stefanmatic.nix`
 
 ## Decision Framework
@@ -220,6 +250,7 @@ imports = [
 When adding new packages, ask:
 
 ### Should it go in System?
+
 - **YES** if:
   - Multiple users need it
   - Requires root/system-level access
@@ -230,6 +261,7 @@ When adding new packages, ask:
 - **Examples**: htop, docker, bluetooth, printing services, hardware drivers
 
 ### Should it go in Home Manager?
+
 - **YES** if:
   - Personal application
   - Development tool
@@ -240,6 +272,7 @@ When adding new packages, ask:
 - **Examples**: vscode, slack, browsers, dev tools, games
 
 ### Still Uncertain?
+
 Use the "Multiple Users Test": Would another user on this system want this exact package? If no → Home Manager.
 
 ## Package Inventory
@@ -247,28 +280,33 @@ Use the "Multiple Users Test": Would another user on this system want this exact
 ### System Packages (Total: ~40)
 
 **Common (system/packages/common.nix):**
+
 - git, vim, wget, dig, openssl, inetutils
 - which, tree
 - zip, unzip, xz, p7zip
 - python3
 
 **Hardware (system/packages/hardware.nix):**
+
 - lm_sensors, pciutils, usbutils
 - brightnessctl, pavucontrol, pamixer
 - gparted, gnome-disk-utility
 
 **Monitoring (system/packages/monitoring.nix):**
+
 - htop, iotop, iftop
 - strace, ltrace, lsof
 
 **Desktop (system/packages/desktop.nix):**
+
 - grim, slurp, wl-clipboard, cliphist, xwayland-satellite
 - nautilus, gvfs
 - kcalc, kate, kdialog
 - xdotool, kdotool, ydotool
 - mesa-demos
 
-**Client-specific (hosts/_common/client.nix):**
+**Client-specific (hosts/\_common/client.nix):**
+
 - google-chrome, cloudflare-warp
 - select-browser (used by all client hosts)
 - fuzzel (Wayland launcher for Niri/DMS)
@@ -276,23 +314,28 @@ Use the "Multiple Users Test": Would another user on this system want this exact
 - zbar, nix-prefetch-git, os-prober
 
 **ZVIJER-specific (hosts/zvijer/packages.nix):**
+
 - kdialog (KDE utilities)
 - openrazer-daemon, razergenie, input-remapper (Razer hardware)
 
 **T14-specific (hosts/t14/packages.nix):**
+
 - None currently (common packages moved to client.nix for DRY)
 - Placeholder for future T14-specific hardware packages
 
 **StarLabs-specific (hosts/starlabs/packages.nix):**
+
 - None currently (common packages moved to client.nix for DRY)
 - Placeholder for future StarLabs-specific hardware packages
 
 **Z420-specific:**
+
 - Clean server configuration, no extra packages needed
 
 ### User Packages (Total: ~80+)
 
 **Common (user/packages/common.nix):**
+
 - chromium, firefox
 - ghostty (terminal emulator)
 - fastfetch (system information)
@@ -304,6 +347,7 @@ Use the "Multiple Users Test": Would another user on this system want this exact
 - tesseract4, screenshot-ocr script
 
 **Development (user/packages/development.nix):**
+
 - code-cursor, dbeaver-bin
 - devbox, direnv, nix-direnv, pre-commit
 - nodejs, python3, python3.pkgs.pip, uv
@@ -314,20 +358,24 @@ Use the "Multiple Users Test": Would another user on this system want this exact
 - gnumake, quickemu
 
 **Communication (user/packages/communication.nix):**
+
 - slack, discord, element-desktop
 - zoom-us, remmina
 
 **Creative (user/packages/creative.nix):**
+
 - kdenlive
 - prusa-slicer, openscad
 - imagemagick, viu, timg
 
 **Gaming (user/packages/gaming.nix):**
+
 - lutris
 - wineWowPackages.stable, winetricks
 - vulkan-tools, vulkan-loader, vulkan-validation-layers
 
 **Productivity (user/packages/productivity.nix):**
+
 - affine
 - protonvpn-gui, wgnord
 - wayfarer, kiro
@@ -336,18 +384,21 @@ Use the "Multiple Users Test": Would another user on this system want this exact
 ## Testing
 
 ### Test System Build
+
 ```bash
 # Should be much faster now
 sudo nixos-rebuild switch --flake ~/.dotfiles#ZVIJER
 ```
 
 ### Test Home Manager Build
+
 ```bash
 # May take longer initially (more packages)
 home-manager switch --flake ~/.dotfiles#stefanmatic@ZVIJER
 ```
 
 ### Verify No Regressions
+
 ```bash
 # Check that applications still work
 code      # Should launch code-cursor
@@ -390,6 +441,7 @@ git checkout <previous-commit>
 ## Questions?
 
 Refer to:
+
 - `docs/nixos-vs-home-manager-guide.md` for philosophy and guidelines
 - Individual package module files for what's included where
 - Git history for detailed changes
@@ -401,21 +453,25 @@ Refer to:
 All hosts have been updated to follow the new structure:
 
 ### ZVIJER (Gaming/Workstation Desktop)
+
 - **System packages**: ~6 host-specific (Razer hardware, custom tools)
 - **Services**: DMS, NordVPN, OpenRazer, Syncthing, OBS, Steam, TeamViewer
 - **User packages**: Full suite (~80 packages via home-manager)
 
 ### T14 (Lenovo ThinkPad Laptop)
+
 - **System packages**: ~3 host-specific (fuzzel, cloudflare-warp)
 - **Services**: DMS, Syncthing, TeamViewer, OBS
 - **User packages**: Full suite (~80 packages via home-manager)
 
 ### StarLabs (StarLabs Laptop)
+
 - **System packages**: ~3 host-specific (fuzzel, cloudflare-warp)
 - **Services**: DMS, Syncthing, TeamViewer, OBS
 - **User packages**: Full suite (~80 packages via home-manager)
 
 ### Z420 (HP Workstation)
+
 - **System packages**: None (uses only common packages)
 - **Services**: Syncthing
 - **Configuration**: Server-oriented, minimal desktop
@@ -460,11 +516,13 @@ After the initial multi-host refactor, duplicate packages were identified across
 ### Duplications Eliminated
 
 **Moved to `hosts/_common/client.nix`:**
+
 1. **select-browser** - Was duplicated in all three client hosts (ZVIJER, t14, starlabs)
 2. **fuzzel** - Was duplicated in both laptop hosts (t14, starlabs) for Niri/DMS launcher
 3. **cloudflare-warp** - Already in client.nix but duplicated in t14/starlabs packages
 
 **Moved to `user/packages/common.nix` (home-manager):**
+
 1. **ghostty** - Terminal emulator moved from system (ZVIJER) to user packages for all hosts following Philosophy B
 2. **fastfetch** - System information tool moved from system (ZVIJER) to user packages for all hosts following Philosophy B
 
@@ -473,14 +531,17 @@ After the initial multi-host refactor, duplicate packages were identified across
 Following this optimization, host-specific package files now contain only truly unique packages:
 
 **ZVIJER (`hosts/zvijer/packages.nix`):**
+
 - Razer hardware: `openrazer-daemon`, `razergenie`, `input-remapper`
 - KDE utilities: `kdialog`
 
 **T14 (`hosts/t14/packages.nix`):**
+
 - Empty (all packages moved to common)
 - Kept as placeholder for future T14-specific hardware packages
 
 **StarLabs (`hosts/starlabs/packages.nix`):**
+
 - Empty (all packages moved to common)
 - Kept as placeholder for future StarLabs-specific hardware packages
 

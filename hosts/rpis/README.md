@@ -72,7 +72,7 @@ imports = [
 
 # Disable modules that aren't needed for SD images
 disabledModules = [
-  "profiles/all-hardware.nix" 
+  "profiles/all-hardware.nix"
   "profiles/base.nix"
 ];
 ```
@@ -106,6 +106,7 @@ sudo dd if=./result/sd-image/nixos-sd-image-*-aarch64-linux.img of=/dev/sdX bs=4
 ### Raspberry Pi 4
 
 Uses `nixos-hardware.nixosModules.raspberry-pi-4` with:
+
 - **FKMS 3D acceleration** - `hardware.raspberry-pi."4".fkms-3d.enable = true`
 - **Device tree overlays** - `hardware.raspberry-pi."4".apply-overlays-dtmerge.enable = true`
 - **Optimized kernel** - `linux_rpi4` kernel package
@@ -114,6 +115,7 @@ Uses `nixos-hardware.nixosModules.raspberry-pi-4` with:
 ### Raspberry Pi Zero 2W (Planned)
 
 Support for Pi Zero 2W will use similar configuration with adjustments for:
+
 - Lower memory constraints
 - Different GPU configuration
 - Optimized package selection for limited resources
@@ -123,17 +125,20 @@ Support for Pi Zero 2W will use similar configuration with adjustments for:
 All Pi configurations include:
 
 ### Performance Optimizations
+
 - **zRAM swap** - 25% of memory for compressed swap
 - **tmpfs /var/log** - Reduce SD card writes
 - **noatime mounts** - Minimize SD card access
 - **Journal size limits** - Prevent log growth
 
 ### SD Card Longevity
+
 - **Reduced logging** - SystemMaxUse=50-100M
 - **tmpfs for temporary files** - `/tmp` in memory
 - **Optimized filesystem** - ext4 with noatime
 
 ### Remote Access
+
 - **SSH enabled** by default with key-based auth
 - **Firewall configured** - Only necessary ports open
 - **User management** - Non-root user with sudo access
@@ -141,6 +146,7 @@ All Pi configurations include:
 ## Network Configuration
 
 ### WiFi Setup
+
 Most configurations include WiFi support. Update these settings:
 
 ```nix
@@ -156,6 +162,7 @@ networking.wireless = {
 ```
 
 ### Static IP (Optional)
+
 For servers like `routercheech`:
 
 ```nix
@@ -168,16 +175,19 @@ networking.interfaces.wlan0.ipv4.addresses = [{
 ## Troubleshooting
 
 ### Build Issues
+
 - **Out of memory** → Use remote building with `--target-host`
 - **Slow builds** → Use remote building or increase swap
 - **Kernel panics** → Check power supply (5V 3A+ recommended)
 
 ### Boot Issues
+
 - **Won't boot** → Check SD card, try different card
 - **Hangs at boot** → Check hardware-configuration.nix
 - **No network** → Verify WiFi credentials and country code
 
 ### Performance Issues
+
 - **Slow response** → Check zRAM swap configuration
 - **High load** → Monitor with `htop`, reduce running services
 - **Storage full** → Check journal size, clean up old generations

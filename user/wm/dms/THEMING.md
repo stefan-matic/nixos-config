@@ -5,6 +5,7 @@ DankMaterialShell uses **matugen** for dynamic theming based on your wallpaper. 
 ## How Matugen Works
 
 Matugen automatically:
+
 1. Analyzes your wallpaper's color palette
 2. Generates a Material Design 3 color scheme
 3. Applies colors to DMS components
@@ -33,6 +34,7 @@ dms ipc call dankdash wallpaper
 ```
 
 When you select a new wallpaper, matugen will:
+
 - Extract the dominant colors
 - Generate a cohesive color scheme
 - Update all DMS components in real-time
@@ -47,18 +49,21 @@ You can manually edit this file if needed, but changes will be overwritten when 
 ## Color Scheme Files
 
 Matugen stores generated themes in:
+
 - `~/.config/matugen/` - Main configuration
 - `~/.config/niri/dms/colors.kdl` - Niri-specific colors
 
 ## Troubleshooting
 
 ### Theme not updating after wallpaper change
+
 ```bash
 # Restart DMS
 systemctl --user restart dms
 ```
 
 ### Colors look wrong
+
 1. Ensure the wallpaper has good color variety
 2. Try a different wallpaper
 3. Check matugen logs: `journalctl --user -u dms | grep matugen`
@@ -66,6 +71,7 @@ systemctl --user restart dms
 ## Integration with Other Apps
 
 Matugen can theme more than just DMS:
+
 - GTK applications (via generated gtk.css)
 - Qt applications (when QT_QPA_PLATFORMTHEME is set correctly)
 - Terminal emulators (when supported)

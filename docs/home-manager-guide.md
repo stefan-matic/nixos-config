@@ -3,6 +3,7 @@
 A comprehensive guide to working with Home Manager in your NixOS dotfiles.
 
 ## Table of Contents
+
 1. [Basic Commands](#basic-commands)
 2. [Generations Management](#generations-management)
 3. [Package Management](#package-management)
@@ -99,6 +100,7 @@ nix-store -q --references ~/.local/state/nix/profiles/home-manager-41-link
 ### Adding Packages
 
 **1. Add to organized module (recommended):**
+
 ```nix
 # Edit appropriate file in user/packages/
 # user/packages/development.nix
@@ -108,6 +110,7 @@ home.packages = with pkgs; [
 ```
 
 **2. Quick test (temporary):**
+
 ```bash
 # Install package temporarily (not in config)
 nix-shell -p package-name
@@ -201,6 +204,7 @@ home-manager switch --flake ~/.dotfiles#stefanmatic@ZVIJER
 ### Common Issues
 
 #### Conflict Errors
+
 ```bash
 # Error: "There is a conflict for the following files"
 # Solution: Remove conflicting package installed via nix-env
@@ -211,6 +215,7 @@ home-manager switch --flake ~/.dotfiles#stefanmatic@ZVIJER
 ```
 
 #### Build Failures
+
 ```bash
 # Check for syntax errors
 nix flake check ~/.dotfiles
@@ -223,6 +228,7 @@ journalctl --user -u home-manager-stefanmatic.service
 ```
 
 #### Path Issues
+
 ```bash
 # Ensure home-manager is in PATH
 echo $PATH | tr ':' '\n' | grep home-manager
@@ -235,6 +241,7 @@ ls -la ~/.nix-profile
 ```
 
 #### Service Failures
+
 ```bash
 # Check user services
 systemctl --user status
@@ -417,20 +424,21 @@ du -sh /nix/store
 
 ## Home Manager vs NixOS Commands
 
-| Operation | NixOS | Home Manager |
-|-----------|-------|--------------|
-| Apply config | `sudo nixos-rebuild switch` | `home-manager switch` |
-| List generations | `sudo nix-env --list-generations --profile /nix/var/nix/profiles/system` | `home-manager generations` |
-| Rollback | `sudo nixos-rebuild switch --rollback` | `home-manager switch --rollback` |
-| Garbage collect | `sudo nix-collect-garbage -d` | `nix-collect-garbage -d` |
-| Update packages | `sudo nixos-rebuild switch --upgrade` | `nix flake update && home-manager switch` |
-| Remove old gens | `sudo nix-env --delete-generations old` | `home-manager expire-generations "-30 days"` |
+| Operation        | NixOS                                                                    | Home Manager                                 |
+| ---------------- | ------------------------------------------------------------------------ | -------------------------------------------- |
+| Apply config     | `sudo nixos-rebuild switch`                                              | `home-manager switch`                        |
+| List generations | `sudo nix-env --list-generations --profile /nix/var/nix/profiles/system` | `home-manager generations`                   |
+| Rollback         | `sudo nixos-rebuild switch --rollback`                                   | `home-manager switch --rollback`             |
+| Garbage collect  | `sudo nix-collect-garbage -d`                                            | `nix-collect-garbage -d`                     |
+| Update packages  | `sudo nixos-rebuild switch --upgrade`                                    | `nix flake update && home-manager switch`    |
+| Remove old gens  | `sudo nix-env --delete-generations old`                                  | `home-manager expire-generations "-30 days"` |
 
 ---
 
 ## Tips & Best Practices
 
 ### 1. Always Test Before Committing
+
 ```bash
 # Build first, then switch
 home-manager build --flake ~/.dotfiles#stefanmatic@ZVIJER
@@ -438,6 +446,7 @@ home-manager switch --flake ~/.dotfiles#stefanmatic@ZVIJER
 ```
 
 ### 2. Keep Recent Generations
+
 ```bash
 # Don't remove last few generations too quickly
 # Keep at least 3-5 recent ones for safety
@@ -445,6 +454,7 @@ home-manager generations | head -n 6
 ```
 
 ### 3. Use Organized Package Modules
+
 ```nix
 # Good: Organized by category
 imports = [
@@ -457,11 +467,13 @@ home.packages = [ package1 package2 ... package100 ];
 ```
 
 ### 4. Regular Maintenance Schedule
+
 - **Daily**: Apply config changes, test
 - **Weekly**: Update flake, clean generations > 7 days
 - **Monthly**: Deep cleanup, optimize store
 
 ### 5. Document Custom Packages
+
 ```nix
 home.packages = with pkgs; [
   # Cloud tools
@@ -474,6 +486,7 @@ home.packages = with pkgs; [
 ```
 
 ### 6. Use Git for Configuration History
+
 ```bash
 # Before major changes
 git commit -am "Save working config"
@@ -577,6 +590,7 @@ When things go wrong, try these in order:
 8. ✅ **Restart shell**: `exec $SHELL`
 
 If all else fails:
+
 - Check `docs/REFACTOR-SUMMARY.md` for package organization
 - Check `docs/nixos-vs-home-manager-guide.md` for where packages should go
 - Ask in NixOS Discourse or check GitHub issues

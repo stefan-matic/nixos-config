@@ -46,6 +46,7 @@ git clone https://github.com/LuckShiba/DmsDockerManager DockerManager
 ## Finding Plugins
 
 Check the official DMS plugin repository or community resources:
+
 - [DMS GitHub Discussions](https://github.com/AvengeMedia/DankMaterialShell/discussions)
 - [DankLinux Documentation](https://danklinux.com/docs)
 

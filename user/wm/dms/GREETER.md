@@ -5,6 +5,7 @@ This guide covers the installation and configuration of DMS Greeter, a unified l
 ## Overview
 
 DMS Greeter provides:
+
 - Multi-user login capabilities
 - Session memory (remembers last selected session and user)
 - Theme synchronization with your user DMS configuration
@@ -79,6 +80,7 @@ sudo ./sync-greeter-theme.sh stefanmatic
 ```
 
 This script:
+
 - Adds your user to the `greeter` group
 - Sets minimal ACL permissions on parent directories
 - Creates symlinks for:
@@ -130,6 +132,7 @@ services.dms-greeter = {
 ### System-Level Components
 
 The greeter is configured at the system level because:
+
 - greetd is a system service that starts before user sessions
 - Requires access to PAM for authentication
 - Needs to manage user sessions and session selection
@@ -191,6 +194,7 @@ The greeter is configured at the system level because:
 ### Greeter Not Starting
 
 Check greetd service status:
+
 ```bash
 systemctl status greetd
 journalctl -u greetd -f
@@ -199,16 +203,19 @@ journalctl -u greetd -f
 ### Themes Not Syncing
 
 1. Check ACL permissions:
+
    ```bash
    getfacl /home/stefanmatic/.config/quickshell
    ```
 
 2. Verify symlinks exist:
+
    ```bash
    ls -la /var/cache/dms-greeter/
    ```
 
 3. Run manual sync:
+
    ```bash
    sudo ./sync-greeter-theme.sh stefanmatic
    ```
@@ -221,11 +228,13 @@ journalctl -u greetd -f
 ### Greeter Shows Wrong Theme
 
 1. Ensure theme files are accessible:
+
    ```bash
    sudo -u greeter ls /var/cache/dms-greeter/
    ```
 
 2. Check that symlinks point to correct locations:
+
    ```bash
    readlink -f /var/cache/dms-greeter/quickshell
    ```
@@ -242,6 +251,7 @@ If you need custom PAM settings, the greeter uses the `greetd` PAM service. Chec
 ### Session Selection Issues
 
 The greeter remembers the last selected session in its config. To reset:
+
 ```bash
 sudo rm -f /var/cache/dms-greeter/.config/dms-greeter/session.conf
 sudo systemctl restart greetd
@@ -257,6 +267,7 @@ DMS_GREET_CFG_DIR=/custom/path
 ```
 
 Or use the CLI flag:
+
 ```bash
 dms-greeter --cache-dir /custom/path --command niri
 ```
@@ -280,6 +291,7 @@ DMS_RUN_GREETER=1 quickshell
 Available sessions are detected from `/usr/share/wayland-sessions/` and `/usr/share/xsessions/`.
 
 Ensure your desktop files are properly installed:
+
 ```bash
 ls /usr/share/wayland-sessions/
 ```
