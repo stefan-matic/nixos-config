@@ -39,6 +39,7 @@
     // Launch sequentially: KeePassXC -> wait for Viber (9s) -> Slack -> Chrome
     //spawn-at-startup "bash" "-c" "keepassxc & sleep 2 && viber & sleep 10 && slack & sleep 2 && google-chrome-stable &"
     spawn-at-startup "keepassxc"
+    spawn-at-startup "yubioath-flutter"
     spawn-at-startup "slack"
     spawn-at-startup "google-chrome-stable"
     spawn-at-startup "code"
@@ -71,7 +72,7 @@
 
     // Samsung 57" Odyssey G95NC (DP-4) - Primary display at bottom
     // Logical size: 7680/1.25 = 6144x1728
-    output "DP-4" {
+    output "DP-3" {
       mode "7680x2160@240.000"
       scale 1.25
       position x=0 y=1108
