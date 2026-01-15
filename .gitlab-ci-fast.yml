@@ -1,0 +1,71 @@
+# Fast GitLab CI Pipeline for NixOS Flake Configuration
+# Uses --dry-run for faster validation without full builds
+# Useful for rapid feedback during development
+#
+# To use this instead of .gitlab-ci.yml, either:
+# 1. Rename it to .gitlab-ci.yml, or
+# 2. Set it as custom CI file in GitLab project settings
+
+image: nixos/nix:latest
+
+variables:
+  NIX_CONFIG: "experimental-features = nix-command flakes"
+  NIX_BUILD_CORES: "2"  # Lower for fast validation
+
+cache:
+  key: nix-store-cache
+  paths:
+    - .nix-cache/
+
+before_script:
+  - nix --version
+  - nix flake metadata
+
+stages:
+  - validate
+  - quick-build
+
+###################
+# Fast Validation
+###################
+
+flake-check-fast:
+  stage: validate
+  script:
+    - echo "Running fast flake check..."
+    - nix flake check --no-build --show-trace
+    - nix eval .#nixosConfigurations --apply builtins.attrNames
+    - nix eval .#homeConfigurations --apply builtins.attrNames
+  only:
+    - merge_requests
+    - branches
+
+###################
+# Dry-run Builds (Fast)
+###################
+
+quick-build-all-nixos:
+  stage: quick-build
+  script:
+    - echo "Validating all NixOS configurations with dry-run..."
+    - nix build .#nixosConfigurations.ZVIJER.config.system.build.toplevel --dry-run
+    - nix build .#nixosConfigurations.stefan-t14.config.system.build.toplevel --dry-run
+    - nix build .#nixosConfigurations.starlabs.config.system.build.toplevel --dry-run
+    - nix build .#nixosConfigurations.z420.config.system.build.toplevel --dry-run
+    - echo "All NixOS configurations validated successfully!"
+  only:
+    - merge_requests
+    - branches
+
+quick-build-all-home:
+  stage: quick-build
+  script:
+    - echo "Validating all Home Manager configurations with dry-run..."
+    - nix build .#homeConfigurations."stefanmatic@ZVIJER".activationPackage --dry-run
+    - nix build .#homeConfigurations."stefanmatic@t14".activationPackage --dry-run
+    - nix build .#homeConfigurations."stefanmatic@starlabs".activationPackage --dry-run
+    - nix build .#homeConfigurations.stefanmatic.activationPackage --dry-run
+    - echo "All Home Manager configurations validated successfully!"
+  only:
+    - merge_requests
+    - branches

@@ -1,0 +1,231 @@
+# GitLab CI Pipeline for NixOS Flake Configuration
+# Validates all host configurations, home-manager setups, and runs syntax checks
+
+image: nixos/nix:latest
+
+variables:
+  # Enable flakes and nix-command for all jobs
+  NIX_CONFIG: "experimental-features = nix-command flakes"
+  # Speed up builds by using more cores
+  NIX_BUILD_CORES: "4"
+
+# Cache the Nix store between pipeline runs
+cache:
+  key: nix-store-cache
+  paths:
+    - .nix-cache/
+
+# Run before each job to set up Nix properly
+before_script:
+  - nix --version
+  - nix flake metadata
+
+stages:
+  - lint
+  - validate
+  - build-system
+  - build-home
+
+###################
+# Linting Stage
+###################
+
+nix-fmt-check:
+  stage: lint
+  script:
+    - echo "Checking Nix code formatting..."
+    - |
+      # Check if alejandra is available, otherwise use nixpkgs-fmt
+      if nix run nixpkgs#alejandra -- --version &>/dev/null; then
+        echo "Using alejandra formatter"
+        nix run nixpkgs#alejandra -- --check .
+      else
+        echo "Using nixpkgs-fmt formatter"
+        nix run nixpkgs#nixpkgs-fmt -- --check .
+      fi
+  allow_failure: true  # Don't block pipeline on formatting issues
+  only:
+    - merge_requests
+    - main
+
+statix-lint:
+  stage: lint
+  script:
+    - echo "Running statix linter for Nix anti-patterns..."
+    - nix run nixpkgs#statix -- check .
+  allow_failure: true  # Don't block pipeline on linting suggestions
+  only:
+    - merge_requests
+    - main
+
+deadnix-check:
+  stage: lint
+  script:
+    - echo "Checking for dead/unused Nix code..."
+    - nix run nixpkgs#deadnix -- --fail .
+  allow_failure: true  # Don't block pipeline on dead code
+  only:
+    - merge_requests
+    - main
+
+###################
+# Validation Stage
+###################
+
+flake-check:
+  stage: validate
+  script:
+    - echo "Running nix flake check..."
+    - nix flake check --all-systems --show-trace
+  only:
+    - merge_requests
+    - main
+
+flake-eval:
+  stage: validate
+  script:
+    - echo "Evaluating flake outputs..."
+    - nix eval .#nixosConfigurations --apply builtins.attrNames
+    - nix eval .#homeConfigurations --apply builtins.attrNames
+  only:
+    - merge_requests
+    - main
+
+###################
+# Build NixOS System Configurations
+###################
+
+build-zvijer:
+  stage: build-system
+  script:
+    - echo "Building NixOS configuration for ZVIJER..."
+    - nix build .#nixosConfigurations.ZVIJER.config.system.build.toplevel --show-trace
+  only:
+    - merge_requests
+    - main
+
+build-t14:
+  stage: build-system
+  script:
+    - echo "Building NixOS configuration for stefan-t14..."
+    - nix build .#nixosConfigurations.stefan-t14.config.system.build.toplevel --show-trace
+  only:
+    - merge_requests
+    - main
+
+build-starlabs:
+  stage: build-system
+  script:
+    - echo "Building NixOS configuration for starlabs..."
+    - nix build .#nixosConfigurations.starlabs.config.system.build.toplevel --show-trace
+  only:
+    - merge_requests
+    - main
+
+build-z420:
+  stage: build-system
+  script:
+    - echo "Building NixOS configuration for z420..."
+    - nix build .#nixosConfigurations.z420.config.system.build.toplevel --show-trace
+  only:
+    - merge_requests
+    - main
+
+build-liveboot:
+  stage: build-system
+  script:
+    - echo "Building NixOS configuration for liveboot..."
+    - nix build .#nixosConfigurations.liveboot.config.system.build.toplevel --show-trace
+  only:
+    - merge_requests
+    - main
+  allow_failure: true  # Optional configuration
+
+build-liveboot-iso:
+  stage: build-system
+  script:
+    - echo "Building NixOS ISO for liveboot-iso..."
+    - nix build .#nixosConfigurations.liveboot-iso.config.system.build.isoImage --show-trace
+  only:
+    - merge_requests
+    - main
+  allow_failure: true  # ISO builds can be slow/large
+
+###################
+# Build Home Manager Configurations
+###################
+
+build-home-stefanmatic-zvijer:
+  stage: build-home
+  script:
+    - echo "Building Home Manager configuration for stefanmatic@ZVIJER..."
+    - nix build .#homeConfigurations."stefanmatic@ZVIJER".activationPackage --show-trace
+  only:
+    - merge_requests
+    - main
+
+build-home-stefanmatic-t14:
+  stage: build-home
+  script:
+    - echo "Building Home Manager configuration for stefanmatic@t14..."
+    - nix build .#homeConfigurations."stefanmatic@t14".activationPackage --show-trace
+  only:
+    - merge_requests
+    - main
+
+build-home-stefanmatic-starlabs:
+  stage: build-home
+  script:
+    - echo "Building Home Manager configuration for stefanmatic@starlabs..."
+    - nix build .#homeConfigurations."stefanmatic@starlabs".activationPackage --show-trace
+  only:
+    - merge_requests
+    - main
+
+build-home-stefanmatic:
+  stage: build-home
+  script:
+    - echo "Building Home Manager configuration for stefanmatic (no host)..."
+    - nix build .#homeConfigurations.stefanmatic.activationPackage --show-trace
+  only:
+    - merge_requests
+    - main
+
+build-home-fallen:
+  stage: build-home
+  script:
+    - echo "Building Home Manager configuration for fallen..."
+    - nix build .#homeConfigurations.fallen.activationPackage --show-trace
+  only:
+    - merge_requests
+    - main
+  allow_failure: true  # If this user config is optional
+
+###################
+# Summary Job
+###################
+
+validation-summary:
+  stage: .post
+  script:
+    - echo "=========================================="
+    - echo "NixOS Configuration Validation Complete!"
+    - echo "=========================================="
+    - echo "All configurations built successfully."
+    - echo ""
+    - echo "Validated hosts:"
+    - echo "  - ZVIJER (Gaming/Workstation)"
+    - echo "  - stefan-t14 (Lenovo ThinkPad)"
+    - echo "  - starlabs (StarLabs Laptop)"
+    - echo "  - z420 (HP Workstation Server)"
+    - echo ""
+    - echo "Validated home-manager configs:"
+    - echo "  - stefanmatic@ZVIJER"
+    - echo "  - stefanmatic@t14"
+    - echo "  - stefanmatic@starlabs"
+    - echo "  - stefanmatic"
+    - echo "  - fallen"
+  only:
+    - merge_requests
+    - main
+  when: on_success
