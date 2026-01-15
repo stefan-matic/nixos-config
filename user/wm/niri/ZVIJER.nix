@@ -44,6 +44,7 @@
     spawn-at-startup "google-chrome-stable"
     spawn-at-startup "code"
     spawn-at-startup "winboat"
+    spawn-at-startup "affine"
     spawn-at-startup "steam-fix"
     spawn-at-startup "viber"
 
