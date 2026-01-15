@@ -52,12 +52,55 @@
       { mime = "image/gif", use = "play" },
       { mime = "image/*", use = "view" },
     ]
+
+    [plugin]
+    # f3d-preview for 3D models (by file extension)
+    prepend_preloaders = [
+      { name = "*.3mf", run = "f3d-preview" },
+      { name = "*.obj", run = "f3d-preview" },
+      { name = "*.pts", run = "f3d-preview" },
+      { name = "*.ply", run = "f3d-preview" },
+      { name = "*.stl", run = "f3d-preview" },
+      { name = "*.step", run = "f3d-preview" },
+      { name = "*.stp", run = "f3d-preview" },
+    ]
+    prepend_previewers = [
+      { name = "*.3mf", run = "f3d-preview" },
+      { name = "*.obj", run = "f3d-preview" },
+      { name = "*.pts", run = "f3d-preview" },
+      { name = "*.ply", run = "f3d-preview" },
+      { name = "*.stl", run = "f3d-preview" },
+      { name = "*.step", run = "f3d-preview" },
+      { name = "*.stp", run = "f3d-preview" },
+    ]
   '';
 
   # Configure yazi theme for better preview visibility
   xdg.configFile."yazi/theme.toml".text = ''
     [mgr]
     border_style = { fg = "blue" }
+  '';
+
+  # Configure status bar to show modified date
+  xdg.configFile."yazi/init.lua".text = ''
+    -- Add modified date to status bar (right side)
+    Status:children_add(function()
+      local h = cx.active.current.hovered
+      if not h or not h.cha or not h.cha.mtime then
+        return ui.Line({})
+      end
+
+      local mtime = tonumber(h.cha.mtime)
+      if not mtime or mtime <= 0 then
+        return ui.Line({})
+      end
+
+      return ui.Line({
+        ui.Span("Modified: "):fg("cyan"),
+        ui.Span(os.date("%Y-%m-%d %H:%M", math.floor(mtime))):fg("blue"),
+        ui.Span(" "),
+      })
+    end, 500, Status.RIGHT)
   '';
 
   # Install f3d-preview plugin for 3D model previews (STL, 3MF, OBJ, STEP)
@@ -72,9 +115,4 @@
     fi
   '';
 
-  # Configure yazi to use f3d-preview plugin
-  xdg.configFile."yazi/init.lua".text = ''
-    -- Enable f3d-preview for 3D models
-    require("f3d-preview"):setup()
-  '';
 }
