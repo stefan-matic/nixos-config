@@ -44,7 +44,7 @@ in
     syntaxHighlighting.enable = true;
     enableCompletion = true;
     shellAliases = myAliases;
-    initExtra = ''
+    initContent = ''
       PROMPT=" ◉ %U%F{magenta}%n%f%u@%U%F{blue}%m%f%u:%F{yellow}%~%f
        %F{green}→%f "
       RPROMPT="%F{red}▂%f%F{yellow}▄%f%F{green}▆%f%F{cyan}█%f%F{blue}▆%f%F{magenta}▄%f%F{white}▂%f"
@@ -124,7 +124,7 @@ in
 
     # Navigation & file management
     zoxide # Smarter cd with learning
-    yazi # Modern terminal file manager (Rust)
+    # yazi - managed via programs.yazi in user/app/terminal/yazi.nix
     chafa # Image viewer for terminal
 
     # Git tools

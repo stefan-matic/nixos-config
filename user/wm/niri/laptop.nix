@@ -31,8 +31,15 @@ let
       "0.75"
     ];
 
-    # No extra window rules needed for laptop
-    extraWindowRules = "";
+    # Laptop window rules
+    extraWindowRules = ''
+      // MPV from yazi - floating window for video/GIF playback
+      window-rule {
+        match title="yazi-mpv"
+        open-floating true
+        default-column-width { fixed 800; }
+        default-window-height { fixed 450; }
+      }'';
 
     # No extra keybindings needed for laptop (no multi-monitor)
     extraKeybindings = "";

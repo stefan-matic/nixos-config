@@ -107,6 +107,22 @@ let
       window-rule {
         match app-id="google-chrome"
         default-column-width { proportion 0.33; }
+      }
+
+      // MPV from yazi - floating window for video/GIF playback
+      window-rule {
+        match title="yazi-mpv"
+        open-floating true
+        default-column-width { fixed 960; }
+        default-window-height { fixed 540; }
+      }
+
+      // Nautilus file manager - larger floating window (50% wider)
+      window-rule {
+        match app-id="org.gnome.Nautilus"
+        open-floating true
+        default-column-width { fixed 1335; }
+        default-window-height { fixed 825; }
       }'';
 
     # ZVIJER-specific keybindings (multi-monitor navigation)
