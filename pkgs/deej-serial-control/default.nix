@@ -1,4 +1,9 @@
-{ lib, stdenv, pkgs, makeWrapper }:
+{
+  lib,
+  stdenv,
+  pkgs,
+  makeWrapper,
+}:
 
 stdenv.mkDerivation {
   pname = "deej-serial-control";
@@ -8,7 +13,12 @@ stdenv.mkDerivation {
 
   nativeBuildInputs = [ makeWrapper ];
 
-  buildInputs = [ pkgs.bash pkgs.util-linux pkgs.pulseaudio pkgs.gnugrep ];
+  buildInputs = [
+    pkgs.bash
+    pkgs.util-linux
+    pkgs.pulseaudio
+    pkgs.gnugrep
+  ];
 
   installPhase = ''
     mkdir -p $out/bin
@@ -24,7 +34,14 @@ stdenv.mkDerivation {
 
     # Wrap the script with required dependencies
     wrapProgram $out/bin/serial-volume-control.sh \
-      --prefix PATH : ${lib.makeBinPath [ pkgs.pulseaudio pkgs.bash pkgs.util-linux pkgs.gnugrep ]}
+      --prefix PATH : ${
+        lib.makeBinPath [
+          pkgs.pulseaudio
+          pkgs.bash
+          pkgs.util-linux
+          pkgs.gnugrep
+        ]
+      }
   '';
 
   meta = with lib; {

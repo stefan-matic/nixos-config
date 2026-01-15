@@ -12,11 +12,10 @@
 }:
 
 {
-  imports =
-    [
-      ./default.nix
-      ../../system/app/k3s.nix
-    ];
+  imports = [
+    ./default.nix
+    ../../system/app/k3s.nix
+  ];
 
   config = {
 

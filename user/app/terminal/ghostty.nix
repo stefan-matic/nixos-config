@@ -11,8 +11,8 @@
       font-family = "JetBrainsMono Nerd Font";
       font-size = 9;
       font-feature = [
-        "-calt"  # Enable contextual alternates
-        "-liga"  # Enable ligatures
+        "-calt" # Enable contextual alternates
+        "-liga" # Enable ligatures
       ];
 
       # Window padding for breathing room
@@ -23,7 +23,7 @@
 
       # Opacity & blur effects (works great with Niri!)
       background-opacity = 0.95;
-      background-blur = "20";  # Blur what's behind the window (macOS/KDE)
+      background-blur = "20"; # Blur what's behind the window (macOS/KDE)
 
       # Unfocused window opacity to match Niri config
       unfocused-split-opacity = 0.85;

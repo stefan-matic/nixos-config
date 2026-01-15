@@ -1,7 +1,6 @@
 #OVO SI SAMO NASAO NISI NI PROBAO
 
-
-{ pkgs, ...}:
+{ pkgs, ... }:
 
 {
   services.udev.packages = [ pkgs.yubikey-personalization ];

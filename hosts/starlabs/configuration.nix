@@ -1,22 +1,27 @@
-{ config, pkgs, lib, inputs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
 
 let
-  env = import ./env.nix {inherit pkgs; };
+  env = import ./env.nix { inherit pkgs; };
   inherit (env) systemSettings userSettings;
   customPkgs = import ../../pkgs { inherit pkgs; };
 in
 
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-      ../_common/client.nix
-      ./packages.nix  # StarLabs-specific system packages
-      # Import DMS NixOS module
-      inputs.dms.nixosModules.dankMaterialShell
-      # TP-Link TX20U AX1800 USB WiFi configuration
-      ../../system/devices/usb-modeswitch/tp-link-tx20u.nix
-    ];
+  imports = [
+    ./hardware-configuration.nix
+    ../_common/client.nix
+    ./packages.nix # StarLabs-specific system packages
+    # Import DMS NixOS module
+    inputs.dms.nixosModules.dankMaterialShell
+    # TP-Link TX20U AX1800 USB WiFi configuration
+    ../../system/devices/usb-modeswitch/tp-link-tx20u.nix
+  ];
 
   options = {
     userSettings = lib.mkOption {
@@ -111,16 +116,16 @@ in
       };
 
       # Core features - all enabled by default
-      enableSystemMonitoring = true;      # System monitoring widgets (dgop)
-      enableClipboard = true;              # Clipboard history manager
-      enableVPN = true;                    # VPN management widget
-      enableBrightnessControl = true;      # Brightness/backlight support
-      enableColorPicker = true;            # Color picking support
-      enableDynamicTheming = true;         # Wallpaper-based theming (matugen)
-      enableAudioWavelength = true;        # Audio visualizer (cava)
-      enableCalendarEvents = true;         # Calendar integration (khal)
-      enableSystemSound = true;            # System sound support
+      enableSystemMonitoring = true; # System monitoring widgets (dgop)
+      enableClipboard = true; # Clipboard history manager
+      enableVPN = true; # VPN management widget
+      enableBrightnessControl = true; # Brightness/backlight support
+      enableColorPicker = true; # Color picking support
+      enableDynamicTheming = true; # Wallpaper-based theming (matugen)
+      enableAudioWavelength = true; # Audio visualizer (cava)
+      enableCalendarEvents = true; # Calendar integration (khal)
+      enableSystemSound = true; # System sound support
     };
 
-};
+  };
 }

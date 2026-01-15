@@ -1,4 +1,10 @@
-{ config, lib, pkgs, inputs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 
 # DMS Greeter Configuration for NixOS
 # This module configures greetd with dms-greeter for a unified login experience
@@ -27,7 +33,12 @@ in
     enable = mkEnableOption "DMS greeter for greetd";
 
     compositor = mkOption {
-      type = types.enum [ "niri" "hyprland" "sway" "mangowc" ];
+      type = types.enum [
+        "niri"
+        "hyprland"
+        "sway"
+        "mangowc"
+      ];
       default = "niri";
       description = "Which compositor to use for the greeter";
     };
@@ -74,10 +85,12 @@ in
       mode = "0644";
     };
 
-    environment.etc."greetd/dms-hypr.conf" = mkIf (cfg.compositor == "hyprland" && cfg.hyprlandConfig != "") {
-      text = cfg.hyprlandConfig;
-      mode = "0644";
-    };
+    environment.etc."greetd/dms-hypr.conf" =
+      mkIf (cfg.compositor == "hyprland" && cfg.hyprlandConfig != "")
+        {
+          text = cfg.hyprlandConfig;
+          mode = "0644";
+        };
 
     # Create greeter cache directory
     systemd.tmpfiles.rules = [

@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   # StreamController (Stream Deck Plus) configuration management
@@ -12,7 +17,7 @@
 
   # Use activation script to COPY (not symlink) configuration files
   # This allows StreamController to modify them without permission errors
-  home.activation.streamcontroller = lib.hm.dag.entryAfter ["writeBoundary"] ''
+  home.activation.streamcontroller = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     STREAMCONTROLLER_DATA="$HOME/.var/app/com.core447.StreamController/data"
 
     # Create directories if they don't exist

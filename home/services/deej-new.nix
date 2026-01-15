@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -40,7 +45,8 @@ let
       noise_reduction: ${toString cfg.noiseReduction}
     '';
   };
-in {
+in
+{
   options.services.deej-new = {
     enable = mkEnableOption "deej-new service";
 
@@ -78,7 +84,11 @@ in {
     systemd.user.services.deej-new = {
       Unit = {
         Description = "Deej Linux - Arduino volume control";
-        After = [ "graphical-session.target" "pipewire.service" "pipewire-pulse.socket" ];
+        After = [
+          "graphical-session.target"
+          "pipewire.service"
+          "pipewire-pulse.socket"
+        ];
         Wants = [ "pipewire-pulse.socket" ];
       };
 

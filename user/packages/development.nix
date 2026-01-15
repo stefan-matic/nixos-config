@@ -21,7 +21,7 @@
     nodejs
     python3
     python3.pkgs.pip
-    uv  # Python package manager
+    uv # Python package manager
 
     # Kubernetes & Container Tools
     kubectl
@@ -30,7 +30,7 @@
     k9s
     kubelogin
     eksctl
-    lens  # Kubernetes IDE
+    lens # Kubernetes IDE
 
     # Cloud Providers
     awscli2

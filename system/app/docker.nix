@@ -1,31 +1,40 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   options.docker.storageDriver = lib.mkOption {
-    type = lib.types.nullOr (lib.types.enum [
-      "aufs"
-      "btrfs"
-      "devicemapper"
-      "overlay"
-      "overlay2"
-      "zfs"
-    ]);
-    default = null;
-    description = "Docker storage driver to use";
-  };
-
-  config = lib.mkIf (config.docker.storageDriver != null) {
-    assertions = [{
-      assertion = lib.elem config.docker.storageDriver [
+    type = lib.types.nullOr (
+      lib.types.enum [
         "aufs"
         "btrfs"
         "devicemapper"
         "overlay"
         "overlay2"
         "zfs"
-      ];
-      message = "Invalid docker storage driver selected";
-    }];
+      ]
+    );
+    default = null;
+    description = "Docker storage driver to use";
+  };
+
+  config = lib.mkIf (config.docker.storageDriver != null) {
+    assertions = [
+      {
+        assertion = lib.elem config.docker.storageDriver [
+          "aufs"
+          "btrfs"
+          "devicemapper"
+          "overlay"
+          "overlay2"
+          "zfs"
+        ];
+        message = "Invalid docker storage driver selected";
+      }
+    ];
 
     virtualisation.docker = {
       enable = true;

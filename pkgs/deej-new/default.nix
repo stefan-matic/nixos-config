@@ -1,8 +1,12 @@
-{ lib, buildGoModule, fetchFromGitHub }:
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+}:
 
 buildGoModule rec {
   pname = "deej-new";
-  version = "1.0.0";  # Using a placeholder version since there's no explicit version
+  version = "1.0.0"; # Using a placeholder version since there's no explicit version
 
   src = fetchFromGitHub {
     owner = "TheScabbage";
@@ -37,7 +41,7 @@ buildGoModule rec {
     description = "Set app volumes with real sliders - a hardware volume mixer for Linux";
     homepage = "https://github.com/TheScabbage/deej-linux";
     license = licenses.mit;
-    maintainers = [];
+    maintainers = [ ];
     platforms = platforms.linux;
   };
 }

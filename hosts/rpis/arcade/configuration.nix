@@ -1,7 +1,13 @@
-{ config, pkgs, lib, inputs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
 
 let
-  env = import ./env.nix {inherit pkgs; };
+  env = import ./env.nix { inherit pkgs; };
   inherit (env) systemSettings userSettings;
 in
 
@@ -32,7 +38,7 @@ in
     };
 
     # Arcade specific configuration
-    
+
     # Enable X11 for arcade display
     services.xserver = {
       enable = true;
@@ -56,7 +62,7 @@ in
     environment.systemPackages = with pkgs; [
       # RetroArch and emulators
       retroarch
-      
+
       # Individual emulator cores (install as needed)
       libretro.beetle-psx-hw
       libretro.dolphin
@@ -68,26 +74,26 @@ in
       libretro.nestopia
       libretro.pcsx2
       libretro.snes9x
-      
+
       # Alternative standalone emulators
       mame
       mednafen
-      
+
       # Audio/Video
       alsa-utils
       pulseaudio
-      
+
       # Joystick/Controller support
       linuxConsoleTools
       jstest-gtk
-      
+
       # ROM management
       unzip
       p7zip
-      
+
       # System monitoring
       htop
-      
+
       # Network tools
       wget
       curl
@@ -99,16 +105,19 @@ in
 
     # Enable joystick/gamepad support
     hardware.steam-hardware.enable = true;
-    
+
     # Add user to input group for controller access
-    users.users.${userSettings.username}.extraGroups = [ "input" "audio" ];
+    users.users.${userSettings.username}.extraGroups = [
+      "input"
+      "audio"
+    ];
 
     # Udev rules for arcade controllers and joysticks
     services.udev.extraRules = ''
       # Generic USB joystick/gamepad support
       SUBSYSTEM=="input", GROUP="input", MODE="0664"
       SUBSYSTEM=="usb", ATTRS{idVendor}=="045e", ATTRS{idProduct}=="028e", MODE="0664", GROUP="input"
-      
+
       # Arcade-specific controller support
       KERNEL=="js[0-9]*", MODE="0664", GROUP="input"
       KERNEL=="event[0-9]*", MODE="0664", GROUP="input"

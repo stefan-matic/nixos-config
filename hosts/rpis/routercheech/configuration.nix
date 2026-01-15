@@ -1,7 +1,13 @@
-{ config, pkgs, lib, inputs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
 
 let
-  env = import ./env.nix {inherit pkgs; };
+  env = import ./env.nix { inherit pkgs; };
   inherit (env) systemSettings userSettings;
 in
 
@@ -32,7 +38,7 @@ in
     };
 
     # Router/Gateway specific configuration
-    
+
     # Disable X11 - this is a headless router
     services.xserver.enable = false;
 
@@ -46,14 +52,14 @@ in
     networking = {
       # Disable default DHCP - we'll configure interfaces manually
       useDHCP = false;
-      
+
       # Configure network interfaces
       interfaces = {
         # WAN interface (adjust interface name as needed)
         eth0 = {
-          useDHCP = true;  # Get IP from upstream router/ISP
+          useDHCP = true; # Get IP from upstream router/ISP
         };
-        
+
         # LAN interface configuration (if using USB-to-Ethernet adapter)
         # eth1 = {
         #   ipv4.addresses = [{
@@ -61,32 +67,34 @@ in
         #     prefixLength = 24;
         #   }];
         # };
-        
+
         # WiFi AP configuration
         wlan0 = {
-          ipv4.addresses = [{
-            address = "192.168.100.1";
-            prefixLength = 24;
-          }];
+          ipv4.addresses = [
+            {
+              address = "192.168.100.1";
+              prefixLength = 24;
+            }
+          ];
         };
       };
 
       # Firewall configuration
       firewall = {
         enable = true;
-        allowedTCPPorts = [ 
-          22    # SSH
-          53    # DNS
-          67    # DHCP
-          80    # HTTP (for web interface)
-          443   # HTTPS (for web interface)
+        allowedTCPPorts = [
+          22 # SSH
+          53 # DNS
+          67 # DHCP
+          80 # HTTP (for web interface)
+          443 # HTTPS (for web interface)
         ];
-        allowedUDPPorts = [ 
-          53    # DNS
-          67    # DHCP
-          68    # DHCP
+        allowedUDPPorts = [
+          53 # DNS
+          67 # DHCP
+          68 # DHCP
         ];
-        
+
         # Enable NAT for router functionality
         extraCommands = ''
           # NAT rules for internet sharing
@@ -104,12 +112,12 @@ in
         band = "2g";
         channel = 6;
         countryCode = "RS";
-        
+
         networks.wlan0 = {
           ssid = "RouterCheech-WiFi";
           authentication = {
             mode = "wpa2-sha256";
-            wpaPassword = "***REDACTED***";  # Change this!
+            wpaPassword = "***REDACTED***"; # Change this!
           };
         };
       };
@@ -137,20 +145,20 @@ in
         # Listen on LAN interface
         interface = [ "wlan0" ];
         bind-interfaces = true;
-        
+
         # Upstream DNS servers
-        server = [ 
+        server = [
           "8.8.8.8"
           "8.8.4.4"
           "1.1.1.1"
         ];
-        
+
         # Cache settings
         cache-size = 1000;
-        
+
         # Local domain
         domain = "router.local";
-        
+
         # DHCP integration (if not using dhcpd4)
         # dhcp-range = "192.168.100.10,192.168.100.254,24h";
         # dhcp-option = "option:router,192.168.100.1";
@@ -166,18 +174,18 @@ in
       bridge-utils
       wireless-tools
       iw
-      
+
       # Monitoring
       bandwhich
       iftop
       netstat-nat
       tcpdump
       wireshark-cli
-      
+
       # System tools
       htop
       tmux
-      
+
       # Web interface (optional)
       nginx
     ];
@@ -186,8 +194,11 @@ in
     services.nginx = {
       enable = true;
       virtualHosts."routercheech.local" = {
-        listen = [ 
-          { addr = "192.168.100.1"; port = 80; }
+        listen = [
+          {
+            addr = "192.168.100.1";
+            port = 80;
+          }
         ];
         locations."/" = {
           root = "/var/www/routercheech";

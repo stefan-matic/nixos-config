@@ -6,7 +6,12 @@
 # This example shows how to enable DMS greeter with Niri compositor
 # and automatic theme synchronization.
 
-{ config, pkgs, inputs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
   imports = [

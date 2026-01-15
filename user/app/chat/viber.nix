@@ -27,7 +27,10 @@ let
   # Create a wrapped version of Viber with the correct libxml2 and fixed icons
   viber-fixed = pkgs.symlinkJoin {
     name = "viber-fixed";
-    paths = [ viberDesktopFile pkgs.viber ];
+    paths = [
+      viberDesktopFile
+      pkgs.viber
+    ];
     buildInputs = [ pkgs.makeWrapper ];
     postBuild = ''
       wrapProgram $out/bin/viber \

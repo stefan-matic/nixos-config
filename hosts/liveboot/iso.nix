@@ -1,4 +1,11 @@
-{ config, pkgs, lib, inputs, modulesPath, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  modulesPath,
+  ...
+}:
 
 let
   env = import ./env.nix { inherit pkgs; };

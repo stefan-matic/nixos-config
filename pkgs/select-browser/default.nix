@@ -1,4 +1,9 @@
-{ stdenv, lib, kdePackages, makeWrapper }:
+{
+  stdenv,
+  lib,
+  kdePackages,
+  makeWrapper,
+}:
 
 stdenv.mkDerivation {
   pname = "select-browser";

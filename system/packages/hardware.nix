@@ -6,14 +6,14 @@
 
   environment.systemPackages = with pkgs; [
     # Hardware Information
-    lm_sensors       # Temperature sensors
-    pciutils         # lspci
-    usbutils         # lsusb
+    lm_sensors # Temperature sensors
+    pciutils # lspci
+    usbutils # lsusb
 
     # Hardware Control
-    brightnessctl    # Backlight control
-    pavucontrol      # Audio control GUI
-    pamixer          # Audio control CLI
+    brightnessctl # Backlight control
+    pavucontrol # Audio control GUI
+    pamixer # Audio control CLI
 
     # Disk Management (system-wide)
     gparted

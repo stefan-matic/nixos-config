@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -12,7 +17,8 @@ let
     export RUST_LOG=off
     exec ${pkgs.rustdesk}/bin/rustdesk "$@"
   '';
-in {
+in
+{
   options.services.rustdesk = {
     enable = mkEnableOption "RustDesk remote desktop service";
   };
@@ -21,8 +27,15 @@ in {
     systemd.user.services.rustdesk = {
       Unit = {
         Description = "RustDesk Remote Desktop Service";
-        After = [ "graphical-session.target" "pipewire.service" "xdg-desktop-portal.service" ];
-        Wants = [ "pipewire.service" "xdg-desktop-portal.service" ];
+        After = [
+          "graphical-session.target"
+          "pipewire.service"
+          "xdg-desktop-portal.service"
+        ];
+        Wants = [
+          "pipewire.service"
+          "xdg-desktop-portal.service"
+        ];
       };
 
       Service = {

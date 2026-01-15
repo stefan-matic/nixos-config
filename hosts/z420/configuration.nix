@@ -1,17 +1,22 @@
-{ config, pkgs, lib, inputs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
 
 let
-  env = import ./env.nix {inherit pkgs; };
+  env = import ./env.nix { inherit pkgs; };
   inherit (env) systemSettings userSettings;
   customPkgs = import ../../pkgs { inherit pkgs; };
 in
 
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-      ../_common/server.nix
-    ];
+  imports = [
+    ./hardware-configuration.nix
+    ../_common/server.nix
+  ];
 
   options = {
     userSettings = lib.mkOption {

@@ -1,8 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.hardware.printers.TA-p-4025w;
-in {
+in
+{
   options.hardware.printers.TA-p-4025w = {
     enable = lib.mkEnableOption "Triumph Adler P-4025w printer";
     ip = lib.mkOption {
@@ -62,7 +68,10 @@ in {
     systemd.services."setup-${cfg.name}" = {
       description = "Setup ${cfg.name}";
       wantedBy = [ "multi-user.target" ];
-      after = [ "network.target" "cups.service" ];
+      after = [
+        "network.target"
+        "cups.service"
+      ];
       serviceConfig = {
         Type = "oneshot";
         User = "root";

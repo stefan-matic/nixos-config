@@ -8,17 +8,17 @@
   userSettings,
   systemSettings,
   ...
-}: {
-  imports =
-    [
-      ../../system/security/firewall.nix
-      ../../system/app/docker.nix
+}:
+{
+  imports = [
+    ../../system/security/firewall.nix
+    ../../system/app/docker.nix
 
-      # System package modules
-      ../../system/packages/common.nix
-      ../../system/packages/hardware.nix
-      ../../system/packages/monitoring.nix
-    ];
+    # System package modules
+    ../../system/packages/common.nix
+    ../../system/packages/hardware.nix
+    ../../system/packages/monitoring.nix
+  ];
 
   config = {
     # Time and locale settings
@@ -65,8 +65,8 @@
       powerline-symbols
       nerd-fonts.jetbrains-mono
       nerd-fonts.overpass
-      noto-fonts-cjk-sans  # Japanese/Chinese/Korean characters (ツ, etc.)
-      noto-fonts-color-emoji     # Emoji support
+      noto-fonts-cjk-sans # Japanese/Chinese/Korean characters (ツ, etc.)
+      noto-fonts-color-emoji # Emoji support
     ];
 
     # Module arguments
@@ -79,7 +79,13 @@
       isNormalUser = true;
       description = config.userSettings.name;
       shell = pkgs.zsh;
-      extraGroups = [ "networkmanager" "wheel" "dialout" "docker" "nordvpn" ];
+      extraGroups = [
+        "networkmanager"
+        "wheel"
+        "dialout"
+        "docker"
+        "nordvpn"
+      ];
 
       # VSCode is here as a wrapper for GPU disable - consider moving to home-manager
       packages = with pkgs; [
@@ -94,7 +100,7 @@
       ];
     };
 
-    users.groups.nordvpn = {};
+    users.groups.nordvpn = { };
 
     # System version
     system.stateVersion = "24.11";
@@ -118,7 +124,11 @@
     nix = {
       settings = {
         experimental-features = "nix-command flakes";
-        trusted-users = [ "root" "stefanmatic" "fallen" ];
+        trusted-users = [
+          "root"
+          "stefanmatic"
+          "fallen"
+        ];
       };
       gc = {
         automatic = true;

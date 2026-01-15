@@ -7,7 +7,7 @@
   };
 
   #programs.obs-studio.enableVirtualCamera = true;
-  
+
   home.packages = [
   ];
 

@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   # Import common Niri configuration builder
@@ -19,7 +24,12 @@ let
 
     # 2-column layout optimized for laptop screen
     defaultColumnWidth = "0.5";
-    presetColumnWidths = [ "0.33" "0.5" "0.66" "0.75" ];
+    presetColumnWidths = [
+      "0.33"
+      "0.5"
+      "0.66"
+      "0.75"
+    ];
 
     # No extra window rules needed for laptop
     extraWindowRules = "";
@@ -31,7 +41,8 @@ let
     enableTouchpad = true;
   };
 
-in {
+in
+{
   # Niri configuration for laptops (t14, starlabs)
   # Single screen, optimized for portability
   # DMS itself is installed at system-level

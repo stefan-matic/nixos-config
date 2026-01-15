@@ -1,4 +1,10 @@
-{ config, lib, pkgs, inputs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 
 # DankSearch (dsearch) Configuration
 # Fast file indexing and search service for DMS integration

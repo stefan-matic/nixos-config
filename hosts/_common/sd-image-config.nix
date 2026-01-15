@@ -8,14 +8,15 @@
   pkgs,
   modulesPath,
   ...
-}: {
+}:
+{
   # Import the official SD image modules
   imports = [
     "${modulesPath}/installer/sd-card/sd-image.nix"
     "${modulesPath}/installer/sd-card/sd-image-aarch64.nix"
   ];
 
-  # Disable modules that aren't needed for SD images 
+  # Disable modules that aren't needed for SD images
   disabledModules = [
     "profiles/all-hardware.nix"
     "profiles/base.nix"
@@ -25,7 +26,7 @@
   options.sdImage = with lib; {
     extraFirmwareConfig = mkOption {
       type = types.attrs;
-      default = {};
+      default = { };
       description = lib.mdDoc ''
         Extra configuration to be added to config.txt firmware file.
         This allows customization of boot parameters, GPU memory split, etc.
@@ -38,25 +39,28 @@
     sdImage = {
       # Image naming and compression
       imageName = lib.mkDefault "${config.networking.hostName or "nixos"}-sd-image.img";
-      compressImage = lib.mkDefault false;  # Skip compression for faster builds
-      
+      compressImage = lib.mkDefault false; # Skip compression for faster builds
+
       # Firmware configuration injection
-      populateFirmwareCommands = lib.mkIf 
-        ((lib.length (lib.attrValues config.sdImage.extraFirmwareConfig)) > 0)
-        (let
-          # Convert attribute set to config.txt format
-          keyValueMap = name: value: "${name}=${toString value}";
-          keyValueList = lib.mapAttrsToList keyValueMap config.sdImage.extraFirmwareConfig;
-          extraFirmwareConfigString = lib.concatStringsSep "\n" keyValueList;
-        in lib.mkAfter ''
-          # Add extra firmware configuration to config.txt
-          config=firmware/config.txt
-          chmod u+w $config
-          echo "" >> $config
-          echo "# Extra configuration from NixOS" >> $config
-          echo "${extraFirmwareConfigString}" >> $config
-          chmod u-w $config
-        '');
+      populateFirmwareCommands =
+        lib.mkIf ((lib.length (lib.attrValues config.sdImage.extraFirmwareConfig)) > 0)
+          (
+            let
+              # Convert attribute set to config.txt format
+              keyValueMap = name: value: "${name}=${toString value}";
+              keyValueList = lib.mapAttrsToList keyValueMap config.sdImage.extraFirmwareConfig;
+              extraFirmwareConfigString = lib.concatStringsSep "\n" keyValueList;
+            in
+            lib.mkAfter ''
+              # Add extra firmware configuration to config.txt
+              config=firmware/config.txt
+              chmod u+w $config
+              echo "" >> $config
+              echo "# Extra configuration from NixOS" >> $config
+              echo "${extraFirmwareConfigString}" >> $config
+              chmod u-w $config
+            ''
+          );
     };
 
     # Optimize the image for first boot
@@ -72,16 +76,16 @@
     networking = {
       # Enable predictable interface names
       usePredictableInterfaceNames = lib.mkDefault false;
-      
+
       # DHCP on wlan0 for initial setup
       interfaces.wlan0.useDHCP = lib.mkDefault true;
-      
+
       # Wireless configuration placeholder
       wireless = {
         enable = lib.mkDefault true;
         interfaces = [ "wlan0" ];
         # Networks should be configured in specific host configurations
-        networks = lib.mkDefault {};
+        networks = lib.mkDefault { };
       };
     };
 
@@ -94,9 +98,9 @@
           PermitRootLogin = "no";
           KbdInteractiveAuthentication = false;
           # Allow password authentication on first boot if no keys are configured
-          PasswordAuthentication = lib.mkIf 
-            (config.users.users ? root && config.users.users.root.openssh.authorizedKeys.keys == [])
-            (lib.mkOverride 999 true);
+          PasswordAuthentication = lib.mkIf (
+            config.users.users ? root && config.users.users.root.openssh.authorizedKeys.keys == [ ]
+          ) (lib.mkOverride 999 true);
         };
       };
 
@@ -123,13 +127,13 @@
     boot = {
       # Clean tmp on boot to save space
       tmp.cleanOnBoot = true;
-      
+
       # Kernel parameters for SD card optimization
       kernelParams = [
         # Reduce kernel log spam
         "quiet"
         "splash"
-        
+
         # Optimize for SD card
         "rootfstype=ext4"
         "rootwait"
@@ -145,12 +149,12 @@
       vim
       htop
       tmux
-      
+
       # Network tools
       iw
       wireless-tools
-      
-      # System tools  
+
+      # System tools
       file
       lsof
       psmisc
@@ -160,12 +164,12 @@
     users = {
       # Disable mutable users for reproducibility
       mutableUsers = lib.mkDefault false;
-      
+
       # Default root with disabled login
       users.root = {
         # Disable root login by default
         hashedPassword = lib.mkDefault "!";
-        openssh.authorizedKeys.keys = lib.mkDefault [];
+        openssh.authorizedKeys.keys = lib.mkDefault [ ];
       };
     };
 
@@ -173,9 +177,9 @@
     security = {
       # Disable sudo password for emergency access
       sudo.wheelNeedsPassword = lib.mkDefault false;
-      
+
       # Lock down the system
-      lockKernelModules = lib.mkDefault false;  # Allow hardware detection
+      lockKernelModules = lib.mkDefault false; # Allow hardware detection
     };
 
     # System state version

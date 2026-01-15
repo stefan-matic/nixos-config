@@ -1,7 +1,13 @@
-{ config, pkgs, lib, inputs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
 
 let
-  env = import ./env.nix {inherit pkgs; };
+  env = import ./env.nix { inherit pkgs; };
   inherit (env) systemSettings userSettings;
 in
 
@@ -32,7 +38,7 @@ in
     };
 
     # Magic Mirror specific configuration
-    
+
     # Enable X11 for display output
     services.xserver = {
       enable = true;
@@ -57,16 +63,16 @@ in
       # Node.js for MagicMirror
       nodejs
       npm
-      
+
       # Display and browser packages
       chromium
-      
+
       # Git for cloning MagicMirror
       git
-      
+
       # System monitoring
       htop
-      
+
       # Network tools
       wget
       curl
@@ -108,7 +114,7 @@ in
 
     # Network configuration for Magic Mirror
     networking.firewall = {
-      allowedTCPPorts = [ 8080 ];  # MagicMirror default port
+      allowedTCPPorts = [ 8080 ]; # MagicMirror default port
     };
 
     # Disable power management to keep display always on

@@ -25,11 +25,11 @@ in
     enableCompletion = true;
     shellAliases = myAliases;
     initContent = ''
-    PROMPT=" ◉ %U%F{magenta}%n%f%u@%U%F{blue}%m%f%u:%F{yellow}%~%f
-     %F{green}→%f "
-    RPROMPT="%F{red}▂%f%F{yellow}▄%f%F{green}▆%f%F{cyan}█%f%F{blue}▆%f%F{magenta}▄%f%F{white}▂%f"
-    [ $TERM = "dumb" ] && unsetopt zle && PS1='$ '
-    source <(fzf --zsh)
+      PROMPT=" ◉ %U%F{magenta}%n%f%u@%U%F{blue}%m%f%u:%F{yellow}%~%f
+       %F{green}→%f "
+      RPROMPT="%F{red}▂%f%F{yellow}▄%f%F{green}▆%f%F{cyan}█%f%F{blue}▆%f%F{magenta}▄%f%F{white}▂%f"
+      [ $TERM = "dumb" ] && unsetopt zle && PS1='$ '
+      source <(fzf --zsh)
     '';
 
     plugins = [
@@ -75,19 +75,30 @@ in
 
   home.packages = with pkgs; [
     # System info & fetch tools
-    disfetch lolcat cowsay onefetch
-    fastfetch  # Fast neofetch alternative
+    disfetch
+    lolcat
+    cowsay
+    onefetch
+    fastfetch # Fast neofetch alternative
 
     # ASCII art generators
-    figlet     # 3D ASCII text
-    toilet     # Enhanced figlet with more fonts
-    fortune    # Random quotes
+    figlet # 3D ASCII text
+    toilet # Enhanced figlet with more fonts
+    fortune # Random quotes
 
     # Standard tools
-    gnugrep gnused fzf
-    bat eza bottom fd bc
-    direnv nix-direnv
-    jq yq-go
+    gnugrep
+    gnused
+    fzf
+    bat
+    eza
+    bottom
+    fd
+    bc
+    direnv
+    nix-direnv
+    jq
+    yq-go
   ];
 
   programs.direnv.enable = true;

@@ -6,8 +6,8 @@
 
   environment.systemPackages = with pkgs; [
     # Essential System Tools
-    git          # Version control (needed by system)
-    vim          # Emergency editor
+    git # Version control (needed by system)
+    vim # Emergency editor
     wget
     dig
     openssl

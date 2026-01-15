@@ -7,14 +7,14 @@
   userSettings,
   systemSettings,
   ...
-}: {
-  imports =
-    [
-      ./default.nix
-      ../../system/app/virtualization.nix
-      ../../system/bluetooth.nix
-      ../../system/packages/desktop.nix
-    ];
+}:
+{
+  imports = [
+    ./default.nix
+    ../../system/app/virtualization.nix
+    ../../system/bluetooth.nix
+    ../../system/packages/desktop.nix
+  ];
 
   # Desktop environment configuration
   services.desktopManager.plasma6.enable = true;
@@ -35,35 +35,38 @@
   # Cloudflare WARP
   # services.cloudflare-warp.enable = true;
 
-  environment.systemPackages = with pkgs; let
-    customPkgs = import ../../pkgs { inherit pkgs; };
-  in [
-    # Essential system utilities
-    unstable.google-chrome  # One browser for system-wide access
+  environment.systemPackages =
+    with pkgs;
+    let
+      customPkgs = import ../../pkgs { inherit pkgs; };
+    in
+    [
+      # Essential system utilities
+      unstable.google-chrome # One browser for system-wide access
 
-    # Cloudflare WARP
-    #unstable.cloudflare-warp
+      # Cloudflare WARP
+      #unstable.cloudflare-warp
 
-    # Custom packages (common to all client hosts)
-    customPkgs.select-browser  # Browser selection utility
+      # Custom packages (common to all client hosts)
+      customPkgs.select-browser # Browser selection utility
 
-    # Yubikey support
-    yubioath-flutter
-    pcsclite
+      # Yubikey support
+      yubioath-flutter
+      pcsclite
 
-    # Barcode/QR utilities (system-wide)
-    zbar
+      # Barcode/QR utilities (system-wide)
+      zbar
 
-    # Nix utilities
-    nix-prefetch-git
+      # Nix utilities
+      nix-prefetch-git
 
-    # Boot/OS tools
-    os-prober  # For dual-boot detection
+      # Boot/OS tools
+      os-prober # For dual-boot detection
 
-    wl-mirror
+      wl-mirror
 
-    nixfmt-rfc-style
-  ];
+      nixfmt-rfc-style
+    ];
 
   # Enable Niri wayland compositor with XWayland support
   programs.niri = {

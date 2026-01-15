@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -7,7 +12,8 @@ let
 
   # Get the custom packages
   customPkgs = import ../../pkgs { inherit pkgs; };
-in {
+in
+{
   options.services.deej-serial-control = {
     enable = mkEnableOption "deej-serial-control service";
 
@@ -30,7 +36,11 @@ in {
     systemd.user.services.serial-volume-control = {
       Unit = {
         Description = "Arduino Serial Volume Control";
-        After = [ "graphical-session.target" "pipewire.service" "pulseaudio.service" ];
+        After = [
+          "graphical-session.target"
+          "pipewire.service"
+          "pulseaudio.service"
+        ];
         PartOf = [ "graphical-session.target" ];
         ConditionPathExists = [ cfg.serialPort ];
 

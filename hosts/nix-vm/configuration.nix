@@ -1,4 +1,9 @@
-{ config, pkgs, inputs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 
 let
   systemSettings = {
@@ -23,11 +28,10 @@ let
   };
 in
 {
-  imports =
-    [
-      ../_common/client.nix
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    ../_common/client.nix
+    ./hardware-configuration.nix
+  ];
 
   _module.args = {
     inherit systemSettings userSettings;

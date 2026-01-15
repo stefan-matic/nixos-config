@@ -8,7 +8,7 @@
     # Nautilus preferences
     "org/gnome/nautilus/preferences" = {
       # Default view settings
-      default-folder-viewer = "list-view";  # Use list view by default for more columns
+      default-folder-viewer = "list-view"; # Use list view by default for more columns
 
       # Sidebar settings
       always-use-location-entry = false;
@@ -82,15 +82,15 @@
     "org/gnome/nautilus/desktop" = {
       home-icon-visible = true;
       trash-icon-visible = true;
-      volumes-visible = true;  # Show mounted drives on desktop
+      volumes-visible = true; # Show mounted drives on desktop
     };
   };
 
   # Install additional Nautilus extensions for more functionality
   home.packages = with pkgs; [
     # Nautilus extensions
-    sushi                    # Quick preview with spacebar (GNOME Sushi)
-    nautilus-open-any-terminal  # Open terminal in current directory
+    sushi # Quick preview with spacebar (GNOME Sushi)
+    nautilus-open-any-terminal # Open terminal in current directory
   ];
 
   # Session variables for Nautilus

@@ -1,7 +1,13 @@
-{ config, pkgs, lib, inputs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
 
 let
-  env = import ./env.nix {inherit pkgs; };
+  env = import ./env.nix { inherit pkgs; };
   inherit (env) systemSettings userSettings;
   customPkgs = import ../../pkgs { inherit pkgs; };
 
@@ -13,17 +19,16 @@ let
 in
 
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-      ../_common/client.nix
-      ./packages.nix  # ZVIJER-specific system packages
-      ../../system/devices/TA-p-4025w
-      # Import DMS NixOS module
-      inputs.dms.nixosModules.dankMaterialShell
-      # Import NordVPN module
-      ../../modules/services/networking/nordvpn.nix
-    ];
+  imports = [
+    ./hardware-configuration.nix
+    ../_common/client.nix
+    ./packages.nix # ZVIJER-specific system packages
+    ../../system/devices/TA-p-4025w
+    # Import DMS NixOS module
+    inputs.dms.nixosModules.dankMaterialShell
+    # Import NordVPN module
+    ../../modules/services/networking/nordvpn.nix
+  ];
 
   options = {
     userSettings = lib.mkOption {
@@ -74,7 +79,7 @@ in
 
     # System packages for dual-boot and filesystems
     environment.systemPackages = with pkgs; [
-      ntfs3g  # NTFS filesystem support for Windows partition
+      ntfs3g # NTFS filesystem support for Windows partition
     ];
 
     # DankMaterialShell - system-level installation
@@ -89,15 +94,15 @@ in
       };
 
       # Core features - all enabled by default
-      enableSystemMonitoring = true;      # System monitoring widgets (dgop)
-      enableClipboard = true;              # Clipboard history manager
-      enableVPN = true;                    # VPN management widget
-      enableBrightnessControl = true;      # Brightness/backlight support
-      enableColorPicker = true;            # Color picking support
-      enableDynamicTheming = true;         # Wallpaper-based theming (matugen)
-      enableAudioWavelength = true;        # Audio visualizer (cava)
-      enableCalendarEvents = true;         # Calendar integration (khal)
-      enableSystemSound = true;            # System sound support
+      enableSystemMonitoring = true; # System monitoring widgets (dgop)
+      enableClipboard = true; # Clipboard history manager
+      enableVPN = true; # VPN management widget
+      enableBrightnessControl = true; # Brightness/backlight support
+      enableColorPicker = true; # Color picking support
+      enableDynamicTheming = true; # Wallpaper-based theming (matugen)
+      enableAudioWavelength = true; # Audio visualizer (cava)
+      enableCalendarEvents = true; # Calendar integration (khal)
+      enableSystemSound = true; # System sound support
     };
 
     # Enable GNOME keyring for secrets (required by niri portal config)
@@ -108,12 +113,15 @@ in
     xdg.portal = {
       enable = true;
       extraPortals = with pkgs; [
-        xdg-desktop-portal-gnome  # Primary portal implementation
-        xdg-desktop-portal-gtk    # GTK file chooser (fallback)
-        xdg-desktop-portal-wlr    # Screen sharing for wlroots-based compositors
+        xdg-desktop-portal-gnome # Primary portal implementation
+        xdg-desktop-portal-gtk # GTK file chooser (fallback)
+        xdg-desktop-portal-wlr # Screen sharing for wlroots-based compositors
       ];
       config.common = {
-        default = [ "gnome" "gtk" ];  # Prefer GNOME, fallback to GTK
+        default = [
+          "gnome"
+          "gtk"
+        ]; # Prefer GNOME, fallback to GTK
         "org.freedesktop.impl.portal.Access" = [ "gtk" ];
         "org.freedesktop.impl.portal.Notification" = [ "gtk" ];
         "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];
@@ -153,11 +161,17 @@ in
 
     # Add user to required groups
     users.users.${userSettings.username} = {
-      extraGroups = [ "dialout" "uucp" "plugdev" "video" "openrazer" ];
+      extraGroups = [
+        "dialout"
+        "uucp"
+        "plugdev"
+        "video"
+        "openrazer"
+      ];
     };
 
     # Ensure plugdev group exists
-    users.groups.plugdev = {};
+    users.groups.plugdev = { };
 
     # Add udev rules for Arduino, webcam, Stream Deck, and Vial keyboard
     services.udev.extraRules = ''
