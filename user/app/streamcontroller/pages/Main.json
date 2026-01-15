@@ -10,7 +10,8 @@
                         {
                             "id": "com_core447_MicMute::ToggleMute",
                             "settings": {
-                                "device": "Mic"
+                                "device": "Scarlett 2i2 4th Gen",
+                                "all": false
                             }
                         }
                     ],
@@ -259,6 +260,28 @@
                     "media": {
                         "path": "/home/stefanmatic/.var/app/com.core447.StreamController/data/icons/com_core447_MaterialIcons/icons/insights-inv.png"
                     }
+                }
+            }
+        },
+        "3x0": {
+            "states": {
+                "0": {
+                    "actions": [
+                        {
+                            "id": "com_core447_AudioSwitcher::ToggleOutput",
+                            "settings": {
+                                "device_a": "alsa_output.usb-Generic_USB_Audio-00.HiFi__Speaker__sink",
+                                "device_b": "alsa_output.usb-Focusrite_Scarlett_2i2_4th_Gen_S2C9N58350A4E8-00.HiFi__Line1__sink"
+                            }
+                        }
+                    ],
+                    "image-control-action": 0,
+                    "label-control-actions": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "background-control-action": 0
                 }
             }
         }

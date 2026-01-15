@@ -25,6 +25,12 @@ This directory contains the managed configuration for StreamController (Stream D
   - Plugin: `de_gensyn_HomeAssistantPlugin::HomeAssistantAction`
   - Entity: `light.elgato_key_light`
   - Service: Toggle light on/off
+- **0x1**: 💡 **WLED Office Light Toggle**
+  - Plugin: `de_gensyn_HomeAssistantPlugin::HomeAssistantAction`
+  - Entities: `light.wled_office` + `light.office_wled_segment_1`
+  - Service: Toggle both WLED lights together
+  - Icon: insights (inverted)
+  - Label: "WLED"
 - **1x0**: 🌤️ **Weather Widget**
   - Location: Banja Luka (44.7722, 17.1910)
 - **2x1**: 😊 **Emoji Page Switcher**
