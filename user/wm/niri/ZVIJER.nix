@@ -1,28 +1,40 @@
 { config, pkgs, lib, ... }:
 
-{
-  # Niri configuration file for DMS integration
-  # DMS itself is installed at system-level in hosts/zvijer/configuration.nix
-  # DMS will dynamically create and manage files in ~/.config/niri/dms/
-  # https://github.com/YaLTeR/niri/wiki/Getting-Started
+let
+  # Import common Niri configuration builder
+  common = import ./common.nix { inherit config pkgs lib; };
 
-  home.file.".config/niri/config.kdl".text = ''
-    // Niri configuration for DankMaterialShell
-    // This config follows DMS official documentation:
-    // https://danklinux.com/docs/dankmaterialshell/compositors
+  # ZVIJER-specific configuration
+  niriConfig = common.mkNiriConfig {
+    deviceType = "desktop";
 
-    // Include DMS config files (colors, layout, alttab, binds)
-    include "dms/colors.kdl"
-    include "dms/layout.kdl"
-    include "dms/alttab.kdl"
-    include "dms/binds.kdl"
+    # ZVIJER has additional startup apps
+    extraStartupApps = [
+      "yubioath-flutter"
+      "steam-fix"  # Use steam-fix instead of regular steam for ZVIJER
+    ];
 
-    // Spawn DMS at startup
-    spawn-at-startup "dms" "run"
+    # Dual monitor setup for 57" ultrawide + 34" secondary
+    outputConfig = ''
+    // Display configuration for dual monitor setup
+    // Xiaomi 34" Monitor (DP-2) - Secondary display at top
+    // Logical size: 3440/1.30 = 2646x1108
+    output "DP-2" {
+      mode "3440x1440@144.000"
+      scale 1.30
+      position x=1749 y=0
+    }
 
-    // Clipboard history (optional)
-    spawn-at-startup "bash" "-c" "wl-paste --watch cliphist store &"
+    // Samsung 57" Odyssey G95NC (DP-3) - Primary display at bottom
+    // Logical size: 7680/1.25 = 6144x1728
+    output "DP-3" {
+      mode "7680x2160@240.000"
+      scale 1.25
+      position x=0 y=1108
+    }'';
 
+    # Named workspaces for ZVIJER
+    workspaceConfig = ''
     workspace "main" {
       // open-on-output "DP-2"
     }
@@ -33,142 +45,14 @@
 
     workspace "windows" {
       // open-on-output "DP-2"
-    }
+    }'';
 
-    // Startup applications with delays for proper layout
-    // Launch sequentially: KeePassXC -> wait for Viber (9s) -> Slack -> Chrome
-    //spawn-at-startup "bash" "-c" "keepassxc & sleep 2 && viber & sleep 10 && slack & sleep 2 && google-chrome-stable &"
-    spawn-at-startup "keepassxc"
-    spawn-at-startup "yubioath-flutter"
-    spawn-at-startup "slack"
-    spawn-at-startup "google-chrome-stable"
-    spawn-at-startup "code"
-    spawn-at-startup "winboat"
-    spawn-at-startup "affine"
-    spawn-at-startup "steam-fix"
-    spawn-at-startup "viber"
+    # 3-column layout optimized for ultrawide
+    defaultColumnWidth = "0.33";
+    presetColumnWidths = [ "0.25" "0.33" "0.5" "0.66" "0.75" ];
 
-    // Input configuration
-    input {
-      keyboard {
-        xkb {
-          // English US, Serbian Latin, Serbian Cyrillic
-          layout "us,rs,rs"
-          variant ",latin,"
-          // Switch layouts with Alt+Shift
-          options "grp:alt_shift_toggle"
-        }
-        numlock
-      }
-    }
-
-    // Display configuration for dual monitor setup
-    // Xiaomi 34" Monitor (DP-2) - Secondary display at top
-    // Logical size: 3440/1.30 = 2646x1108
-    output "DP-2" {
-      mode "3440x1440@144.000"
-      scale 1.30
-      position x=1749 y=0
-    }
-
-    // Samsung 57" Odyssey G95NC (DP-4) - Primary display at bottom
-    // Logical size: 7680/1.25 = 6144x1728
-    output "DP-3" {
-      mode "7680x2160@240.000"
-      scale 1.25
-      position x=0 y=1108
-    }
-
-    // Environment variables
-    environment {
-      XDG_CURRENT_DESKTOP "niri"
-      QT_QPA_PLATFORM "wayland"
-      ELECTRON_OZONE_PLATFORM_HINT "wayland"
-      QT_QPA_PLATFORMTHEME "kde"
-      NIXOS_OZONE_WL "1"
-    }
-
-    // Layout configuration optimized for 57" ultrawide
-    layout {
-      center-focused-column "never"
-      // Default to 1/3 width for 3-column layout on ultrawide
-      default-column-width { proportion 0.33; }
-      preset-column-widths {
-        proportion 0.25
-        proportion 0.33
-        proportion 0.5
-        proportion 0.66
-        proportion 0.75
-      }
-      // Focus new windows instead of columns
-      focus-ring {
-        width 2
-      }
-    }
-
-    // Layer rules for DMS integration
-    layer-rule {
-      match namespace="^quickshell$"
-      place-within-backdrop true
-    }
-
-    layer-rule {
-      match namespace="dms:blurwallpaper"
-      place-within-backdrop true
-    }
-
-    // Window rules for DMS
-    window-rule {
-      match app-id=r#"org.quickshell$"#
-      open-floating true
-    }
-
-    // GNOME apps styling
-    window-rule {
-      match app-id=r#"^org\.gnome\."#
-      draw-border-with-background false
-      geometry-corner-radius 12
-      clip-to-geometry true
-    }
-
-    // Terminal apps - no border background
-    window-rule {
-      match app-id=r#"^org\.wezfurlong\.wezterm$"#
-      match app-id="Alacritty"
-      match app-id="zen"
-      match app-id="com.mitchellh.ghostty"
-      match app-id="kitty"
-      draw-border-with-background false
-    }
-
-    // Inactive windows opacity
-    window-rule {
-      match is-active=false
-      opacity 0.9
-    }
-
-    // Default rounded corners
-    window-rule {
-      geometry-corner-radius 12
-      clip-to-geometry true
-    }
-
-    // Ghostty terminal - open at half screen height
-    window-rule {
-      match app-id="com.mitchellh.ghostty"
-      default-column-width { proportion 0.33; }
-      default-window-height { proportion 0.5; }
-    }
-
-    // Other terminals
-    window-rule {
-      match app-id="kitty"
-      match app-id="Alacritty"
-      default-column-width { proportion 0.33; }
-    }
-
-    // niri msg windows
-
+    # ZVIJER-specific window rules
+    extraWindowRules = ''
     // KeePassXC - tiled window at 20% width on Xiaomi monitor
     window-rule {
       match app-id="org.keepassxc.KeePassXC"
@@ -203,7 +87,6 @@
 
     // Slack - tiled window at 20% width (will stack with Viber)
     window-rule {
-      //match app-id="Slack"
       match at-startup=true app-id="Slack"
       default-column-width { proportion 0.20; }
       open-on-workspace "gaming"
@@ -213,181 +96,37 @@
     window-rule {
       match app-id="google-chrome"
       default-column-width { proportion 0.33; }
-    }
+    }'';
 
-    // Select-browser dialog - small floating window
-    window-rule {
-      match app-id="org.kde.kdialog"
-      match title="Select your browser"
-      open-floating true
-      default-column-width { fixed 200; }
-      default-window-height { fixed 300; }
-    }
+    # ZVIJER-specific keybindings (multi-monitor navigation)
+    extraKeybindings = ''
+    // Focus monitors (using Ctrl instead of Mod to avoid DMS conflicts)
+    Mod+Ctrl+H { focus-monitor-left; }
+    Mod+Ctrl+L { focus-monitor-right; }
 
-    // KCalc - floating calculator
-    window-rule {
-      match app-id="org.kde.kcalc"
-      open-floating true
-      default-column-width { fixed 400; }
-      default-window-height { fixed 550; }
-    }
+    // Move to monitors
+    Mod+Ctrl+Shift+H { move-column-to-monitor-left; }
+    Mod+Ctrl+Shift+L { move-column-to-monitor-right; }
 
-    // RustDesk - floating remote desktop window
-    window-rule {
-      match app-id="rustdesk"
-      open-floating true
-      default-column-width { fixed 800; }
-      default-window-height { fixed 600; }
-    }
+    // Mouse horizontal scrolling - Mod+Horizontal Scroll to navigate columns (one at a time)
+    Mod+WheelScrollRight cooldown-ms=150 { focus-column-right; }
+    Mod+WheelScrollLeft cooldown-ms=150 { focus-column-left; }
 
-    // DMS keybindings
-    binds {
-      // Application Launchers
-      Mod+Space hotkey-overlay-title="Application Launcher" {
-        spawn "dms" "ipc" "call" "spotlight" "toggle";
-      }
-      Mod+V hotkey-overlay-title="Clipboard Manager" {
-        spawn "dms" "ipc" "call" "clipboard" "toggle";
-      }
-      Mod+M hotkey-overlay-title="Task Manager" {
-        spawn "dms" "ipc" "call" "processlist" "focusOrToggle";
-      }
-      Mod+Comma hotkey-overlay-title="Settings" {
-        spawn "dms" "ipc" "call" "settings" "focusOrToggle";
-      }
-      Mod+N hotkey-overlay-title="Notification Center" {
-        spawn "dms" "ipc" "call" "notifications" "toggle";
-      }
-      Mod+Y hotkey-overlay-title="Browse Wallpapers" {
-        spawn "dms" "ipc" "call" "dankdash" "wallpaper";
-      }
+    // Mouse wheel for workspace navigation
+    Mod+WheelScrollDown cooldown-ms=150{ focus-workspace-down; }
+    Mod+WheelScrollUp cooldown-ms=150 { focus-workspace-up; }'';
 
-      // Security
-      Mod+Alt+L hotkey-overlay-title="Lock Screen" {
-        spawn "dms" "ipc" "call" "lock" "lock";
-      }
+    # No touchpad on desktop
+    enableTouchpad = false;
+  };
 
-      // DMS Notepad
-      Mod+X hotkey-overlay-title="Toggle Notepad" {
-        spawn "dms" "ipc" "call" "notepad" "toggle";
-      }
+in {
+  # Niri configuration file for DMS integration (ZVIJER desktop)
+  # DMS itself is installed at system-level in hosts/zvijer/configuration.nix
+  # DMS will dynamically create and manage files in ~/.config/niri/dms/
+  # https://github.com/YaLTeR/niri/wiki/Getting-Started
 
-      // Audio Controls
-      XF86AudioRaiseVolume allow-when-locked=true {
-        spawn "dms" "ipc" "call" "audio" "increment" "3";
-      }
-      XF86AudioLowerVolume allow-when-locked=true {
-        spawn "dms" "ipc" "call" "audio" "decrement" "3";
-      }
-      XF86AudioMute allow-when-locked=true {
-        spawn "dms" "ipc" "call" "audio" "mute";
-      }
-
-      // Brightness Controls
-      XF86MonBrightnessUp allow-when-locked=true {
-        spawn "dms" "ipc" "call" "brightness" "increment" "5" "";
-      }
-      XF86MonBrightnessDown allow-when-locked=true {
-        spawn "dms" "ipc" "call" "brightness" "decrement" "5" "";
-      }
-
-      // Window management
-      Mod+Q { close-window; }
-      Mod+Return { spawn "ghostty"; }
-      Mod+E { spawn "dolphin"; }
-      Mod+Alt+E { spawn "nautilus"; }
-      Mod+T hotkey-overlay-title="Kate Editor" { spawn "kate" "--new"; }
-
-      // Window focus (Vim-style)
-      Mod+H { focus-column-left; }
-      Mod+L { focus-column-right; }
-      Mod+J { focus-window-down; }
-      Mod+K { focus-window-up; }
-
-      // Arrow keys alternative
-      Mod+Left { focus-column-left; }
-      Mod+Right { focus-column-right; }
-      Mod+Down { focus-window-down; }
-      Mod+Up { focus-window-up; }
-
-      // Mouse horizontal scrolling - Mod+Horizontal Scroll to navigate columns (one at a time)
-      Mod+WheelScrollRight cooldown-ms=150 { focus-column-right; }
-      Mod+WheelScrollLeft cooldown-ms=150 { focus-column-left; }
-
-      // Window movement
-      Mod+Shift+H { move-column-left; }
-      Mod+Shift+L { move-column-right; }
-      Mod+Shift+J { move-window-down; }
-      Mod+Shift+K { move-window-up; }
-
-      // Workspaces
-      Mod+1 { focus-workspace 1; }
-      Mod+2 { focus-workspace 2; }
-      Mod+3 { focus-workspace 3; }
-      Mod+4 { focus-workspace 4; }
-      Mod+5 { focus-workspace 5; }
-
-      // Workspace navigation with Page Up/Down
-      Mod+Page_Down { focus-workspace-down; }
-      Mod+Page_Up { focus-workspace-up; }
-
-      Mod+WheelScrollDown cooldown-ms=150{ focus-workspace-down; }
-      Mod+WheelScrollUp cooldown-ms=150 { focus-workspace-up; }
-
-      Mod+Shift+1 { move-column-to-workspace 1; }
-      Mod+Shift+2 { move-column-to-workspace 2; }
-      Mod+Shift+3 { move-column-to-workspace 3; }
-      Mod+Shift+4 { move-column-to-workspace 4; }
-      Mod+Shift+5 { move-column-to-workspace 5; }
-
-      // Move column to workspace with Page Up/Down
-      Mod+Shift+Page_Down { move-column-to-workspace-down; }
-      Mod+Shift+Page_Up { move-column-to-workspace-up; }
-
-      // Screenshot - select area, annotate, then save/copy
-      Print { spawn "sh" "-c" "grim -g \"$(slurp)\" - | swappy -f -"; }
-      Ctrl+Shift+X { spawn "sh" "-c" "grim -g \"$(slurp)\" - | swappy -f -"; }
-
-      // Niri essentials
-      Mod+Shift+Slash { show-hotkey-overlay; }
-      Mod+Shift+Escape { quit; }
-      Mod+Tab { toggle-overview; }
-      Mod+O { toggle-overview; }
-
-      // Window resizing
-      Mod+R { switch-preset-column-width; }
-      Mod+F { maximize-column; }
-      Mod+Shift+F { fullscreen-window; }
-
-      // Floating windows
-      Mod+Shift+Space { toggle-window-floating; }
-      Mod+Escape { switch-focus-between-floating-and-tiling; }
-
-      // Power Menu
-      Mod+Shift+E hotkey-overlay-title="Power Menu" {
-        spawn "dms" "ipc" "call" "powermenu" "toggle";
-      }
-
-      // Focus monitors (using Ctrl instead of Mod to avoid DMS conflicts)
-      Mod+Ctrl+H { focus-monitor-left; }
-      Mod+Ctrl+L { focus-monitor-right; }
-
-      // Move to monitors
-      Mod+Ctrl+Shift+H { move-column-to-monitor-left; }
-      Mod+Ctrl+Shift+L { move-column-to-monitor-right; }
-
-      // Consume/expel windows (smart directional - combines both operations)
-      Mod+BracketLeft { consume-or-expel-window-left; }
-      Mod+BracketRight { consume-or-expel-window-right; }
-
-      // Cycle through preset widths for ultrawide
-      Mod+Equal { set-column-width "+10%"; }
-      Mod+Minus { set-column-width "-10%"; }
-    }
-
-    // Prefer dark theme
-    prefer-no-csd true
-  '';
+  home.file.".config/niri/config.kdl".text = niriConfig;
 
   # DMS Plugin Configurations
   home.file.".config/DankMaterialShell/plugins/NixMonitor/config.json".source =
