@@ -357,6 +357,27 @@ sudo nixos-rebuild switch --flake ~/.dotfiles#ZVIJER
 home-manager switch --flake ~/.dotfiles#stefanmatic@ZVIJER
 ```
 
+### CI/CD and Validation
+
+**Local validation before pushing:**
+```bash
+# Run comprehensive validation script
+./scripts/validate-config.sh
+
+# Quick manual checks
+nix flake check
+nix build .#nixosConfigurations.ZVIJER.config.system.build.toplevel --dry-run
+nix build .#homeConfigurations."stefanmatic@ZVIJER".activationPackage --dry-run
+```
+
+**GitLab CI Pipeline:**
+- `.gitlab-ci.yml` - Full validation pipeline (linting, building all configs)
+- `.gitlab-ci-fast.yml` - Fast variant using dry-run for quick feedback
+- Runs automatically on pushes to main branch and merge requests
+- Validates all NixOS and Home Manager configurations
+- Checks code formatting, linting, and dead code detection
+- See `docs/ci-pipeline-guide.md` for details
+
 ### Rollback
 
 ```bash
@@ -377,6 +398,7 @@ git checkout <previous-commit>
 - `docs/home-manager-guide.md` - Home Manager operations and troubleshooting
 - `docs/devbox-guide.md` - Per-project development environments with Devbox
 - `docs/nixos-vs-home-manager-guide.md` - Package placement philosophy
+- `docs/ci-pipeline-guide.md` - GitLab CI/CD pipeline setup and validation
 
 ## Troubleshooting
 
