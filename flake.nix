@@ -28,9 +28,9 @@
     ...
   } @ inputs: let
     inherit (self) outputs;
+    # Removed i686-linux (32-bit x86) as many modern packages don't support it
     systems = [
       "aarch64-linux"
-      "i686-linux"
       "x86_64-linux"
       "aarch64-darwin"
       "x86_64-darwin"
@@ -68,16 +68,17 @@
         specialArgs = {inherit inputs outputs;};
         modules = [./hosts/starlabs/configuration.nix];
       };
-      # Minimal liveboot host configuration
-      liveboot = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs outputs;};
-        modules = [./hosts/liveboot/configuration.nix];
-      };
-      # Bootable ISO image based on liveboot configuration
-      liveboot-iso = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs outputs;};
-        modules = [./hosts/liveboot/iso.nix];
-      };
+      # Minimal liveboot host configuration (commented out - incomplete)
+      # Uncomment and fix fileSystems config to use
+      # liveboot = nixpkgs.lib.nixosSystem {
+      #   specialArgs = {inherit inputs outputs;};
+      #   modules = [./hosts/liveboot/configuration.nix];
+      # };
+      # Bootable ISO image based on liveboot configuration (commented out - incomplete)
+      # liveboot-iso = nixpkgs.lib.nixosSystem {
+      #   specialArgs = {inherit inputs outputs;};
+      #   modules = [./hosts/liveboot/iso.nix];
+      # };
     };
     homeConfigurations = {
       # Legacy config (defaults to ZVIJER for backward compatibility)

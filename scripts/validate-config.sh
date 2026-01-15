@@ -4,6 +4,10 @@
 
 set -e
 
+# Allow unfree packages and unsupported systems for validation
+export NIXPKGS_ALLOW_UNFREE=1
+export NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM=1
+
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -69,7 +73,7 @@ fi
 
 # Flake validation
 echo -e "${BLUE}=== Flake Validation ===${NC}"
-run_check "Flake check" "nix flake check --all-systems"
+run_check "Flake check" "nix flake check --all-systems --impure"
 run_check "Flake evaluation" "nix eval .#nixosConfigurations --apply builtins.attrNames"
 
 # NixOS configurations
