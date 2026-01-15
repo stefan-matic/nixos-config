@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, terminalFontSize, ... }:
 
 {
   programs.ghostty = {
@@ -8,8 +8,9 @@
       theme = "dracula";
 
       # Font configuration - using JetBrainsMono with ligatures
+      # Font size is passed from flake.nix per host: 11 for ZVIJER, 9 for others
       font-family = "JetBrainsMono Nerd Font";
-      font-size = 9;
+      font-size = terminalFontSize;
       font-feature = [
         "-calt" # Enable contextual alternates
         "-liga" # Enable ligatures

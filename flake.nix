@@ -88,14 +88,20 @@
         # Legacy config (defaults to ZVIJER for backward compatibility)
         "stefanmatic" = home-manager.lib.homeManagerConfiguration {
           pkgs = pkgs;
-          extraSpecialArgs = { inherit inputs outputs; };
+          extraSpecialArgs = {
+            inherit inputs outputs;
+            terminalFontSize = 9; # Default font size
+          };
           modules = [ ./home/stefanmatic.nix ];
         };
 
         # Host-specific configs for stefanmatic
         "stefanmatic@ZVIJER" = home-manager.lib.homeManagerConfiguration {
           pkgs = pkgs;
-          extraSpecialArgs = { inherit inputs outputs; };
+          extraSpecialArgs = {
+            inherit inputs outputs;
+            terminalFontSize = 11; # Larger font for 57" ultrawide
+          };
           modules = [
             ./home/stefanmatic.nix
             {
@@ -109,7 +115,10 @@
         };
         "stefanmatic@t14" = home-manager.lib.homeManagerConfiguration {
           pkgs = pkgs;
-          extraSpecialArgs = { inherit inputs outputs; };
+          extraSpecialArgs = {
+            inherit inputs outputs;
+            terminalFontSize = 9; # Laptop screen
+          };
           modules = [
             ./home/stefanmatic.nix
             {
@@ -119,7 +128,10 @@
         };
         "fallen@starlabs" = home-manager.lib.homeManagerConfiguration {
           pkgs = pkgs;
-          extraSpecialArgs = { inherit inputs outputs; };
+          extraSpecialArgs = {
+            inherit inputs outputs;
+            terminalFontSize = 9; # Laptop screen
+          };
           modules = [
             ./home/fallen.nix
             {
@@ -130,7 +142,10 @@
 
         "fallen" = home-manager.lib.homeManagerConfiguration {
           pkgs = pkgs;
-          extraSpecialArgs = { inherit inputs outputs; };
+          extraSpecialArgs = {
+            inherit inputs outputs;
+            terminalFontSize = 9; # Default font size
+          };
           modules = [ ./home/fallen.nix ];
         };
       };
