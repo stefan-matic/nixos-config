@@ -1,5 +1,14 @@
 # GitLab CI Pipeline for NixOS Flake Configuration
-# Validates all host configurations, home-manager setups, and runs syntax checks
+#
+# Default behavior (every commit):
+#   - Fast syntax checking and linting (no package downloads)
+#   - Flake evaluation validation
+#
+# Full builds (when RUN_FULL_BUILDS=true):
+#   - Actually build all NixOS and Home Manager configurations
+#   - Downloads all packages and dependencies
+#
+# To trigger full builds, set CI/CD variable: RUN_FULL_BUILDS=true
 
 image: nixos/nix:latest
 
@@ -12,6 +21,8 @@ variables:
   NIXPKGS_ALLOW_UNFREE: "1"
   # Allow packages unsupported on some systems (for multi-arch validation)
   NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM: "1"
+  # Set RUN_FULL_BUILDS=true to enable actual package builds (off by default)
+  RUN_FULL_BUILDS: "false"
 
 # Cache the Nix store between pipeline runs
 cache:
@@ -106,36 +117,40 @@ build-zvijer:
   script:
     - echo "Building NixOS configuration for ZVIJER..."
     - nix build .#nixosConfigurations.ZVIJER.config.system.build.toplevel --show-trace
-  only:
-    - merge_requests
-    - main
+  rules:
+    - if: $RUN_FULL_BUILDS == "true"
+      when: on_success
+    - when: never
 
 build-t14:
   stage: build-system
   script:
     - echo "Building NixOS configuration for stefan-t14..."
     - nix build .#nixosConfigurations.stefan-t14.config.system.build.toplevel --show-trace
-  only:
-    - merge_requests
-    - main
+  rules:
+    - if: $RUN_FULL_BUILDS == "true"
+      when: on_success
+    - when: never
 
 build-starlabs:
   stage: build-system
   script:
     - echo "Building NixOS configuration for starlabs..."
     - nix build .#nixosConfigurations.starlabs.config.system.build.toplevel --show-trace
-  only:
-    - merge_requests
-    - main
+  rules:
+    - if: $RUN_FULL_BUILDS == "true"
+      when: on_success
+    - when: never
 
 build-z420:
   stage: build-system
   script:
     - echo "Building NixOS configuration for z420..."
     - nix build .#nixosConfigurations.z420.config.system.build.toplevel --show-trace
-  only:
-    - merge_requests
-    - main
+  rules:
+    - if: $RUN_FULL_BUILDS == "true"
+      when: on_success
+    - when: never
 
 # Liveboot builds commented out - configurations are incomplete
 # Uncomment when liveboot configs are fixed
@@ -168,46 +183,51 @@ build-home-stefanmatic-zvijer:
   script:
     - echo "Building Home Manager configuration for stefanmatic@ZVIJER..."
     - nix build .#homeConfigurations."stefanmatic@ZVIJER".activationPackage --show-trace
-  only:
-    - merge_requests
-    - main
+  rules:
+    - if: $RUN_FULL_BUILDS == "true"
+      when: on_success
+    - when: never
 
 build-home-stefanmatic-t14:
   stage: build-home
   script:
     - echo "Building Home Manager configuration for stefanmatic@t14..."
     - nix build .#homeConfigurations."stefanmatic@t14".activationPackage --show-trace
-  only:
-    - merge_requests
-    - main
+  rules:
+    - if: $RUN_FULL_BUILDS == "true"
+      when: on_success
+    - when: never
 
 build-home-stefanmatic-starlabs:
   stage: build-home
   script:
     - echo "Building Home Manager configuration for stefanmatic@starlabs..."
     - nix build .#homeConfigurations."stefanmatic@starlabs".activationPackage --show-trace
-  only:
-    - merge_requests
-    - main
+  rules:
+    - if: $RUN_FULL_BUILDS == "true"
+      when: on_success
+    - when: never
 
 build-home-stefanmatic:
   stage: build-home
   script:
     - echo "Building Home Manager configuration for stefanmatic (no host)..."
     - nix build .#homeConfigurations.stefanmatic.activationPackage --show-trace
-  only:
-    - merge_requests
-    - main
+  rules:
+    - if: $RUN_FULL_BUILDS == "true"
+      when: on_success
+    - when: never
 
 build-home-fallen:
   stage: build-home
   script:
     - echo "Building Home Manager configuration for fallen..."
     - nix build .#homeConfigurations.fallen.activationPackage --show-trace
-  only:
-    - merge_requests
-    - main
   allow_failure: true  # If this user config is optional
+  rules:
+    - if: $RUN_FULL_BUILDS == "true"
+      when: on_success
+    - when: never
 
 ###################
 # Summary Job
@@ -219,7 +239,15 @@ validation-summary:
     - echo "=========================================="
     - echo "NixOS Configuration Validation Complete!"
     - echo "=========================================="
-    - echo "All configurations built successfully."
+    - |
+      if [ "$RUN_FULL_BUILDS" = "true" ]; then
+        echo "✓ Full builds completed successfully (all packages downloaded and built)"
+      else
+        echo "✓ Fast validation completed (syntax and evaluation checks only)"
+        echo ""
+        echo "Note: Full package builds were skipped."
+        echo "To run full builds, set CI/CD variable: RUN_FULL_BUILDS=true"
+      fi
     - echo ""
     - echo "Validated hosts:"
     - echo "  - ZVIJER (Gaming/Workstation)"

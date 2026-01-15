@@ -371,12 +371,16 @@ nix build .#homeConfigurations."stefanmatic@ZVIJER".activationPackage --dry-run
 ```
 
 **GitLab CI Pipeline:**
-- `.gitlab-ci.yml` - Full validation pipeline (linting, building all configs)
-- `.gitlab-ci-fast.yml` - Fast variant using dry-run for quick feedback
-- Runs automatically on pushes to main branch and merge requests
-- Validates all NixOS and Home Manager configurations
-- Checks code formatting, linting, and dead code detection
-- See `docs/ci-pipeline-guide.md` for details
+- **Quick start**: See `.gitlab/QUICK-START.md` for common tasks
+- `.gitlab-ci.yml` - Two-mode pipeline:
+  - **Default**: Fast syntax/evaluation checks only (no package downloads, ~1-2 min)
+  - **Full builds**: Set `RUN_FULL_BUILDS=true` to download & build all packages (10-30+ min)
+- Runs automatically on every commit (default fast mode)
+- Full builds: Use for releases, package testing, or scheduled weekly runs
+- Documentation:
+  - Quick reference: `.gitlab/QUICK-START.md`
+  - Detailed guide: `docs/ci-pipeline-guide.md`
+  - Usage examples: `.gitlab/ci-examples.md`
 
 ### Rollback
 

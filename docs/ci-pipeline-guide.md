@@ -4,12 +4,30 @@ This document describes the GitLab CI/CD pipeline for validating the NixOS flake
 
 ## Overview
 
-The pipeline validates all NixOS and Home Manager configurations without deploying them. It ensures that:
-- All code follows Nix best practices
-- No syntax errors exist
-- All host configurations can be built
-- All Home Manager configurations can be built
-- The flake structure is valid
+The pipeline has two modes:
+
+### Default Mode (Fast Validation)
+Runs on every commit automatically:
+- ✓ Syntax checking and linting (no package downloads)
+- ✓ Flake structure validation
+- ✓ Configuration evaluation (ensures all Nix code is valid)
+- ⚡ **Fast**: Completes in ~1-2 minutes
+- 💾 **Lightweight**: No package downloads, minimal bandwidth usage
+
+### Full Build Mode (Optional)
+Runs only when explicitly enabled via CI/CD variable `RUN_FULL_BUILDS=true`:
+- ✓ Everything from default mode
+- ✓ Actually builds all NixOS configurations
+- ✓ Actually builds all Home Manager configurations
+- ✓ Downloads all packages and dependencies
+- ⏱️ **Slower**: Takes 10-30+ minutes depending on changes
+- 💾 **Heavy**: Downloads gigabytes of packages
+
+**When to use full builds:**
+- Before major releases or merges to main
+- When testing package changes
+- When you need to verify that all packages can actually be built
+- Scheduled weekly/monthly via GitLab schedules
 
 ## Pipeline Structure
 
@@ -69,6 +87,47 @@ The `validate-config.sh` script:
 - Uses `--dry-run` for faster validation
 - Provides colored output for easy reading
 - Returns exit code 0 on success, 1 on failure
+
+## How to Trigger Full Builds
+
+There are several ways to enable full builds:
+
+### Method 1: Manual Pipeline Run (One-time)
+1. In GitLab, go to: **CI/CD → Pipelines**
+2. Click **Run Pipeline**
+3. Add variable:
+   - Key: `RUN_FULL_BUILDS`
+   - Value: `true`
+4. Click **Run Pipeline**
+
+### Method 2: Project-level Variable (Always on)
+1. In GitLab, go to: **Settings → CI/CD → Variables**
+2. Click **Add Variable**
+3. Set:
+   - Key: `RUN_FULL_BUILDS`
+   - Value: `true`
+   - Uncheck "Protect variable" (unless only for protected branches)
+4. Save
+
+**Note**: This will run full builds on every commit. Consider using Method 3 instead.
+
+### Method 3: Scheduled Pipelines (Recommended)
+1. In GitLab, go to: **CI/CD → Schedules**
+2. Click **New Schedule**
+3. Set schedule (e.g., weekly on Sundays at 2 AM)
+4. Add variable:
+   - Key: `RUN_FULL_BUILDS`
+   - Value: `true`
+5. Save
+
+### Method 4: Branch-specific Variable
+1. In GitLab, go to: **Settings → CI/CD → Variables**
+2. Add variable with environment scope:
+   - Key: `RUN_FULL_BUILDS`
+   - Value: `true`
+   - Environment scope: `main` (or specific branch)
+
+This runs full builds only on the `main` branch.
 
 ## GitLab Setup
 
