@@ -93,7 +93,7 @@
 
     // Input configuration
     input {
-      focus-follows-mouse
+      //focus-follows-mouse
       keyboard {
         xkb {
           // English US, Serbian Latin, Serbian Cyrillic
