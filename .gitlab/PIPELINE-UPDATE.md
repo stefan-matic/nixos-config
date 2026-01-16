@@ -7,6 +7,7 @@ The CI pipeline has been further optimized to make the default fast mode even fa
 ## Before This Update
 
 **Fast mode:**
+
 - ✓ Format checking (nixfmt)
 - ✓ Linting (statix)
 - ✓ Dead code check (deadnix)
@@ -14,6 +15,7 @@ The CI pipeline has been further optimized to make the default fast mode even fa
 - ✓ Config evaluation
 
 **Full mode:**
+
 - All of the above, plus:
 - ✓ Build all configurations
 - ✓ Download packages
@@ -21,11 +23,13 @@ The CI pipeline has been further optimized to make the default fast mode even fa
 ## After This Update
 
 **Fast mode (default):**
+
 - ✓ Format checking (nixfmt) - **CRITICAL**
 - ✓ Flake validation
 - ✓ Config evaluation
 
 **Full mode (`RUN_FULL_BUILDS=true`):**
+
 - All of the above, plus:
 - ✓ Linting (statix)
 - ✓ Dead code check (deadnix)
@@ -53,24 +57,29 @@ These three checks catch 99% of actual errors that would break builds.
 ### Time Savings
 
 **Before:**
+
 - Fast mode: ~1-2 minutes
 
 **After:**
+
 - Fast mode: ~30-60 seconds (even faster!)
 
 **Why?**
+
 - Removed statix and deadnix from fast mode
 - These tools scan all files and can take 30-60 seconds on large projects
 
 ### What You Still Get
 
 **Every commit automatically checks:**
+
 - ✅ Code is properly formatted
 - ✅ No Nix syntax errors
 - ✅ All configurations evaluate correctly
 - ✅ No flake structure issues
 
 **This catches the most common issues:**
+
 - Typos
 - Missing imports
 - Syntax errors
@@ -118,12 +127,14 @@ Trigger full builds (which include statix and deadnix) when:
 ## How to Trigger Full Builds
 
 ### One-time (Manual)
+
 ```
 GitLab → CI/CD → Pipelines → Run Pipeline
 Add variable: RUN_FULL_BUILDS = true
 ```
 
 ### Weekly Schedule (Recommended)
+
 ```
 GitLab → CI/CD → Schedules → New Schedule
 Cron: 0 2 * * 0  (Sunday 2 AM)
@@ -131,6 +142,7 @@ Variable: RUN_FULL_BUILDS = true
 ```
 
 ### On Main Branch Only
+
 ```
 GitLab → Settings → CI/CD → Variables
 Key: RUN_FULL_BUILDS
@@ -143,6 +155,7 @@ Environment scope: main
 ### No Action Required!
 
 The change is automatic:
+
 - ✅ Fast mode is now even faster
 - ✅ Full builds still check everything
 - ✅ Local validation unchanged
@@ -151,6 +164,7 @@ The change is automatic:
 ### Optional: Adjust Your Workflow
 
 If you want linting on every commit:
+
 1. Run `./scripts/validate-config.sh` before committing
 2. Or set up a pre-commit hook (see `docs/code-style-guide.md`)
 
@@ -192,6 +206,7 @@ git push
 ### Weekly Maintenance
 
 Set up scheduled pipeline:
+
 - Runs Sunday 2 AM
 - Checks code quality
 - Finds issues to fix
@@ -201,6 +216,7 @@ Set up scheduled pipeline:
 ### Q: Will I miss important issues?
 
 **A:** No. The fast mode still catches:
+
 - All syntax errors
 - All configuration errors
 - All format issues
@@ -210,6 +226,7 @@ statix and deadnix provide **suggestions**, not error detection.
 ### Q: How do I check code quality now?
 
 **A:** Three options:
+
 1. Run `./scripts/validate-config.sh` locally
 2. Set up weekly scheduled full builds
 3. Trigger manual full build before merges
@@ -217,12 +234,14 @@ statix and deadnix provide **suggestions**, not error detection.
 ### Q: Can I run statix/deadnix on every commit?
 
 **A:** Yes, in two ways:
+
 1. Enable full builds on your branch
 2. Set up pre-commit hook (see docs)
 
 ### Q: What if I want the old behavior?
 
 **A:** Set environment variable for your branch:
+
 ```
 GitLab → Settings → CI/CD → Variables
 Key: RUN_FULL_BUILDS
@@ -233,17 +252,20 @@ Environment scope: your-branch-name
 ## Summary
 
 **Goals Achieved:**
+
 - ✅ Even faster feedback (30-60 sec vs 1-2 min)
 - ✅ Critical checks still run on every commit
 - ✅ Full validation available when needed
 - ✅ No workflow changes required
 
 **Trade-offs:**
+
 - statix and deadnix now run only in full mode
 - Still available locally anytime
 - Can schedule or trigger manually
 
 **Result:**
+
 - Faster iteration during development
 - Still catches all critical errors
 - Full validation when you need it

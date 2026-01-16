@@ -104,7 +104,7 @@
   '';
 
   # Install f3d-preview plugin for 3D model previews (STL, 3MF, OBJ, STEP)
-  home.activation.installYaziPlugins = lib.hm.dag.entryAfter ["writeBoundary"] ''
+  home.activation.installYaziPlugins = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     # Clone f3d-preview plugin if not exists
     PLUGIN_DIR="$HOME/.config/yazi/plugins/f3d-preview.yazi"
     if [ ! -d "$PLUGIN_DIR" ]; then

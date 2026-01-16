@@ -1,4 +1,9 @@
-{ pkgs, lib, terminalFontSize, ... }:
+{
+  pkgs,
+  lib,
+  terminalFontSize,
+  ...
+}:
 
 {
   programs.ghostty = {
