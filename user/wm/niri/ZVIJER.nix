@@ -32,7 +32,7 @@ let
 
       // Samsung 57" Odyssey G95NC (DP-3) - Primary display at bottom
       // Logical size: 7680/1.25 = 6144x1728
-      output "DP-3" {
+      output "DP-4" {
         mode "7680x2160@240.000"
         scale 1.25
         position x=0 y=1108
@@ -41,15 +41,19 @@ let
     # Named workspaces for ZVIJER
     workspaceConfig = ''
       workspace "main" {
-        // open-on-output "DP-2"
+        // open-on-output "DP-4"
+      }
+
+      workspace "work" {
+        // open-on-output "DP-4"
       }
 
       workspace "gaming" {
-        // open-on-output "DP-2"
+        // open-on-output "DP-4"
       }
 
       workspace "windows" {
-        // open-on-output "DP-2"
+        // open-on-output "DP-4"
       }'';
 
     # 3-column layout optimized for ultrawide
@@ -85,6 +89,10 @@ let
 
       // Winboat rdp
       window-rule {
+        match app-id="winboat"
+        open-on-workspace "windows"
+      }
+      window-rule {
         match app-id="xfreerdp"
         open-on-workspace "windows"
       }
@@ -100,7 +108,13 @@ let
       window-rule {
         match at-startup=true app-id="Slack"
         default-column-width { proportion 0.20; }
-        open-on-workspace "gaming"
+        open-on-workspace "work"
+      }
+
+      // Firefox
+      window-rule {
+        match at-startup=true app-id="firefox"
+        open-on-workspace "work"
       }
 
       // Chrome - tiled window

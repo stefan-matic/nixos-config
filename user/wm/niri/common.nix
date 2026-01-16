@@ -50,6 +50,7 @@
         "keepassxc"
         "slack"
         "google-chrome-stable"
+        "firefox"
         "code"
         "winboat"
         "affine"
