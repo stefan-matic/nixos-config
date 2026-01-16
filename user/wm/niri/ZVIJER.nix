@@ -81,6 +81,11 @@ let
         open-on-output "DP-2"
       }
 
+      window-rule {
+        match app-id="AFFiNE"
+        open-on-output "DP-2"
+      }
+
       // Steam (uses XWayland via xwayland-satellite - run 'xwayland-restart' if it won't launch)
       window-rule {
         match at-startup=true app-id="steam"
