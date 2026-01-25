@@ -15,5 +15,7 @@
     # Remote Desktop
     remmina
     rustdesk
+
+    thunderbird
   ];
 }
