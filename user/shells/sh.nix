@@ -7,7 +7,7 @@ let
     # Modern replacements
     ls = "lsd";
     cat = "bat";
-    cd = "z"; # zoxide
+    #cd = "z"; # zoxide  Causing issues for claude not being able to use cd properly
     find = "fd";
     grep = "rg";
     ps = "procs";
