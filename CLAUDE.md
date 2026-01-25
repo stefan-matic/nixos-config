@@ -454,6 +454,7 @@ nixfmt --check .
 - `docs/REFACTOR-SUMMARY.md` - Complete Philosophy B implementation details
 - `docs/home-manager-guide.md` - Home Manager operations and troubleshooting
 - `docs/devbox-guide.md` - Per-project development environments with Devbox
+- `docs/wireguard-networkmanager-setup.md` - WireGuard VPN setup for NetworkManager and DMS widget
 - `docs/nixos-vs-home-manager-guide.md` - Package placement philosophy
 - `docs/ci-pipeline-guide.md` - GitLab CI/CD pipeline setup and validation
 - `docs/code-style-guide.md` - Code formatting and style standards

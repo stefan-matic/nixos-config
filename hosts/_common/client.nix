@@ -66,6 +66,9 @@
       wl-mirror
 
       nixfmt-rfc-style
+
+      # VPN tools
+      wireguard-tools # WireGuard VPN support for NetworkManager
     ];
 
   # Enable Niri wayland compositor with XWayland support

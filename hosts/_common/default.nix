@@ -30,6 +30,8 @@
     networking = {
       hostName = config.systemSettings.hostname;
       networkmanager.enable = true;
+      # WireGuard support
+      wireguard.enable = true;
     };
 
     # Docker configuration
