@@ -147,5 +147,27 @@ in
       enableCalendarEvents = true; # Calendar integration (khal)
       enableSystemSound = true; # System sound support
     };
+
+    # GNOME keyring disabled - using KeePassXC Secret Service instead
+    services.gnome.gnome-keyring.enable = false;
+
+    # XDG Desktop Portal - following niri's recommended configuration
+    xdg.portal = {
+      enable = true;
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-gnome
+        xdg-desktop-portal-gtk
+        xdg-desktop-portal-wlr
+      ];
+      config.common = {
+        default = [
+          "gnome"
+          "gtk"
+        ];
+        "org.freedesktop.impl.portal.Access" = [ "gtk" ];
+        "org.freedesktop.impl.portal.Notification" = [ "gtk" ];
+        # Secret Service handled by KeePassXC (not via portal)
+      };
+    };
   };
 }

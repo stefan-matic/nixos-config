@@ -105,8 +105,8 @@ in
       enableSystemSound = true; # System sound support
     };
 
-    # Enable GNOME keyring for secrets (required by niri portal config)
-    services.gnome.gnome-keyring.enable = true;
+    # GNOME keyring disabled - using KeePassXC Secret Service instead
+    services.gnome.gnome-keyring.enable = false;
 
     # XDG Desktop Portal - following niri's recommended configuration
     # Reference: https://github.com/YaLTeR/niri/blob/main/resources/niri-portals.conf
@@ -124,7 +124,7 @@ in
         ]; # Prefer GNOME, fallback to GTK
         "org.freedesktop.impl.portal.Access" = [ "gtk" ];
         "org.freedesktop.impl.portal.Notification" = [ "gtk" ];
-        "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];
+        # Secret Service handled by KeePassXC (not via portal)
         # Use wlr portal for screen capture (RustDesk, OBS, etc.)
         #"org.freedesktop.impl.portal.ScreenCast" = [ "wlr" ];
         #"org.freedesktop.impl.portal.Screenshot" = [ "wlr" ];

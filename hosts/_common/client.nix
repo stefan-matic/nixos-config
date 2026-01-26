@@ -84,6 +84,8 @@
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = false;
+    # Use pinentry-gnome3 which uses libsecret to query Secret Service (KeePassXC)
+    pinentryPackage = pkgs.pinentry-gnome3;
   };
 
   # SSH agent - disabled when Niri is enabled (Niri uses GNOME keyring gcr-ssh-agent)
