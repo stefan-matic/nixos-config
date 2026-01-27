@@ -43,6 +43,7 @@
     azure-cli-extensions.resource-graph
     azure-cli-extensions.scheduled-query
     azure-cli-extensions.application-insights
+    google-cloud-sdk
 
     # Infrastructure as Code
     terraform
