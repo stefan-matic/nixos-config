@@ -15,6 +15,7 @@
     nix-direnv
 
     # Version Control
+    gh
     pre-commit
 
     # Programming Languages
