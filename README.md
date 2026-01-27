@@ -32,6 +32,7 @@ nix-shell -p nix-info --run "nix-info -m"
 
 ### Fresh install commands
 
+```
 export NIX_CONFIG="experimental-features = nix-command flakes"
 
 nix-shell -p git
@@ -43,6 +44,7 @@ home-manager install
 NIX_SSHOPTS="-A" nixos-rebuild --flake ~/.dotfiles --target-host z420 --use-remote-sudo switch
 
 nixos-rebuild switch --flake ~/.dotfiles#z420 --target-host z420 --use-remote-sudo
+```
 
 ## Live boot
 
