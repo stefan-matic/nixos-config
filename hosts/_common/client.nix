@@ -69,6 +69,10 @@
 
       # VPN tools
       wireguard-tools # WireGuard VPN support for NetworkManager
+
+      ssh-to-age
+      ragenix
+
     ];
 
   # Enable Niri wayland compositor with XWayland support
