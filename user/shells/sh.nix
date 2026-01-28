@@ -55,6 +55,23 @@ in
 
       # Zoxide integration (replaces z)
       eval "$(zoxide init zsh)"
+
+      # fzf-tab - must be sourced after compinit (oh-my-zsh runs compinit)
+      source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh
+
+      # fzf-tab configuration
+      # Always use fzf, even for few completions
+      zstyle ':fzf-tab:*' fzf-min-height 15
+      # Disable default zsh completion menu
+      zstyle ':completion:*' menu no
+      # Preview directory contents
+      zstyle ':fzf-tab:complete:cd:*' fzf-preview 'lsd -1 --color=always $realpath'
+      # Preview file contents
+      zstyle ':fzf-tab:complete:*:*' fzf-preview 'bat --color=always --style=numbers --line-range=:500 $realpath 2>/dev/null || lsd -1 --color=always $realpath 2>/dev/null || echo $word'
+      # Switch group with < and >
+      zstyle ':fzf-tab:*' switch-group '<' '>'
+      # Disable sorting for kubectl completion (preserves resource order)
+      zstyle ':completion:*:kubectl-*:*' sort false
     '';
 
     plugins = [
@@ -82,7 +99,10 @@ in
         "terraform"
         "systemadmin"
         "fzf"
+        "kubectl"
         "kubectx"
+        "aws"
+        "gcloud"
       ];
       extraConfig = ''
         # Display red dots whilst waiting for completion.
