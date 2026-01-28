@@ -73,6 +73,53 @@ in
       zstyle ':fzf-tab:*' switch-group '<' '>'
       # Disable sorting for kubectl completion (preserves resource order)
       zstyle ':completion:*:kubectl-*:*' sort false
+
+      # AWS Profile switcher (like kubectx but for AWS)
+      # Respects direnv - uses AWS_CONFIG_FILE set by .envrc
+      awsp() {
+        if [[ -z "$AWS_CONFIG_FILE" ]]; then
+          echo "AWS_CONFIG_FILE not set. Are you in a project directory with direnv?" >&2
+          return 1
+        fi
+
+        if [[ ! -f "$AWS_CONFIG_FILE" ]]; then
+          echo "AWS config not found: $AWS_CONFIG_FILE" >&2
+          return 1
+        fi
+
+        # Get list of profiles from config file
+        local profiles
+        profiles=$(grep -oP '(?<=\[profile )[^\]]+' "$AWS_CONFIG_FILE" 2>/dev/null | sort)
+
+        if [[ -z "$profiles" ]]; then
+          echo "No profiles found in $AWS_CONFIG_FILE" >&2
+          return 1
+        fi
+
+        local selected
+        if [[ -n "$1" ]]; then
+          # Profile provided as argument
+          selected="$1"
+          if ! echo "$profiles" | grep -qx "$selected"; then
+            echo "Profile '$selected' not found. Available profiles:" >&2
+            echo "$profiles" | sed 's/^/  /' >&2
+            return 1
+          fi
+        else
+          # Interactive selection with fzf
+          selected=$(echo "$profiles" | fzf --height=40% --reverse --header="Select AWS Profile (current: ''${AWS_PROFILE:-none})")
+          [[ -z "$selected" ]] && return 0
+        fi
+
+        export AWS_PROFILE="$selected"
+        echo "Switched to AWS profile: $AWS_PROFILE"
+      }
+
+      # Unset AWS profile
+      awsp-unset() {
+        unset AWS_PROFILE
+        echo "AWS_PROFILE unset"
+      }
     '';
 
     plugins = [
