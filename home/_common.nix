@@ -40,6 +40,10 @@
 
   news.display = "silent";
 
+  # SSH agent - systemd user service with environment variable
+  # This replaces the disabled system SSH agent and GNOME keyring
+  services.ssh-agent.enable = true;
+
   # XDG directories and user environment
   xdg.enable = true;
   xdg.userDirs = {
