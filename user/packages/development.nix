@@ -47,6 +47,7 @@
     google-cloud-sdk
 
     # Infrastructure as Code
+    ansible
     terraform
     terragrunt
     opentofu
