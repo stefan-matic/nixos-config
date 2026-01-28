@@ -35,6 +35,7 @@ let
     "," = "comma";
     tf = "terraform";
     tg = "terragrunt";
+    ks = "~/Scripts/ks"; # kube-setup for Lens
   };
 in
 {
