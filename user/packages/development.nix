@@ -22,6 +22,7 @@
     nodejs
     python3
     python3.pkgs.pip
+    pipx
     uv # Python package manager
 
     # Kubernetes & Container Tools
@@ -48,6 +49,7 @@
 
     # Infrastructure as Code
     ansible
+    ansible-lint
     terraform
     terragrunt
     opentofu
