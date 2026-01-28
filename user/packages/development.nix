@@ -68,5 +68,7 @@
     terminal-typeracer
 
     winboat
+
+    mkcert
   ];
 }
