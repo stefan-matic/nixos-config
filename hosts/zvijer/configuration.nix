@@ -88,9 +88,7 @@ in
 
       # Systemd service disabled - DMS is spawned by Niri instead
       systemd = {
-        #TODO: Check if this is needed after HM #stefanmatic@ZVIJER
-        enable = true;
-        restartIfChanged = true;
+        enable = false;
       };
 
       # Core features
