@@ -81,6 +81,30 @@
     package = pkgs.niri;
   };
 
+  # XDG Desktop Portal configuration
+  xdg.portal = {
+    enable = true;
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-gnome # Primary portal implementation
+      xdg-desktop-portal-gtk # GTK file chooser (fallback)
+      kdePackages.xdg-desktop-portal-kde # KDE portal for Dolphin and other KDE apps
+      xdg-desktop-portal-wlr # Screen sharing for wlroots-based compositors
+    ];
+    config = {
+      common = {
+        default = [ "gnome" "gtk" ];
+        "org.freedesktop.impl.portal.Access" = [ "gtk" ];
+        "org.freedesktop.impl.portal.Notification" = [ "gtk" ];
+      };
+      # KDE apps (Dolphin, Kate, etc.) should use the KDE portal
+      KDE = {
+        default = [ "kde" "gtk" ];
+        "org.freedesktop.impl.portal.AppChooser" = [ "kde" ];
+        "org.freedesktop.impl.portal.FileChooser" = [ "kde" ];
+      };
+    };
+  };
+
   # Yubico Authenticator
   services.pcscd.enable = true;
   services.udev.packages = [ pkgs.yubikey-personalization ];

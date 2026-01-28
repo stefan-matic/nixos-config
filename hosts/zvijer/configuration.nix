@@ -107,29 +107,6 @@ in
     # GNOME keyring disabled - using KeePassXC Secret Service instead
     services.gnome.gnome-keyring.enable = false;
 
-    # XDG Desktop Portal - following niri's recommended configuration
-    # Reference: https://github.com/YaLTeR/niri/blob/main/resources/niri-portals.conf
-    xdg.portal = {
-      enable = true;
-      extraPortals = with pkgs; [
-        xdg-desktop-portal-gnome # Primary portal implementation
-        xdg-desktop-portal-gtk # GTK file chooser (fallback)
-        xdg-desktop-portal-wlr # Screen sharing for wlroots-based compositors
-      ];
-      config.common = {
-        default = [
-          "gnome"
-          "gtk"
-        ]; # Prefer GNOME, fallback to GTK
-        "org.freedesktop.impl.portal.Access" = [ "gtk" ];
-        "org.freedesktop.impl.portal.Notification" = [ "gtk" ];
-        # Secret Service handled by KeePassXC (not via portal)
-        # Use wlr portal for screen capture (RustDesk, OBS, etc.)
-        #"org.freedesktop.impl.portal.ScreenCast" = [ "wlr" ];
-        #"org.freedesktop.impl.portal.Screenshot" = [ "wlr" ];
-      };
-    };
-
     # Create a Niri Wayland session file for display manager
     # This makes Niri appear as a proper GNOME-compatible session
     environment.etc."wayland-sessions/niri.desktop".text = ''

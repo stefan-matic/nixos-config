@@ -14,6 +14,9 @@
   home.username = userSettings.username;
   home.homeDirectory = "/home/" + userSettings.username;
 
+  # Add ~/Scripts to PATH
+  home.sessionPath = [ "$HOME/Scripts" ];
+
   imports = [
     # Application configurations (dotfiles)
     ../user/app/keepassxc.nix
@@ -46,6 +49,8 @@
 
   # XDG directories and user environment
   xdg.enable = true;
+  xdg.mime.enable = true; # Enable MIME type handling for applications
+
   xdg.userDirs = {
     enable = true;
     createDirectories = true;
