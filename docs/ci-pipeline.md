@@ -1,46 +1,59 @@
-# CI Pipeline Guide
+# CI Pipeline
 
 GitLab CI for validating NixOS configurations.
 
 ## Two Modes
 
-### Default (Fast) - Every Commit
-
-- Syntax checking
-- Flake validation
-- Configuration evaluation
-- ~1-2 minutes, no downloads
-
-### Full Build - On Demand
-
-- Everything above + actual builds
-- Downloads all packages
-- 10-30+ minutes
-- Trigger: Set `RUN_FULL_BUILDS=true`
+| Mode | Trigger | Duration | What It Does |
+|------|---------|----------|--------------|
+| Fast (default) | Every commit | ~1 min | Syntax, format, evaluation |
+| Full | `RUN_FULL_BUILDS=true` | 10-30 min | + linting, builds, downloads |
 
 ## Local Validation
 
 ```bash
-# Run validation script
 ./scripts/validate-config.sh
 
 # Or manually
 nix flake check
-nix build .#nixosConfigurations.ZVIJER.config.system.build.toplevel --dry-run
+treefmt
 ```
 
 ## Trigger Full Builds
 
-### One-time (GitLab UI)
-
-1. CI/CD → Pipelines → Run Pipeline
-2. Add variable: `RUN_FULL_BUILDS` = `true`
+### One-time
+```
+GitLab → CI/CD → Pipelines → Run Pipeline
+Add variable: RUN_FULL_BUILDS = true
+```
 
 ### Scheduled (Recommended)
+```
+GitLab → CI/CD → Schedules → New Schedule
+Cron: 0 2 * * 0  (Sunday 2 AM)
+Variable: RUN_FULL_BUILDS = true
+```
 
-1. CI/CD → Schedules → New Schedule
-2. Set weekly schedule
-3. Add variable: `RUN_FULL_BUILDS` = `true`
+### Main Branch Only
+```
+GitLab → Settings → CI/CD → Variables
+Key: RUN_FULL_BUILDS
+Value: true
+Environment scope: main
+```
+
+## What Gets Checked
+
+**Fast mode:**
+- Format (nixfmt)
+- Flake validation
+- Config evaluation
+
+**Full mode adds:**
+- Linting (statix, deadnix)
+- Build all NixOS configs
+- Build all Home Manager configs
+- Download packages
 
 ## Adding New Hosts
 
@@ -50,16 +63,5 @@ Add to `.gitlab-ci.yml`:
 build-newhost:
   stage: build-system
   script:
-    - nix build .#nixosConfigurations.newhost.config.system.build.toplevel --show-trace
-```
-
-## Troubleshooting
-
-```bash
-# "Flake check fails locally but works in CI"
-nix flake metadata  # Check versions match
-
-# "Build times too long"
-# Use --dry-run for validation only
-# Set up binary cache (Cachix)
+    - nix build .#nixosConfigurations.newhost.config.system.build.toplevel
 ```
