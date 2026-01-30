@@ -17,6 +17,7 @@ let
     extraStartupApps = [
       "yubioath-flutter"
       "steam-fix" # Use steam-fix instead of regular steam for ZVIJER
+      "bazecor"
     ];
 
     # Dual monitor setup for 57" ultrawide + 34" secondary
@@ -83,6 +84,11 @@ let
 
       window-rule {
         match app-id="AFFiNE"
+        open-on-output "DP-2"
+      }
+
+      window-rule {
+        match app-id="Bazecor"
         open-on-output "DP-2"
       }
 

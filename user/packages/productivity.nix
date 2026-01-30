@@ -23,5 +23,8 @@
 
     # Jumpin keyboard
     vial
+
+    #Dygma keyboard
+    unstable.bazecor
   ];
 }
