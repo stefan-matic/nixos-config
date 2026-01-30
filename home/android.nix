@@ -1,6 +1,11 @@
 # Home-manager configuration for Android (nix-on-droid)
 # Minimal configuration suitable for terminal-only Android environment
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   userSettings = {

@@ -14,13 +14,13 @@ tmux is configured via home-manager in `user/app/terminal/tmux.nix`. It compleme
 
 ### Plugins
 
-| Plugin | Purpose |
-|--------|---------|
-| **resurrect** | Save/restore sessions manually |
-| **continuum** | Automatic save (15 min) and restore on start |
+| Plugin                 | Purpose                                        |
+| ---------------------- | ---------------------------------------------- |
+| **resurrect**          | Save/restore sessions manually                 |
+| **continuum**          | Automatic save (15 min) and restore on start   |
 | **vim-tmux-navigator** | Seamless navigation between vim and tmux panes |
-| **dracula** | Theme matching Ghostty |
-| **yank** | System clipboard integration |
+| **dracula**            | Theme matching Ghostty                         |
+| **yank**               | System clipboard integration                   |
 
 ### Key Settings
 
@@ -34,31 +34,31 @@ tmux is configured via home-manager in `user/app/terminal/tmux.nix`. It compleme
 
 ### Prefix Commands (Ctrl+a, then...)
 
-| Key | Action |
-|-----|--------|
-| `\|` | Split window vertically |
-| `-` | Split window horizontally |
-| `c` | New window (in current path) |
-| `s` | Session picker (tree view) |
-| `d` | Detach from session |
-| `r` | Reload tmux config |
-| `[` | Enter copy mode |
-| `]` | Paste buffer |
+| Key  | Action                       |
+| ---- | ---------------------------- |
+| `\|` | Split window vertically      |
+| `-`  | Split window horizontally    |
+| `c`  | New window (in current path) |
+| `s`  | Session picker (tree view)   |
+| `d`  | Detach from session          |
+| `r`  | Reload tmux config           |
+| `[`  | Enter copy mode              |
+| `]`  | Paste buffer                 |
 
 ### No-Prefix Commands
 
-| Key | Action |
-|-----|--------|
-| `Alt+Left/Right/Up/Down` | Switch panes |
+| Key                           | Action       |
+| ----------------------------- | ------------ |
+| `Alt+Left/Right/Up/Down`      | Switch panes |
 | `Ctrl+Alt+Left/Right/Up/Down` | Resize panes |
 
 ### Copy Mode (Vi-style)
 
-| Key | Action |
-|-----|--------|
+| Key | Action          |
+| --- | --------------- |
 | `v` | Begin selection |
-| `y` | Copy selection |
-| `q` | Exit copy mode |
+| `y` | Copy selection  |
+| `q` | Exit copy mode  |
 
 ## Session Management
 
@@ -85,10 +85,12 @@ tmux kill-session -t main
 ### Session Persistence (Continuum)
 
 Sessions are automatically:
+
 - **Saved** every 15 minutes
 - **Restored** when tmux server starts
 
 Manual save/restore:
+
 - `Ctrl+a Ctrl+s` - Save
 - `Ctrl+a Ctrl+r` - Restore
 
@@ -134,13 +136,13 @@ tmux new -A -s main
 
 ### When to Use What
 
-| Feature | Ghostty | tmux |
-|---------|---------|------|
-| Local splits | Yes (native, GPU) | Yes |
-| Session persistence | No | Yes |
-| SSH multiplexing | No | Yes |
-| Crash recovery | No | Yes |
-| Tabs | Yes | Yes (windows) |
+| Feature             | Ghostty           | tmux          |
+| ------------------- | ----------------- | ------------- |
+| Local splits        | Yes (native, GPU) | Yes           |
+| Session persistence | No                | Yes           |
+| SSH multiplexing    | No                | Yes           |
+| Crash recovery      | No                | Yes           |
+| Tabs                | Yes               | Yes (windows) |
 
 ### Recommended Workflow
 
@@ -158,6 +160,7 @@ Ghostty is configured to automatically start/attach to tmux with eye candy:
 - **Existing session:** Attaches without eye candy (you've seen it already)
 
 This is configured in `user/app/terminal/ghostty.nix` using:
+
 ```bash
 # Pseudocode of what happens:
 if tmux has-session -t main; then
@@ -179,6 +182,7 @@ fi
 ### Colors Look Wrong
 
 Ensure terminal supports true color:
+
 ```bash
 # Test true color support
 curl -s https://raw.githubusercontent.com/JohnMorales/dotfiles/master/colors/24-bit-color.sh | bash
@@ -210,5 +214,6 @@ sudo nixos-rebuild switch --flake ~/.dotfiles#ZVIJER
 ```
 
 Then reload tmux config (if already running):
+
 - `Ctrl+a r` or
 - `tmux source-file ~/.config/tmux/tmux.conf`

@@ -53,13 +53,13 @@
         let
           # Escaped quotes \" so they don't close the outer zsh -c "..."
           eyeCandy = lib.concatStringsSep "" [
-            ''CHOICE=$((RANDOM % 4)); ''
-            ''case $CHOICE in ''
+            "CHOICE=$((RANDOM % 4)); "
+            "case $CHOICE in "
             ''0) date \"+%a %B %d, %Y\" | figlet -c -f ~/.dotfiles/user/app/terminal/3d.flf | lolcat;; ''
-            ''1) fortune | cowsay | lolcat;; ''
-            ''2) fastfetch;; ''
+            "1) fortune | cowsay | lolcat;; "
+            "2) fastfetch;; "
             ''3) figlet -c -f ~/.dotfiles/user/app/terminal/3d.flf \"keep calm and rm -rf /*\" | lolcat;; ''
-            ''esac''
+            "esac"
           ];
         in
         ''zsh -c "if tmux has-session -t main 2>/dev/null; then exec tmux attach -t main; else exec tmux new -s main \; send-keys '${eyeCandy}' Enter; fi"'';

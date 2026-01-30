@@ -1,5 +1,10 @@
 # Nix-on-Droid configuration for Samsung Galaxy Fold 6
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   # Set your time zone
