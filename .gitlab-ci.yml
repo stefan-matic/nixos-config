@@ -186,22 +186,10 @@ validation-summary:
     - echo "=========================================="
     - echo "NixOS Configuration Validation Complete!"
     - echo "=========================================="
-    - |
-      if [ "$RUN_FULL_BUILDS" = "true" ]; then
-        echo "✓ Full builds completed successfully (all packages downloaded and built)"
-      else
-        echo "✓ Fast validation completed (syntax and evaluation checks only)"
-        echo ""
-        echo "Note: Full package builds were skipped."
-        echo "To run full builds, set CI/CD variable: RUN_FULL_BUILDS=true"
-      fi
+    - if [ "$RUN_FULL_BUILDS" = "true" ]; then echo "✓ Full builds completed"; else echo "✓ Fast validation completed"; fi
     - echo ""
     - echo "Validated hosts:"
-    - echo "  - ZVIJER (Gaming/Workstation)"
-    - echo "  - stefan-t14 (Lenovo ThinkPad)"
-    - echo "  - starlabs (StarLabs Laptop)"
-    - echo "  - z420 (HP Workstation Server)"
-    - echo "  - dell-micro-3050 (Dell Micro Server)"
+    - echo "  - ZVIJER, stefan-t14, starlabs, z420, dell-micro-3050"
     - echo ""
     - echo "Note: Home Manager is integrated into NixOS configs"
   only:
