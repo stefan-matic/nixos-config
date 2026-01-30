@@ -7,7 +7,7 @@ Single-command deployment from clients to remote servers.
 ```bash
 nixos-rebuild switch \
   --flake ~/.dotfiles#dell-micro-3050 \
-  --target-host stefanmatic@dell-micro-3050 \
+  --target-host sysmatic@dell-micro-3050 \
   --sudo \
   --ask-sudo-password
 ```
@@ -19,7 +19,7 @@ nixos-rebuild switch \
 ```
 Host dell-micro-3050
     HostName 10.100.x.x
-    User stefanmatic
+    User sysmatic
 ```
 
 ### 2. Copy SSH Key
