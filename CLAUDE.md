@@ -44,6 +44,17 @@ home-manager switch --flake ~/.dotfiles#stefanmatic
 home-manager switch --flake ~/.dotfiles#fallen
 ```
 
+### Nix-on-Droid (Android)
+
+```bash
+# On Android device with nix-on-droid installed:
+# Apply configuration (from cloned repo)
+nix-on-droid switch --flake ~/.dotfiles#fold6
+
+# Or use default configuration
+nix-on-droid switch --flake ~/.dotfiles
+```
+
 ### Maintenance
 
 ```bash
@@ -73,10 +84,12 @@ nix flake update
 - `nixpkgs-unstable` - Unstable packages
 - `home-manager` - User environment management (release-25.11)
 - `dms` - DankMaterialShell (Wayland desktop shell)
+- `nix-on-droid` - Nix environment for Android devices
 
 **Outputs:**
 
 - `nixosConfigurations` - Hosts: ZVIJER, stefan-t14, starlabs, z420, liveboot, liveboot-iso
+- `nixOnDroidConfigurations` - Android devices: fold6
 - `homeConfigurations` - Users: stefanmatic (+ host-specific), fallen
 - `packages` - Custom packages from ./pkgs
 - `overlays` - Package overlays (additions, modifications, stable/unstable packages)
@@ -107,12 +120,16 @@ nix flake update
 │   │   ├── configuration.nix
 │   │   ├── packages.nix     # StarLabs-specific system packages
 │   │   └── env.nix
-│   └── z420/                # HP Workstation server
-│       ├── configuration.nix
-│       └── env.nix
+│   ├── z420/                # HP Workstation server
+│   │   ├── configuration.nix
+│   │   └── env.nix
+│   └── android/             # Android devices (nix-on-droid)
+│       └── fold6/           # Samsung Galaxy Fold 6
+│           └── nix-on-droid.nix
 ├── home/                     # Home-manager configurations
 │   ├── _common.nix          # Common home config (imports user packages)
 │   ├── stefanmatic.nix      # User-specific config (imports package categories)
+│   ├── android.nix          # Android-specific home config (minimal)
 │   └── services/            # User services (deej, etc.)
 ├── system/                   # System-level modules
 │   ├── app/                 # Application configs (docker, virtualization)
@@ -287,6 +304,14 @@ nix-build -E "with import <nixpkgs> {}; callPackage ./pkgs/<package-name> {}"
 - Minimal server configuration
 - Syncthing only
 - No desktop environment
+
+**Fold 6 (Samsung Galaxy Fold 6 - Android):**
+
+- Nix-on-Droid terminal environment
+- Minimal home-manager config (terminal-only)
+- Zsh with starship prompt, modern CLI tools
+- Git, development utilities
+- No GUI applications
 
 **Home-manager services:**
 
