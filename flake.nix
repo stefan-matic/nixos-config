@@ -39,21 +39,18 @@
       ];
       forAllSystems = nixpkgs.lib.genAttrs systems;
 
-      # Apply overlays to nixpkgs
+      # Overlays for nixpkgs
       overlays = import ./overlays { inherit inputs; };
-      pkgs = nixpkgs.legacyPackages."x86_64-linux".extend (
-        self: super: {
-          overlays = [
-            overlays.additions
-            overlays.modifications
-            overlays.stable-packages
-            overlays.unstable-packages
-          ];
-        }
-      );
     in
     {
-      packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
+      # Export packages (excluding unfree ones that break flake check)
+      packages = forAllSystems (
+        system:
+        let
+          allPkgs = import ./pkgs nixpkgs.legacyPackages.${system};
+        in
+        builtins.removeAttrs allPkgs [ "steam-fix" ]
+      );
       inherit overlays;
       nixosConfigurations = {
         stefan-t14 = nixpkgs.lib.nixosSystem {
@@ -72,6 +69,13 @@
           specialArgs = { inherit inputs outputs; };
           modules = [ ./hosts/starlabs/configuration.nix ];
         };
+
+        # Servers
+        dell-micro-3050 = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs outputs; };
+          modules = [ ./hosts/dell-micro-3050/configuration.nix ];
+        };
+
         # Minimal liveboot host configuration (commented out - incomplete)
         # Uncomment and fix fileSystems config to use
         # liveboot = nixpkgs.lib.nixosSystem {
@@ -84,70 +88,7 @@
         #   modules = [./hosts/liveboot/iso.nix];
         # };
       };
-      homeConfigurations = {
-        # Legacy config (defaults to ZVIJER for backward compatibility)
-        "stefanmatic" = home-manager.lib.homeManagerConfiguration {
-          pkgs = pkgs;
-          extraSpecialArgs = {
-            inherit inputs outputs;
-            terminalFontSize = 9; # Default font size
-          };
-          modules = [ ./home/stefanmatic.nix ];
-        };
-
-        # Host-specific configs for stefanmatic
-        "stefanmatic@ZVIJER" = home-manager.lib.homeManagerConfiguration {
-          pkgs = pkgs;
-          extraSpecialArgs = {
-            inherit inputs outputs;
-            terminalFontSize = 11; # Larger font for 57" ultrawide
-          };
-          modules = [
-            ./home/stefanmatic.nix
-            {
-              imports = [
-                ./user/wm/niri/ZVIJER.nix
-                ./user/wm/dms/dsearch.nix
-                ./user/app/streamcontroller/streamcontroller.nix
-              ];
-            }
-          ];
-        };
-        "stefanmatic@t14" = home-manager.lib.homeManagerConfiguration {
-          pkgs = pkgs;
-          extraSpecialArgs = {
-            inherit inputs outputs;
-            terminalFontSize = 9; # Laptop screen
-          };
-          modules = [
-            ./home/stefanmatic.nix
-            {
-              imports = [ ./user/wm/niri/laptop.nix ];
-            }
-          ];
-        };
-        "fallen@starlabs" = home-manager.lib.homeManagerConfiguration {
-          pkgs = pkgs;
-          extraSpecialArgs = {
-            inherit inputs outputs;
-            terminalFontSize = 9; # Laptop screen
-          };
-          modules = [
-            ./home/fallen.nix
-            {
-              imports = [ ./user/wm/niri/laptop.nix ];
-            }
-          ];
-        };
-
-        "fallen" = home-manager.lib.homeManagerConfiguration {
-          pkgs = pkgs;
-          extraSpecialArgs = {
-            inherit inputs outputs;
-            terminalFontSize = 9; # Default font size
-          };
-          modules = [ ./home/fallen.nix ];
-        };
-      };
+      # Home-manager is now integrated into NixOS configurations
+      # Deploy with: sudo nixos-rebuild switch --flake .#<hostname>
     };
 }
