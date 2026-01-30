@@ -2,6 +2,8 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+**IMPORTANT: Read `.claude/rules.md` for development standards and validation requirements.**
+
 ## Overview
 
 This is a NixOS flake-based configuration repository managing multiple hosts and home-manager configurations for user "stefanmatic". The setup uses flakes with multiple nixpkgs channels (stable and unstable) via overlays.
@@ -195,7 +197,7 @@ Each host configuration follows this pattern:
 - Can run without root? → Home Manager
 - User wants independent management? → Home Manager
 
-See `docs/nixos-vs-home-manager-guide.md` and `docs/REFACTOR-SUMMARY.md` for details.
+See `docs/package-philosophy.md` for details.
 
 ### Package Organization
 
@@ -446,26 +448,26 @@ nixfmt --check .
 
 **Documentation:**
 
-- Quick reference: `docs/formatting-quick-reference.md`
-- Complete guide: `docs/code-style-guide.md`
+- `docs/formatting.md`
 
 ## Documentation
 
-- `docs/REFACTOR-SUMMARY.md` - Complete Philosophy B implementation details
-- `docs/home-manager-guide.md` - Home Manager operations and troubleshooting
-- `docs/devbox-guide.md` - Per-project development environments with Devbox
-- `docs/wireguard-networkmanager-setup.md` - WireGuard VPN setup for NetworkManager and DMS widget
-- `docs/nixos-vs-home-manager-guide.md` - Package placement philosophy
-- `docs/ci-pipeline-guide.md` - GitLab CI/CD pipeline setup and validation
-- `docs/code-style-guide.md` - Code formatting and style standards
-- `docs/formatting-quick-reference.md` - Quick formatting reference
+- `docs/server-deployment.md` - Remote server deployment
+- `docs/home-manager.md` - Home Manager operations
+- `docs/package-philosophy.md` - System vs Home Manager packages
+- `docs/devbox.md` - Per-project dev environments
+- `docs/cleanup.md` - Generations and disk cleanup
+- `docs/formatting.md` - Code formatting
+- `docs/ci-pipeline.md` - GitLab CI/CD pipeline
+- `docs/wireguard.md` - WireGuard VPN with NetworkManager
+- `docs/windows-dual-boot.md` - Dual-boot restoration
 
 ## Troubleshooting
 
 **Build fails with package conflict:**
 
 - Check for duplicate packages in system and user configs
-- Review `docs/REFACTOR-SUMMARY.md` for package inventory
+- Review `docs/package-philosophy.md` for package placement
 
 **Application not found after rebuild:**
 
