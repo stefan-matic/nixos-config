@@ -39,7 +39,6 @@ stages:
   - lint
   - validate
   - build-system
-  - build-home
 
 ###################
 # Linting Stage
@@ -97,7 +96,6 @@ flake-eval:
   script:
     - echo "Evaluating flake outputs..."
     - nix eval .#nixosConfigurations --apply builtins.attrNames
-    - nix eval .#homeConfigurations --apply builtins.attrNames
   only:
     - merge_requests
     - main
@@ -146,6 +144,16 @@ build-z420:
       when: on_success
     - when: never
 
+build-dell-micro-3050:
+  stage: build-system
+  script:
+    - echo "Building NixOS configuration for dell-micro-3050..."
+    - nix build .#nixosConfigurations.dell-micro-3050.config.system.build.toplevel --show-trace
+  rules:
+    - if: $RUN_FULL_BUILDS == "true"
+      when: on_success
+    - when: never
+
 # Liveboot builds commented out - configurations are incomplete
 # Uncomment when liveboot configs are fixed
 #build-liveboot:
@@ -167,61 +175,6 @@ build-z420:
 #    - merge_requests
 #    - main
 #  allow_failure: true  # ISO builds can be slow/large
-
-###################
-# Build Home Manager Configurations
-###################
-
-build-home-stefanmatic-zvijer:
-  stage: build-home
-  script:
-    - echo "Building Home Manager configuration for stefanmatic@ZVIJER..."
-    - nix build .#homeConfigurations."stefanmatic@ZVIJER".activationPackage --show-trace
-  rules:
-    - if: $RUN_FULL_BUILDS == "true"
-      when: on_success
-    - when: never
-
-build-home-stefanmatic-t14:
-  stage: build-home
-  script:
-    - echo "Building Home Manager configuration for stefanmatic@t14..."
-    - nix build .#homeConfigurations."stefanmatic@t14".activationPackage --show-trace
-  rules:
-    - if: $RUN_FULL_BUILDS == "true"
-      when: on_success
-    - when: never
-
-build-home-stefanmatic-starlabs:
-  stage: build-home
-  script:
-    - echo "Building Home Manager configuration for stefanmatic@starlabs..."
-    - nix build .#homeConfigurations."stefanmatic@starlabs".activationPackage --show-trace
-  rules:
-    - if: $RUN_FULL_BUILDS == "true"
-      when: on_success
-    - when: never
-
-build-home-stefanmatic:
-  stage: build-home
-  script:
-    - echo "Building Home Manager configuration for stefanmatic (no host)..."
-    - nix build .#homeConfigurations.stefanmatic.activationPackage --show-trace
-  rules:
-    - if: $RUN_FULL_BUILDS == "true"
-      when: on_success
-    - when: never
-
-build-home-fallen:
-  stage: build-home
-  script:
-    - echo "Building Home Manager configuration for fallen..."
-    - nix build .#homeConfigurations.fallen.activationPackage --show-trace
-  allow_failure: true # If this user config is optional
-  rules:
-    - if: $RUN_FULL_BUILDS == "true"
-      when: on_success
-    - when: never
 
 ###################
 # Summary Job
@@ -248,13 +201,9 @@ validation-summary:
     - echo "  - stefan-t14 (Lenovo ThinkPad)"
     - echo "  - starlabs (StarLabs Laptop)"
     - echo "  - z420 (HP Workstation Server)"
+    - echo "  - dell-micro-3050 (Dell Micro Server)"
     - echo ""
-    - echo "Validated home-manager configs:"
-    - echo "  - stefanmatic@ZVIJER"
-    - echo "  - stefanmatic@t14"
-    - echo "  - stefanmatic@starlabs"
-    - echo "  - stefanmatic"
-    - echo "  - fallen"
+    - echo "Note: Home Manager is integrated into NixOS configs"
   only:
     - merge_requests
     - main
