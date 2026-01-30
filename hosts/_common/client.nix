@@ -11,10 +11,23 @@
 {
   imports = [
     ./default.nix
+    # Home-manager as NixOS module for single-command deployment
+    inputs.home-manager.nixosModules.home-manager
     ../../system/app/virtualization.nix
     ../../system/bluetooth.nix
     ../../system/packages/desktop.nix
   ];
+
+  # Home-manager base configuration (user-specific config in each host)
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    extraSpecialArgs = {
+      inherit inputs outputs;
+      userSettings = config.userSettings;
+    };
+    # Note: home-manager.users.<name> is configured per-host in each configuration.nix
+  };
 
   # Desktop environment configuration
   services.desktopManager.plasma6.enable = true;

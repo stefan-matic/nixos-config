@@ -1,18 +1,9 @@
-{
-  config,
-  pkgs,
-  userSettings,
-  ...
-}:
+# Common home-manager configuration for all client users
+# Used as NixOS module (home-manager.users.<name>) for single-command deployment
+{ config, ... }:
 
 {
-  nixpkgs.config.allowUnfree = true;
-
-  programs.home-manager.enable = true;
-
   home.stateVersion = "24.11";
-  home.username = userSettings.username;
-  home.homeDirectory = "/home/" + userSettings.username;
 
   # Add ~/Scripts to PATH
   home.sessionPath = [ "$HOME/Scripts" ];
