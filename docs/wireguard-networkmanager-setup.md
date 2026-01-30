@@ -57,6 +57,7 @@ Endpoint = vpn.matic.ba:51821
 ```
 
 Extract these values:
+
 - **PrivateKey**: Your private key
 - **Address**: Your VPN IP address (with CIDR notation)
 - **DNS**: DNS server IP
@@ -99,6 +100,7 @@ method=disabled
 ```
 
 **Important notes:**
+
 - `uuid`: Generate a new UUID with `uuidgen` or use any UUID generator
 - `id`: Connection name (shows up in NetworkManager and DMS widget)
 - `interface-name`: Usually `wg0` for the first WireGuard connection
@@ -212,6 +214,7 @@ sudo wg show
 ### Permission errors
 
 Connection files in `/etc/NetworkManager/system-connections/` must have:
+
 - Owner: `root:root`
 - Permissions: `600` (read/write for owner only)
 
@@ -229,6 +232,7 @@ To add multiple WireGuard VPNs:
 3. Each connection needs a unique `id` (display name)
 
 Example:
+
 ```ini
 # First VPN
 interface-name=wg0
