@@ -92,13 +92,19 @@
     ];
     config = {
       common = {
-        default = [ "gnome" "gtk" ];
+        default = [
+          "gnome"
+          "gtk"
+        ];
         "org.freedesktop.impl.portal.Access" = [ "gtk" ];
         "org.freedesktop.impl.portal.Notification" = [ "gtk" ];
       };
       # KDE apps (Dolphin, Kate, etc.) should use the KDE portal
       KDE = {
-        default = [ "kde" "gtk" ];
+        default = [
+          "kde"
+          "gtk"
+        ];
         "org.freedesktop.impl.portal.AppChooser" = [ "kde" ];
         "org.freedesktop.impl.portal.FileChooser" = [ "kde" ];
       };

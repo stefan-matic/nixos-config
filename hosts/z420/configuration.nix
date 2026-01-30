@@ -51,6 +51,39 @@ in
       };
     };
 
+    environment.systemPackages = with pkgs; [
+      handbrake
+    ];
+
+    # Firewall
+    networking.firewall = {
+      enable = true;
+      allowedTCPPorts = [
+        9443 # portainer
+        80
+        443 # pterodactyl_panel
+        3306 # mariadb
+        8080
+        2022 # pterodactyl_Wings
+      ];
+      allowedUDPPorts = [
+
+      ];
+
+      allowedTCPPortRanges = [
+        {
+          from = 55550;
+          to = 55555;
+        } # Ports for game servers
+      ];
+      allowedUDPPortRanges = [
+        {
+          from = 55550;
+          to = 55555;
+        } # Ports for game servers
+      ];
+    };
+
     services.syncthing = {
       enable = true;
       user = userSettings.username;
