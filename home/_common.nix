@@ -15,6 +15,7 @@
     ../user/app/git/git.nix
     ../user/app/terminal/kitty.nix
     ../user/app/terminal/ghostty.nix
+    ../user/app/terminal/tmux.nix
     ../user/app/terminal/yazi.nix
     ../user/app/direnv/direnv.nix
     ../user/app/browser/select-browser.nix
