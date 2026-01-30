@@ -10,6 +10,7 @@
 
   imports = [
     # Application configurations (dotfiles)
+    ../user/app/firefox.nix
     ../user/app/keepassxc.nix
     ../user/app/git/git.nix
     ../user/app/terminal/kitty.nix

@@ -7,7 +7,7 @@
   home.packages = with pkgs; [
     # Browsers
     chromium
-    firefox
+    # Firefox is managed via programs.firefox (user/app/firefox.nix)
 
     # Terminal Emulator
     ghostty

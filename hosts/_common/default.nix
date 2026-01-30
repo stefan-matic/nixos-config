@@ -53,7 +53,7 @@
 
     # Program configuration
     programs = {
-      firefox.enable = true;
+      # Firefox is managed via home-manager (user/app/firefox.nix)
       #kdeconnect.enable = true; #use home manager instead
       zsh.enable = true;
     };
@@ -113,6 +113,7 @@
         outputs.overlays.additions
         outputs.overlays.modifications
         outputs.overlays.unstable-packages
+        outputs.overlays.nur
       ];
       config = {
         allowUnfree = true;
