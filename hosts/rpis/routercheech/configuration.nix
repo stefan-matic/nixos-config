@@ -37,6 +37,14 @@ in
       inherit systemSettings userSettings;
     };
 
+    # Agenix secrets
+    age.secrets.wifi-routercheech = {
+      file = ../../../secrets/wifi-routercheech.age;
+      owner = "root";
+      group = "root";
+      mode = "0400";
+    };
+
     # Router/Gateway specific configuration
 
     # Disable X11 - this is a headless router
@@ -117,7 +125,7 @@ in
           ssid = "RouterCheech-WiFi";
           authentication = {
             mode = "wpa2-sha256";
-            wpaPassword = "***REDACTED***"; # Change this!
+            wpaPasswordFile = config.age.secrets.wifi-routercheech.path;
           };
         };
       };

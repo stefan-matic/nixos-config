@@ -18,6 +18,9 @@
     ../../system/packages/common.nix
     ../../system/packages/hardware.nix
     ../../system/packages/monitoring.nix
+
+    # Agenix secrets management
+    inputs.agenix.nixosModules.default
   ];
 
   config = {

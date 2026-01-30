@@ -1,4 +1,8 @@
-{ pkgs, ... }:
+{
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
   # Common system packages for all hosts
@@ -25,5 +29,8 @@
 
     # Python for system scripts and /bin/python3 symlink
     python3
+
+    # Secrets management
+    inputs.agenix.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 }
