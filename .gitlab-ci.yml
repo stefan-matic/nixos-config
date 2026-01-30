@@ -183,16 +183,8 @@ build-dell-micro-3050:
 validation-summary:
   stage: .post
   script:
-    - echo "=========================================="
-    - echo "NixOS Configuration Validation Complete!"
-    - echo "=========================================="
-    - if [ "$RUN_FULL_BUILDS" = "true" ]; then echo "✓ Full builds completed"; else echo "✓ Fast validation completed"; fi
-    - echo ""
-    - echo "Validated hosts:"
-    - echo "  - ZVIJER, stefan-t14, starlabs, z420, dell-micro-3050"
-    - echo ""
-    - echo "Note: Home Manager is integrated into NixOS configs"
+    - echo "NixOS Configuration Validation Complete"
+    - echo "Validated hosts - ZVIJER, stefan-t14, starlabs, z420, dell-micro-3050"
   only:
     - merge_requests
     - main
-  when: on_success
