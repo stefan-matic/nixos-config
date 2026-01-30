@@ -9,7 +9,6 @@
 let
   env = import ./env.nix { inherit pkgs; };
   inherit (env) systemSettings userSettings;
-  customPkgs = import ../../pkgs { inherit pkgs; };
 in
 
 {
@@ -38,52 +37,37 @@ in
       inherit systemSettings userSettings;
     };
 
+    # Boot configuration
     boot.loader.grub.enable = true;
     boot.loader.grub.device = "/dev/sdb";
-    boot.loader.grub.useOSProber = true;
 
-    services.desktopManager.plasma6.enable = true;
-    services.displayManager = {
-      defaultSession = "plasma";
-      sddm = {
-        enable = true;
-        wayland.enable = true;
-      };
-    };
-
-    environment.systemPackages = with pkgs; [
-      handbrake
-    ];
-
-    # Firewall
+    # Firewall - server ports
     networking.firewall = {
       enable = true;
       allowedTCPPorts = [
+        22 # SSH
         9443 # portainer
         80
-        443 # pterodactyl_panel
+        443
         3306 # mariadb
         8080
         2022 # pterodactyl_Wings
       ];
-      allowedUDPPorts = [
-
-      ];
-
       allowedTCPPortRanges = [
         {
           from = 55550;
           to = 55555;
-        } # Ports for game servers
+        } # Game server ports
       ];
       allowedUDPPortRanges = [
         {
           from = 55550;
           to = 55555;
-        } # Ports for game servers
+        } # Game server ports
       ];
     };
 
+    # Syncthing for file sync
     services.syncthing = {
       enable = true;
       user = userSettings.username;

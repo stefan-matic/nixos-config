@@ -41,6 +41,15 @@ in
       inherit systemSettings userSettings;
     };
 
+    # Home-manager user configuration
+    home-manager.extraSpecialArgs.terminalFontSize = 9; # Laptop screen
+    home-manager.users.${userSettings.username} = {
+      imports = [
+        ../../home/stefanmatic.nix
+        ../../user/wm/niri/laptop.nix
+      ];
+    };
+
     # Bootloader configuration
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;

@@ -50,6 +50,17 @@ in
       inherit systemSettings userSettings;
     };
 
+    # Home-manager user configuration
+    home-manager.extraSpecialArgs.terminalFontSize = 11; # Larger font for 57" ultrawide
+    home-manager.users.${userSettings.username} = {
+      imports = [
+        ../../home/stefanmatic.nix
+        ../../user/wm/niri/ZVIJER.nix
+        ../../user/wm/dms/dsearch.nix
+        ../../user/app/streamcontroller/streamcontroller.nix
+      ];
+    };
+
     # Boot loader configuration
     boot.loader = {
       efi = {
