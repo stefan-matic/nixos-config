@@ -4,10 +4,9 @@
   systemSettings = {
     system = "x86_64-linux";
     hostname = "z420";
-    host = "Z420";
+    host = "z420";
     timezone = "Europe/Sarajevo";
     locale = "en_US.UTF-8";
-    # Locale settings: English with dd-mm-yyyy date format
     extraLocaleSettings = {
       LC_ADDRESS = "en_US.UTF-8";
       LC_IDENTIFICATION = "en_US.UTF-8";
@@ -17,20 +16,14 @@
       LC_NUMERIC = "en_US.UTF-8";
       LC_PAPER = "en_US.UTF-8";
       LC_TELEPHONE = "en_US.UTF-8";
-      LC_TIME = "en_GB.UTF-8"; # Use British English for dd-mm-yyyy format
+      LC_TIME = "en_GB.UTF-8"; # dd-mm-yyyy format
     };
   };
 
-  # Rec is recursive when you need more complex sets and nests
-  #userSettings = rec {
   userSettings = {
-    username = "stefanmatic";
-    name = "Stefan Matic";
-    email = "stefanmatic94@gmail.com";
-    theme = "dracula";
-    term = "alacritty"; # Default terminal command;
-    font = "Intel One Mono"; # Selected font
-    fontPkg = pkgs.intel-one-mono; # Font package
-    editor = "nano"; # Default editor;
+    username = "sysmatic";
+    name = "SysMatic";
+    email = "stefan@matic.ba";
+    editor = "nano";
   };
 }
