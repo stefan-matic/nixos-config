@@ -30,12 +30,10 @@
     }@inputs:
     let
       inherit (self) outputs;
-      # Removed i686-linux (32-bit x86) as many modern packages don't support it
+      # Linux systems only (NixOS-focused repo, custom packages don't support Darwin)
       systems = [
         "aarch64-linux"
         "x86_64-linux"
-        "aarch64-darwin"
-        "x86_64-darwin"
       ];
       forAllSystems = nixpkgs.lib.genAttrs systems;
 
