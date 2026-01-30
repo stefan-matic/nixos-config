@@ -22,6 +22,7 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
+    backupFileExtension = "hm-backup"; # Backup existing files instead of failing
     extraSpecialArgs = {
       inherit inputs outputs;
       userSettings = config.userSettings;
