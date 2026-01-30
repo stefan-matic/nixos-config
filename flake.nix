@@ -24,6 +24,13 @@
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Nix-on-Droid for Android devices
+    nix-on-droid = {
+      url = "github:nix-community/nix-on-droid/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
   };
 
   outputs =
@@ -91,6 +98,41 @@
         #   modules = [./hosts/liveboot/iso.nix];
         # };
       };
+
+      # Nix-on-Droid configurations for Android devices
+      # Deploy with: nix-on-droid switch --flake .#<device>
+      nixOnDroidConfigurations = {
+        # Samsung Galaxy Fold 6
+        fold6 = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
+          pkgs = import nixpkgs {
+            system = "aarch64-linux";
+            overlays = [
+              overlays.additions
+              overlays.modifications
+              overlays.unstable-packages
+              overlays.stable-packages
+            ];
+          };
+          modules = [ ./hosts/android/fold6/nix-on-droid.nix ];
+          extraSpecialArgs = { inherit inputs outputs; };
+        };
+
+        # Default configuration (alias to fold6)
+        default = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
+          pkgs = import nixpkgs {
+            system = "aarch64-linux";
+            overlays = [
+              overlays.additions
+              overlays.modifications
+              overlays.unstable-packages
+              overlays.stable-packages
+            ];
+          };
+          modules = [ ./hosts/android/fold6/nix-on-droid.nix ];
+          extraSpecialArgs = { inherit inputs outputs; };
+        };
+      };
+
       # Home-manager is now integrated into NixOS configurations
       # Deploy with: sudo nixos-rebuild switch --flake .#<hostname>
     };
