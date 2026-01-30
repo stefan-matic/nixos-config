@@ -24,4 +24,7 @@
       config.allowUnfree = true;
     };
   };
+
+  # NUR (Nix User Repository) for community packages like firefox-addons
+  nur = inputs.nur.overlays.default;
 }
