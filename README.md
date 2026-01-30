@@ -1,84 +1,65 @@
 # Stefan's NixOS Config
 
-Contains all of the configuration for all of my devices
+Flake-based NixOS configuration for multiple hosts.
 
 Heavily influenced by [LibrePhoenix](https://github.com/librephoenix/nixos-config).
 
-Brought into a sane state using Claude which fully manages the config now.
+Brought into a sane state using Claude which drives majority of the config now.
+No vibe-coding, just clean spec-driven development.
 
-Not yet ready to be publicly released.
+## Hosts
+
+| Host            | Type    | Description                           |
+| --------------- | ------- | ------------------------------------- |
+| ZVIJER          | Desktop | Gaming/workstation with dual monitors |
+| stefan-t14      | Laptop  | Lenovo ThinkPad T14                   |
+| starlabs        | Laptop  | StarLabs laptop                       |
+| z420            | Server  | HP Z420 workstation                   |
+| dell-micro-3050 | Server  | Dell Micro home lab                   |
+
+## Quick Start
+
+```bash
+# System rebuild
+sudo nixos-rebuild switch --flake ~/.dotfiles#ZVIJER
+
+# Home Manager (host-specific)
+home-manager switch --flake ~/.dotfiles#stefanmatic@ZVIJER
+
+# Remote server deployment
+nixos-rebuild switch --flake ~/.dotfiles#dell-micro-3050 \
+  --target-host sysmatic@dell-micro-3050 --use-remote-sudo
+```
+
+## Structure
+
+```
+hosts/           # Host configurations
+  _common/       # Shared (default.nix, client.nix, server.nix)
+  zvijer/        # Desktop config
+  t14/           # Laptop config
+  ...
+home/            # Home Manager configs
+user/            # User apps, shells, packages
+system/          # System modules (packages, security)
+pkgs/            # Custom packages
+docs/            # Documentation
+```
 
 ## Cleanup
 
-```
-nix-env --list-generations
-
-nix-collect-garbage  --delete-old
-
-nix-collect-garbage  --delete-generations 1 2 3
-
-# recommeneded to sometimes run as sudo to collect additional garbage
-sudo nix-collect-garbage -d
-
-# As a separation of concerns - you will need to run this command to clean out boot
+```bash
+sudo nix-collect-garbage --delete-older-than 30d
 sudo /run/current-system/bin/switch-to-configuration boot
 ```
 
-## Useful commands
+## Live ISO
 
-```
-nix-shell -p nix-info --run "nix-info -m"
-```
-
-### Fresh install commands
-
-```
-export NIX_CONFIG="experimental-features = nix-command flakes"
-
-nix-shell -p git
-
-sudo nixos-rebuild switch --flake ~/.dotfiles
-
-home-manager install
-
-NIX_SSHOPTS="-A" nixos-rebuild --flake ~/.dotfiles --target-host z420 --use-remote-sudo switch
-
-nixos-rebuild switch --flake ~/.dotfiles#z420 --target-host z420 --use-remote-sudo
+```bash
+nix build .#nixosConfigurations.liveboot-iso.config.system.build.isoImage
+sudo dd if=result/iso/*.iso of=/dev/sdX bs=4M status=progress
 ```
 
-## Live boot
+## Docs
 
-### Build the ISO
-
-`nix build .#nixosConfigurations.liveboot-iso.config.system.build.isoImage`
-
-The result will be a symlink pointing to the ISO
-
-`ls -lh result/iso/`
-
-The build process will:
-
-1. Evaluate your liveboot-iso configuration
-2. Build all packages and dependencies
-3. Create a squashfs filesystem
-4. Generate the bootable ISO image
-5. Create a result symlink in your current directory
-
-Note: This can take a while (30 minutes to a few hours) depending on:
-
-- How many packages need to be built vs downloaded from cache
-- Your internet connection speed
-- Your system resources
-
-Once complete, the ISO will be at:
-result/iso/stefan-nix-live-25.11.20251202.1aab892-x86_64-linux.iso
-
-You can then copy it and write it to a USB:
-
-Copy to a more convenient location (optional)
-
-`cp result/iso/\*.iso ~/Downloads/`
-
-# Write to USB (replace /dev/sdX with your USB device - BE CAREFUL!)
-
-sudo dd if=result/iso/\*.iso of=/dev/sdX bs=4M status=progress oflag=sync
+See `docs/` for guides on server deployment, home-manager, devbox, cleanup, etc.
