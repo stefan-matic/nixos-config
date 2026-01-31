@@ -37,9 +37,9 @@ in
       inherit systemSettings userSettings;
     };
 
-    # Agenix secrets
+    # Agenix secrets (secrets.nix at repo root, .age files in secrets/)
     age.secrets.wifi-routercheech = {
-      file = ../../../secrets/wifi-routercheech.age;
+      file = ../../../secrets/wifi-routercheech.age; # Path from this file to secrets/
       owner = "root";
       group = "root";
       mode = "0400";

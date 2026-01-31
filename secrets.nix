@@ -1,6 +1,8 @@
 # Agenix secrets configuration
 # Defines which SSH keys can decrypt which secrets
 #
+# secrets.nix is at repository root, encrypted .age files are in secrets/
+#
 # IMPORTANT: After adding a new host, you need to:
 # 1. Get the host's SSH ed25519 public key: ssh-keyscan -t ed25519 <hostname> 2>/dev/null | cut -d' ' -f2-
 #    Or from the host: cat /etc/ssh/ssh_host_ed25519_key.pub
@@ -35,7 +37,7 @@ in
 {
   # WiFi password for RouterCheech AP
   # Only the router RPI needs this, plus user for CLI access
-  "wifi-routercheech.age".publicKeys = users ++ rpiHosts;
+  "secrets/wifi-routercheech.age".publicKeys = users ++ rpiHosts;
 
   # Note: Syncthing device IDs are public identifiers (like public key fingerprints)
   # and not suitable for agenix - they're required at NixOS build time as strings.

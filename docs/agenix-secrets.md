@@ -8,7 +8,7 @@ Agenix encrypts secrets with SSH keys, allowing secrets to be stored safely in g
 
 **Current secrets:**
 
-- `wifi-routercheech.age` - WiFi password for RouterCheech AP
+- `secrets/wifi-routercheech.age` - WiFi password for RouterCheech AP
 
 ## Two Types of Keys (Important!)
 
@@ -58,15 +58,18 @@ Each NixOS machine has a unique host SSH key at `/etc/ssh/ssh_host_ed25519_key`.
 ## Directory Structure
 
 ```
-secrets/
-├── secrets.nix              # Defines which keys can decrypt which secrets
-├── wifi-routercheech.age    # Encrypted WiFi password
-└── (future secrets...)
+.dotfiles/
+├── secrets.nix              # Defines which keys can decrypt which secrets (at repo root)
+└── secrets/
+    ├── wifi-routercheech.age    # Encrypted WiFi password
+    └── (future secrets...)
 ```
+
+**Note:** `secrets.nix` is at the repository root, while `.age` files are in the `secrets/` directory. This follows the standard agenix convention and makes paths cleaner.
 
 ## Current Setup
 
-Your user key is already configured in `secrets/secrets.nix`:
+Your user key is already configured in `secrets.nix`:
 
 ```nix
 let
@@ -98,7 +101,7 @@ Outputs something like:
 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAA... root@hostname
 ```
 
-### Step 2: Add to secrets.nix
+### Step 2: Add to secrets.nix (at repo root)
 
 ```nix
 let
@@ -117,13 +120,14 @@ let
 in
 {
   # WiFi secret - needs RPI host key (hostapd runs at boot)
-  "wifi-routercheech.age".publicKeys = users ++ rpiHosts;
+  # Note: paths are relative to secrets.nix location (repo root)
+  "secrets/wifi-routercheech.age".publicKeys = users ++ rpiHosts;
 
   # Example: secret only for CLI access (no host key needed)
-  # "my-api-key.age".publicKeys = users;
+  # "secrets/my-api-key.age".publicKeys = users;
 
   # Example: secret for desktop system service
-  # "vpn-credentials.age".publicKeys = users ++ allHosts;
+  # "secrets/vpn-credentials.age".publicKeys = users ++ allHosts;
 }
 ```
 
@@ -132,7 +136,7 @@ in
 After modifying `secrets.nix`, re-encrypt so new keys can decrypt:
 
 ```bash
-cd ~/.dotfiles/secrets
+cd ~/.dotfiles
 agenix -r
 ```
 
@@ -149,33 +153,44 @@ sudo nixos-rebuild switch --flake ~/.dotfiles#<hostname>
 - **CLI-only secret** (scripts, personal use): just add `users`
 - **Boot-time secret** (system service): add `users` + relevant host keys
 
-### Step 2: Define in secrets.nix
+### Step 2: Define in secrets.nix (at repo root)
 
 ```nix
 {
   # CLI-only - your user key can decrypt
-  "my-api-key.age".publicKeys = users;
+  "secrets/my-api-key.age".publicKeys = users;
 
   # Boot-time - host also needs to decrypt
-  "service-password.age".publicKeys = users ++ allHosts;
+  "secrets/service-password.age".publicKeys = users ++ allHosts;
 }
 ```
 
 ### Step 3: Create the Secret
 
 ```bash
-cd ~/.dotfiles/secrets
-agenix -e my-api-key.age
+cd ~/.dotfiles
+agenix -e secrets/my-api-key.age
 ```
 
 Your editor opens. Enter the secret, save, exit. Done.
+
+**Alternative using rage (with SSH agent support):**
+
+```bash
+# Encrypt with rage (uses SSH agent automatically)
+echo "mysecret" | rage -e -r "ssh-ed25519 AAAAC3..." > secrets/my-api-key.age
+
+# Or encrypt to multiple recipients
+rage -e -r "ssh-ed25519 KEY1..." -r "ssh-ed25519 KEY2..." -o secrets/my-api-key.age
+```
 
 ### Step 4: Reference in NixOS Config
 
 ```nix
 {
+  # Path is relative from the NixOS config file to secrets/
   age.secrets.my-api-key = {
-    file = ../../secrets/my-api-key.age;
+    file = ../../secrets/my-api-key.age;  # Adjust path based on config file location
     owner = "root";
     group = "root";
     mode = "0400";
@@ -188,15 +203,17 @@ Your editor opens. Enter the secret, save, exit. Done.
 
 ## Common Commands
 
+### Using agenix (from repo root)
+
 ```bash
 # Edit a secret (uses your SSH agent key)
-agenix -e <secret-name>.age
+agenix -e secrets/<secret-name>.age
 
 # Re-encrypt all secrets (after changing secrets.nix)
 agenix -r
 
 # Decrypt and print a secret (for testing)
-agenix -d <secret-name>.age
+agenix -d secrets/<secret-name>.age
 
 # List all secrets
 ls secrets/*.age
@@ -239,10 +256,10 @@ ls -la /run/agenix/
 
 ## Quick Reference
 
-| Task                         | Command                                 |
-| ---------------------------- | --------------------------------------- |
-| Edit secret                  | `agenix -e secret.age`                  |
-| Re-encrypt after adding keys | `agenix -r`                             |
-| View secret (test)           | `agenix -d secret.age`                  |
-| Get host key                 | `cat /etc/ssh/ssh_host_ed25519_key.pub` |
-| Check decrypted secrets      | `ls /run/agenix/`                       |
+| Task                         | Command                                   |
+| ---------------------------- | ----------------------------------------- |
+| Edit secret                  | `agenix -e secrets/secret.age`            |
+| Re-encrypt after adding keys | `agenix -r`                               |
+| View secret (test)           | `agenix -d secrets/secret.age`            |
+| Get host key                 | `cat /etc/ssh/ssh_host_ed25519_key.pub`   |
+| Check decrypted secrets      | `ls /run/agenix/`                         |

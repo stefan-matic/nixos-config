@@ -84,8 +84,7 @@
       # VPN tools
       wireguard-tools # WireGuard VPN support for NetworkManager
 
-      ssh-to-age
-      ragenix
+      ssh-to-age # Convert SSH keys to age keys
 
     ];
 
