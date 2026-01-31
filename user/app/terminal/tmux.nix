@@ -131,6 +131,19 @@
 
       # Display pane numbers longer
       set -g display-panes-time 2000
+
+      # === Fixes for terminal passthrough ===
+
+      # Unbind vim-tmux-navigator's C-k and C-u so nano/other apps can use them
+      # (Use Alt+arrows for pane navigation instead)
+      unbind -n C-k
+      unbind -n C-u
+
+      # Copy to system clipboard with Ctrl+Shift+C (in copy mode)
+      bind -T copy-mode-vi C-C send -X copy-pipe-and-cancel "wl-copy"
+
+      # Also allow mouse selection to copy to clipboard
+      bind -T copy-mode-vi MouseDragEnd1Pane send -X copy-pipe-and-cancel "wl-copy"
     '';
   };
 }
