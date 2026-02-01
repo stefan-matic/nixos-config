@@ -35,6 +35,10 @@
       networkmanager.enable = true;
       # WireGuard support
       wireguard.enable = true;
+      # Extra hosts entries - add temporary entries here
+      extraHosts = ''
+
+      '';
     };
 
     # Docker configuration
