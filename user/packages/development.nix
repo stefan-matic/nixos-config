@@ -16,6 +16,7 @@
 
     # Version Control
     gh
+    glab
     pre-commit
 
     # Programming Languages
