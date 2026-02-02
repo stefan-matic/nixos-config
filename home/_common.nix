@@ -24,6 +24,8 @@
     ../user/app/vlc.nix
     ../user/app/prusa-slicer.nix
     ../user/app/gwenview.nix
+    ../user/app/okular.nix
+    ../user/app/dolphin.nix
     ../user/shells/sh.nix
     ../user/lang/python/python.nix
 
