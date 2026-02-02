@@ -64,7 +64,7 @@ in
           0) date "+%a %B %d, %Y" | figlet -c -f ~/.dotfiles/user/app/terminal/3d.flf | lolcat ;;
           1) fortune | cowsay | lolcat ;;
           2) fastfetch ;;
-          3) figlet -c -f ~/.dotfiles/user/app/terminal/3d.flf "keep calm" | lolcat ;;
+          3) figlet -c -f ~/.dotfiles/user/app/terminal/3d.flf "keep calm and rm -rf /*" | lolcat ;;
         esac
       }
 
