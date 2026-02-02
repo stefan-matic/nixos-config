@@ -57,6 +57,19 @@ in
       # Zoxide integration (replaces z)
       eval "$(zoxide init zsh)"
 
+      # Set terminal title for SSH sessions (helps tmux show hostname)
+      # This runs on every prompt, updating the title
+      function set_terminal_title() {
+        if [[ -n "$SSH_CONNECTION" ]]; then
+          # We're in an SSH session, show user@host
+          print -Pn "\e]2;%n@%m: %~\a"
+        else
+          # Local session, show just the directory
+          print -Pn "\e]2;%~\a"
+        fi
+      }
+      precmd_functions+=(set_terminal_title)
+
       # fzf-tab - must be sourced after compinit (oh-my-zsh runs compinit)
       source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh
 
