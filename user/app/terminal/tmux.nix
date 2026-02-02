@@ -159,7 +159,7 @@
       # === Eye candy on new session ===
       # Shows random ASCII art when a NEW session is created (not on attach)
       # Options: date banner, fortune cow, fastfetch, or keep calm message
-      set-hook -g session-created 'send-keys "CHOICE=$((RANDOM % 4)); case $CHOICE in 0) date \"+%a %B %d, %Y\" | figlet -c -f ~/.dotfiles/user/app/terminal/3d.flf | lolcat;; 1) fortune | cowsay | lolcat;; 2) fastfetch;; 3) figlet -c -f ~/.dotfiles/user/app/terminal/3d.flf \"keep calm\" | lolcat;; esac" Enter'
+      set-hook -g session-created 'send-keys "CHOICE=\$((RANDOM % 4)); case \$CHOICE in 0) date \"+%a %B %d, %Y\" | figlet -c -f ~/.dotfiles/user/app/terminal/3d.flf | lolcat;; 1) fortune | cowsay | lolcat;; 2) fastfetch;; 3) figlet -c -f ~/.dotfiles/user/app/terminal/3d.flf \"keep calm\" | lolcat;; esac" Enter'
     '';
   };
 }
