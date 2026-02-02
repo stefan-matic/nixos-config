@@ -73,6 +73,7 @@
 
       # Nix utilities
       nix-prefetch-git
+      nix-prefetch-github
 
       # Boot/OS tools
       os-prober # For dual-boot detection
