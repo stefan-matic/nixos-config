@@ -57,6 +57,17 @@ in
       # Zoxide integration (replaces z)
       eval "$(zoxide init zsh)"
 
+      # Eye candy function for tmux startup
+      eye-candy() {
+        local choice=$((RANDOM % 4))
+        case $choice in
+          0) date "+%a %B %d, %Y" | figlet -c -f ~/.dotfiles/user/app/terminal/3d.flf | lolcat ;;
+          1) fortune | cowsay | lolcat ;;
+          2) fastfetch ;;
+          3) figlet -c -f ~/.dotfiles/user/app/terminal/3d.flf "keep calm" | lolcat ;;
+        esac
+      }
+
       # Set terminal title for SSH sessions (helps tmux show hostname)
       # This runs on every prompt, updating the title
       function set_terminal_title() {
