@@ -144,6 +144,17 @@
 
       # Also allow mouse selection to copy to clipboard
       bind -T copy-mode-vi MouseDragEnd1Pane send -X copy-pipe-and-cancel "wl-copy"
+
+      # === SSH hostname in window title ===
+      # Automatically rename window to SSH hostname when connecting
+      # The pane title is set by the shell/SSH, we just need to use it
+      set -g automatic-rename on
+      set -g automatic-rename-format '#{?#{==:#{pane_current_command},ssh},#{pane_title},#{pane_current_command}}'
+
+      # Allow programs (like SSH) to set the window title
+      set -g allow-rename on
+      set -g set-titles on
+      set -g set-titles-string '#S:#I #W - #{pane_title}'
     '';
   };
 }
