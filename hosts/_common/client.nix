@@ -99,10 +99,9 @@
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [
-      xdg-desktop-portal-gnome # Primary portal implementation
+      xdg-desktop-portal-gnome # Primary portal implementation (ScreenCast for niri)
       xdg-desktop-portal-gtk # GTK file chooser (fallback)
       kdePackages.xdg-desktop-portal-kde # KDE portal for Dolphin and other KDE apps
-      xdg-desktop-portal-wlr # Screen sharing for wlroots-based compositors
     ];
     config = {
       common = {
@@ -110,6 +109,16 @@
           "gnome"
           "gtk"
         ];
+        "org.freedesktop.impl.portal.Access" = [ "gtk" ];
+        "org.freedesktop.impl.portal.Notification" = [ "gtk" ];
+      };
+      niri = {
+        default = [
+          "gnome"
+          "gtk"
+        ];
+        "org.freedesktop.impl.portal.ScreenCast" = [ "gnome" ];
+        "org.freedesktop.impl.portal.Screenshot" = [ "gnome" ];
         "org.freedesktop.impl.portal.Access" = [ "gtk" ];
         "org.freedesktop.impl.portal.Notification" = [ "gtk" ];
       };
