@@ -331,6 +331,9 @@
         Print { spawn "sh" "-c" "grim -g \"$(slurp)\" - | swappy -f -"; }
         Ctrl+Shift+X { spawn "sh" "-c" "grim -g \"$(slurp)\" - | swappy -f -"; }
 
+        // Screen recording - toggle: first press selects area and starts, second press stops
+        Ctrl+Shift+R { spawn "sh" "-c" "pkill -SIGINT wf-recorder || wf-recorder -g \"$(slurp)\" -f ~/Videos/recording-$(date +%Y%m%d-%H%M%S).mp4"; }
+
         // Niri essentials
         Mod+Shift+Slash { show-hotkey-overlay; }
         Mod+Shift+Escape { quit; }
