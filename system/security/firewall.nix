@@ -1,4 +1,4 @@
-{ ... }:
+{ config, ... }:
 
 {
   # Firewall
@@ -12,6 +12,7 @@
     allowedUDPPorts = [
       22000
       21027 # syncthing
+      config.services.tailscale.port
     ];
 
     allowedTCPPortRanges = [

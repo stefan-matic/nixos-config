@@ -58,6 +58,8 @@
     services.pulseaudio.enable = false;
     security.rtkit.enable = true;
 
+    services.tailscale.enable = true;
+
     # Program configuration
     programs = {
       # Firefox is managed via home-manager (user/app/firefox.nix)
@@ -102,6 +104,7 @@
           exec ${vscode}/bin/code --disable-gpu "$@"
         '')
         vscode
+        unstable.tailscale
       ];
 
       openssh.authorizedKeys.keys = [

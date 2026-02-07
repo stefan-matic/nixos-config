@@ -21,5 +21,7 @@
     # Image Viewers
     viu
     timg
+
+    asciiquarium-transparent
   ];
 }

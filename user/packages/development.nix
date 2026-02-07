@@ -71,5 +71,7 @@
     winboat
 
     mkcert
+
+    kdePackages.qtwebsockets
   ];
 }
