@@ -36,6 +36,8 @@
     # Screenshots & OCR (user utilities)
     tesseract4
 
+    qbittorrent
+
     # Custom scripts
     (pkgs.writeScriptBin "screenshot-ocr" ''
       #!/bin/sh

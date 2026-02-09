@@ -363,6 +363,8 @@
         Mod+Equal { set-column-width "+10%"; }
         Mod+Minus { set-column-width "-10%"; }
 
+        Mod+A { spawn "dms" "ipc" "call" "plugins" "toggle" "aiAssistant"; }
+
         ${extraKeybindings}
       }
 

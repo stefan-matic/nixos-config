@@ -105,6 +105,7 @@
         '')
         vscode
         unstable.tailscale
+        unstable.dgop
       ];
 
       openssh.authorizedKeys.keys = [
