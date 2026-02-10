@@ -28,6 +28,8 @@ in
     inputs.dms.nixosModules.dank-material-shell
     # Import NordVPN module
     ../../modules/services/networking/nordvpn.nix
+    # YubiKey PAM authentication (touch to sudo)
+    ../../system/security/yubikey.nix
   ];
 
   options = {
@@ -73,6 +75,7 @@ in
         efiSupport = true;
         useOSProber = false;
         configurationLimit = 20;
+        theme = pkgs.sleek-grub-theme;
         extraEntries = ''
           menuentry "Windows 11" {
             insmod part_gpt
@@ -113,9 +116,6 @@ in
       # are now built-in to DMS and no longer need to be specified
     };
 
-    # GNOME keyring disabled - using KeePassXC Secret Service instead
-    services.gnome.gnome-keyring.enable = false;
-
     # Create a Niri Wayland session file for display manager
     # This makes Niri appear as a proper GNOME-compatible session
     environment.etc."wayland-sessions/niri.desktop".text = ''
@@ -137,6 +137,11 @@ in
     hardware.openrazer = {
       enable = true;
       users = [ userSettings.username ];
+    };
+
+    # Input Remapper - autostart without password
+    services.input-remapper = {
+      enable = true;
     };
 
     # Temporarily disabled - OpenRazer doesn't support kernel 6.18 yet

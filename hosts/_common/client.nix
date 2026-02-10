@@ -32,6 +32,12 @@
 
   # Desktop environment configuration
   services.desktopManager.plasma6.enable = true;
+
+  # Disable KWallet and GNOME Keyring - use KeePassXC Secret Service instead
+  # This allows Dolphin and other apps to store passwords in KeePassXC
+  security.pam.services.login.kwallet.enable = lib.mkForce false;
+  security.pam.services.sddm.kwallet.enable = lib.mkForce false;
+  services.gnome.gnome-keyring.enable = false;
   services.displayManager = {
     defaultSession = "plasma";
     sddm = {

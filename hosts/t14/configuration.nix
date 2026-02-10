@@ -156,9 +156,6 @@ in
       # are now built-in to DMS and no longer need to be specified
     };
 
-    # GNOME keyring disabled - using KeePassXC Secret Service instead
-    services.gnome.gnome-keyring.enable = false;
-
     # XDG Desktop Portal - following niri's recommended configuration
     xdg.portal = {
       enable = true;

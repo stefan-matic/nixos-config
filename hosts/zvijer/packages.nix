@@ -13,6 +13,5 @@
     # Razer hardware support (system-wide daemon needed)
     openrazer-daemon
     razergenie
-    input-remapper
   ];
 }
