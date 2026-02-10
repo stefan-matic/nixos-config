@@ -21,6 +21,9 @@
       [Browser]
       Enabled=true
 
+      [SSHAgent]
+      Enabled=true
+
       [GUI]
       ApplicationTheme=dark
       MinimizeOnClose=true
