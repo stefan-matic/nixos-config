@@ -22,6 +22,7 @@
       Enabled=true
 
       [GUI]
+      ApplicationTheme=dark
       MinimizeOnClose=true
       ShowTrayIcon=true
       TrayIconAppearance=monochrome-light

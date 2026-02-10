@@ -75,7 +75,9 @@ in
         efiSupport = true;
         useOSProber = false;
         configurationLimit = 20;
-        theme = pkgs.sleek-grub-theme;
+        theme = pkgs.sleek-grub-theme.override { withStyle = "dark"; };
+        gfxmodeEfi = "7680x2160,auto";
+        gfxpayloadEfi = "keep";
         extraEntries = ''
           menuentry "Windows 11" {
             insmod part_gpt
