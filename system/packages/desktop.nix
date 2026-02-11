@@ -19,7 +19,6 @@
     xwayland-satellite # XWayland support for X11 apps
 
     # File Manager & GVFS
-    nautilus # GNOME file manager
     gvfs # Virtual filesystem (USB, network shares)
 
     # KDE Applications (system-wide utilities)

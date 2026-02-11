@@ -19,7 +19,6 @@
     ../user/app/terminal/yazi.nix
     ../user/app/direnv/direnv.nix
     ../user/app/browser/select-browser.nix
-    ../user/app/nautilus.nix
     ../user/app/kate.nix
     ../user/app/vlc.nix
     ../user/app/prusa-slicer.nix
