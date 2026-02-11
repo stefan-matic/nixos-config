@@ -17,12 +17,18 @@
       [FdoSecrets]
       Enabled=true
       ShowNotification=true
+      ConfirmAccessItem=false
+      ConfirmDeleteItem=true
 
       [Browser]
       Enabled=true
 
       [SSHAgent]
       Enabled=true
+
+      [Security]
+      LockDatabaseIdle=false
+      LockDatabaseScreenLock=true
 
       [GUI]
       ApplicationTheme=dark
