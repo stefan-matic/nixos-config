@@ -73,5 +73,7 @@
     mkcert
 
     kdePackages.qtwebsockets
+
+    rar
   ];
 }
