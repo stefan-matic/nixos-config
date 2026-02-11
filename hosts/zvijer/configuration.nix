@@ -60,6 +60,7 @@ in
         ../../user/wm/niri/ZVIJER.nix
         ../../user/wm/dms/dsearch.nix
         ../../user/app/streamcontroller/streamcontroller.nix
+        ../../user/app/input-remapper.nix
       ];
     };
 
