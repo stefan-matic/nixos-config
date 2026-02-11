@@ -286,7 +286,6 @@
         Mod+Q { close-window; }
         Mod+Return { spawn "ghostty"; }
         Mod+E { spawn "dolphin"; }
-        Mod+Alt+E { spawn "nautilus"; }
         Mod+T hotkey-overlay-title="Kate Editor" { spawn "kate" "--new"; }
 
         // Window focus (Vim-style)
