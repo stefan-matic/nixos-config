@@ -37,6 +37,9 @@ in
       inherit systemSettings userSettings;
     };
 
+    # Allow remote deployment
+    nix.settings.trusted-users = [ "root" "stefanmatic" ];
+
     # Boot configuration
     boot.loader.grub.enable = true;
     boot.loader.grub.device = "/dev/sdb";
