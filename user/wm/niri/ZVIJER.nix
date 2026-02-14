@@ -20,10 +20,11 @@ let
       "bazecor"
     ];
 
-    # Dual monitor setup for 57" ultrawide + 34" secondary
+    # Dual monitor setup for 57" ultrawide + 34" secondary (stacked vertically)
+    # Xiaomi centered on top of Odyssey for smooth vertical mouse transition
     outputConfig = ''
       // Display configuration for dual monitor setup
-      // Xiaomi 34" Monitor (DP-2) - Secondary display at top
+      // Xiaomi 34" Monitor (DP-2) - Secondary display centered on top
       // Logical size: 3440/1.30 = 2646x1108
       output "DP-2" {
         mode "3440x1440@144.000"
@@ -31,7 +32,7 @@ let
         position x=1749 y=0
       }
 
-      // Samsung 57" Odyssey G95NC (DP-3) - Primary display at bottom
+      // Samsung 57" Odyssey G95NC (DP-4) - Primary display at bottom
       // Logical size: 7680/1.25 = 6144x1728
       output "DP-4" {
         mode "7680x2160@240.000"
@@ -152,13 +153,13 @@ let
 
     # ZVIJER-specific keybindings (multi-monitor navigation)
     extraKeybindings = ''
-      // Focus monitors (using Ctrl instead of Mod to avoid DMS conflicts)
-      Mod+Ctrl+H { focus-monitor-left; }
-      Mod+Ctrl+L { focus-monitor-right; }
+      // Focus monitors (vertical layout: Xiaomi on top, Odyssey on bottom)
+      Mod+Ctrl+K { focus-monitor-up; }
+      Mod+Ctrl+J { focus-monitor-down; }
 
       // Move to monitors
-      Mod+Ctrl+Shift+H { move-column-to-monitor-left; }
-      Mod+Ctrl+Shift+L { move-column-to-monitor-right; }
+      Mod+Ctrl+Shift+K { move-column-to-monitor-up; }
+      Mod+Ctrl+Shift+J { move-column-to-monitor-down; }
 
       // Mouse horizontal scrolling - Mod+Horizontal Scroll to navigate columns (one at a time)
       Mod+WheelScrollRight cooldown-ms=150 { focus-column-right; }

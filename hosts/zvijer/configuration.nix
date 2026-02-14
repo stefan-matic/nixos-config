@@ -47,6 +47,10 @@ in
   };
 
   config = {
+    # Use all CPU cores for Nix builds
+    nix.settings.max-jobs = "auto";
+    nix.settings.cores = 0;
+
     # Pass settings to child modules
     _module.args = {
       inherit systemSettings userSettings;
@@ -264,6 +268,27 @@ in
         obs-pipewire-audio-capture
         obs-composite-blur
       ];
+    };
+
+    # NVIDIA GPU (RTX 5070 Ti)
+    services.xserver.videoDrivers = [ "nvidia" ];
+
+    hardware.nvidia = {
+      modesetting.enable = true;
+      powerManagement.enable = false;
+      open = true; # Open kernel modules (recommended for Blackwell/RTX 50 series)
+      nvidiaSettings = true;
+      package = config.boot.kernelPackages.nvidiaPackages.stable;
+    };
+
+    boot.kernelParams = [ "nvidia-drm.fbdev=1" ];
+
+    # Wayland + NVIDIA environment variables
+    environment.sessionVariables = {
+      GBM_BACKEND = "nvidia-drm";
+      __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+      LIBVA_DRIVER_NAME = "nvidia";
+      NVD_BACKEND = "direct"; # nvidia-vaapi-driver direct backend
     };
 
     # Enable the printer
