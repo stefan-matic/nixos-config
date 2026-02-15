@@ -291,6 +291,10 @@ in
       NVD_BACKEND = "direct"; # nvidia-vaapi-driver direct backend
     };
 
+    # OpenRGB - i2c access for RGB control (motherboard, RAM, cooler)
+    hardware.i2c.enable = true;
+    services.udev.packages = [ pkgs.openrgb-with-all-plugins ];
+
     # Enable the printer
     hardware.printers.TA-p-4025w.enable = true;
 

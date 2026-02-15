@@ -13,5 +13,8 @@
     # Razer hardware support (system-wide daemon needed)
     openrazer-daemon
     razergenie
+
+    # RGB control for Arctic Liquid Freezer III and other devices
+    openrgb-with-all-plugins
   ];
 }
