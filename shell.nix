@@ -11,7 +11,7 @@ pkgs.mkShell {
 
   buildInputs = with pkgs; [
     # Nix formatters and linters
-    nixfmt-rfc-style # RFC style formatter
+    nixfmt # RFC style formatter
     statix # Nix linter
     deadnix # Dead code detector
 

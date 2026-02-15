@@ -86,7 +86,7 @@
 
       wl-mirror
 
-      nixfmt-rfc-style
+      nixfmt
 
       # VPN tools
       wireguard-tools # WireGuard VPN support for NetworkManager
