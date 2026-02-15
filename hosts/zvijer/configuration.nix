@@ -281,7 +281,14 @@ in
       package = config.boot.kernelPackages.nvidiaPackages.stable;
     };
 
-    boot.kernelParams = [ "nvidia-drm.fbdev=1" ];
+    boot.kernelParams = [
+      "nvidia-drm.fbdev=1"
+      # IOMMU for GPU passthrough (RX 7600 → Windows VM)
+      "amd_iommu=on"
+      "iommu=pt"
+      # Bind RX 7600 (GPU + Audio) to vfio-pci for VM passthrough
+      "vfio-pci.ids=1002:7480,1002:ab30"
+    ];
 
     # Wayland + NVIDIA environment variables
     environment.sessionVariables = {

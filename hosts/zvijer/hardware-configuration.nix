@@ -29,6 +29,10 @@
     "nvidia_modeset"
     "nvidia_uvm"
     "nvidia_drm"
+    # VFIO modules - load early so vfio-pci claims the RX 7600 before amdgpu
+    "vfio_pci"
+    "vfio"
+    "vfio_iommu_type1"
   ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
