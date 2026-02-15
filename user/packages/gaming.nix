@@ -20,5 +20,7 @@
     vulkan-tools
     vulkan-loader
     vulkan-validation-layers
+
+    moonlight-qt
   ];
 }
