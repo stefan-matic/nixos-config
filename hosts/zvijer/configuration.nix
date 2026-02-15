@@ -81,7 +81,7 @@ in
         useOSProber = false;
         configurationLimit = 20;
         theme = pkgs.sleek-grub-theme.override { withStyle = "dark"; };
-        gfxmodeEfi = "7680x2160,auto";
+        gfxmodeEfi = "1920x1080,auto";
         gfxpayloadEfi = "keep";
         extraEntries = ''
           menuentry "Windows 11" {
