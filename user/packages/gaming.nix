@@ -13,7 +13,7 @@
     lutris
 
     # Windows Compatibility
-    wineWowPackages.stable
+    wineWow64Packages.stable
     winetricks
 
     # Vulkan Support (for gaming)
