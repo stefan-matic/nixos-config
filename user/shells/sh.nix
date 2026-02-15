@@ -32,7 +32,8 @@ let
     man = "tldr"; # Quick reference, use 'command man' for full man pages
 
     # DevOps
-    "," = "comma";
+    dc = "docker compose";
+    ".." = "cd ..";
     tf = "terraform";
     tg = "terragrunt";
     ks = "~/Scripts/ks"; # kube-setup for Lens
