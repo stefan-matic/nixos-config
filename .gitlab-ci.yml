@@ -48,7 +48,7 @@ nix-fmt-check:
   stage: lint
   script:
     - echo "Checking Nix code formatting with nixfmt (RFC style)..."
-    - nix run nixpkgs#nixfmt-rfc-style -- --check .
+    - nix run nixpkgs#nixfmt -- --check .
   allow_failure: true # Don't block pipeline on formatting issues
   only:
     - merge_requests
