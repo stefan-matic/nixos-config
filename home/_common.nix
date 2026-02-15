@@ -57,10 +57,10 @@
     desktop = null;
     publicShare = null;
     extraConfig = {
-      XDG_DOTFILES_DIR = "${config.home.homeDirectory}/.dotfiles";
-      XDG_VM_DIR = "${config.home.homeDirectory}/VMs";
-      XDG_WORKSPACE_DIR = "${config.home.homeDirectory}/Workspace";
-      XDG_APPLICATION_DIR = "${config.home.homeDirectory}/Applications";
+      DOTFILES = "${config.home.homeDirectory}/.dotfiles";
+      VM = "${config.home.homeDirectory}/VMs";
+      WORKSPACE = "${config.home.homeDirectory}/Workspace";
+      APPLICATION = "${config.home.homeDirectory}/Applications";
     };
   };
 }
