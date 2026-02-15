@@ -14,7 +14,8 @@
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # Pinned to 6.18 - NVIDIA 580 open modules don't compile against 6.19 yet
+  boot.kernelPackages = pkgs.linuxPackages_6_18;
   boot.initrd.availableKernelModules = [
     "nvme"
     "xhci_pci"
