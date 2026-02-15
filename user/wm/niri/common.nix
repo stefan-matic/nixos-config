@@ -237,6 +237,9 @@
         Mod+Space hotkey-overlay-title="Application Launcher" {
           spawn "dms" "ipc" "call" "spotlight" "toggle";
         }
+        Mod+R hotkey-overlay-title="Application Launcher" {
+          spawn "dms" "ipc" "call" "spotlight" "toggle";
+        }
         Mod+V hotkey-overlay-title="Clipboard Manager" {
           spawn "dms" "ipc" "call" "clipboard" "toggle";
         }
@@ -341,7 +344,7 @@
         Mod+O { toggle-overview; }
 
         // Window resizing
-        Mod+R { switch-preset-column-width; }
+        Mod+Shift+R { switch-preset-column-width; }
         Mod+F { maximize-column; }
         Mod+Shift+F { fullscreen-window; }
 
