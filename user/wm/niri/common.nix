@@ -47,13 +47,13 @@
     let
       # Common startup applications for all devices
       commonStartupApps = [
+        "affine"
         "keepassxc"
         "slack"
         "google-chrome-stable"
         "firefox"
         "code"
         "winboat"
-        "affine"
         "viber"
       ];
 
