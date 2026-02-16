@@ -270,6 +270,12 @@ in
       ];
     };
 
+    # Ollama - local LLM inference with CUDA acceleration
+    services.ollama = {
+      enable = true;
+      package = pkgs.ollama-cuda;
+    };
+
     # NVIDIA GPU (RTX 5070 Ti)
     services.xserver.videoDrivers = [ "nvidia" ];
 

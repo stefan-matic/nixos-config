@@ -59,6 +59,8 @@
     unstable.claude-code
     unstable.claude-monitor
     unstable.amazon-q-cli
+    unstable.opencode
+    ollama # CLI client (service runs on ZVIJER with CUDA)
 
     # Build Tools
     unstable.gnumake
