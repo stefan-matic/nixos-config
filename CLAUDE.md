@@ -242,7 +242,7 @@ See `docs/package-philosophy.md` for details.
 
 **Common client packages** (`hosts/_common/client.nix`):
 
-- google-chrome, cloudflare-warp, select-browser, fuzzel
+- google-chrome, select-browser, fuzzel
 - Yubikey support (yubioath-flutter, pcsclite)
 - Utilities (zbar, nix-prefetch-git, os-prober)
 
