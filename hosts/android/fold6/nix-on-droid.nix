@@ -48,13 +48,30 @@
     tldr
     glow
 
+    # Core utilities
+    coreutils
+    findutils
+    diffutils
+    gnugrep
+    gnused
+    gawk
+    gnutar
+    gzip
+    bzip2
+    xz
+    unzip
+    zip
+    procps
+    utillinux
+    hostname
+
     # Utilities
     htop
     tree
-    unzip
-    zip
-    gnutar
-    gzip
+    ncdu
+
+    # Python (for udocker via venv)
+    python3
   ];
 
   # Home-manager integration

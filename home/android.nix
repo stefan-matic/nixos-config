@@ -27,6 +27,9 @@ let
 
     # Utilities
     man = "tldr";
+
+    # udocker as docker
+    docker = "~/.udocker-venv/bin/udocker";
   };
 in
 {
@@ -119,11 +122,6 @@ in
 
   # Additional packages for home environment
   home.packages = with pkgs; [
-    # Text processing
-    gnugrep
-    gnused
-    gawk
-
     # Networking
     netcat
     nmap
@@ -132,6 +130,5 @@ in
     bc
     file
     which
-    ncdu # Disk usage analyzer
   ];
 }
