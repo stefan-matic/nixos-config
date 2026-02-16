@@ -30,14 +30,14 @@ let
   };
 in
 {
-  home.stateVersion = "24.11";
+  home.stateVersion = "24.05";
 
   # Git configuration
   programs.git = {
     enable = true;
-    settings = {
-      user.name = userSettings.name;
-      user.email = userSettings.email;
+    userName = userSettings.name;
+    userEmail = userSettings.email;
+    extraConfig = {
       init.defaultBranch = "main";
     };
   };

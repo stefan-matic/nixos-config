@@ -84,6 +84,9 @@
       # Boot/OS tools
       os-prober # For dual-boot detection
 
+      # Android device tools (ADB for scrcpy)
+      android-tools
+
       wl-mirror
 
       nixfmt

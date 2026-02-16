@@ -16,7 +16,7 @@
   '';
 
   # Terminal configuration
-  terminal.font = "${pkgs.nerd-fonts.fira-code}/share/fonts/truetype/NerdFonts/FiraCode/FiraCodeNerdFont-Regular.ttf";
+  terminal.font = "${(pkgs.nerdfonts.override { fonts = [ "FiraCode" ]; })}/share/fonts/truetype/NerdFonts/FiraCodeNerdFont-Regular.ttf";
 
   # System packages available in the nix-on-droid environment
   environment.packages = with pkgs; [
@@ -68,6 +68,9 @@
 
   # Set up environment variables
   environment.etcBackupExtension = ".bak";
+
+  # Nix-on-Droid state version
+  system.stateVersion = "24.05";
 
   # Enable a basic shell
   user.shell = "${pkgs.zsh}/bin/zsh";

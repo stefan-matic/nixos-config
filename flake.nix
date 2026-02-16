@@ -25,11 +25,16 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Nix-on-Droid for Android devices
+    # Nix-on-Droid for Android devices (all pinned to 24.05)
+    nixpkgs-android.url = "github:NixOS/nixpkgs/nixos-24.05";
+    home-manager-android = {
+      url = "github:nix-community/home-manager/release-24.05";
+      inputs.nixpkgs.follows = "nixpkgs-android";
+    };
     nix-on-droid = {
-      url = "github:nix-community/nix-on-droid/master";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager";
+      url = "github:nix-community/nix-on-droid/release-24.05";
+      inputs.nixpkgs.follows = "nixpkgs-android";
+      inputs.home-manager.follows = "home-manager-android";
     };
 
     # Agenix for secrets management
@@ -111,32 +116,14 @@
       nixOnDroidConfigurations = {
         # Samsung Galaxy Fold 6
         fold6 = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
-          pkgs = import nixpkgs {
-            system = "aarch64-linux";
-            overlays = [
-              overlays.additions
-              overlays.modifications
-              overlays.unstable-packages
-              overlays.stable-packages
-            ];
-          };
+          pkgs = import inputs.nixpkgs-android { system = "aarch64-linux"; };
           modules = [ ./hosts/android/fold6/nix-on-droid.nix ];
-          extraSpecialArgs = { inherit inputs outputs; };
         };
 
         # Default configuration (alias to fold6)
         default = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
-          pkgs = import nixpkgs {
-            system = "aarch64-linux";
-            overlays = [
-              overlays.additions
-              overlays.modifications
-              overlays.unstable-packages
-              overlays.stable-packages
-            ];
-          };
+          pkgs = import inputs.nixpkgs-android { system = "aarch64-linux"; };
           modules = [ ./hosts/android/fold6/nix-on-droid.nix ];
-          extraSpecialArgs = { inherit inputs outputs; };
         };
       };
 
