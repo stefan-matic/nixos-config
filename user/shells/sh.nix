@@ -24,6 +24,9 @@ let
     # Git
     lg = "lazygit";
 
+    # Android
+    scrcpy = "scrcpy --render-driver=opengl";
+
     # Utilities
     w3m = "w3m -no-cookie -v";
     neofetch = "disfetch";
@@ -68,6 +71,16 @@ in
           2) fastfetch ;;
           3) figlet -c -f ~/.dotfiles/user/app/terminal/3d.flf "keep calm and rm -rf /*" | lolcat ;;
         esac
+      }
+
+      # Connect to Android phone via wireless ADB + scrcpy
+      # Usage: phone [ip]  (defaults to 10.100.10.195)
+      phone() {
+        local ip="''${1:-10.100.10.195}"
+        local port=5555
+        echo "Connecting to $ip:$port..."
+        adb connect "$ip:$port"
+        scrcpy --render-driver=opengl
       }
 
       # Set terminal title for SSH sessions (helps tmux show hostname)

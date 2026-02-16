@@ -36,6 +36,9 @@
     # Screenshots & OCR (user utilities)
     tesseract4
 
+    # Android screen mirroring & control
+    scrcpy
+
     qbittorrent
 
     # Custom scripts
