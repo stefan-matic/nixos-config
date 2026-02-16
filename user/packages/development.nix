@@ -75,5 +75,7 @@
     kdePackages.qtwebsockets
 
     rar
+
+    postgresql # I just need psql and pg_dump|restore
   ];
 }
