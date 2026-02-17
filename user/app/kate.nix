@@ -82,9 +82,6 @@
     "text/x-diff" = "org.kde.kate.desktop";
   };
 
-  # Set Kate as the default text editor
-  home.sessionVariables = {
-    EDITOR = "kate";
-    VISUAL = "kate";
-  };
+  # EDITOR/VISUAL set to nano in shell config for terminal tools (git, etc.)
+  # Kate handles GUI file associations via XDG mime above
 }

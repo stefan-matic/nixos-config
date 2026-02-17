@@ -8,6 +8,12 @@
   # Add ~/Scripts to PATH
   home.sessionPath = [ "$HOME/Scripts" ];
 
+  # Default terminal editor for CLI tools (git, etc.)
+  home.sessionVariables = {
+    EDITOR = "nano";
+    VISUAL = "nano";
+  };
+
   imports = [
     # Application configurations (dotfiles)
     ../user/app/firefox.nix
