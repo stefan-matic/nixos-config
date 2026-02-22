@@ -13,7 +13,8 @@
       postBuild = ''
         wrapProgram $out/bin/slack \
           --add-flags "--enable-features=UseOzonePlatform,WebRTCPipeWireCapturer" \
-          --add-flags "--ozone-platform=wayland"
+          --add-flags "--ozone-platform=wayland" \
+          --add-flags "--disable-gpu-compositing"
       '';
     })
     discord
