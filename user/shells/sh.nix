@@ -96,6 +96,22 @@ in
       }
       precmd_functions+=(set_terminal_title)
 
+      #https://terminalroot.com/how-to-optimize-the-cd-command-to-go-back-multiple-folders-at-once/
+      # Override cd to support `cd -N` for going back N directories
+      # e.g. `cd -3` is equivalent to `cd ../../../`
+      cd() {
+        if [[ "$1" =~ ^-[0-9]+$ ]]; then
+          local n=''${1#-}
+          local path=""
+          for ((i=0; i<n; i++)); do
+            path+="../"
+          done
+          builtin cd "$path"
+        else
+          builtin cd "$@"
+        fi
+      }
+
       # fzf-tab - must be sourced after compinit (oh-my-zsh runs compinit)
       source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh
 
