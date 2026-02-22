@@ -112,7 +112,7 @@
       terraform-ls
 
       # Formatters
-      nixfmt-rfc-style
+      nixfmt
       stylua
       black
       prettierd
@@ -123,7 +123,7 @@
       fd
     ];
 
-    extraLuaConfig = ''
+    initLua = ''
       -- ============================================================
       -- Neovim Configuration
       -- Beginner-friendly setup with Dracula theme
