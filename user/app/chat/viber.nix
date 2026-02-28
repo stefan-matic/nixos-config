@@ -1,15 +1,6 @@
 { config, pkgs, ... }:
 
 let
-  # Use libxml2 version that provides libxml2.so.2
-  libxml2-compat = pkgs.libxml2.overrideAttrs (oldAttrs: rec {
-    version = "2.13.8";
-    src = pkgs.fetchurl {
-      url = "https://download.gnome.org/sources/libxml2/${pkgs.lib.versions.majorMinor version}/libxml2-${version}.tar.xz";
-      hash = "sha256-J3KUyzMRmrcbK8gfL0Rem8lDW4k60VuyzSsOhZoO6Eo=";
-    };
-  });
-
   # Create custom desktop file with correct Icon and StartupWMClass
   viberDesktopFile = pkgs.writeTextDir "share/applications/viber.desktop" ''
     [Desktop Entry]
@@ -24,7 +15,7 @@ let
     StartupWMClass=ViberPC
   '';
 
-  # Create a wrapped version of Viber with the correct libxml2 and fixed icons
+  # Create a wrapped version of Viber with fixed icons and Wayland support
   viber-fixed = pkgs.symlinkJoin {
     name = "viber-fixed";
     paths = [
@@ -34,7 +25,7 @@ let
     buildInputs = [ pkgs.makeWrapper ];
     postBuild = ''
       wrapProgram $out/bin/viber \
-        --prefix LD_LIBRARY_PATH : "${libxml2-compat.out}/lib" \
+        --prefix LD_LIBRARY_PATH : "${pkgs.libxml2.out}/lib" \
         --set QT_QPA_PLATFORM wayland
 
       # Create icon symlinks with correct app-id (ViberPC) for DMS
