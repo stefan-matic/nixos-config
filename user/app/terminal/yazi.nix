@@ -4,6 +4,7 @@
   programs.yazi = {
     enable = true;
     enableZshIntegration = true;
+    shellWrapperName = "y";
   };
 
   # Make sure we have all dependencies for media previews
