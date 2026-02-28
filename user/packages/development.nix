@@ -37,15 +37,16 @@
 
     # Cloud Providers
     awscli2
-    azure-cli
-    azure-cli-extensions.bastion
-    azure-cli-extensions.azure-firewall
-    azure-cli-extensions.log-analytics
-    azure-cli-extensions.log-analytics-solution
-    azure-cli-extensions.monitor-control-service
-    azure-cli-extensions.resource-graph
-    azure-cli-extensions.scheduled-query
-    azure-cli-extensions.application-insights
+    # azure-cli from stable channel - broken on unstable (missing azure.mgmt.web module)
+    stable.azure-cli
+    stable.azure-cli-extensions.bastion
+    stable.azure-cli-extensions.azure-firewall
+    stable.azure-cli-extensions.log-analytics
+    stable.azure-cli-extensions.log-analytics-solution
+    stable.azure-cli-extensions.monitor-control-service
+    stable.azure-cli-extensions.resource-graph
+    stable.azure-cli-extensions.scheduled-query
+    stable.azure-cli-extensions.application-insights
     google-cloud-sdk
 
     # Infrastructure as Code
@@ -79,5 +80,7 @@
     rar
 
     postgresql # I just need psql and pg_dump|restore
+
+    drawio
   ];
 }

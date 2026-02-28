@@ -13,7 +13,7 @@
 
     # 3D Modeling & Printing
     prusa-slicer
-    openscad
+    stable.openscad # broken on unstable: missing boost_system
 
     # Image Manipulation
     imagemagick
