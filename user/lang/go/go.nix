@@ -1,4 +1,13 @@
-# Go configuration placeholder
-# Currently not used - can be removed or implemented as needed
-_: {
+{ pkgs, ... }:
+
+{
+  home.packages = with pkgs; [
+    go
+  ];
+
+  home.sessionVariables = {
+    GOPATH = "$HOME/go";
+  };
+
+  home.sessionPath = [ "$HOME/go/bin" ];
 }

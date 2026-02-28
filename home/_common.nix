@@ -34,6 +34,7 @@
     ../user/app/dolphin.nix
     ../user/shells/sh.nix
     ../user/lang/python/python.nix
+    ../user/lang/go/go.nix
 
     # Workaround for viber being a shitty mess
     ../user/app/chat/viber.nix
