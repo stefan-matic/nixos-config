@@ -30,19 +30,7 @@ nixos-rebuild switch --flake ~/.dotfiles#z420 --target-host z420 --use-remote-su
 
 ### Home Manager
 
-```bash
-# Apply home-manager configuration (legacy, defaults to ZVIJER setup)
-home-manager switch --flake ~/.dotfiles
-
-# For specific user@host (recommended for host-specific configs like Niri)
-home-manager switch --flake ~/.dotfiles#stefanmatic@ZVIJER
-home-manager switch --flake ~/.dotfiles#stefanmatic@t14
-home-manager switch --flake ~/.dotfiles#stefanmatic@starlabs
-
-# For specific user only (no host-specific configs)
-home-manager switch --flake ~/.dotfiles#stefanmatic
-home-manager switch --flake ~/.dotfiles#fallen
-```
+Home Manager is used as a NixOS module, **not** standalone. There are no `homeConfigurations` flake outputs. All home-manager changes are applied automatically when running `sudo nixos-rebuild switch`. **Never run `home-manager switch` directly** - always use `nixos-rebuild switch` which rebuilds both system and home-manager together.
 
 ### Nix-on-Droid (Android)
 
@@ -337,17 +325,15 @@ Niri window manager configurations are host-specific and managed through home-ma
 **Usage:**
 
 ```bash
-# Apply ZVIJER-specific Niri config (ultrawide dual monitor)
-home-manager switch --flake ~/.dotfiles#stefanmatic@ZVIJER
-
-# Apply laptop Niri config (t14 or starlabs)
-home-manager switch --flake ~/.dotfiles#stefanmatic@t14
-home-manager switch --flake ~/.dotfiles#stefanmatic@starlabs
+# Rebuild includes home-manager (it's a NixOS module)
+sudo nixos-rebuild switch --flake ~/.dotfiles#ZVIJER
+sudo nixos-rebuild switch --flake ~/.dotfiles#stefan-t14
+sudo nixos-rebuild switch --flake ~/.dotfiles#starlabs
 ```
 
 **Key patterns:**
 
-- Host-specific configs imported via flake homeConfigurations
+- Host-specific configs imported via NixOS home-manager module
 - Each host can have completely different layouts, startup apps, keybindings
 - Configs write to `~/.config/niri/config.kdl`
 - DMS provides desktop shell with IPC control: `dms ipc call <widget> <action>`
@@ -400,13 +386,11 @@ environment.systemPackages = with pkgs; [
 ### Testing Changes
 
 ```bash
-# Build without switching (test for errors)
+# Build without switching (test for errors) - includes home-manager
 sudo nixos-rebuild build --flake ~/.dotfiles#ZVIJER
-home-manager build --flake ~/.dotfiles#stefanmatic@ZVIJER
 
-# Switch to new configuration
+# Switch to new configuration (rebuilds both system and home-manager)
 sudo nixos-rebuild switch --flake ~/.dotfiles#ZVIJER
-home-manager switch --flake ~/.dotfiles#stefanmatic@ZVIJER
 ```
 
 ### CI/CD and Validation
@@ -420,7 +404,7 @@ home-manager switch --flake ~/.dotfiles#stefanmatic@ZVIJER
 # Quick manual checks
 nix flake check
 nix build .#nixosConfigurations.ZVIJER.config.system.build.toplevel --dry-run
-nix build .#homeConfigurations."stefanmatic@ZVIJER".activationPackage --dry-run
+nix build .#nixosConfigurations.stefan-t14.config.system.build.toplevel --dry-run
 ```
 
 **GitLab CI Pipeline:**
@@ -433,15 +417,12 @@ nix build .#homeConfigurations."stefanmatic@ZVIJER".activationPackage --dry-run
 ### Rollback
 
 ```bash
-# System rollback
+# System rollback (includes home-manager)
 sudo nixos-rebuild switch --rollback
-
-# Home Manager rollback
-home-manager generations
-home-manager switch --switch-generation <number>
 
 # Or use git
 git checkout <previous-commit>
+sudo nixos-rebuild switch --flake ~/.dotfiles#ZVIJER
 ```
 
 ## Code Formatting
@@ -490,13 +471,12 @@ nixfmt --check .
 
 **Application not found after rebuild:**
 
-- System packages: rebuild system with `sudo nixos-rebuild switch`
-- User packages: rebuild home-manager with `home-manager switch`
+- Rebuild with `sudo nixos-rebuild switch --flake ~/.dotfiles#ZVIJER` (covers both system and user packages)
 - Check if package is in correct location (system vs user)
 
 **Niri config not applied:**
 
-- Ensure using host-specific home-manager: `home-manager switch --flake ~/.dotfiles#stefanmatic@ZVIJER`
+- Rebuild system: `sudo nixos-rebuild switch --flake ~/.dotfiles#ZVIJER`
 - Check `~/.config/niri/config.kdl` was generated
 
 **DMS not starting:**
