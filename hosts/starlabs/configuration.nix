@@ -130,7 +130,7 @@ in
       enableVPN = true; # VPN management widget
       enableDynamicTheming = true; # Wallpaper-based theming (matugen)
       enableAudioWavelength = true; # Audio visualizer (cava)
-      enableCalendarEvents = true; # Calendar integration (khal)
+      enableCalendarEvents = false; # Calendar integration (khal) - disabled: khal broken upstream
       # Note: enableClipboard, enableColorPicker, enableBrightnessControl, enableSystemSound
       # are now built-in to DMS and no longer need to be specified
     };
