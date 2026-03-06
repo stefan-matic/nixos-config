@@ -151,6 +151,9 @@
   # SSH agent - disabled when Niri is enabled (Niri uses GNOME keyring gcr-ssh-agent)
   programs.ssh.startAgent = lib.mkDefault (!config.programs.niri.enable);
 
+  # Enable nix-ld for running generic Linux binaries (e.g. OpenDeck plugins)
+  programs.nix-ld.enable = true;
+
   # Add udev rules for Arduino permissions
   services.udev.extraRules = ''
     # Arduino permissions

@@ -6,4 +6,5 @@
   #deej-new = pkgs.callPackage ./deej-new {};
   nordvpn = pkgs.callPackage ./nordvpn/package.nix { };
   steam-fix = pkgs.callPackage ./steam-fix { };
+  opendeck = pkgs.callPackage ./opendeck { };
 }

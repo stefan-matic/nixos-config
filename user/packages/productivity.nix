@@ -19,7 +19,7 @@
     fastfetch
 
     # Stream Deck & Hardware Control
-    streamcontroller
+    opendeck
 
     # Jumpin keyboard
     vial
