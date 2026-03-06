@@ -1,4 +1,7 @@
-# Node.js configuration placeholder
-# Currently not used - can be removed or implemented as needed
-_: {
+{ pkgs, ... }:
+
+{
+  home.packages = with pkgs; [
+    nodejs
+  ];
 }

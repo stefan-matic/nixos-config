@@ -20,7 +20,6 @@
     pre-commit
 
     # Programming Languages
-    nodejs
     python3
     python3.pkgs.pip
     pipx
@@ -34,6 +33,8 @@
     kubelogin
     eksctl
     lens # Kubernetes IDE
+    k3d
+    kustomize
 
     # Cloud Providers
     awscli2

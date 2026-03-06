@@ -35,6 +35,7 @@
     ../user/shells/sh.nix
     ../user/lang/python/python.nix
     ../user/lang/go/go.nix
+    ../user/lang/nodejs/nodejs.nix
 
     # Workaround for viber being a shitty mess
     ../user/app/chat/viber.nix
