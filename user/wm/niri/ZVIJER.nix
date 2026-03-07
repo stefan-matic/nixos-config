@@ -18,6 +18,7 @@ let
       "yubioath-flutter"
       "steam-fix" # Use steam-fix instead of regular steam for ZVIJER
       "bazecor"
+      "opendeck"
     ];
 
     # Dual monitor setup for 57" ultrawide + 34" secondary (stacked vertically)
@@ -99,9 +100,9 @@ let
         open-on-workspace "gaming"
       }
 
-      // Winboat rdp
+      // Moonlight Windows Docker
       window-rule {
-        match app-id="winboat"
+        match app-id="com.moonlight_stream.Moonlight"
         open-on-workspace "windows"
       }
       window-rule {

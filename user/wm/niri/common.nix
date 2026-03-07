@@ -50,11 +50,16 @@
         "affine"
         "keepassxc"
         "slack"
-        "google-chrome-stable"
-        "firefox"
         "code"
         "winboat"
         "viber"
+      ];
+
+      # Apps that must wait for KeePassXC secret service before launching
+      # (prevents session/cookie loss when secret store is locked)
+      secretServiceApps = [
+        "google-chrome-stable"
+        "firefox"
       ];
 
       # All startup apps combined
@@ -64,6 +69,11 @@
       startupAppsKdl = lib.concatMapStringsSep "\n    " (
         app: "spawn-at-startup \"${app}\""
       ) allStartupApps;
+
+      # Generate spawn-at-startup lines for apps that wait for secret service
+      secretServiceAppsKdl = lib.concatMapStringsSep "\n    " (
+        app: ''spawn-at-startup "bash" "-c" "while ! busctl --user status org.freedesktop.secrets >/dev/null 2>&1; do sleep 1; done; sleep 1; exec ${app}"''
+      ) secretServiceApps;
 
       # Touchpad config if enabled
       touchpadConfig = lib.optionalString enableTouchpad ''
@@ -104,6 +114,9 @@
 
       // Startup applications
       ${startupAppsKdl}
+
+      // Apps waiting for KeePassXC secret service (org.freedesktop.secrets)
+      ${secretServiceAppsKdl}
 
       // Input configuration
       input {
