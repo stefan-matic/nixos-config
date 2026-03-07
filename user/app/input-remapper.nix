@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   configJson = builtins.toJSON {
@@ -56,23 +61,23 @@ in
   # cause OSError: [Errno 30] Read-only file system.
 
   home.activation.inputRemapperConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    config_dir="${config.xdg.configHome}/input-remapper-2"
-    preset_dir="$config_dir/presets/Razer Razer Naga V2 Pro"
+        config_dir="${config.xdg.configHome}/input-remapper-2"
+        preset_dir="$config_dir/presets/Razer Razer Naga V2 Pro"
 
-    mkdir -p "$config_dir"
-    mkdir -p "$preset_dir"
+        mkdir -p "$config_dir"
+        mkdir -p "$preset_dir"
 
-    # Remove symlinks if home-manager previously managed these
-    [ -L "$config_dir/config.json" ] && rm "$config_dir/config.json"
-    [ -L "$preset_dir/Niri.json" ] && rm "$preset_dir/Niri.json"
+        # Remove symlinks if home-manager previously managed these
+        [ -L "$config_dir/config.json" ] && rm "$config_dir/config.json"
+        [ -L "$preset_dir/Niri.json" ] && rm "$preset_dir/Niri.json"
 
-    # Write config as mutable files (input-remapper needs write access)
-    cat > "$config_dir/config.json" << 'CONFIGEOF'
-${configJson}
-CONFIGEOF
+        # Write config as mutable files (input-remapper needs write access)
+        cat > "$config_dir/config.json" << 'CONFIGEOF'
+    ${configJson}
+    CONFIGEOF
 
-    cat > "$preset_dir/Niri.json" << 'PRESETEOF'
-${presetJson}
-PRESETEOF
+        cat > "$preset_dir/Niri.json" << 'PRESETEOF'
+    ${presetJson}
+    PRESETEOF
   '';
 }

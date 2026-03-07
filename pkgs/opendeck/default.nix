@@ -139,24 +139,35 @@ rustPlatform.buildRustPackage (finalAttrs: {
   preFixup = ''
     gappsWrapperArgs+=(
       # Dynamically loaded libraries (dlopen)
-      --prefix LD_LIBRARY_PATH : "${lib.makeLibraryPath [
-        libappindicator-gtk3
-        hidapi
-        libusb1
-        systemd
-      ]}"
+      --prefix LD_LIBRARY_PATH : "${
+        lib.makeLibraryPath [
+          libappindicator-gtk3
+          hidapi
+          libusb1
+          systemd
+        ]
+      }"
       # Node.js for JS-based plugins, plus CLI tools plugins need
-      --prefix PATH : "${lib.makeBinPath [ nodejs pulseaudio wireplumber pipewire ]}"
+      --prefix PATH : "${
+        lib.makeBinPath [
+          nodejs
+          pulseaudio
+          wireplumber
+          pipewire
+        ]
+      }"
       # nix-ld setup so downloaded plugin binaries (generic Linux) can run
       --set NIX_LD "${stdenv.cc.bintools.dynamicLinker}"
-      --prefix NIX_LD_LIBRARY_PATH : "${lib.makeLibraryPath [
-        stdenv.cc.cc.lib
-        glib
-        systemd
-        dbus
-        openssl
-        libxkbcommon
-      ]}"
+      --prefix NIX_LD_LIBRARY_PATH : "${
+        lib.makeLibraryPath [
+          stdenv.cc.cc.lib
+          glib
+          systemd
+          dbus
+          openssl
+          libxkbcommon
+        ]
+      }"
     )
   '';
 

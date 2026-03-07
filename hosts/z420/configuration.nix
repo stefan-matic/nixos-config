@@ -38,7 +38,10 @@ in
     };
 
     # Allow remote deployment
-    nix.settings.trusted-users = [ "root" "stefanmatic" ];
+    nix.settings.trusted-users = [
+      "root"
+      "stefanmatic"
+    ];
 
     # Boot configuration
     boot.loader.grub.enable = true;

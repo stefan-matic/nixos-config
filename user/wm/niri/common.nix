@@ -72,7 +72,8 @@
 
       # Generate spawn-at-startup lines for apps that wait for secret service
       secretServiceAppsKdl = lib.concatMapStringsSep "\n    " (
-        app: ''spawn-at-startup "bash" "-c" "while ! busctl --user status org.freedesktop.secrets >/dev/null 2>&1; do sleep 1; done; sleep 1; exec ${app}"''
+        app:
+        ''spawn-at-startup "bash" "-c" "while ! busctl --user status org.freedesktop.secrets >/dev/null 2>&1; do sleep 1; done; sleep 1; exec ${app}"''
       ) secretServiceApps;
 
       # Touchpad config if enabled

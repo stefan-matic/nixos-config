@@ -16,7 +16,9 @@
   '';
 
   # Terminal configuration
-  terminal.font = "${(pkgs.nerdfonts.override { fonts = [ "FiraCode" ]; })}/share/fonts/truetype/NerdFonts/FiraCodeNerdFont-Regular.ttf";
+  terminal.font = "${
+    (pkgs.nerdfonts.override { fonts = [ "FiraCode" ]; })
+  }/share/fonts/truetype/NerdFonts/FiraCodeNerdFont-Regular.ttf";
 
   # System packages available in the nix-on-droid environment
   environment.packages = with pkgs; [

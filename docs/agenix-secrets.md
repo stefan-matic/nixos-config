@@ -256,10 +256,10 @@ ls -la /run/agenix/
 
 ## Quick Reference
 
-| Task                         | Command                                   |
-| ---------------------------- | ----------------------------------------- |
-| Edit secret                  | `agenix -e secrets/secret.age`            |
-| Re-encrypt after adding keys | `agenix -r`                               |
-| View secret (test)           | `agenix -d secrets/secret.age`            |
-| Get host key                 | `cat /etc/ssh/ssh_host_ed25519_key.pub`   |
-| Check decrypted secrets      | `ls /run/agenix/`                         |
+| Task                         | Command                                 |
+| ---------------------------- | --------------------------------------- |
+| Edit secret                  | `agenix -e secrets/secret.age`          |
+| Re-encrypt after adding keys | `agenix -r`                             |
+| View secret (test)           | `agenix -d secrets/secret.age`          |
+| Get host key                 | `cat /etc/ssh/ssh_host_ed25519_key.pub` |
+| Check decrypted secrets      | `ls /run/agenix/`                       |
