@@ -83,7 +83,7 @@ rustPlatform.buildRustPackage (finalAttrs: {
   npmDeps = fetchNpmDeps {
     inherit (finalAttrs) src;
     postPatch = "cp ${./package-lock.json} package-lock.json";
-    hash = "sha256-kpx5i7lRrAhanmX092ud4i2KRmnN9BvHegN5VVpIclM=";
+    hash = "sha256-ybSEzQIXCDGWPtGZiTMc8HnAxnrdlRvBzMqpOtuuPrI=";
   };
 
   cargoRoot = "src-tauri";
