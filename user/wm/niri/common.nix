@@ -51,7 +51,6 @@
         "keepassxc"
         "slack"
         "code"
-        "winboat"
         "viber"
       ];
 
