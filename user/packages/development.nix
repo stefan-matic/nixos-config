@@ -56,6 +56,7 @@
     terraform
     terragrunt
     opentofu
+    atlantis
 
     # AI Development Tools
     unstable.claude-code
