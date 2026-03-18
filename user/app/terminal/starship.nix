@@ -18,6 +18,7 @@
         "$haskell"
         "$python"
         "$rust"
+        "$terraform"
         "$nix_shell"
         "$line_break"
         "$jobs"
