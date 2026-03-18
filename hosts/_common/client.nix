@@ -90,6 +90,8 @@
 
       ssh-to-age # Convert SSH keys to age keys
 
+      openvpn
+
     ];
 
   # Enable Niri wayland compositor with XWayland support

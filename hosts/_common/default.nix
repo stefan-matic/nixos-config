@@ -32,7 +32,10 @@
     # Networking configuration
     networking = {
       hostName = config.systemSettings.hostname;
-      networkmanager.enable = true;
+      networkmanager = {
+        enable = true;
+        plugins = with pkgs; [ networkmanager-openvpn ];
+      };
       # WireGuard support
       wireguard.enable = true;
       # Extra hosts entries - add temporary entries here
