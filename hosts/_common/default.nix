@@ -35,6 +35,18 @@
       networkmanager = {
         enable = true;
         plugins = with pkgs; [ networkmanager-openvpn ];
+        dispatcherScripts = [
+          {
+            # Fix: delete the VPN route so the kernel-managed local route takes over.
+            source = pkgs.writeText "openvpn-keep-local-lan" ''
+              #!/bin/sh
+              if [ "$2" = "vpn-up" ]; then
+                ip route del 10.100.0.0/16 dev tun0 2>/dev/null
+              fi
+            '';
+            type = "basic";
+          }
+        ];
       };
       # WireGuard support
       wireguard.enable = true;
