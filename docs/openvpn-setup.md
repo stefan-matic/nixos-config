@@ -133,6 +133,7 @@ resolvectl status tun0
 ```
 
 Should show:
+
 - `DNS Servers: 100.96.x.x` (or similar VPN DNS)
 - `DNS Domain: ~.`
 
