@@ -18,6 +18,7 @@
     gh
     glab
     pre-commit
+    bitbucket-cli
 
     # Programming Languages
     python3
@@ -72,6 +73,7 @@
     quickemu
 
     terminal-typeracer
+    unstable.voxtype
 
     winboat
 
