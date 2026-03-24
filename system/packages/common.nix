@@ -17,6 +17,11 @@
     openssl
     inetutils
 
+    # Build Tools
+    gcc
+    gnumake
+    pkg-config
+
     # Basic Utilities
     which
     tree
