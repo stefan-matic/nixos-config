@@ -24,12 +24,12 @@ fi
 
 BROWSER=$(kdialog --title "Select your browser" --radiolist "Choose a browser" \
     1 "Chrome - Main" off \
-    2 "Chrome - Trustsoft" off \
-    3 "Chrome - OpenVPN" off \
-    4 "Chrome - Kupoprodaja" off \
-    5 "Firefox - Main" off \
-    6 "Firefox - Trustsoft" off \
-    7 "Firefox - OpenVPN" off
+    2 "Chrome - OpenVPN" off \
+    3 "Chrome - Kupoprodaja" off \
+    4 "Firefox - Main" off \
+    5 "Firefox - OpenVPN" off \
+    6 "Chrome - Trustsoft" off \
+    7 "Firefox - Trustsoft" off
 )
 
 
@@ -38,22 +38,22 @@ case "${BROWSER}" in
         exec google-chrome-stable --profile-directory="Default" "$@"
     ;;
     "2")
-        exec google-chrome-stable --profile-directory="Profile 1" "$@"
-    ;;
-    "3")
         exec google-chrome-stable --profile-directory="Profile 2" "$@"
     ;;
-    "4")
+    "3")
         exec google-chrome-stable --profile-directory="Profile 3" "$@"
     ;;
-    "5")
+    "4")
         exec firefox -P Main "$@"
     ;;
+    "5")
+        exec firefox -P OpenVPN "$@"
+    ;;
     "6")
-        exec firefox -P Trustsoft "$@"
+        exec google-chrome-stable --profile-directory="Profile 1" "$@"
     ;;
     "7")
-        exec firefox -P OpenVPN "$@"
+        exec firefox -P Trustsoft "$@"
     ;;
     *)
         exit 1
