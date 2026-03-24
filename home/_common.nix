@@ -36,6 +36,7 @@
     ../user/lang/python/python.nix
     ../user/lang/go/go.nix
     ../user/lang/nodejs/nodejs.nix
+    ../user/lang/rust/rust.nix
 
     # Workaround for viber being a shitty mess
     ../user/app/chat/viber.nix
