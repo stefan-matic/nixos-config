@@ -76,7 +76,7 @@
     terminal-typeracer
     unstable.voxtype
 
-    winboat
+    stable.winboat
 
     mkcert
 
