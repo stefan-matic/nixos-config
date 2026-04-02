@@ -19,10 +19,6 @@
     })
     discord
     element-desktop
-
-    # Video Conferencing
-    zoom-us
-
     # Remote Desktop
     remmina
     rustdesk
