@@ -8,7 +8,7 @@
     unstable.affine
 
     # VPN Clients
-    protonvpn-gui
+    proton-vpn
     wgnord
 
     # Utilities
