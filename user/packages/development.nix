@@ -72,6 +72,7 @@
     # Virtualization (user-level)
     quickemu
 
+    # Random
     terminal-typeracer
     unstable.voxtype
 
@@ -86,5 +87,7 @@
     postgresql # I just need psql and pg_dump|restore
 
     drawio
+
+    just
   ];
 }
