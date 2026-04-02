@@ -13,4 +13,5 @@
   programs.git.settings = {
     init.defaultBranch = "main";
   };
+  programs.git.signing.format = "openpgp";
 }
