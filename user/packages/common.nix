@@ -32,6 +32,7 @@
 
     # File Management
     qdirstat
+    gdu
 
     # Screenshots & OCR (user utilities)
     tesseract4
