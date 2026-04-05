@@ -78,6 +78,18 @@
         '';
       }
 
+      # Floating scratch terminal (C-a p to toggle, C-a P for menu)
+      {
+        plugin = tmux-floax;
+        extraConfig = ''
+          set -g @floax-width '80%'
+          set -g @floax-height '80%'
+          set -g @floax-border-color 'magenta'
+          set -g @floax-text-color 'blue'
+          set -g @floax-change-path 'true'
+        '';
+      }
+
       # Easy copy to system clipboard
       yank
     ];
@@ -115,6 +127,9 @@
 
       # Quick session switching
       bind s choose-tree -sZ
+
+      # Workspace launcher (C-a w) — creates or switches to openvpn dev session
+      bind w if-shell 'tmux has-session -t openvpn 2>/dev/null' 'switch-client -t openvpn' 'new-session -d -s openvpn -n code -c ~/Workspace/openvpn ; split-window -t openvpn:code -v -l 35% -c ~/Workspace/openvpn ; send-keys -t openvpn:code.1 "nvim ." C-m ; send-keys -t openvpn:code.2 "claude" C-m ; select-pane -t openvpn:code.1 ; new-window -t openvpn -n shell -c ~/Workspace/openvpn ; split-window -t openvpn:shell -v -l 30% -c ~/Workspace/openvpn ; select-pane -t openvpn:shell.1 ; new-window -t openvpn -n git -c ~/Workspace/openvpn ; select-window -t openvpn:code ; switch-client -t openvpn'
 
       # vi-style copy mode bindings
       bind -T copy-mode-vi v send -X begin-selection

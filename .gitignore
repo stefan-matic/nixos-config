@@ -1,2 +1,5 @@
 #env.nix
 .direnv
+
+.omc
+.opencode.json

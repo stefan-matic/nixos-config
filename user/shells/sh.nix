@@ -73,6 +73,82 @@ in
         esac
       }
 
+      # Workspace launcher — tmux session with Claude Code for daily dev work
+      # Usage: ws [session-name] [directory]
+      #   ws                  → openvpn session in ~/Workspace/openvpn
+      #   ws myproject ~/src  → myproject session in ~/src
+      ws() {
+        local session="''${1:-openvpn}"
+        local workdir="''${2:-$HOME/Workspace/openvpn}"
+
+        if tmux has-session -t "$session" 2>/dev/null; then
+          if [[ -n "$TMUX" ]]; then
+            tmux switch-client -t "$session"
+          else
+            tmux attach-session -t "$session"
+          fi
+          return
+        fi
+
+        # Window 1: code — VS Code-like IDE layout
+        # Top: neovim with neo-tree file explorer (<leader>e to toggle)
+        # Bottom: Claude Code
+        tmux new-session -d -s "$session" -n code -c "$workdir"
+        tmux split-window -t "$session:code" -v -l 35% -c "$workdir"
+        tmux send-keys -t "$session:code.1" "nvim ." C-m
+        tmux send-keys -t "$session:code.2" "claude" C-m
+        tmux select-pane -t "$session:code.1"
+
+        # Window 2: shell — primary (70%) + secondary (30%) panes
+        tmux new-window -t "$session" -n shell -c "$workdir"
+        tmux split-window -t "$session:shell" -v -l 30% -c "$workdir"
+        tmux select-pane -t "$session:shell.1"
+
+        # Window 3: git — dedicated git window
+        tmux new-window -t "$session" -n git -c "$workdir"
+
+        tmux select-window -t "$session:code"
+
+        if [[ -n "$TMUX" ]]; then
+          tmux switch-client -t "$session"
+        else
+          tmux attach-session -t "$session"
+        fi
+      }
+
+      # Quick repo picker — cd into a cipherscale repo or open lazygit there
+      # Usage: wr         → fzf-pick a repo and cd into it
+      #        wr zordon  → cd directly into cipherscale-repos/zordon
+      #        wr -g      → fzf-pick a repo and open lazygit
+      wr() {
+        local base="$HOME/Workspace/openvpn/cipherscale-repos"
+        local use_lg=false
+
+        if [[ "$1" == "-g" ]]; then
+          use_lg=true
+          shift
+        fi
+
+        local repo
+        if [[ -n "$1" ]]; then
+          repo="$base/$1"
+        else
+          repo=$(find "$base" -maxdepth 1 -mindepth 1 -type d | sort | fzf --height=40% --reverse --header="Select repo")
+          [[ -z "$repo" ]] && return 0
+        fi
+
+        if [[ ! -d "$repo" ]]; then
+          echo "Not found: $repo" >&2
+          return 1
+        fi
+
+        if [[ "$use_lg" == true ]]; then
+          lazygit -p "$repo"
+        else
+          cd "$repo"
+        fi
+      }
+
       # Connect to Android phone via wireless ADB + scrcpy
       # Usage: phone [ip]  (defaults to 10.100.10.195)
       phone() {
@@ -258,10 +334,13 @@ in
     tldr # Simplified man pages
     glow # Markdown viewer
 
+    # Fuzzy finder
+    television # tv - modern fuzzy finder with cables (replaces many fzf workflows)
+    fzf
+
     # Standard tools
     gnugrep
     gnused
-    fzf
     bc
     direnv
     nix-direnv

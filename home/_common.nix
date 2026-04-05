@@ -57,6 +57,7 @@
 
   xdg.userDirs = {
     enable = true;
+    setSessionVariables = true;
     createDirectories = true;
     music = "${config.home.homeDirectory}/Music";
     videos = "${config.home.homeDirectory}/Videos";
