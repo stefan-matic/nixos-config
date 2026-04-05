@@ -6,9 +6,8 @@
     keepmenu
   ];
 
-  # Enable KeePassXC Secret Service integration
-  # This allows applications like Dolphin to use KeePassXC for password storage
-  # instead of KWallet when connecting to SMB shares, etc.
+  # Enable KeePassXC Secret Service integration for non-KDE apps (browsers, etc.)
+  # KDE apps like Dolphin use KWallet directly (auto-unlocked via PAM).
   xdg.configFile."keepassxc/keepassxc.ini" = {
     text = ''
       [General]
@@ -40,21 +39,13 @@
     force = false;
   };
 
-  # Disable KWallet entirely so KDE apps (Dolphin) use freedesktop Secret Service (KeePassXC)
+  # Enable KWallet for KDE apps (Dolphin SMB, etc.) that use the KWallet API directly.
+  # KeePassXC handles non-KDE apps via freedesktop Secret Service (org.freedesktop.secrets).
+  # KWallet is auto-unlocked at login via PAM, so no extra password prompts.
   xdg.configFile."kwalletrc".text = ''
     [Wallet]
-    Enabled=false
+    Enabled=true
     First Use=false
+    Default Wallet=kdewallet
   '';
-
-  # Mask kwalletd6 service to prevent it from starting
-  systemd.user.services.kwalletd6 = {
-    Unit = {
-      Description = "KWallet daemon (masked - using KeePassXC instead)";
-    };
-    Service = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.coreutils}/bin/true";
-    };
-  };
 }
