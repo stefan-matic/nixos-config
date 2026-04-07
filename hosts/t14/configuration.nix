@@ -115,6 +115,17 @@ in
       };
     };
 
+    # Remap Caps Lock to Space
+    services.keyd = {
+      enable = true;
+      keyboards.default = {
+        ids = [ "*" ];
+        settings.main = {
+          capslock = "leftshift";
+        };
+      };
+    };
+
     # TeamViewer remote desktop service
     services.teamviewer.enable = true;
 
@@ -139,10 +150,9 @@ in
     programs.dank-material-shell = {
       enable = true;
 
-      # Systemd service for auto-start
+      # Systemd service disabled - DMS is spawned by Niri instead
       systemd = {
-        enable = true;
-        restartIfChanged = true;
+        enable = false;
       };
 
       # Core features

@@ -118,10 +118,9 @@ in
     programs.dank-material-shell = {
       enable = true;
 
-      # Systemd service for auto-start
+      # Systemd service disabled - DMS is spawned by Niri instead
       systemd = {
-        enable = true;
-        restartIfChanged = true;
+        enable = false;
       };
 
       # Core features
