@@ -103,6 +103,7 @@
       include "dms/alttab.kdl"
       include "dms/binds.kdl"
       include "dms/cursor.kdl"
+      include "dms/windowrules.kdl"
 
       // Spawn DMS at startup
       spawn-at-startup "dms" "run"
