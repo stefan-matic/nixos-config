@@ -4,6 +4,9 @@
 }:
 
 {
+  # Deploy cursor trail shader to Ghostty config directory
+  home.file.".config/ghostty/shaders/cursor_tail.glsl".source = ./shaders/cursor_tail.glsl;
+
   programs.ghostty = {
     enable = true;
     settings = {
@@ -35,6 +38,10 @@
       # Cursor styling
       cursor-style = "block";
       cursor-style-blink = true;
+
+      # Cursor trail shader
+      custom-shader = "shaders/cursor_tail.glsl";
+      custom-shader-animation = "always";
 
       # Shell integration for better prompt detection
       shell-integration = "zsh";
