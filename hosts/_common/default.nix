@@ -111,6 +111,7 @@
         "dialout"
         "docker"
         "nordvpn"
+        "input"
       ];
 
       # VSCode is here as a wrapper for GPU disable - consider moving to home-manager
@@ -129,6 +130,14 @@
     };
 
     users.groups.nordvpn = { };
+
+    # Espanso needs CAP_DAC_OVERRIDE to read /dev/input/* on Wayland
+    security.wrappers.espanso = {
+      source = "${pkgs.espanso-wayland}/bin/espanso";
+      capabilities = "cap_dac_override+p";
+      owner = "root";
+      group = "input";
+    };
 
     # System version
     system.stateVersion = "24.11";
