@@ -15,6 +15,9 @@
     wayfarer
     unstable.kiro
 
+    # Text Expander
+    espanso-wayland
+
     # Terminal Enhancements
     fastfetch
 

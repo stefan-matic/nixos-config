@@ -35,6 +35,7 @@
     ../user/app/gwenview.nix
     ../user/app/okular.nix
     ../user/app/dolphin.nix
+    ../user/app/espanso.nix
     ../user/shells/sh.nix
     ../user/lang/python/python.nix
     ../user/lang/go/go.nix
