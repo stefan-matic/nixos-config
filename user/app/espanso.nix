@@ -9,6 +9,10 @@
     matches:
       - trigger: ":shrug"
         replace: "¯\\_(ツ)_/¯"
+      - trigger: ":tableflip"
+        replace: "(╯°□°)╯︵ ┻━┻"
+      - trigger: ":lenny"
+        replace: "( ͡° ͜ʖ ͡°)"
   '';
 
   systemd.user.services.espanso = {
