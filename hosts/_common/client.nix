@@ -55,7 +55,7 @@
     in
     [
       # Essential system utilities
-      unstable.google-chrome # One browser for system-wide access
+      (unstable.google-chrome.override { commandLineArgs = [ "--disable-print-preview" ]; }) # System print dialog
 
       # Custom packages (common to all client hosts)
       customPkgs.select-browser # Browser selection utility
