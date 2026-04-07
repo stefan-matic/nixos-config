@@ -8,6 +8,7 @@
     python3.pkgs.tkinter # tkinter is now a separate package
     imath
     pystring
+    uv
   ];
 
   # Ensure python3 is available in PATH
