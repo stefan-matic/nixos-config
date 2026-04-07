@@ -25,6 +25,14 @@
     };
   };
 
+  # Bleeding edge packages - update independently with: nix flake update nixpkgs-bleeding
+  bleeding-packages = final: prev: {
+    bleeding = import inputs.nixpkgs-bleeding {
+      system = prev.stdenv.hostPlatform.system;
+      config.allowUnfree = true;
+    };
+  };
+
   # NUR (Nix User Repository) for community packages like firefox-addons
   nur = inputs.nur.overlays.default;
 }

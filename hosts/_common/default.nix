@@ -140,6 +140,7 @@
         outputs.overlays.modifications
         outputs.overlays.unstable-packages
         outputs.overlays.stable-packages
+        outputs.overlays.bleeding-packages
         outputs.overlays.nur
       ];
       config = {

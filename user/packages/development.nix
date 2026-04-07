@@ -54,16 +54,16 @@
     # Infrastructure as Code
     ansible
     ansible-lint
-    terraform
-    terragrunt
-    opentofu
+    bleeding.terraform
+    bleeding.terragrunt
+    bleeding.opentofu
     atlantis
 
     # AI Development Tools
-    unstable.claude-code
-    unstable.claude-monitor
-    unstable.amazon-q-cli
-    unstable.opencode
+    bleeding.claude-code
+    bleeding.claude-monitor
+    bleeding.amazon-q-cli
+    bleeding.opencode
     ollama # CLI client (service runs on ZVIJER with CUDA)
 
     # Build Tools
