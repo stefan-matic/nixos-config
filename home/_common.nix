@@ -5,8 +5,11 @@
 {
   home.stateVersion = "24.11";
 
-  # Add ~/Scripts to PATH
-  home.sessionPath = [ "$HOME/Scripts" ];
+  # Add ~/Scripts and ~/.local/bin (uv, pipx, etc.) to PATH
+  home.sessionPath = [
+    "$HOME/Scripts"
+    "$HOME/.local/bin"
+  ];
 
   # Default terminal editor for CLI tools (git, etc.)
   home.sessionVariables = {
