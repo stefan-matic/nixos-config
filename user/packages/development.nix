@@ -34,6 +34,7 @@
     kubelogin
     eksctl
     lens # Kubernetes IDE
+    argocd
     k3d
     kustomize
 
@@ -85,6 +86,7 @@
     rar
 
     postgresql # I just need psql and pg_dump|restore
+    mysql80
 
     drawio
 
