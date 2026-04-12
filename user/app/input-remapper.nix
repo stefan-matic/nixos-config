@@ -18,7 +18,7 @@ let
       input_combination = [
         {
           type = 1;
-          code = 2;
+          code = 11;
           origin_hash = "2fb4547b2e836f8c6f4bbb7f48c1a737";
         }
       ];
@@ -30,7 +30,7 @@ let
       input_combination = [
         {
           type = 1;
-          code = 4;
+          code = 13;
           origin_hash = "2fb4547b2e836f8c6f4bbb7f48c1a737";
         }
       ];
@@ -42,12 +42,48 @@ let
       input_combination = [
         {
           type = 1;
-          code = 6;
+          code = 12;
+          origin_hash = "2fb4547b2e836f8c6f4bbb7f48c1a737";
+        }
+      ];
+      target_uinput = "keyboard";
+      output_symbol = "KEY_ENTER";
+      mapping_type = "key_macro";
+    }
+    {
+      input_combination = [
+        {
+          type = 1;
+          code = 8;
+          origin_hash = "2fb4547b2e836f8c6f4bbb7f48c1a737";
+        }
+      ];
+      target_uinput = "keyboard";
+      output_symbol = "KEY_LEFT";
+      mapping_type = "key_macro";
+    }
+    {
+      input_combination = [
+        {
+          type = 1;
+          code = 9;
           origin_hash = "2fb4547b2e836f8c6f4bbb7f48c1a737";
         }
       ];
       target_uinput = "keyboard";
       output_symbol = "Super_L";
+      mapping_type = "key_macro";
+    }
+    {
+      input_combination = [
+        {
+          type = 1;
+          code = 10;
+          origin_hash = "2fb4547b2e836f8c6f4bbb7f48c1a737";
+        }
+      ];
+      target_uinput = "keyboard";
+      output_symbol = "KEY_RIGHT";
       mapping_type = "key_macro";
     }
   ];
