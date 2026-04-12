@@ -111,6 +111,9 @@
       // Clipboard history
       spawn-at-startup "bash" "-c" "wl-paste --watch cliphist store &"
 
+      // Trigger input-remapper autoload for already-connected devices
+      spawn-at-startup "input-remapper-control" "--command" "autoload"
+
       ${workspaceConfig}
 
       // Startup applications
