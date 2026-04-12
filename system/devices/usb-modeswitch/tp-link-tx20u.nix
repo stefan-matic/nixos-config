@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
   # TP-Link TX20U AX1800 USB WiFi Dongle Configuration
@@ -31,11 +31,9 @@
     ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="35bc", ATTRS{idProduct}=="0100", RUN+="${pkgs.kmod}/bin/modprobe 8852bu"
   '';
 
-  # Load the rtl8852bu kernel module (supports rtl8832bu chipset)
-  boot.kernelModules = [ "8852bu" ];
-
-  # Ensure kernel module is available
-  boot.extraModulePackages = with pkgs.linuxKernel.packages.linux_6_12; [
-    rtl8852bu
-  ];
+  # Temporarily disabled - rtl8852bu is broken on kernel 6.18
+  # boot.kernelModules = [ "8852bu" ];
+  # boot.extraModulePackages = with config.boot.kernelPackages; [
+  #   rtl8852bu
+  # ];
 }
