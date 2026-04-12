@@ -148,7 +148,17 @@ in
     # Input Remapper - autostart without password
     services.input-remapper = {
       enable = true;
+      enableUdevRules = true;
     };
+
+    # Allow input-remapper GUI to run without sudo password
+    security.polkit.extraConfig = ''
+      polkit.addRule(function(action, subject) {
+        if (action.id === "inputremapper" && subject.isInGroup("users")) {
+          return polkit.Result.YES;
+        }
+      });
+    '';
 
     # Temporarily disabled - OpenRazer doesn't support kernel 6.18 yet
     # boot.extraModulePackages = with config.boot.kernelPackages; [
