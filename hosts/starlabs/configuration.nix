@@ -100,7 +100,8 @@ in
     # OBS Studio with plugins (system-level for proper integration)
     programs.obs-studio = {
       enable = true;
-      enableVirtualCamera = true;
+      # Temporarily disabled - v4l2loopback doesn't support kernel 6.18 yet
+      enableVirtualCamera = false;
       plugins = with pkgs.obs-studio-plugins; [
         wlrobs
         obs-backgroundremoval
