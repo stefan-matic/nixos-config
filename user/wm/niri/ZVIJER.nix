@@ -25,17 +25,17 @@ let
     # Xiaomi centered on top of Odyssey for smooth vertical mouse transition
     outputConfig = ''
       // Display configuration for dual monitor setup
-      // Xiaomi 34" Monitor (DP-2) - Secondary display centered on top
+      // Xiaomi 34" Monitor (DP-3) - Secondary display centered on top
       // Logical size: 3440/1.30 = 2646x1108
-      output "DP-2" {
+      output "DP-3" {
         mode "3440x1440@144.000"
         scale 1.30
         position x=1749 y=0
       }
 
-      // Samsung 57" Odyssey G95NC (DP-4) - Primary display at bottom
+      // Samsung 57" Odyssey G95NC (DP-1) - Primary display at bottom
       // Logical size: 7680/1.25 = 6144x1728
-      output "DP-4" {
+      output "DP-1" {
         mode "7680x2160@240.000"
         scale 1.25
         position x=0 y=1108
@@ -44,19 +44,19 @@ let
     # Named workspaces for ZVIJER
     workspaceConfig = ''
       workspace "main" {
-        // open-on-output "DP-4"
+        // open-on-output "DP-1"
       }
 
       workspace "work" {
-        // open-on-output "DP-4"
+        // open-on-output "DP-1"
       }
 
       workspace "gaming" {
-        // open-on-output "DP-4"
+        // open-on-output "DP-1"
       }
 
       workspace "windows" {
-        // open-on-output "DP-4"
+        // open-on-output "DP-1"
       }'';
 
     # 3-column layout optimized for ultrawide
@@ -75,23 +75,23 @@ let
       window-rule {
         match app-id="org.keepassxc.KeePassXC"
         default-column-width { proportion 0.20; }
-        open-on-output "DP-2"
+        open-on-output "DP-3"
       }
 
       window-rule {
         match app-id="com.yubico.yubioath"
         default-column-width { proportion 0.20; }
-        open-on-output "DP-2"
+        open-on-output "DP-3"
       }
 
       window-rule {
         match app-id="AFFiNE"
-        open-on-output "DP-2"
+        open-on-output "DP-3"
       }
 
       window-rule {
         match app-id="Bazecor"
-        open-on-output "DP-2"
+        open-on-output "DP-3"
       }
 
       // Steam (uses XWayland via xwayland-satellite - run 'xwayland-restart' if it won't launch)

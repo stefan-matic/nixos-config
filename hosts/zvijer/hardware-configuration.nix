@@ -14,8 +14,7 @@
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
-  # Pinned to 6.18 - NVIDIA 580 open modules don't compile against 6.19 yet
-  boot.kernelPackages = pkgs.linuxPackages_6_18;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.initrd.availableKernelModules = [
     "nvme"
     "xhci_pci"
@@ -25,10 +24,6 @@
     "sd_mod"
   ];
   boot.initrd.kernelModules = [
-    "nvidia"
-    "nvidia_modeset"
-    "nvidia_uvm"
-    "nvidia_drm"
     # VFIO modules - load early so vfio-pci claims the RX 7600 before amdgpu
     "vfio_pci"
     "vfio"
@@ -93,6 +88,6 @@
   };
 
   hardware.graphics.extraPackages = with pkgs; [
-    nvidia-vaapi-driver # Hardware video acceleration for NVIDIA
+    libvdpau-va-gl # VDPAU backend for VA-API
   ];
 }
