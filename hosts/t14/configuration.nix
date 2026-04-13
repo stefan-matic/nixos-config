@@ -111,6 +111,11 @@ in
             devices = [ "unraid" ];
             id = "cypve-yruqr";
           };
+          "Claude Code" = {
+            path = "/home/${userSettings.username}/.claude";
+            devices = [ "unraid" ];
+            id = "crwsq-yjurj";
+          };
         };
       };
     };
