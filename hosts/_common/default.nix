@@ -119,7 +119,7 @@
         (pkgs.writeShellScriptBin "code" ''
           exec ${vscode}/bin/code --disable-gpu "$@"
         '')
-        vscode
+        bleeding.vscode
         unstable.tailscale
         unstable.dgop
       ];
