@@ -77,7 +77,9 @@
     terminal-typeracer
     unstable.voxtype
 
-    stable.winboat
+    # winboat 0.9.0 fails to build on stable & unstable: node-abi in nixpkgs
+    # doesn't recognise Electron 41 yet. Re-enable once upstream bumps node-abi.
+    # stable.winboat
 
     mkcert
 
@@ -86,7 +88,7 @@
     rar
 
     postgresql # I just need psql and pg_dump|restore
-    mysql80
+    mysql84
 
     drawio
 

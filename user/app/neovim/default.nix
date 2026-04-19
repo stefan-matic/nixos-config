@@ -11,6 +11,9 @@
     vimAlias = true;
     defaultEditor = false;
 
+    withPython3 = false;
+    withRuby = false;
+
     # LSP servers, formatters & tools (installed via Nix, not Mason)
     extraPackages = with pkgs; [
       # LSP servers
