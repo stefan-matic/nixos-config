@@ -100,8 +100,8 @@
       set -ga terminal-overrides ",ghostty:Tc"
 
       # Mouse scroll - 3 lines at a time instead of half page
-      bind -T copy-mode-vi WheelUpPane send-keys -X -N 3 scroll-up
-      bind -T copy-mode-vi WheelDownPane send-keys -X -N 3 scroll-down
+      bind -T copy-mode-vi WheelUpPane send-keys -X -N 1 scroll-up
+      bind -T copy-mode-vi WheelDownPane send-keys -X -N 1 scroll-down
 
       # Better split keybindings (more intuitive)
       bind | split-window -h -c "#{pane_current_path}"
