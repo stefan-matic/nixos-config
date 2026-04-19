@@ -279,6 +279,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-nordvpn": {
+      "locked": {
+        "lastModified": 1776609545,
+        "narHash": "sha256-k4Y0qLsRE7BOqwVIH2mTAcKtGrFt2ejJ3lVFuZThQPE=",
+        "owner": "different-error",
+        "repo": "nixpkgs",
+        "rev": "a97b66e0b1c1c45ed2306a2a7df9588ce98454f8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "different-error",
+        "ref": "nordvpn",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-stable": {
       "locked": {
         "lastModified": 1774799055,
@@ -419,6 +435,7 @@
         "nixpkgs": "nixpkgs",
         "nixpkgs-android": "nixpkgs-android",
         "nixpkgs-bleeding": "nixpkgs-bleeding",
+        "nixpkgs-nordvpn": "nixpkgs-nordvpn",
         "nixpkgs-stable": "nixpkgs-stable",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "nur": "nur"

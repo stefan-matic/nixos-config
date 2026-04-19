@@ -9,7 +9,6 @@
 let
   env = import ./env.nix { inherit pkgs; };
   inherit (env) systemSettings userSettings;
-  customPkgs = import ../../pkgs { inherit pkgs; };
 
   # Import unstable nixpkgs for DMS
   unstablePkgs = import inputs.nixpkgs-unstable {
@@ -26,8 +25,8 @@ in
     ../../system/devices/TA-p-4025w
     # Import DMS NixOS module
     inputs.dms.nixosModules.dank-material-shell
-    # Import NordVPN module
-    ../../modules/services/networking/nordvpn.nix
+    # NordVPN module (from different-error's nixpkgs fork)
+    "${inputs.nixpkgs-nordvpn}/nixos/modules/services/networking/nordvpn.nix"
     # YubiKey PAM authentication (touch to sudo)
     ../../system/security/yubikey.nix
   ];
@@ -133,11 +132,20 @@ in
       DesktopNames=GNOME
     '';
 
-    # Enable NordVPN service
-    services.nordvpn = {
-      enable = true;
-      package = customPkgs.nordvpn;
-    };
+    # Enable NordVPN service (package comes from the fork overlay below)
+    services.nordvpn.enable = true;
+
+    # Provide `pkgs.nordvpn` from different-error's nixpkgs fork so the
+    # imported module picks it up via mkPackageOption.
+    nixpkgs.overlays = [
+      (_final: _prev: {
+        nordvpn =
+          (import inputs.nixpkgs-nordvpn {
+            inherit (pkgs.stdenv.hostPlatform) system;
+            config.allowUnfree = true;
+          }).nordvpn;
+      })
+    ];
 
     # Enable OpenRazer hardware daemon
     hardware.openrazer = {
