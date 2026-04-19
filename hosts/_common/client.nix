@@ -157,4 +157,11 @@
     # Arduino permissions
     SUBSYSTEM=="tty", ATTRS{idVendor}=="2341", ATTRS{idProduct}=="0043", MODE="0666", GROUP="dialout", SYMLINK+="arduino"
   '';
+
+  # Wipe ~/Workspace/volatile at boot so scratchpad projects always start clean.
+  # R! removes recursively at boot only; d recreates the empty directory.
+  systemd.tmpfiles.rules = [
+    "R! /home/${config.userSettings.username}/Workspace/volatile - - - - -"
+    "d /home/${config.userSettings.username}/Workspace/volatile 0755 ${config.userSettings.username} users - -"
+  ];
 }
