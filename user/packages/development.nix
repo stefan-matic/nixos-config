@@ -6,17 +6,17 @@
 
   home.packages = with pkgs; [
     # IDEs & Code Editors
-    unstable.code-cursor
+    fast-track.code-cursor
     dbeaver-bin
 
     # Development Environments
     devbox
-    direnv
+    fast-track.direnv
     nix-direnv
 
     # Version Control
-    gh
-    glab
+    fast-track.gh
+    fast-track.glab
     pre-commit
     bitbucket-cli
 
@@ -27,19 +27,19 @@
     uv # Python package manager
 
     # Kubernetes & Container Tools
-    kubectl
-    kubectx
-    kubernetes-helm
-    k9s
+    fast-track.kubectl
+    fast-track.kubectx
+    fast-track.kubernetes-helm
+    fast-track.k9s
     kubelogin
-    eksctl
-    lens # Kubernetes IDE
-    argocd
+    fast-track.eksctl
+    fast-track.lens # Kubernetes IDE
+    fast-track.argocd
     k3d
-    kustomize
+    fast-track.kustomize
 
     # Cloud Providers
-    awscli2
+    fast-track.awscli2
     # azure-cli from stable channel - broken on unstable (missing azure.mgmt.web module)
     stable.azure-cli
     stable.azure-cli-extensions.bastion
@@ -50,21 +50,21 @@
     stable.azure-cli-extensions.resource-graph
     stable.azure-cli-extensions.scheduled-query
     stable.azure-cli-extensions.application-insights
-    google-cloud-sdk
+    fast-track.google-cloud-sdk
 
     # Infrastructure as Code
-    ansible
+    fast-track.ansible
     ansible-lint
-    bleeding.terraform
-    bleeding.terragrunt
-    bleeding.opentofu
+    fast-track.terraform
+    fast-track.terragrunt
+    fast-track.opentofu
     atlantis
 
     # AI Development Tools
-    bleeding.claude-code
-    bleeding.claude-monitor
-    bleeding.amazon-q-cli
-    bleeding.opencode
+    fast-track.claude-code
+    fast-track.claude-monitor
+    fast-track.amazon-q-cli
+    fast-track.opencode
     ollama # CLI client (service runs on ZVIJER with CUDA)
 
     # Build Tools

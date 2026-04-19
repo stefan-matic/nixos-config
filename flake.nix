@@ -6,7 +6,7 @@
     #nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-25.11";
     nixpkgs-stable.url = "github:nixos/nixpkgs?ref=nixos-25.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs?ref=nixos-unstable";
-    nixpkgs-bleeding.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    nixpkgs-fast-track.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     nixpkgs-nordvpn.url = "github:different-error/nixpkgs/nordvpn";
 
     home-manager.url = "github:nix-community/home-manager";

@@ -25,9 +25,11 @@
     };
   };
 
-  # Bleeding edge packages - update independently with: nix flake update nixpkgs-bleeding
-  bleeding-packages = final: prev: {
-    bleeding = import inputs.nixpkgs-bleeding {
+  # Fast-track packages - update independently with: nix flake update nixpkgs-fast-track
+  # Use for apps where you want the latest daily — auto-updated at login via
+  # user/app/fast-track-update.nix
+  fast-track-packages = final: prev: {
+    fast-track = import inputs.nixpkgs-fast-track {
       system = prev.stdenv.hostPlatform.system;
       config.allowUnfree = true;
     };

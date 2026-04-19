@@ -119,7 +119,7 @@
         (pkgs.writeShellScriptBin "code" ''
           exec ${vscode}/bin/code --disable-gpu "$@"
         '')
-        bleeding.vscode
+        fast-track.vscode
         unstable.tailscale
         unstable.dgop
       ];
@@ -149,7 +149,7 @@
         outputs.overlays.modifications
         outputs.overlays.unstable-packages
         outputs.overlays.stable-packages
-        outputs.overlays.bleeding-packages
+        outputs.overlays.fast-track-packages
         outputs.overlays.nur
       ];
       config = {

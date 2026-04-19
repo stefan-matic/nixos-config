@@ -1,17 +1,17 @@
 { pkgs, ... }:
 
 {
-  # Auto-update bleeding edge flake input on login
-  # Next rebuild will pick up the latest versions
-  systemd.user.services.bleeding-update = {
+  # Auto-update fast-track nixpkgs flake input on login.
+  # Next rebuild picks up the latest versions for fast-track.* packages.
+  systemd.user.services.fast-track-update = {
     Unit = {
-      Description = "Update bleeding edge nixpkgs flake input";
+      Description = "Update fast-track nixpkgs flake input";
       After = [ "network-online.target" ];
       Wants = [ "network-online.target" ];
     };
     Service = {
       Type = "oneshot";
-      ExecStart = "${pkgs.nix}/bin/nix flake update nixpkgs-bleeding --flake %h/.dotfiles";
+      ExecStart = "${pkgs.nix}/bin/nix flake update nixpkgs-fast-track --flake %h/.dotfiles";
       StandardOutput = "journal";
       StandardError = "journal";
     };
