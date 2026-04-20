@@ -63,6 +63,7 @@
     # AI Development Tools
     fast-track.claude-code
     fast-track.claude-monitor
+    claude-desktop
     fast-track.amazon-q-cli
     fast-track.opencode
     ollama # CLI client (service runs on ZVIJER with CUDA)

@@ -27,6 +27,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    claude-desktop = {
+      url = "github:aaddrick/claude-desktop-debian";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Nix-on-Droid for Android devices (all pinned to 24.05)
     nixpkgs-android.url = "github:NixOS/nixpkgs/nixos-24.05";
     home-manager-android = {

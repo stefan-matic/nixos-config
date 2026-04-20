@@ -37,4 +37,7 @@
 
   # NUR (Nix User Repository) for community packages like firefox-addons
   nur = inputs.nur.overlays.default;
+
+  # Claude Desktop (unofficial Linux build)
+  claude-desktop = inputs.claude-desktop.overlays.default;
 }

@@ -151,6 +151,7 @@
         outputs.overlays.stable-packages
         outputs.overlays.fast-track-packages
         outputs.overlays.nur
+        outputs.overlays.claude-desktop
       ];
       config = {
         allowUnfree = true;
