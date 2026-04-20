@@ -18,5 +18,7 @@
     # Disk Management (system-wide)
     gparted
     gnome-disk-utility
+
+    qdiskinfo
   ];
 }
