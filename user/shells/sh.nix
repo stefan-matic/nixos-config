@@ -342,8 +342,6 @@ in
     gnugrep
     gnused
     bc
-    direnv
-    nix-direnv
     jq
     yq-go
 

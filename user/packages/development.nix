@@ -11,8 +11,6 @@
 
     # Development Environments
     devbox
-    fast-track.direnv
-    nix-direnv
 
     # Version Control
     fast-track.gh
@@ -94,5 +92,7 @@
     drawio
 
     just
+
+    vault
   ];
 }
