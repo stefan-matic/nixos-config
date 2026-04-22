@@ -19,7 +19,7 @@ pkgs.mkShell {
     treefmt
 
     # Additional formatters for other file types
-    nodePackages.prettier # Markdown, YAML, JSON
+    prettier # Markdown, YAML, JSON
 
     # Nix language server (for editor integration)
     nil
