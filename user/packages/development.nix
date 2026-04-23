@@ -18,11 +18,7 @@
     pre-commit
     bitbucket-cli
 
-    # Programming Languages
-    python3
-    python3.pkgs.pip
-    pipx
-    uv # Python package manager
+    # Programming Languages (Python lives in user/lang/python/python.nix)
 
     # Kubernetes & Container Tools
     fast-track.kubectl
