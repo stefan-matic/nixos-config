@@ -8,6 +8,7 @@
     # IDEs & Code Editors
     fast-track.code-cursor
     dbeaver-bin
+    fast-track.zed-editor
 
     # Development Environments
     devbox
@@ -45,7 +46,7 @@
     stable.azure-cli-extensions.scheduled-query
     stable.azure-cli-extensions.application-insights
     fast-track.google-cloud-sdk
-    wrangler #Cloudflare workers
+    wrangler # Cloudflare workers
 
     # Infrastructure as Code
     fast-track.ansible
