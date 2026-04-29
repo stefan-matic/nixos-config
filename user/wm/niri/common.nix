@@ -58,7 +58,6 @@
       # (prevents session/cookie loss when secret store is locked)
       secretServiceApps = [
         "google-chrome-stable"
-        "firefox"
       ];
 
       # All startup apps combined
