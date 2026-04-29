@@ -45,6 +45,7 @@
     stable.azure-cli-extensions.scheduled-query
     stable.azure-cli-extensions.application-insights
     fast-track.google-cloud-sdk
+    wrangler #Cloudflare workers
 
     # Infrastructure as Code
     fast-track.ansible
@@ -90,5 +91,9 @@
     just
 
     vault
+
+    # API test
+    bruno
+    bruno-cli
   ];
 }
