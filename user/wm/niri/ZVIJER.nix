@@ -15,9 +15,7 @@ let
 
     # ZVIJER has additional startup apps
     extraStartupApps = [
-      "yubioath-flutter"
       "steam-fix" # Use steam-fix instead of regular steam for ZVIJER
-      "bazecor"
       "opendeck"
     ];
 
@@ -86,11 +84,6 @@ let
 
       window-rule {
         match app-id="AFFiNE"
-        open-on-output "DP-3"
-      }
-
-      window-rule {
-        match app-id="Bazecor"
         open-on-output "DP-3"
       }
 
