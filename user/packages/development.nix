@@ -20,6 +20,7 @@
     bitbucket-cli
 
     # Programming Languages (Python lives in user/lang/python/python.nix)
+    nixd # Nix language server
 
     # Kubernetes & Container Tools
     fast-track.kubectl
