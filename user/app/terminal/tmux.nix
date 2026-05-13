@@ -3,6 +3,86 @@
   ...
 }:
 
+let
+  # Wifi: signal strength only (bars + dBm). Picks first wlan interface.
+  wifiStatus = pkgs.writeShellScript "tmux-wifi-status" ''
+    iface=$(${pkgs.iproute2}/bin/ip -o link show | ${pkgs.gawk}/bin/awk -F': ' '/wl[a-z]+[0-9]+/ {print $2; exit}')
+    [ -z "$iface" ] && exit 0
+    link=$(${pkgs.iw}/bin/iw dev "$iface" link 2>/dev/null)
+    case "$link" in
+      *"Not connected"*|"") echo " 󰖪 down "; exit 0 ;;
+    esac
+    signal=$(echo "$link" | ${pkgs.gawk}/bin/awk '/signal:/ {print $2; exit}')
+    [ -z "$signal" ] && exit 0
+    bars="▁"
+    case 1 in
+      $(( signal >= -50 ))) bars="▁▃▅▇" ;;
+      $(( signal >= -60 ))) bars="▁▃▅" ;;
+      $(( signal >= -70 ))) bars="▁▃" ;;
+    esac
+    printf "  %s %sdBm " "$bars" "$signal"
+  '';
+
+  # CPU usage percent (avg over 1s sample of /proc/stat).
+  cpuStatus = pkgs.writeShellScript "tmux-cpu-status" ''
+    read -r _ u1 n1 s1 i1 _ < /proc/stat
+    t1=$((u1 + n1 + s1 + i1))
+    sleep 1
+    read -r _ u2 n2 s2 i2 _ < /proc/stat
+    t2=$((u2 + n2 + s2 + i2))
+    idle=$((i2 - i1))
+    total=$((t2 - t1))
+    [ "$total" -eq 0 ] && exit 0
+    pct=$(( ( (total - idle) * 100 ) / total ))
+    printf "  %d%% " "$pct"
+  '';
+
+  # RAM used percent from /proc/meminfo.
+  ramStatus = pkgs.writeShellScript "tmux-ram-status" ''
+    ${pkgs.gawk}/bin/awk '
+      /^MemTotal:/  {t=$2}
+      /^MemAvailable:/ {a=$2}
+      END {if (t>0) printf "  %d%% ", (t-a)*100/t}
+    ' /proc/meminfo
+  '';
+
+  # CPU package temperature (Celsius) from thermal_zone0 (acpitz on T14).
+  tempStatus = pkgs.writeShellScript "tmux-temp-status" ''
+    f=/sys/class/thermal/thermal_zone0/temp
+    [ -r "$f" ] || exit 0
+    ${pkgs.gawk}/bin/awk '{printf "  %.0f°C ", $1/1000}' "$f"
+  '';
+
+  # VPN indicator: lists active tun/wg interfaces (e.g. wg0, tun0, tailscale0).
+  vpnStatus = pkgs.writeShellScript "tmux-vpn-status" ''
+    active=$(${pkgs.iproute2}/bin/ip -o link show up | ${pkgs.gawk}/bin/awk -F': ' '/(tun|wg|tailscale|nordlynx|utun)[0-9]*:/ {print $2}' | ${pkgs.coreutils}/bin/paste -sd, -)
+    [ -z "$active" ] && exit 0
+    printf " 󰦝 %s " "$active"
+  '';
+
+  # Battery percent + charging state. Reads /sys, no acpi dependency.
+  batteryStatus = pkgs.writeShellScript "tmux-battery-status" ''
+    bat=$(${pkgs.coreutils}/bin/ls -d /sys/class/power_supply/BAT* 2>/dev/null | ${pkgs.coreutils}/bin/head -1)
+    [ -z "$bat" ] && exit 0
+    cap=$(${pkgs.coreutils}/bin/cat "$bat/capacity" 2>/dev/null)
+    status=$(${pkgs.coreutils}/bin/cat "$bat/status" 2>/dev/null)
+    case "$status" in
+      Charging|Full) icon="󰂄" ;;
+      Discharging)
+        if [ "$cap" -ge 90 ]; then icon="󰁹"
+        elif [ "$cap" -ge 70 ]; then icon="󰂀"
+        elif [ "$cap" -ge 50 ]; then icon="󰁾"
+        elif [ "$cap" -ge 30 ]; then icon="󰁼"
+        elif [ "$cap" -ge 15 ]; then icon="󰁺"
+        else icon="󰂃"
+        fi
+        ;;
+      *) icon="󰁽" ;;
+    esac
+    printf " %s %s%% " "$icon" "$cap"
+  '';
+in
+
 {
   programs.tmux = {
     enable = true;
@@ -66,15 +146,16 @@
       # Better pane navigation with vim-style keys
       vim-tmux-navigator
 
-      # Dracula theme to match your ghostty
+      # Dracula theme — colors + session icon on status-left only.
+      # status-right is fully custom (see extraConfig) so we get exact layout.
       {
         plugin = dracula;
         extraConfig = ''
           set -g @dracula-show-powerline true
-          set -g @dracula-plugins "cpu-usage ram-usage time"
+          set -g @dracula-plugins ""
           set -g @dracula-show-left-icon session
-          set -g @dracula-time-format "%H:%M"
-          set -g @dracula-day-month true
+          set -g @dracula-show-flags true
+          set -g @dracula-refresh-rate 5
         '';
       }
 
@@ -174,6 +255,15 @@
       set -g allow-rename on
       set -g set-titles on
       set -g set-titles-string '#S:#I #W - #{pane_title}'
+
+      # === Status bar ===
+      # Dracula sets colors; we own the segment layout.
+      # status-left:  [session-icon] vpn wifi-signal
+      # status-right: temp cpu ram battery  Tue 12 May 14:30
+      set -g status-left-length 200
+      set -g status-right-length 200
+      set -ag status-left '#[fg=cyan]#(${vpnStatus})#[fg=green]#(${wifiStatus})#[default]'
+      set -g status-right '#[fg=magenta]#(${tempStatus})#[fg=blue]#(${cpuStatus})#[fg=yellow]#(${ramStatus})#[fg=green]#(${batteryStatus})#[fg=white,bold] %a %d %b %H:%M '
 
       # === Eye candy on new session ===
       # Shows random ASCII art when a NEW session is created (not on attach)
