@@ -8,7 +8,7 @@
     # IDEs & Code Editors
     fast-track.code-cursor
     dbeaver-bin
-    fast-track.zed-editor
+    bleeding-edge.zed-editor
 
     # Development Environments
     devbox
@@ -58,7 +58,7 @@
     atlantis
 
     # AI Development Tools
-    fast-track.claude-code
+    bleeding-edge.claude-code
     fast-track.claude-monitor
     claude-desktop
     fast-track.amazon-q-cli
