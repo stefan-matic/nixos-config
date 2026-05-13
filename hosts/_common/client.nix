@@ -33,6 +33,15 @@
   # Desktop environment configuration
   services.desktopManager.plasma6.enable = true;
 
+  # Qt theming - ensures KDE apps (Dolphin, Kate, etc.) respect dark theme
+  # under non-Plasma sessions like niri. Installs plasma-integration so
+  # QT_QPA_PLATFORMTHEME=kde resolves correctly.
+  qt = {
+    enable = true;
+    platformTheme = "kde";
+    style = "breeze";
+  };
+
   services.gnome.gnome-keyring.enable = false;
   services.displayManager = {
     defaultSession = "plasma";
@@ -122,6 +131,7 @@
         "org.freedesktop.impl.portal.Screenshot" = [ "gnome" ];
         "org.freedesktop.impl.portal.Access" = [ "gtk" ];
         "org.freedesktop.impl.portal.Notification" = [ "gtk" ];
+        "org.freedesktop.impl.portal.FileChooser" = [ "kde" ];
       };
       # KDE apps (Dolphin, Kate, etc.) should use the KDE portal
       KDE = {
