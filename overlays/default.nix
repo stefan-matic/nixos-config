@@ -7,7 +7,11 @@
   # You can change versions, add patches, set compilation flags, anything really.
   # https://nixos.wiki/wiki/Overlays
   modifications = final: prev: {
-
+    # openldap-2.6.13 test017-syncreplication-refresh is upstream-flaky and
+    # blocks lutris fhsenv build. Skip tests until nixpkgs lands a fix.
+    openldap = prev.openldap.overrideAttrs (_: {
+      doCheck = false;
+    });
   };
 
   # Simplified unstable packages overlay
