@@ -167,6 +167,9 @@
         focus-ring {
           width 2
         }
+        tab-indicator {
+          place-within-column
+        }
       }
 
       // Layer rules for DMS integration
@@ -398,6 +401,9 @@
         Mod+Minus { set-column-width "-10%"; }
 
         Mod+A { spawn "dms" "ipc" "call" "plugins" "toggle" "aiAssistant"; }
+
+        // Toggle tabbed display on focused column
+        Mod+W hotkey-overlay-title="Toggle Tabbed Column" { toggle-column-tabbed-display; }
 
         ${extraKeybindings}
       }
