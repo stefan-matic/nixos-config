@@ -17,7 +17,6 @@ in
     ./hardware-configuration.nix
     ../_common/client.nix
     ./packages.nix # T14-specific system packages
-    ./prefetch.nix # Periodic background prefetch of system closure
     # Import DMS NixOS module
     inputs.dms.nixosModules.dank-material-shell
     # DMS greeter (greetd) — replaces SDDM

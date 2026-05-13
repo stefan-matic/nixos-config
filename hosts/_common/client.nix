@@ -16,6 +16,7 @@
     ../../system/app/virtualization.nix
     ../../system/bluetooth.nix
     ../../system/packages/desktop.nix
+    ./prefetch.nix
   ];
 
   # Home-manager base configuration (user-specific config in each host)
