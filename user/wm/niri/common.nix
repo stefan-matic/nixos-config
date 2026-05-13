@@ -276,7 +276,7 @@
           spawn "dms" "ipc" "call" "spotlight" "toggle";
         }
         Mod+V hotkey-overlay-title="Clipboard Manager" {
-          spawn "dms" "ipc" "call" "clipboard" "toggle";
+          spawn "dms" "ipc" "call" "clipboardPlus" "toggle";
         }
         Mod+M hotkey-overlay-title="Task Manager" {
           spawn "dms" "ipc" "call" "processlist" "focusOrToggle";
