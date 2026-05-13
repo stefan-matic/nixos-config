@@ -172,6 +172,10 @@ in
     # Use the standard Firefox package
     package = pkgs.firefox;
 
+    # Keep legacy path (~/.mozilla/firefox). Migrate to XDG by moving the
+    # directory and switching to "${config.xdg.configHome}/mozilla/firefox".
+    configPath = ".mozilla/firefox";
+
     # Policies applied to all profiles (system-wide settings)
     policies = {
       DisableTelemetry = true;
