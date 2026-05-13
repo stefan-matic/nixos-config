@@ -60,9 +60,10 @@ in
   };
 
   config = {
-    # Use all CPU cores for Nix builds
-    nix.settings.max-jobs = "auto";
-    nix.settings.cores = 0;
+    # Cap build parallelism to avoid OOM on big C++ builds (chromium/electron/llvm).
+    # max-jobs * cores must stay well under nproc=32; cc1plus can use 1-4 GB each.
+    nix.settings.max-jobs = 4;
+    nix.settings.cores = 8;
 
     # Pass settings to child modules
     _module.args = {
