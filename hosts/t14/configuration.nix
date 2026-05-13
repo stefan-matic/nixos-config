@@ -179,6 +179,7 @@ in
         xdg-desktop-portal-gnome
         xdg-desktop-portal-gtk
         xdg-desktop-portal-wlr
+        kdePackages.xdg-desktop-portal-kde
       ];
       config.common = {
         default = [
@@ -187,6 +188,7 @@ in
         ];
         "org.freedesktop.impl.portal.Access" = [ "gtk" ];
         "org.freedesktop.impl.portal.Notification" = [ "gtk" ];
+        "org.freedesktop.impl.portal.FileChooser" = [ "kde" ];
         # Secret Service handled by KeePassXC (not via portal)
       };
     };
