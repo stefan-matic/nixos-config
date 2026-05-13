@@ -160,6 +160,17 @@ in
       fi
     '';
 
+    # YubiKey: touch-to-sudo ONLY. Login + lock screen still require password
+    # so a forgotten key in the laptop cannot bypass session auth.
+    services.udev.packages = [ pkgs.yubikey-personalization ];
+    security.pam.u2f = {
+      enable = true;
+      settings.cue = true;
+      control = "sufficient";
+    };
+    security.pam.services.sudo.u2fAuth = true;
+    environment.systemPackages = [ pkgs.yubikey-manager ];
+
     # Remap Caps Lock to Space
     services.keyd = {
       enable = true;
