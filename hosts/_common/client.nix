@@ -45,7 +45,7 @@
 
   services.gnome.gnome-keyring.enable = false;
   services.displayManager = {
-    defaultSession = "plasma";
+    defaultSession = "niri";
     sddm = {
       enable = true;
       wayland.enable = true;
