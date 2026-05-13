@@ -7,6 +7,7 @@
   home.packages = with pkgs; [
     # Video Editing
     kdePackages.kdenlive
+    davinci-resolve
 
     # Audio Effects & Production
     easyeffects
