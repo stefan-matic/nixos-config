@@ -63,7 +63,9 @@
     claude-desktop
     fast-track.amazon-q-cli
     fast-track.opencode
+    bleeding-edge.codex
     ollama # CLI client (service runs on ZVIJER with CUDA)
+    sox # Audio recording for Claude Code /voice
 
     # Build Tools
     unstable.gnumake
@@ -93,9 +95,12 @@
     just
 
     vault
+    infisical
 
     # API test
     bruno
     bruno-cli
+
+    gitleaks
   ];
 }
