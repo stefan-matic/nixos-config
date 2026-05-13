@@ -7,6 +7,10 @@
     nixpkgs-stable.url = "github:nixos/nixpkgs?ref=nixos-25.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     nixpkgs-fast-track.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    # Bleeding-edge = raw master, no Hydra gate. Reserved for hand-picked
+    # packages that need latest possible upstream (e.g. claude-code).
+    # Auto-updated by user/app/bleeding-edge-update.nix on login.
+    nixpkgs-bleeding-edge.url = "github:nixos/nixpkgs?ref=master";
     nixpkgs-nordvpn.url = "github:different-error/nixpkgs/nordvpn";
 
     home-manager.url = "github:nix-community/home-manager";

@@ -35,6 +35,17 @@
     };
   };
 
+  # Bleeding-edge packages - tracks nixpkgs master (no Hydra gate). Use
+  # sparingly for tools where latest upstream version matters more than build
+  # stability (claude-code, opencode, zed-editor). Auto-updated at login via
+  # user/app/bleeding-edge-update.nix.
+  bleeding-edge-packages = final: prev: {
+    bleeding-edge = import inputs.nixpkgs-bleeding-edge {
+      system = prev.stdenv.hostPlatform.system;
+      config.allowUnfree = true;
+    };
+  };
+
   # NUR (Nix User Repository) for community packages like firefox-addons
   nur = inputs.nur.overlays.default;
 
