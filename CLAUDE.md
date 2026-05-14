@@ -4,6 +4,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **IMPORTANT: Read `.claude/rules.md` for development standards and validation requirements.**
 
+## Git Workflow
+
+When committing in this repo:
+
+- **Atomic commits.** Split unrelated changes into separate commits (e.g. `flake.lock` bumps stay separate from feature/refactor work).
+- **Short imperative subject only.** ~50 chars, no body unless absolutely necessary. Match the existing log style: `Update flake.lock`, `Switch default dm to niri`, `Move nix prefetch service to client common, enable on all desktops`.
+- **No `Co-Authored-By: Claude` trailer.** Never add Claude attribution to commits in this repo.
+- **Never run `nixos-rebuild`.** The user applies rebuilds themselves; eval/dry-build/`nix flake check` for verification is fine.
+- **Always run `treefmt` (or `nix run nixpkgs#nixfmt -- --check .`) before committing.** CI gates on nixfmt 1.2.0 RFC-style formatting; unformatted commits fail the pipeline.
+
 ## Overview
 
 This is a NixOS flake-based configuration repository managing multiple hosts and home-manager configurations for user "stefanmatic". The setup uses flakes with multiple nixpkgs channels (stable and unstable) via overlays.
