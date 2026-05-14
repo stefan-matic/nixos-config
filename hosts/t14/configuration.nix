@@ -19,8 +19,6 @@ in
     ./packages.nix # T14-specific system packages
     # Import DMS NixOS module
     inputs.dms.nixosModules.dank-material-shell
-    # DMS greeter (greetd) — replaces SDDM
-    inputs.dms.nixosModules.greeter
   ];
 
   options = {
@@ -121,43 +119,6 @@ in
         };
       };
     };
-
-    # DMS greeter replaces SDDM (set in _common/client.nix). greetd handles
-    # login via the same Niri+DMS stack used in the session. Wallpaper +
-    # theme are copied from configHome on each greetd preStart.
-    services.displayManager.sddm.enable = lib.mkForce false;
-    programs.dank-material-shell.greeter = {
-      enable = true;
-      compositor.name = "niri";
-      compositor.customConfig = builtins.readFile ../../user/wm/dms/greeter-niri.kdl;
-      configHome = "/home/${userSettings.username}";
-    };
-
-    # User must be in `greeter` group for `dms greeter sync` and status checks.
-    users.users.${userSettings.username}.extraGroups = [ "greeter" ];
-
-    # NixOS greetd module passes --config from /nix/store directly; mirror it
-    # at /etc/greetd/config.toml so `dms greeter status` can detect the install.
-    environment.etc."greetd/config.toml".source =
-      (pkgs.formats.toml { }).generate "greetd.toml" config.services.greetd.settings;
-
-    # Pre-create XDG subdirs that `dms greeter status` expects.
-    systemd.tmpfiles.settings."20-dms-greeter-xdg" = {
-      "/var/lib/dms-greeter/.local/state".d = { user = "greeter"; group = "greeter"; mode = "0755"; };
-      "/var/lib/dms-greeter/.local/share".d = { user = "greeter"; group = "greeter"; mode = "0755"; };
-      "/var/lib/dms-greeter/.cache".d        = { user = "greeter"; group = "greeter"; mode = "0755"; };
-    };
-
-    # Pre-seed greeter memory so username pre-fills on first boot. Subsequent
-    # logins auto-update memory.json via DMS itself.
-    systemd.services.greetd.preStart = lib.mkAfter ''
-      state_dir="/var/lib/dms-greeter/.local/state"
-      mkdir -p "$state_dir"
-      if [ ! -f "$state_dir/memory.json" ]; then
-        echo '{"lastSuccessfulUser":"${userSettings.username}"}' > "$state_dir/memory.json"
-        chown -R greeter:greeter /var/lib/dms-greeter/.local || true
-      fi
-    '';
 
     # YubiKey: touch-to-sudo ONLY. Login + lock screen still require password
     # so a forgotten key in the laptop cannot bypass session auth.
