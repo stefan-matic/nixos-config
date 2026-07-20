@@ -11,7 +11,9 @@
   home.packages = with pkgs; [
     ffmpeg # For video/GIF thumbnails and previews
     mpv # For video playback in terminal
-    f3d # 3D model viewer for STL, 3MF, OBJ, STEP files
+    # stable channel: unstable's vtk 9.5.2 fails to build (GDAL/gcc-15
+    # CSLConstList->char** error). Stable's f3d/vtk is cached and builds.
+    stable.f3d # 3D model viewer for STL, 3MF, OBJ, STEP files
     # Already installed in sh.nix:
     # ffmpegthumbnailer - video thumbnails
     # ueberzugpp - image display protocol
