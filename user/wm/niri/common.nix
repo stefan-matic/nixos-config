@@ -42,6 +42,12 @@
 
       # Input configuration
       enableTouchpad ? false,
+
+      # Mouse configuration (null = leave defaults)
+      # accel-speed range: -1.0 (slowest) to 1.0 (fastest), 0.0 = default
+      # accel-profile: "adaptive" (default) or "flat" (no acceleration)
+      mouseAccelSpeed ? null,
+      mouseAccelProfile ? null,
     }:
 
     let
@@ -89,6 +95,15 @@
           natural-scroll
           dwt
           dwtp
+        }'';
+
+      # Mouse config if any param set
+      mouseConfig = lib.optionalString (mouseAccelSpeed != null || mouseAccelProfile != null) ''
+
+        // Mouse configuration
+        mouse {
+        ${lib.optionalString (mouseAccelSpeed != null) "  accel-speed ${toString mouseAccelSpeed}"}
+        ${lib.optionalString (mouseAccelProfile != null) "  accel-profile \"${mouseAccelProfile}\""}
         }'';
 
       # Format preset widths for KDL
@@ -143,7 +158,7 @@
             options "grp:alt_shift_toggle"
           }
           numlock
-        }${touchpadConfig}
+        }${mouseConfig}${touchpadConfig}
       }
 
       ${outputConfig}
