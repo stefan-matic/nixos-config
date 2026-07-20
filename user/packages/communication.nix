@@ -21,7 +21,10 @@
     element-desktop
     # Remote Desktop
     remmina
-    rustdesk
+    # 1.4.6 vendor-staging FOD (rustdesk wezterm submodule fetch via
+    # fetch-cargo-vendor-util-v2) fails with exit 123; not cached. Stable's
+    # 1.4.3 vendor is cached, so it skips the broken git fetch entirely.
+    stable.rustdesk
 
     thunderbird
   ];

@@ -15,7 +15,7 @@ let
     export TZ=:/etc/localtime
     # Disable all logging to avoid chrono crash
     export RUST_LOG=off
-    exec ${pkgs.rustdesk}/bin/rustdesk "$@"
+    exec ${pkgs.stable.rustdesk}/bin/rustdesk "$@"
   '';
 in
 {
