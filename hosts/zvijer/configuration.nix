@@ -403,5 +403,9 @@ in
       "L+ /bin/python3 - - - - ${pkgs.python3}/bin/python3"
       "L+ /bin/python - - - - ${pkgs.python3}/bin/python3"
     ];
+
+    # Cap how long user services may block shutdown. Default is 90s; stubborn
+    # apps (e.g. Wine winedevice.exe under OpenDeck) otherwise stall reboot.
+    systemd.user.settings.Manager.DefaultTimeoutStopSec = "10s";
   };
 }

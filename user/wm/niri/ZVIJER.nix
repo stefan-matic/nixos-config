@@ -14,9 +14,11 @@ let
     deviceType = "desktop";
 
     # ZVIJER has additional startup apps
+    # opendeck runs as a managed systemd user service (see below) for a fast,
+    # clean shutdown - its Wine winedevice.exe ignores SIGTERM and otherwise
+    # blocks reboot for ~90s.
     extraStartupApps = [
       "steam-fix" # Use steam-fix instead of regular steam for ZVIJER
-      "opendeck"
     ];
 
     # Dual monitor setup for 57" ultrawide + 34" secondary (stacked vertically)
@@ -179,4 +181,22 @@ in
   # DMS Plugin Configurations
   home.file.".config/DankMaterialShell/plugins/NixMonitor/config.json".source =
     ../dms/dms-plugins/nixMonitor-config.json;
+
+  # OpenDeck (Stream Deck) as a managed user service. Replaces the niri
+  # spawn-at-startup so shutdown can SIGKILL its whole cgroup (Wine
+  # winedevice.exe ignores SIGTERM) instead of waiting out the stop timeout.
+  systemd.user.services.opendeck = {
+    Unit = {
+      Description = "OpenDeck (Stream Deck)";
+      PartOf = [ "graphical-session.target" ];
+      After = [ "graphical-session.target" ];
+    };
+    Service = {
+      ExecStart = "${pkgs.opendeck}/bin/opendeck";
+      Restart = "on-failure";
+      TimeoutStopSec = 5;
+      KillMode = "mixed"; # SIGKILL the whole cgroup, incl. winedevice.exe
+    };
+    Install.WantedBy = [ "graphical-session.target" ];
+  };
 }
