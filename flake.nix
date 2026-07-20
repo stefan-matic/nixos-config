@@ -11,7 +11,6 @@
     # packages that need latest possible upstream (e.g. claude-code).
     # Auto-updated by user/app/bleeding-edge-update.nix on login.
     nixpkgs-bleeding-edge.url = "github:nixos/nixpkgs?ref=master";
-    nixpkgs-nordvpn.url = "github:different-error/nixpkgs/nordvpn";
 
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";

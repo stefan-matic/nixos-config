@@ -25,22 +25,7 @@ in
     ../../system/devices/TA-p-4025w
     # Import DMS NixOS module
     inputs.dms.nixosModules.dank-material-shell
-    # NordVPN module (from different-error's nixpkgs fork).
-    # Wrapped to strip `meta.doc`, which would otherwise register the
-    # identifier `module-services-nordvpn` and break the NixOS manual build
-    # against main nixpkgs (missing redirect entry).
-    (
-      {
-        config,
-        lib,
-        pkgs,
-        options,
-        ...
-      }@args:
-      builtins.removeAttrs
-        (import "${inputs.nixpkgs-nordvpn}/nixos/modules/services/networking/nordvpn.nix" args)
-        [ "meta" ]
-    )
+    # NordVPN service module is now upstream (auto-imported via module-list).
     # YubiKey PAM authentication (touch to sudo)
     ../../system/security/yubikey.nix
   ];
@@ -147,20 +132,8 @@ in
       DesktopNames=GNOME
     '';
 
-    # Enable NordVPN service (package comes from the fork overlay below)
+    # Enable NordVPN service (package + module now upstream in nixpkgs)
     services.nordvpn.enable = true;
-
-    # Provide `pkgs.nordvpn` from different-error's nixpkgs fork so the
-    # imported module picks it up via mkPackageOption.
-    nixpkgs.overlays = [
-      (_final: _prev: {
-        nordvpn =
-          (import inputs.nixpkgs-nordvpn {
-            inherit (pkgs.stdenv.hostPlatform) system;
-            config.allowUnfree = true;
-          }).nordvpn;
-      })
-    ];
 
     # Enable OpenRazer hardware daemon
     hardware.openrazer = {
