@@ -8,7 +8,7 @@
     # IDEs & Code Editors
     fast-track.code-cursor
     dbeaver-bin
-    bleeding-edge.zed-editor
+    unstable.zed-editor
 
     # Development Environments
     devbox
@@ -38,6 +38,7 @@
     fast-track.awscli2
     # azure-cli from stable channel - broken on unstable (missing azure.mgmt.web module)
     stable.azure-cli
+    stable.doctl
     stable.azure-cli-extensions.bastion
     stable.azure-cli-extensions.azure-firewall
     stable.azure-cli-extensions.log-analytics
@@ -60,7 +61,9 @@
     # AI Development Tools
     bleeding-edge.claude-code
     fast-track.claude-monitor
-    claude-desktop
+    # Temp disabled 2026-06-03: aaddrick patcher fails on Claude Desktop
+    # 1.10628.0 (addTrustedFolder anchor not found). Re-enable when upstream fixes.
+    # claude-desktop
     fast-track.amazon-q-cli
     fast-track.opencode
     bleeding-edge.codex
