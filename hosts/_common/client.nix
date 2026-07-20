@@ -178,6 +178,11 @@
         "org.freedesktop.impl.portal.Access" = [ "gtk" ];
         "org.freedesktop.impl.portal.Notification" = [ "gtk" ];
         "org.freedesktop.impl.portal.FileChooser" = [ "kde" ];
+        # Route URI/file opens through KDE so xdg-open/portal honors
+        # mimeapps.list (Dolphin for inode/directory) instead of GNOME
+        # portal defaulting to Nautilus.
+        "org.freedesktop.impl.portal.OpenURI" = [ "kde" ];
+        "org.freedesktop.impl.portal.AppChooser" = [ "kde" ];
       };
       # KDE apps (Dolphin, Kate, etc.) should use the KDE portal
       KDE = {
