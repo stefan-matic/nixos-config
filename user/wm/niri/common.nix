@@ -222,23 +222,16 @@
         draw-border-with-background false
       }
 
-      // Inactive windows opacity
-      window-rule {
-        match is-active=false
-        opacity 0.9
-      }
-
       // Default rounded corners
       window-rule {
         geometry-corner-radius 12
         clip-to-geometry true
       }
 
-      // Ghostty terminal - open at half screen height
+      // Ghostty terminal
       window-rule {
         match app-id="com.mitchellh.ghostty"
         default-column-width { proportion ${defaultColumnWidth}; }
-        default-window-height { proportion 0.5; }
       }
 
       // Other terminals
@@ -291,7 +284,7 @@
           spawn "dms" "ipc" "call" "spotlight" "toggle";
         }
         Mod+V hotkey-overlay-title="Clipboard Manager" {
-          spawn "dms" "ipc" "call" "clipboardPlus" "togglePanel";
+          spawn "dms" "ipc" "call" "clipboard" "toggle";
         }
         Mod+M hotkey-overlay-title="Task Manager" {
           spawn "dms" "ipc" "call" "processlist" "focusOrToggle";
