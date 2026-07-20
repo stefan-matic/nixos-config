@@ -135,8 +135,10 @@ in
           # Auto-save every 15 minutes
           set -g @continuum-save-interval '15'
 
-          # Auto-restore when tmux server starts
-          set -g @continuum-restore 'on'
+          # Do NOT auto-restore on server start — was resurrecting stale
+          # sessions on every fresh server (kill-server + ghostty respawn loop).
+          # Manual restore still available via prefix + Ctrl-r.
+          set -g @continuum-restore 'off'
 
           # Show continuum status in status bar
           set -g @continuum-status 'on'
@@ -179,6 +181,22 @@ in
       # Enable true color support
       set -ga terminal-overrides ",*256col*:Tc"
       set -ga terminal-overrides ",ghostty:Tc"
+
+      # Claude Code compatibility: allow OSC passthrough, extended keys
+      # (Shift+Enter, Ctrl+modifiers), and advertise extkeys to inner apps.
+      set -g allow-passthrough on
+      set -s extended-keys on
+      set -as terminal-features 'xterm*:extkeys'
+
+      # Pane border titles - shows label above each pane
+      set -g pane-border-status top
+      set -g pane-border-format ' #{?pane_active,#[fg=magenta]●,○} #{pane_index} #[fg=cyan]#{?#{==:#{pane_title},#H},,#{pane_title}} '
+
+      # Rename pane: prefix + T  → prompt
+      bind T command-prompt -p "Pane title:" "select-pane -T '%%'"
+
+      # Rename pane: double-click on pane border
+      bind -n DoubleClick1Border command-prompt -p "Pane title:" "select-pane -t= -T '%%'"
 
       # Mouse scroll - 3 lines at a time instead of half page
       bind -T copy-mode-vi WheelUpPane send-keys -X -N 1 scroll-up
