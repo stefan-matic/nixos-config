@@ -332,22 +332,39 @@ in
       ];
     };
 
-    # Ollama - local LLM inference with ROCm acceleration
+    # Ollama - local LLM inference with CUDA acceleration
     services.ollama = {
       enable = true;
-      package = pkgs.ollama-rocm;
+      package = pkgs.ollama-cuda;
     };
 
-    # AMD GPU (RX 6900 XT)
-    services.xserver.videoDrivers = [ "amdgpu" ];
+    # NVIDIA GPU (RTX 5070 Ti)
+    services.xserver.videoDrivers = [ "nvidia" ];
+
+    hardware.nvidia = {
+      modesetting.enable = true;
+      powerManagement.enable = false;
+      open = true; # Open kernel modules (recommended for Blackwell/RTX 50 series)
+      nvidiaSettings = true;
+      package = config.boot.kernelPackages.nvidiaPackages.stable;
+    };
 
     boot.kernelParams = [
+      "nvidia-drm.fbdev=1"
       # IOMMU for GPU passthrough (RX 7600 → Windows VM)
       "amd_iommu=on"
       "iommu=pt"
       # Bind RX 7600 (GPU + Audio) to vfio-pci for VM passthrough
       "vfio-pci.ids=1002:7480,1002:ab30"
     ];
+
+    # Wayland + NVIDIA environment variables
+    environment.sessionVariables = {
+      GBM_BACKEND = "nvidia-drm";
+      __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+      LIBVA_DRIVER_NAME = "nvidia";
+      NVD_BACKEND = "direct"; # nvidia-vaapi-driver direct backend
+    };
 
     # OpenRGB - i2c access for RGB control (motherboard, RAM, cooler)
     hardware.i2c.enable = true;
