@@ -1,0 +1,10 @@
+# Never sync git internals — Syncthing mangles .git/index, refs and config,
+# spawning sync-conflict files and risking repo corruption. Git has its own
+# sync (remotes); Syncthing should only carry the working tree.
+.git
+
+# Editor / build scratch
+.direnv
+result
+result-*
+*.sync-conflict-*
