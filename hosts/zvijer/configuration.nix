@@ -132,6 +132,14 @@ in
       DesktopNames=GNOME
     '';
 
+    # Autologin via greetd initial_session — fires once per boot, bypasses
+    # DMS greeter. Workaround for DMS greeter failing to hand off to user
+    # niri (greeter loops back instead of starting session).
+    services.greetd.settings.initial_session = {
+      command = "${pkgs.niri}/bin/niri-session";
+      user = userSettings.username;
+    };
+
     # Enable NordVPN service (package + module now upstream in nixpkgs)
     services.nordvpn.enable = true;
 
