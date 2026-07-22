@@ -1,6 +1,18 @@
 { config, pkgs, ... }:
 
 let
+  # Viber's bundled libxml2 has no versioned symbols, but its Qt6WebEngineCore
+  # hard-links the legacy `valuePush@LIBXML2_2.4.30` alias. libxml2 >= 2.14
+  # dropped that alias, so nixpkgs' current libxml2 (2.15.x) makes Viber fail
+  # with "undefined symbol: valuePush". Pin 2.13.8, which still exports it.
+  libxml2-legacy = pkgs.libxml2.overrideAttrs (old: rec {
+    version = "2.13.8";
+    src = pkgs.fetchurl {
+      url = "mirror://gnome/sources/libxml2/2.13/libxml2-${version}.tar.xz";
+      hash = "sha256-J3KUyzMRmrcbK8gfL0Rem8lDW4k60VuyzSsOhZoO6Eo=";
+    };
+  });
+
   # Create custom desktop file with correct Icon and StartupWMClass
   viberDesktopFile = pkgs.writeTextDir "share/applications/viber.desktop" ''
     [Desktop Entry]
@@ -24,9 +36,15 @@ let
     ];
     buildInputs = [ pkgs.makeWrapper ];
     postBuild = ''
-      wrapProgram $out/bin/viber \
-        --prefix LD_LIBRARY_PATH : "${pkgs.libxml2.out}/lib" \
-        --set QT_QPA_PLATFORM wayland
+      # nixpkgs' viber launcher hardcodes QT_QPA_PLATFORM=xcb, and post-Qt6-bump
+      # the xcb plugin needs libxcb-cursor which isn't shipped -> crash. Bypass
+      # that launcher and wrap the real binary directly, forcing Wayland.
+      rm $out/bin/viber
+      makeWrapper ${pkgs.viber}/opt/viber/Viber $out/bin/viber \
+        --prefix LD_LIBRARY_PATH : "${libxml2-legacy.out}/lib:${pkgs.libxshmfence}/lib" \
+        --set QT_QPA_PLATFORM wayland \
+        --set QT_PLUGIN_PATH "${pkgs.viber}/opt/viber/plugins" \
+        --set QML2_IMPORT_PATH "${pkgs.viber}/opt/viber/qml"
 
       # Create icon symlinks with correct app-id (ViberPC) for DMS
       mkdir -p $out/share/icons/hicolor/{scalable,48x48,64x64,128x128,256x256}/apps
