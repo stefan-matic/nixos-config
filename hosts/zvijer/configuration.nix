@@ -376,6 +376,15 @@ in
       gamescopeSession.enable = false;
     };
 
+    # gamescope: nested compositor so games render into a fixed virtual output.
+    # Under Niri (scrollable tiling) this isolates the game from workspace
+    # scroll / window-resize surface reconfigure events that otherwise freeze
+    # native-Wayland Proton. Installs with cap_sys_nice for scheduling priority.
+    programs.gamescope.enable = true;
+
+    # gamemode: CPU governor + priority tuning; wrap games with 'gamemoderun'.
+    programs.gamemode.enable = true;
+
     # TeamViewer remote desktop service
     services.teamviewer.enable = true;
 

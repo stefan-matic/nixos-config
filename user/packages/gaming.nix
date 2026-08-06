@@ -21,6 +21,9 @@
     vulkan-loader
     vulkan-validation-layers
 
+    # Perf overlay (gamescope + gamemode enabled at system level in host config)
+    mangohud
+
     moonlight-qt
   ];
 }
