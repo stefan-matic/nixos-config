@@ -37,6 +37,7 @@ let
       // Logical size: 7680/1.25 = 6144x1728
       output "DP-4" {
         mode "7680x2160@240.000"
+        variable-refresh-rate
         scale 1.25
         position x=0 y=1108
       }'';
@@ -92,6 +93,15 @@ let
       // Steam (uses XWayland via xwayland-satellite - run 'xwayland-restart' if it won't launch)
       window-rule {
         match at-startup=true app-id="steam"
+        open-on-workspace "gaming"
+      }
+
+      // Gamescope (Diablo IV / wrapped games) - tiled, opens 5120px wide.
+      // gamescope isolates the game surface, so Niri resizing this window only
+      // rescales gamescope (safe) instead of reconfiguring Proton (froze before).
+      window-rule {
+        match app-id="gamescope"
+        default-column-width { fixed 5120; }
         open-on-workspace "gaming"
       }
 
