@@ -192,6 +192,15 @@ in
       set -g pane-border-status top
       set -g pane-border-format ' #{?pane_active,#[fg=magenta]●,○} #{pane_index} #[fg=cyan]#{?#{==:#{pane_title},#H},,#{pane_title}} '
 
+      # === Make pane borders stand out ===
+      # Heavy box-drawing glyphs instead of thin single lines.
+      set -g pane-border-lines heavy
+      # Arrows on the active border + colored edges so the split is obvious.
+      set -g pane-border-indicators both
+      # Muted border for inactive panes, bright pink for the active one.
+      set -g pane-border-style 'fg=#6272a4'
+      set -g pane-active-border-style 'fg=#ff79c6,bold'
+
       # Rename pane: prefix + T  → prompt
       bind T command-prompt -p "Pane title:" "select-pane -T '%%'"
 
@@ -208,6 +217,14 @@ in
 
       # New window in current path
       bind c new-window -c "#{pane_current_path}"
+
+      # Merge windows: pull a pane from another window into this one.
+      # prefix + j → prompt for source window number, joins it side-by-side.
+      bind j command-prompt -p "join pane from window:" "join-pane -h -s '%%'"
+      # prefix + J → same but stacked vertically.
+      bind J command-prompt -p "join pane from window:" "join-pane -v -s '%%'"
+      # Visual picker alternative: prefix + g → grab a pane, then join it.
+      bind g choose-tree -Zw "join-pane -h -s '%%'"
 
       # Easy config reload
       bind r source-file ~/.config/tmux/tmux.conf \; display "Config reloaded!"
