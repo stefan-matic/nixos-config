@@ -65,13 +65,6 @@
         "viber"
       ];
 
-      # Zed startup: 3 windows spawned sequentially so niri stacks them as
-      # tabs in the order: dotfiles → openvpn → _homelab.
-      # Window rule for dev.zed.Zed (below) opens each as tabbed column.
-      zedStartupKdl = ''
-        spawn-at-startup "bash" "-c" "zeditor ~/.dotfiles & sleep 1 ; zeditor ~/Workspace/openvpn & sleep 1 ; zeditor ~/Workspace/personal/_homelab &"
-      '';
-
       # Apps that must wait for KeePassXC secret service before launching
       # (prevents session/cookie loss when secret store is locked)
       secretServiceApps = [
@@ -145,9 +138,6 @@
 
       // Startup applications
       ${startupAppsKdl}
-
-      // Zed: 3 ordered tabs (dotfiles, openvpn, _homelab)
-      ${zedStartupKdl}
 
       // Apps waiting for KeePassXC secret service (org.freedesktop.secrets)
       ${secretServiceAppsKdl}
