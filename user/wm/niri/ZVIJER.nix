@@ -96,12 +96,22 @@ let
         open-on-workspace "gaming"
       }
 
-      // Gamescope (Diablo IV / wrapped games) - tiled, opens 5120px wide.
-      // gamescope isolates the game surface, so Niri resizing this window only
-      // rescales gamescope (safe) instead of reconfiguring Proton (froze before).
+      // Gamescope (Diablo IV / wrapped games) - tiled, fixed 3072 logical px.
+      //
+      // gamescope negotiates ONE fixed nested surface size. If niri hands it a
+      // window of any other size it renegotiates its Vulkan swapchain over and
+      // over, which shows up as constant flicker. So the window geometry and
+      // gamescope's -W/-H must match EXACTLY.
+      //
+      // DP-4 is scale 1.25, so 3072 logical = 3840 physical, matching
+      // `gamescope -W 3840`. Borders are off because a 2px border would eat
+      // into the surface and reintroduce the mismatch. Height is whatever the
+      // column gets after DMS's bar + gaps; pass that physical height to
+      // gamescope's -H (measure with `niri msg windows`).
       window-rule {
         match app-id="gamescope"
-        default-column-width { fixed 5120; }
+        default-column-width { fixed 3072; }
+        border { off; }
         open-on-workspace "gaming"
       }
 
@@ -177,6 +187,10 @@ let
 
     # No touchpad on desktop
     enableTouchpad = false;
+
+    # NVIDIA: composite instead of direct scanout to stop XWayland games
+    # (Diablo IV) freezing on workspace switch.
+    disableDirectScanout = true;
   };
 
 in

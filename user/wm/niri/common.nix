@@ -43,6 +43,12 @@
       # Input configuration
       enableTouchpad ? false,
 
+      # Force niri to composite instead of handing a window straight to the
+      # display controller (direct scanout). NVIDIA's XWayland scanout path
+      # can stall/freeze on workspace switch; compositing avoids it. Costs a
+      # little power/perf, so enable only on affected (NVIDIA) hosts.
+      disableDirectScanout ? false,
+
       # Mouse configuration (null = leave defaults)
       # accel-speed range: -1.0 (slowest) to 1.0 (fastest), 0.0 = default
       # accel-profile: "adaptive" (default) or "flat" (no acceleration)
@@ -418,5 +424,12 @@
 
       // Prefer dark theme
       prefer-no-csd true
+      ${lib.optionalString disableDirectScanout ''
+
+        // Force compositing (no direct scanout) — avoids NVIDIA XWayland
+        // present stall that freezes games on workspace switch.
+        debug {
+            disable-direct-scanout
+        }''}
     '';
 }
