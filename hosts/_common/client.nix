@@ -18,7 +18,7 @@
     ../../system/packages/desktop.nix
     ./prefetch.nix
     # DMS greeter (greetd) — replaces SDDM on all client hosts
-    inputs.dms.nixosModules.greeter
+    inputs.dank-greeter.nixosModules.default
   ];
 
   # Home-manager base configuration (user-specific config in each host)
@@ -51,7 +51,7 @@
   # DMS greeter (greetd) replaces SDDM. greetd handles login via the same
   # Niri+DMS stack used in the session. Wallpaper + theme are copied from
   # configHome on each greetd preStart.
-  programs.dank-material-shell.greeter = {
+  programs.dms-greeter = {
     enable = true;
     compositor.name = "niri";
     compositor.customConfig = builtins.readFile ../../user/wm/dms/greeter-niri.kdl;

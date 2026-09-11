@@ -20,6 +20,12 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
+    # DMS greeter moved out of DankMaterialShell into its own repo.
+    dank-greeter = {
+      url = "github:AvengeMedia/dank-greeter";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
     danksearch = {
       url = "github:AvengeMedia/danksearch";
       inputs.nixpkgs.follows = "nixpkgs";
