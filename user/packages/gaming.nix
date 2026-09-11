@@ -24,6 +24,10 @@
     # Perf overlay (gamescope + gamemode enabled at system level in host config)
     mangohud
 
+    # Force-kill a wedged Diablo IV / gamescope / Proton tree when a crash
+    # leaves zombies that block the next launch (gamescope -> headless).
+    d4-kill
+
     moonlight-qt
   ];
 }
