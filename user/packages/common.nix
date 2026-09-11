@@ -42,6 +42,13 @@
 
     qbittorrent
 
+    # PulseAudio client tools (pactl, pacat, parec) against pipewire-pulse.
+    # Daemon stays off -- services.pulseaudio.enable = false in
+    # hosts/_common/default.nix; this is only for `pactl list sources short`
+    # and friends, which is the standard way to see what the Pulse compat
+    # layer actually exposes to apps.
+    pulseaudio
+
     # Custom scripts
     (pkgs.writeScriptBin "screenshot-ocr" ''
       #!/bin/sh
