@@ -335,8 +335,12 @@ in
       # IOMMU for GPU passthrough (RX 7600 → Windows VM)
       "amd_iommu=on"
       "iommu=pt"
-      # Bind RX 7600 (GPU + Audio) to vfio-pci for VM passthrough
-      "vfio-pci.ids=1002:7480,1002:ab30"
+      # Bind RX 7600 (GPU + Audio) to vfio-pci for VM passthrough.
+      # Also bind the idle Ryzen iGPU (1002:13c0): it drives no displays but
+      # its DRM render node corrupted NVIDIA's gpuMask VA-space mapping on
+      # XWayland buffer realloc (alt-tab / workspace switch), crashing games.
+      # Sequestering it leaves NVIDIA as the sole host render GPU.
+      "vfio-pci.ids=1002:7480,1002:ab30,1002:13c0"
     ];
 
     # Wayland + NVIDIA environment variables
