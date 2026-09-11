@@ -11,6 +11,11 @@ let
       url = "mirror://gnome/sources/libxml2/2.13/libxml2-${version}.tar.xz";
       hash = "sha256-J3KUyzMRmrcbK8gfL0Rem8lDW4k60VuyzSsOhZoO6Eo=";
     };
+    # nixpkgs' 2.15 patch set doesn't apply to the 2.13 tree (CVE-2026-11979
+    # touches test/catalogs/test.sh, absent here). That CVE is in the
+    # `xmlcatalog --shell` CLI parser, not the library; only the `out` (lib)
+    # output is consumed below, so the CLI never lands in any profile.
+    patches = [ ];
   });
 
   # Create custom desktop file with correct Icon and StartupWMClass
