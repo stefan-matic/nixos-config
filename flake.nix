@@ -15,6 +15,18 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
+    # nix-darwin for macOS hosts (macbook)
+    nix-darwin = {
+      url = "github:nix-darwin/nix-darwin/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Paneru - sliding/tiling window manager for macOS (niri replacement)
+    paneru = {
+      url = "github:karinushka/paneru";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     dms = {
       url = "github:AvengeMedia/DankMaterialShell/master";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -70,7 +82,8 @@
     }@inputs:
     let
       inherit (self) outputs;
-      # Linux systems only (NixOS-focused repo, custom packages don't support Darwin)
+      # ./pkgs are Linux-only (niri/wayland/steam helpers), so the `packages`
+      # output stays Linux. Darwin is supported via darwinConfigurations only.
       systems = [
         "aarch64-linux"
         "x86_64-linux"
@@ -125,6 +138,15 @@
         #   specialArgs = {inherit inputs outputs;};
         #   modules = [./hosts/liveboot/iso.nix];
         # };
+      };
+
+      # Darwin (macOS) configurations
+      # Deploy with: darwin-rebuild switch --flake ~/.dotfiles#<hostname>
+      darwinConfigurations = {
+        macbook = inputs.nix-darwin.lib.darwinSystem {
+          specialArgs = { inherit inputs outputs; };
+          modules = [ ./hosts/macbook/configuration.nix ];
+        };
       };
 
       # Nix-on-Droid configurations for Android devices
