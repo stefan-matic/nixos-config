@@ -1,4 +1,6 @@
 {
+  config,
+  pkgs,
   terminalFontSize,
   ...
 }:
@@ -9,6 +11,11 @@
 
   programs.ghostty = {
     enable = true;
+
+    # nixpkgs only builds Ghostty for Linux; on darwin the app comes from the
+    # `ghostty` homebrew cask and home-manager just writes the config file.
+    package = if pkgs.stdenv.hostPlatform.isDarwin then null else pkgs.ghostty;
+
     settings = {
       # Theme
       theme = "dracula";
@@ -51,10 +58,15 @@
         "title"
       ];
 
-      # Startup command - tmux with automatic session handling
-      # Uses tmux new-session -A which attaches if exists or creates if not
-      # This is more reliable than manual has-session checks
-      command = "tmux new-session -A -s main";
+      # Startup command - tmux with automatic session handling.
+      # Uses tmux new-session -A which attaches if exists or creates if not.
+      #
+      # Absolute store path, not bare `tmux`: Ghostty launches this through
+      # `login -flp <user> /bin/bash --noprofile --norc -c ...`, so the child
+      # gets a bare PATH (/usr/bin:/bin:...) with no nix profile on it. On
+      # linux PAM exports a session-wide PATH so bare `tmux` resolves; on
+      # darwin it does not, and Ghostty fails with "exec: tmux: not found".
+      command = "${config.programs.tmux.package}/bin/tmux new-session -A -s main";
 
       # Window decoration - let Niri handle decorations
       window-decoration = false;
