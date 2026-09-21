@@ -33,9 +33,11 @@
       # window_fullwidth on alt-f which only maximises within the strip.
       alt + shift - f : osascript -e 'tell application "System Events" to keystroke "f" using {control down, command down}'
 
-      # === niri: Mod+Tab / Mod+O -> toggle-overview ===
-      # Mission Control is the closest macOS analogue.
-      alt - tab : open -a "Mission Control"
+      # === niri: Mod+O -> toggle-overview ===
+      # Mission Control is the closest macOS analogue. niri binds overview to
+      # both Mod+Tab and Mod+O; alt-tab is left to AltTab (the per-window
+      # switcher), so only Mod+O maps here.
+      alt - o : open -a "Mission Control"
 
       # === niri: Mod+Alt+L -> lock screen ===
       alt + cmd - l : pmset displaysleepnow

@@ -57,6 +57,11 @@
       "maccy"
       # Key remapping, replacing input-remapper.
       "karabiner-elements"
+      # Windows/linux-style switcher: one entry per WINDOW, not per app.
+      # macOS cmd-tab switches applications and cmd-` cycles windows within
+      # one app; neither matches the niri/KDE behaviour. Owns alt-tab, which
+      # is why skhd's overview binding moved to alt-o.
+      "alt-tab"
       # Dual-pane, keyboard-driven file manager. Finder cannot do dual pane
       # or Dolphin-style keys at all; this is the actual replacement.
       "marta"
