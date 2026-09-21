@@ -265,6 +265,19 @@
       TrackpadFourFingerVertSwipeGesture = 0;
     };
 
+    # Shottr's capture hotkeys. It uses the same KeyboardShortcuts library
+    # as Maccy, storing each binding as a JSON string of Carbon codes.
+    #   carbonKeyCode:   x=7  (a=0 s=1 d=2 ... z=6 x=7 c=8 v=9)
+    #   carbonModifiers: cmd=256 shift=512 option=2048 control=4096
+    #   so ctrl+shift = 4608, matching niri's Ctrl+Shift+X screenshot bind.
+    # Decoding verified against the defaults Shottr had already written:
+    # area was {19,768} = cmd+shift+2, ocr {31,6400} = ctrl+opt+cmd+o.
+    #
+    # Quit Shottr before a switch, or it rewrites these from memory on exit.
+    "cc.ffitch.shottr" = {
+      KeyboardShortcuts_area = ''{"carbonKeyCode":7,"carbonModifiers":4608}'';
+    };
+
     # Free ctrl+arrows so they can be word motion (user/app/keybindings.nix)
     # instead of switching Spaces. 79/80 are move-left/right-a-space and
     # 81/82 their shift variants. paneru owns workspaces here, so macOS

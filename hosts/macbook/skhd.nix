@@ -42,10 +42,9 @@
       # === niri: Mod+Alt+L -> lock screen ===
       alt + cmd - l : pmset displaysleepnow
 
-      # === niri: Print / Ctrl+Shift+X -> grim+slurp+swappy ===
-      # Shottr is the annotate-after-capture equivalent; cmd-shift-4 is the
-      # built-in region capture it hooks into.
-      ctrl + shift - x : open -a Shottr
+      # No screenshot binding here: `open -a Shottr` only launches the app,
+      # it cannot start a capture. Shottr's own hotkey is set declaratively
+      # in hosts/_common/darwin.nix (KeyboardShortcuts_area).
     '';
   };
 }
