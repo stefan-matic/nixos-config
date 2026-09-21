@@ -70,4 +70,41 @@
       }
     ];
   };
+
+  # Neutralise cmd-H (Hide Application).
+  #
+  # Coming from linux you reach for cmd where Alt used to be, and `h` is the
+  # paneru focus-left key -- so alt-h (focus left) and cmd-h (hide the whole
+  # app) sit one key apart. Hiding yanks every window of that app out of the
+  # strip, paneru re-flows to close the gap, and it reads as windows jumping
+  # around. paneru handles it correctly (Event::ApplicationHidden), but it is
+  # rarely what was meant.
+  #
+  # Separate file, so it appears as its own entry in Karabiner's rule list
+  # and can be toggled independently of the Finder rule above.
+  #
+  # NOTE: `mandatory` means those modifiers must be held and anything not
+  # listed must NOT be -- so cmd+option+H (Hide Others) still passes through
+  # untouched. Only bare cmd-H is swallowed.
+  xdg.configFile."karabiner/assets/complex_modifications/no-cmd-h.json".text = builtins.toJSON {
+    title = "Disable cmd-H (Hide Application)";
+    rules = [
+      {
+        description = "cmd-H does nothing (cmd-option-H still hides others)";
+        manipulators = [
+          {
+            type = "basic";
+            from = {
+              key_code = "h";
+              modifiers = {
+                mandatory = [ "command" ];
+                optional = [ "caps_lock" ];
+              };
+            };
+            to = [ { key_code = "vk_none"; } ];
+          }
+        ];
+      }
+    ];
+  };
 }
