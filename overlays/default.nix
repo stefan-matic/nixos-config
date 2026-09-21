@@ -6,35 +6,41 @@
   # This one contains whatever you want to overlay
   # You can change versions, add patches, set compilation flags, anything really.
   # https://nixos.wiki/wiki/Overlays
-  modifications = final: prev: {
-    # openldap-2.6.13 test017-syncreplication-refresh is upstream-flaky and
-    # blocks lutris fhsenv build. Skip tests until nixpkgs lands a fix.
-    openldap = prev.openldap.overrideAttrs (_: {
-      doCheck = false;
-    });
+  # Every override here works around a linux-only build failure, so they are
+  # scoped to linux. Applying them on darwin changes the derivation hash and
+  # costs a binary-cache miss (a local openldap / pipx / python build) to fix
+  # problems that platform doesn't have.
+  modifications =
+    final: prev:
+    prev.lib.optionalAttrs prev.stdenv.hostPlatform.isLinux {
+      # openldap-2.6.13 test017-syncreplication-refresh is upstream-flaky and
+      # blocks lutris fhsenv build. Skip tests until nixpkgs lands a fix.
+      openldap = prev.openldap.overrideAttrs (_: {
+        doCheck = false;
+      });
 
-    # pipx 1.8.0 test_package_specifier asserts the old "name@url" form, but the
-    # newer packaging lib normalizes to "name @ url" (added spaces). Upstream
-    # test rot, not a real defect. Skip tests until nixpkgs bumps pipx.
-    pipx = prev.pipx.overridePythonAttrs (_: {
-      doCheck = false;
-    });
+      # pipx 1.8.0 test_package_specifier asserts the old "name@url" form, but the
+      # newer packaging lib normalizes to "name @ url" (added spaces). Upstream
+      # test rot, not a real defect. Skip tests until nixpkgs bumps pipx.
+      pipx = prev.pipx.overridePythonAttrs (_: {
+        doCheck = false;
+      });
 
-    # DaVinci Resolve bundles Qt5 without the Wayland platform plugin, so it
-    # aborts in QGuiApplicationPrivate::createPlatformIntegration when
-    # QT_QPA_PLATFORM=wayland is inherited from the Niri session. Force xcb
-    # (XWayland) for Resolve's own binaries.
-    davinci-resolve = prev.davinci-resolve.overrideAttrs (old: {
-      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ prev.makeWrapper ];
-      postFixup = (old.postFixup or "") + ''
-        for bin in resolve fusion fuscript; do
-          if [ -e "$out/bin/$bin" ]; then
-            wrapProgram "$out/bin/$bin" --set QT_QPA_PLATFORM xcb
-          fi
-        done
-      '';
-    });
-  };
+      # DaVinci Resolve bundles Qt5 without the Wayland platform plugin, so it
+      # aborts in QGuiApplicationPrivate::createPlatformIntegration when
+      # QT_QPA_PLATFORM=wayland is inherited from the Niri session. Force xcb
+      # (XWayland) for Resolve's own binaries.
+      davinci-resolve = prev.davinci-resolve.overrideAttrs (old: {
+        nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ prev.makeWrapper ];
+        postFixup = (old.postFixup or "") + ''
+          for bin in resolve fusion fuscript; do
+            if [ -e "$out/bin/$bin" ]; then
+              wrapProgram "$out/bin/$bin" --set QT_QPA_PLATFORM xcb
+            fi
+          done
+        '';
+      });
+    };
 
   # Simplified unstable packages overlay
   unstable-packages = final: prev: {
