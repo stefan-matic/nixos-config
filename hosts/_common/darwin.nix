@@ -264,6 +264,27 @@
       TrackpadFourFingerHorizSwipeGesture = 0;
       TrackpadFourFingerVertSwipeGesture = 0;
     };
+
+    # Free ctrl+arrows so they can be word motion (user/app/keybindings.nix)
+    # instead of switching Spaces. 79/80 are move-left/right-a-space and
+    # 81/82 their shift variants. paneru owns workspaces here, so macOS
+    # Spaces switching is redundant anyway.
+    "com.apple.symbolichotkeys" = {
+      AppleSymbolicHotKeys = {
+        "79" = {
+          enabled = false;
+        };
+        "80" = {
+          enabled = false;
+        };
+        "81" = {
+          enabled = false;
+        };
+        "82" = {
+          enabled = false;
+        };
+      };
+    };
   };
 
   # Keyboard, mapped onto the linux hosts' physical layout.

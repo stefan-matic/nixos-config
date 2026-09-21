@@ -19,6 +19,7 @@
     # Darwin replacements for linux-only modules
     ../user/app/browser/finicky.nix # URL router; replaces select-browser
     ../user/app/karabiner.nix # Dolphin-style Finder keybindings
+    ../user/app/keybindings.nix # linux-style ctrl word navigation
     ../user/app/flake-update-darwin.nix # systemd user timers -> launchd agents
     ../user/packages/darwin.nix # user/packages/common.nix minus GUI apps
 
