@@ -76,19 +76,31 @@ echo -e "${BLUE}=== Flake Validation ===${NC}"
 run_check "Flake check" "nix flake check --all-systems --impure"
 run_check "Flake evaluation" "nix eval .#nixosConfigurations --apply builtins.attrNames"
 
-# NixOS configurations
-echo -e "${BLUE}=== Building NixOS Configurations ===${NC}"
-run_check "ZVIJER build" "nix build .#nixosConfigurations.ZVIJER.config.system.build.toplevel --dry-run"
-run_check "T14 build" "nix build .#nixosConfigurations.stefan-t14.config.system.build.toplevel --dry-run"
-run_check "StarLabs build" "nix build .#nixosConfigurations.starlabs.config.system.build.toplevel --dry-run"
-run_check "Z420 build" "nix build .#nixosConfigurations.z420.config.system.build.toplevel --dry-run"
+if [ "$(uname -s)" = "Darwin" ]; then
+    # NixOS toplevels can't be evaluated from macOS, and darwinConfigurations
+    # can't be evaluated from linux. Each platform checks what it can build.
+    echo -e "${BLUE}=== Building Darwin Configurations ===${NC}"
+    run_check "macbook build" "nix build .#darwinConfigurations.macbook.system --dry-run"
 
-# Home Manager configurations
-echo -e "${BLUE}=== Building Home Manager Configurations ===${NC}"
-run_check "stefanmatic@ZVIJER" "nix build .#homeConfigurations.\"stefanmatic@ZVIJER\".activationPackage --dry-run"
-run_check "stefanmatic@t14" "nix build .#homeConfigurations.\"stefanmatic@t14\".activationPackage --dry-run"
-run_check "stefanmatic@starlabs" "nix build .#homeConfigurations.\"stefanmatic@starlabs\".activationPackage --dry-run"
-run_check "stefanmatic" "nix build .#homeConfigurations.stefanmatic.activationPackage --dry-run"
+    echo -e "${YELLOW}⚠ Skipping NixOS host builds (not evaluable from macOS)${NC}"
+    echo ""
+else
+    echo -e "${BLUE}=== Building NixOS Configurations ===${NC}"
+    run_check "ZVIJER build" "nix build .#nixosConfigurations.ZVIJER.config.system.build.toplevel --dry-run"
+    run_check "T14 build" "nix build .#nixosConfigurations.stefan-t14.config.system.build.toplevel --dry-run"
+    run_check "StarLabs build" "nix build .#nixosConfigurations.starlabs.config.system.build.toplevel --dry-run"
+    run_check "Z420 build" "nix build .#nixosConfigurations.z420.config.system.build.toplevel --dry-run"
+
+    # Home Manager configurations
+    echo -e "${BLUE}=== Building Home Manager Configurations ===${NC}"
+    run_check "stefanmatic@ZVIJER" "nix build .#homeConfigurations.\"stefanmatic@ZVIJER\".activationPackage --dry-run"
+    run_check "stefanmatic@t14" "nix build .#homeConfigurations.\"stefanmatic@t14\".activationPackage --dry-run"
+    run_check "stefanmatic@starlabs" "nix build .#homeConfigurations.\"stefanmatic@starlabs\".activationPackage --dry-run"
+    run_check "stefanmatic" "nix build .#homeConfigurations.stefanmatic.activationPackage --dry-run"
+
+    echo -e "${YELLOW}⚠ Skipping darwin build (not evaluable from linux)${NC}"
+    echo ""
+fi
 
 # Summary
 echo -e "${BLUE}========================================${NC}"
