@@ -84,8 +84,12 @@
         reap_empty_workspaces = false;
 
         # This is a SPEED, not a duration: upstream documents 8-20 as the
-        # comfortable range, and a very high value disables animations.
-        animation_speed = 12;
+        # comfortable range (CONFIGURATION.md), and unset or a very high
+        # value disables animations outright. Sits at the top of the range
+        # because alt+arrow focus moves felt sluggish at 12 -- the strip
+        # should keep up with the keyboard, like niri's near-instant
+        # column focus.
+        animation_speed = 20;
       }
       // extraOptions;
 
@@ -143,10 +147,9 @@
         continuous = true;
 
         gesture = {
-          # FOUR fingers, not three: three-finger drag is enabled in
-          # hosts/_common/darwin.nix and swallows every three-finger swipe
-          # before paneru sees it. macOS' own four-finger swipes are turned
-          # off there so these land here instead.
+          # FOUR fingers, not three: hosts/_common/darwin.nix turns macOS'
+          # own four-finger swipes off so these land here, and leaves three
+          # fingers to macOS (up = Mission Control, down = App Expose).
           fingers_count = 4;
           direction = "Natural";
           # Horizontal swipe scrolls the strip; vertical swipe switches
