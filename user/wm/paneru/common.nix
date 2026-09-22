@@ -48,7 +48,18 @@
       windowRules ? { },
       extraOptions ? { },
     }:
-    lib.optionalAttrs (extraOptions != { }) { options = extraOptions; }
+    {
+      # The [options] table is emitted even when empty, and must stay that
+      # way. Upstream declares it `#[serde(default)] options: MainOptions`
+      # (src/config.rs:1063), so an ABSENT table builds MainOptions via the
+      # derived Default -- and the derived Default ignores the per-field
+      # `#[serde(default = "default_preset_column_widths")]` at
+      # src/config.rs:1184, leaving preset_column_widths an empty Vec.
+      # window_resize then falls through to `widths.first().unwrap_or(&0.5)`
+      # (src/commands.rs:762) and pins every window at 50% forever. An empty
+      # table deserialises normally, so the real defaults apply.
+      options = extraOptions;
+    }
     // lib.optionalAttrs (deviceType == "laptop") {
       # The one deliberate non-default. Paneru ignores the trackpad entirely
       # until fingers_count is set (>= 3), so leaving it out would mean no
