@@ -14,11 +14,6 @@ let
   paneruSettings = common.mkPaneruSettings {
     deviceType = "laptop";
 
-    # Clear the menu bar and the notch on the built-in display. Paneru
-    # autodetects menubar_height, but the notch makes that measurement
-    # unreliable on 14"/16" MacBook Pros.
-    menuBarPadding = 12;
-
     # Per-application rules. `title` is a required regex; `bundle_id` narrows
     # the match to one app. Get an app's id with:
     #   osascript -e 'id of app "Slack"'

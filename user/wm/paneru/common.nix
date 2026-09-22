@@ -28,144 +28,37 @@
 {
   # Build a paneru settings attrset (rendered to TOML by the paneru module).
   #
+  # Deliberately thin: every option upstream gives a default is left unset, so
+  # this is the behaviour paneru's author intended plus the niri-shaped
+  # keymap. The tuned values that used to live here (animation_speed, swipe
+  # sensitivity/deceleration, padding, decorations, preset widths, sliver,
+  # auto_center) were dropped 2026-09-22 -- together they made windows jump
+  # sideways on focus changes. Re-add one at a time, never as a batch, and
+  # read the default in upstream's CONFIGURATION.md before overriding it.
+  #
   # Arguments:
-  #   deviceType     - "laptop" or "desktop"; drives padding and gestures
-  #   menuBarPadding - top inset, in px, to clear the menu bar / notch
-  #   windowRules    - attrset of named per-application rules; paneru parses
-  #                    `windows` as HashMap<String, WindowParams>, so this must
-  #                    be a map (TOML `[windows.<name>]`), never a list
-  #   extraOptions   - attrset merged over the [options] table
+  #   deviceType   - "laptop" or "desktop"; laptops get the trackpad gesture
+  #   windowRules  - attrset of named per-application rules; paneru parses
+  #                  `windows` as HashMap<String, WindowParams>, so this must
+  #                  be a map (TOML `[windows.<name>]`), never a list
+  #   extraOptions - rendered as the [options] table, empty by default
   mkPaneruSettings =
     {
       deviceType ? "laptop",
-      menuBarPadding ? 8,
       windowRules ? { },
       extraOptions ? { },
     }:
-    {
-      options = {
-        # niri: focus-follows-mouse + mouse warp on focus change
-        focus_follows_mouse = true;
-        mouse_follows_focus = true;
-
-        # Mirrors the niri preset column widths. 0.25 is the narrow slot the
-        # ZVIJER config reserves for KeePassXC/Viber/Slack side panels.
-        preset_column_widths = [
-          0.25
-          0.33
-          0.5
-          0.66
-          0.75
-          1.0
-        ];
-        preset_stack_heights = [
-          0.25
-          0.33
-          0.5
-          0.66
-          0.75
-        ];
-
-        # Matches `center-focused-column "never"` in user/wm/niri/common.nix.
-        # With focus_follows_mouse on, enabling this re-centres the whole
-        # strip on every hover, which makes windows slide around constantly.
-        auto_center = false;
-
-        # A sliver of the offscreen neighbour stays visible, the same hint
-        # niri gives that there is more strip in that direction.
-        sliver_width = 8;
-
-        # Cycle back to the first preset after the last, matching niri's
-        # switch-preset-column-width.
-        window_resize_cycle = true;
-
-        # Keep workspaces 1-5 around when they empty out; niri keeps its
-        # named workspaces alive.
-        reap_empty_workspaces = false;
-
-        # This is a SPEED, not a duration: upstream documents 8-20 as the
-        # comfortable range (CONFIGURATION.md), and unset or a very high
-        # value disables animations outright. Sits at the top of the range
-        # because alt+arrow focus moves felt sluggish at 12 -- the strip
-        # should keep up with the keyboard, like niri's near-instant
-        # column focus.
-        animation_speed = 20;
-      }
-      // extraOptions;
-
-      # Breathing room around windows, matching the niri gaps.
-      padding = {
-        top = menuBarPadding;
-        bottom = 8;
-        left = 8;
-        right = 8;
-      };
-
-      # Active-window border in dracula pink, the same accent as the active
-      # tmux pane border in user/app/terminal/tmux.nix.
-      decorations = {
-        active.border = {
-          enabled = true;
-          color = "#ff79c6";
-          width = 2.0;
-          radius = "auto";
-        };
-        # No dimming of unfocused windows -- the pink border alone marks
-        # focus. Paneru's default opacity is 0.0, so this is left unset
-        # rather than zeroed.
-
-        # Paneru has no overview command, so the menu bar carries the
-        # workspace state instead -- the closest thing to the DMS/waybar
-        # workspace widget on the linux hosts.
-        workspace_menu_status = true;
-        workspace_popup_status = true;
-        menu = {
-          colors = [ "#ff79c6" ];
-          descriptor = {
-            style = "symbol";
-            symbol = "rectangle.split.3x1";
-          };
-          indicator = {
-            # "multi" lists every virtual workspace rather than just the
-            # current one; "marked" renders the inactive ones as dots with
-            # the active one as its number, e.g.  · 2 · ·
-            style = "multi";
-            format = "marked";
-            inactive_character = "·";
-            font_size = 13.0;
-          };
-        };
-      };
-
-      # Touchpad gestures, the niri equivalent of swiping the strip around.
-      # Only wired up for laptops -- a desktop with a mouse has no trackpad.
-      swipe = lib.optionalAttrs (deviceType == "laptop") {
-        sensitivity = 0.4;
-        deceleration = 4.0;
-        # Let the strip run past the outermost window, like niri's scrollable
-        # viewport, rather than snapping hard to the edge.
-        continuous = true;
-
-        gesture = {
-          # FOUR fingers, not three: hosts/_common/darwin.nix turns macOS'
-          # own four-finger swipes off so these land here, and leaves three
-          # fingers to macOS (up = Mission Control, down = App Expose).
-          fingers_count = 4;
-          direction = "Natural";
-          # Horizontal swipe scrolls the strip; vertical swipe switches
-          # virtual workspace rows (niri: focus-workspace-down/up).
-          vertical = true;
-        };
-
-        scroll = {
-          # alt + scroll slides the strip. Mirrors the "Mod+Horizontal Scroll
-          # to navigate columns" binding in user/wm/niri/laptop.nix.
-          modifier = "alt";
-          # alt + shift + scroll moves between workspace rows instead.
-          vertical_modifier = "shift";
-        };
-      };
-
+    lib.optionalAttrs (extraOptions != { }) { options = extraOptions; }
+    // lib.optionalAttrs (deviceType == "laptop") {
+      # The one deliberate non-default. Paneru ignores the trackpad entirely
+      # until fingers_count is set (>= 3), so leaving it out would mean no
+      # swipe at all. FOUR fingers: hosts/_common/darwin.nix turns macOS' own
+      # four-finger swipes off and leaves three to macOS (up = Mission
+      # Control). Horizontal scrolls the strip, vertical switches virtual
+      # workspace rows; everything else under [swipe] keeps its default.
+      swipe.gesture.fingers_count = 4;
+    }
+    // {
       windows = windowRules;
 
       # Key names come from paneru's own table (src/config.rs
