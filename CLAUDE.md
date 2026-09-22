@@ -38,6 +38,22 @@ sudo nixos-rebuild switch --flake ~/.dotfiles#z420
 nixos-rebuild switch --flake ~/.dotfiles#z420 --target-host z420 --use-remote-sudo
 ```
 
+### Darwin (macOS)
+
+```bash
+# Rebuild the macbook (Apple Silicon, nix-darwin)
+darwin-rebuild switch --flake ~/.dotfiles#macbook
+
+# First-ever build, before nix-darwin is installed
+nix run nix-darwin -- switch --flake ~/.dotfiles#macbook
+```
+
+**Never run `darwin-rebuild` yourself** — same rule as `nixos-rebuild`. The
+user applies switches; eval and `--dry-run` for verification is fine.
+
+See `docs/macos-setup.md` for bootstrap and the manual permission steps macOS
+requires.
+
 ### Home Manager
 
 Home Manager is used as a NixOS module, **not** standalone. There are no `homeConfigurations` flake outputs. All home-manager changes are applied automatically when running `sudo nixos-rebuild switch`. **Never run `home-manager switch` directly** - always use `nixos-rebuild switch` which rebuilds both system and home-manager together.
@@ -84,12 +100,18 @@ nix flake update
 - `dms` - DankMaterialShell (Wayland desktop shell)
 - `nix-on-droid` - Nix environment for Android devices
 
+- `nix-darwin` - macOS system management (macbook host)
+- `paneru` - Sliding/tiling window manager for macOS (niri replacement)
+
 **Outputs:**
 
 - `nixosConfigurations` - Hosts: ZVIJER, stefan-t14, starlabs, z420, liveboot, liveboot-iso
+- `darwinConfigurations` - macOS hosts: macbook
 - `nixOnDroidConfigurations` - Android devices: fold6
 - `homeConfigurations` - Users: stefanmatic (+ host-specific), fallen
-- `packages` - Custom packages from ./pkgs
+- `packages` - Custom packages from ./pkgs (**linux only** - the custom
+  packages are niri/wayland/steam helpers with no darwin build, which is why
+  `systems` stays linux-only even though the flake now has a darwin host)
 - `overlays` - Package overlays (additions, modifications, stable/unstable packages)
 
 ### Directory Layout
@@ -104,8 +126,14 @@ nix flake update
 │   └── nixos-vs-home-manager-guide.md # Package placement philosophy
 ├── hosts/                    # Host-specific configurations
 │   ├── _common/
-│   │   ├── default.nix      # Common config for all hosts
-│   │   └── client.nix       # Desktop/client systems config
+│   │   ├── default.nix      # Common config for all NixOS hosts
+│   │   ├── client.nix       # Desktop/client systems config
+│   │   └── darwin.nix       # Common config for all darwin hosts
+│   ├── macbook/             # Apple Silicon MacBook Pro (nix-darwin)
+│   │   ├── configuration.nix
+│   │   ├── env.nix
+│   │   ├── packages.nix     # System packages (minimal on darwin)
+│   │   └── homebrew.nix     # GUI applications as casks
 │   ├── zvijer/              # Gaming/workstation host
 │   │   ├── configuration.nix
 │   │   ├── packages.nix     # ZVIJER-specific system packages
@@ -125,8 +153,10 @@ nix flake update
 │       └── fold6/           # Samsung Galaxy Fold 6
 │           └── nix-on-droid.nix
 ├── home/                     # Home-manager configurations
-│   ├── _common.nix          # Common home config (imports user packages)
-│   ├── stefanmatic.nix      # User-specific config (imports package categories)
+│   ├── _core.nix            # Cross-platform base (linux + darwin)
+│   ├── _common.nix          # _core + linux-only modules
+│   ├── stefanmatic.nix      # NixOS user config (imports package categories)
+│   ├── darwin.nix           # _core + darwin modules (macbook)
 │   ├── android.nix          # Android-specific home config (minimal)
 │   └── services/            # User services (deej, etc.)
 ├── system/                   # System-level modules
@@ -143,9 +173,12 @@ nix flake update
 │   ├── lang/                # Language-specific setups
 │   ├── shells/              # Shell configurations
 │   ├── wm/                  # Window manager configurations
-│   │   └── niri/            # Host-specific Niri configs
-│   │       ├── ZVIJER.nix   # 57" ultrawide dual monitor setup
-│   │       └── laptop.nix   # Generic laptop config (t14, starlabs)
+│   │   ├── niri/            # Host-specific Niri configs (linux)
+│   │   │   ├── ZVIJER.nix   # 57" ultrawide dual monitor setup
+│   │   │   └── laptop.nix   # Generic laptop config (t14, starlabs)
+│   │   └── paneru/          # macOS window manager (niri replacement)
+│   │       ├── common.nix   # Shared keymap, gaps, decorations
+│   │       └── macbook.nix  # macbook config
 │   └── packages/            # User package modules (Philosophy B)
 │       ├── common.nix       # Apps for all hosts
 │       ├── development.nix  # Dev tools, IDEs, DevOps, cloud CLIs
@@ -302,6 +335,17 @@ nix-build -E "with import <nixpkgs> {}; callPackage ./pkgs/<package-name> {}"
 - Minimal server configuration
 - Syncthing only
 - No desktop environment
+
+**macbook (Apple Silicon MacBook Pro - nix-darwin):**
+
+- Work machine (OpenVPN git identity in `hosts/macbook/env.nix`)
+- Paneru window manager instead of Niri (`user/wm/paneru/`), `alt` as Mod
+- Raycast as launcher, Stats as menu bar, Shottr for screenshots
+- GUI applications via Homebrew casks (`hosts/macbook/homebrew.nix`)
+- Touch ID for sudo instead of YubiKey PAM
+- launchd agents instead of systemd user services
+- Shares zsh/neovim/tmux/git/yazi and the dev tooling with the NixOS hosts
+- No gaming or creative packages
 
 **Fold 6 (Samsung Galaxy Fold 6 - Android):**
 
@@ -462,6 +506,7 @@ nixfmt --check .
 
 ## Documentation
 
+- `docs/macos-setup.md` - nix-darwin bootstrap, paneru, what ported from NixOS
 - `docs/server-deployment.md` - Remote server deployment
 - `docs/home-manager.md` - Home Manager operations
 - `docs/package-philosophy.md` - System vs Home Manager packages
