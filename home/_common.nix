@@ -1,34 +1,15 @@
-# Common home-manager configuration for all client users
+# Common home-manager configuration for all NixOS client users
 # Used as NixOS module (home-manager.users.<name>) for single-command deployment
+# Cross-platform pieces live in _core.nix (shared with darwin.nix).
 { config, ... }:
 
 {
-  home.stateVersion = "24.11";
-
-  # Add ~/Scripts and ~/.local/bin (uv, pipx, etc.) to PATH
-  home.sessionPath = [
-    "$HOME/Scripts"
-    "$HOME/.local/bin"
-  ];
-
-  # Default terminal editor for CLI tools (git, etc.)
-  home.sessionVariables = {
-    EDITOR = "nano";
-    VISUAL = "nano";
-  };
-
   imports = [
-    # Application configurations (dotfiles)
+    ./_core.nix
+
+    # Linux-only application configurations (systemd, wayland, KDE, xdg)
     ../user/app/firefox.nix
     ../user/app/keepassxc.nix
-    ../user/app/git/git.nix
-    ../user/app/terminal/kitty.nix
-    ../user/app/terminal/ghostty.nix
-    ../user/app/terminal/tmux.nix
-    ../user/app/terminal/yazi.nix
-    ../user/app/taskwarrior.nix
-    ../user/app/neovim
-    ../user/app/direnv/direnv.nix
     ../user/app/browser/select-browser.nix
     ../user/app/kate.nix
     ../user/app/vlc.nix
@@ -39,11 +20,6 @@
     ../user/app/espanso.nix
     ../user/app/fast-track-update.nix
     ../user/app/bleeding-edge-update.nix
-    ../user/shells/sh.nix
-    ../user/lang/python/python.nix
-    ../user/lang/go/go.nix
-    ../user/lang/nodejs/nodejs.nix
-    ../user/lang/rust/rust.nix
 
     # Workaround for viber being a shitty mess
     ../user/app/chat/viber.nix
@@ -51,8 +27,6 @@
     # User package lists (organized by category)
     ../user/packages/common.nix
   ];
-
-  news.display = "silent";
 
   # SSH agent - systemd user service with environment variable
   # This replaces the disabled system SSH agent and GNOME keyring
