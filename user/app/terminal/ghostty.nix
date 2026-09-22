@@ -1,4 +1,5 @@
 {
+  pkgs,
   terminalFontSize,
   ...
 }:
@@ -9,6 +10,11 @@
 
   programs.ghostty = {
     enable = true;
+
+    # nixpkgs only builds Ghostty for Linux; on darwin the app comes from the
+    # `ghostty` homebrew cask and home-manager just writes the config file.
+    package = if pkgs.stdenv.hostPlatform.isDarwin then null else pkgs.ghostty;
+
     settings = {
       # Theme
       theme = "dracula";

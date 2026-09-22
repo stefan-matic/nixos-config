@@ -1,5 +1,11 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
+  isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
 
   # My shell aliases
   # move your fish config here and bashrc
@@ -296,61 +302,67 @@ in
     shellAliases = myAliases;
   };
 
-  home.packages = with pkgs; [
-    # System info & fetch tools
-    disfetch
-    lolcat
-    cowsay
-    onefetch
-    fastfetch # Fast neofetch alternative
+  home.packages =
+    with pkgs;
+    [
+      # System info & fetch tools
+      disfetch
+      lolcat
+      cowsay
+      onefetch
+      fastfetch # Fast neofetch alternative
 
-    # ASCII art generators
-    figlet # 3D ASCII text
-    toilet # Enhanced figlet with more fonts
-    fortune # Random quotes
+      # ASCII art generators
+      figlet # 3D ASCII text
+      toilet # Enhanced figlet with more fonts
+      fortune # Random quotes
 
-    # Modern CLI tools (rust-based alternatives)
-    bat # cat with syntax highlighting
-    lsd # LSDeluxe - modern ls replacement
-    eza # Another modern ls
-    fd # Modern find alternative
-    ripgrep # Modern grep (rg)
-    procs # Modern ps replacement
-    dust # Modern du (disk usage)
-    duf # Modern df (disk free)
-    bottom # Modern top/htop (btm)
-    hyperfine # Benchmarking tool
+      # Modern CLI tools (rust-based alternatives)
+      bat # cat with syntax highlighting
+      lsd # LSDeluxe - modern ls replacement
+      eza # Another modern ls
+      fd # Modern find alternative
+      ripgrep # Modern grep (rg)
+      procs # Modern ps replacement
+      dust # Modern du (disk usage)
+      duf # Modern df (disk free)
+      bottom # Modern top/htop (btm)
+      hyperfine # Benchmarking tool
 
-    # Navigation & file management
-    zoxide # Smarter cd with learning
-    # yazi - managed via programs.yazi in user/app/terminal/yazi.nix
-    chafa # Image viewer for terminal
+      # Navigation & file management
+      zoxide # Smarter cd with learning
+      # yazi - managed via programs.yazi in user/app/terminal/yazi.nix
+      chafa # Image viewer for terminal
 
-    # Git tools
-    lazygit # Terminal UI for git
-    delta # Beautiful git diffs
+      # Git tools
+      lazygit # Terminal UI for git
+      delta # Beautiful git diffs
 
-    # Documentation & helpers
-    tldr # Simplified man pages
-    glow # Markdown viewer
+      # Documentation & helpers
+      tldr # Simplified man pages
+      glow # Markdown viewer
 
-    # Fuzzy finder
-    television # tv - modern fuzzy finder with cables (replaces many fzf workflows)
-    fzf
+      # Fuzzy finder
+      television # tv - modern fuzzy finder with cables (replaces many fzf workflows)
+      fzf
 
-    # Standard tools
-    gnugrep
-    gnused
-    bc
-    jq
-    yq-go
+      # Standard tools
+      gnugrep
+      gnused
+      bc
+      jq
+      yq-go
 
-    # Media support for terminal file manager
-    ffmpegthumbnailer # Video thumbnails for yazi
-    ueberzugpp # Image display in terminal for yazi
-    poppler-utils # PDF preview (pdftotext)
-    imagemagick # Image processing
-  ];
+      # Media support for terminal file manager
+      ffmpegthumbnailer # Video thumbnails for yazi
+      poppler-utils # PDF preview (pdftotext)
+      imagemagick # Image processing
+    ]
+    ++ lib.optionals (!isDarwin) [
+      # Image display protocol for yazi. Ghostty on macOS speaks the kitty
+      # graphics protocol natively, so this is only needed on linux.
+      ueberzugpp
+    ];
 
   programs.direnv.enable = true;
   programs.direnv.enableZshIntegration = true;

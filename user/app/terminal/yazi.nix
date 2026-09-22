@@ -1,5 +1,15 @@
 { pkgs, lib, ... }:
 
+let
+  isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
+
+  # 3D model previews are a 3D-printing workflow; skipped on darwin where the
+  # vtk/f3d stack isn't cached and the use case doesn't apply.
+  enable3dPreview = !isDarwin;
+
+  # Desktop "open with default app" handler.
+  openCommand = if isDarwin then "open" else "xdg-open";
+in
 {
   programs.yazi = {
     enable = true;
@@ -8,19 +18,23 @@
   };
 
   # Make sure we have all dependencies for media previews
-  home.packages = with pkgs; [
-    ffmpeg # For video/GIF thumbnails and previews
-    mpv # For video playback in terminal
-    # stable channel: unstable's vtk 9.5.2 fails to build (GDAL/gcc-15
-    # CSLConstList->char** error). Stable's f3d/vtk is cached and builds.
-    stable.f3d # 3D model viewer for STL, 3MF, OBJ, STEP files
-    # Already installed in sh.nix:
-    # ffmpegthumbnailer - video thumbnails
-    # ueberzugpp - image display protocol
-    # poppler-utils - PDF preview
-    # imagemagick - image processing
-    # chafa - image viewer
-  ];
+  home.packages =
+    with pkgs;
+    [
+      ffmpeg # For video/GIF thumbnails and previews
+      mpv # For video playback in terminal
+    ]
+    ++ lib.optionals enable3dPreview [
+      # stable channel: unstable's vtk 9.5.2 fails to build (GDAL/gcc-15
+      # CSLConstList->char** error). Stable's f3d/vtk is cached and builds.
+      stable.f3d # 3D model viewer for STL, 3MF, OBJ, STEP files
+    ];
+  # Already installed in sh.nix:
+  # ffmpegthumbnailer - video thumbnails
+  # ueberzugpp - image display protocol (linux only)
+  # poppler-utils - PDF preview
+  # imagemagick - image processing
+  # chafa - image viewer
 
   # Write yazi.toml configuration
   xdg.configFile."yazi/yazi.toml".text = ''
@@ -46,7 +60,7 @@
     ]
     # Open regular images with default viewer
     view = [
-      { run = 'xdg-open "$@"', orphan = true, desc = "Open with default app" }
+      { run = '${openCommand} "$@"', orphan = true, desc = "Open with default app" }
     ]
 
     [open]
@@ -56,26 +70,28 @@
       { mime = "image/*", use = "view" },
     ]
 
-    [plugin]
-    # f3d-preview for 3D models (by file extension)
-    prepend_preloaders = [
-      { name = "*.3mf", run = "f3d-preview" },
-      { name = "*.obj", run = "f3d-preview" },
-      { name = "*.pts", run = "f3d-preview" },
-      { name = "*.ply", run = "f3d-preview" },
-      { name = "*.stl", run = "f3d-preview" },
-      { name = "*.step", run = "f3d-preview" },
-      { name = "*.stp", run = "f3d-preview" },
-    ]
-    prepend_previewers = [
-      { name = "*.3mf", run = "f3d-preview" },
-      { name = "*.obj", run = "f3d-preview" },
-      { name = "*.pts", run = "f3d-preview" },
-      { name = "*.ply", run = "f3d-preview" },
-      { name = "*.stl", run = "f3d-preview" },
-      { name = "*.step", run = "f3d-preview" },
-      { name = "*.stp", run = "f3d-preview" },
-    ]
+    ${lib.optionalString enable3dPreview ''
+      [plugin]
+      # f3d-preview for 3D models (by file extension)
+      prepend_preloaders = [
+        { name = "*.3mf", run = "f3d-preview" },
+        { name = "*.obj", run = "f3d-preview" },
+        { name = "*.pts", run = "f3d-preview" },
+        { name = "*.ply", run = "f3d-preview" },
+        { name = "*.stl", run = "f3d-preview" },
+        { name = "*.step", run = "f3d-preview" },
+        { name = "*.stp", run = "f3d-preview" },
+      ]
+      prepend_previewers = [
+        { name = "*.3mf", run = "f3d-preview" },
+        { name = "*.obj", run = "f3d-preview" },
+        { name = "*.pts", run = "f3d-preview" },
+        { name = "*.ply", run = "f3d-preview" },
+        { name = "*.stl", run = "f3d-preview" },
+        { name = "*.step", run = "f3d-preview" },
+        { name = "*.stp", run = "f3d-preview" },
+      ]
+    ''}
   '';
 
   # Configure yazi theme for better preview visibility
@@ -107,15 +123,16 @@
   '';
 
   # Install f3d-preview plugin for 3D model previews (STL, 3MF, OBJ, STEP)
-  home.activation.installYaziPlugins = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    # Clone f3d-preview plugin if not exists
-    PLUGIN_DIR="$HOME/.config/yazi/plugins/f3d-preview.yazi"
-    if [ ! -d "$PLUGIN_DIR" ]; then
-      $DRY_RUN_CMD mkdir -p "$(dirname "$PLUGIN_DIR")"
-      $DRY_RUN_CMD ${pkgs.git}/bin/git clone https://github.com/Ruudjhuu/f3d-preview.yazi.git "$PLUGIN_DIR"
-    else
-      $DRY_RUN_CMD cd "$PLUGIN_DIR" && ${pkgs.git}/bin/git pull
-    fi
-  '';
-
+  home.activation = lib.mkIf enable3dPreview {
+    installYaziPlugins = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      # Clone f3d-preview plugin if not exists
+      PLUGIN_DIR="$HOME/.config/yazi/plugins/f3d-preview.yazi"
+      if [ ! -d "$PLUGIN_DIR" ]; then
+        $DRY_RUN_CMD mkdir -p "$(dirname "$PLUGIN_DIR")"
+        $DRY_RUN_CMD ${pkgs.git}/bin/git clone https://github.com/Ruudjhuu/f3d-preview.yazi.git "$PLUGIN_DIR"
+      else
+        $DRY_RUN_CMD cd "$PLUGIN_DIR" && ${pkgs.git}/bin/git pull
+      fi
+    '';
+  };
 }

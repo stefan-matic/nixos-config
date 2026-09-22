@@ -1,9 +1,12 @@
 {
   pkgs,
+  lib,
   ...
 }:
 
 let
+  isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
+
   # Wifi: signal strength only (bars + dBm). Picks first wlan interface.
   wifiStatus = pkgs.writeShellScript "tmux-wifi-status" ''
     iface=$(${pkgs.iproute2}/bin/ip -o link show | ${pkgs.gawk}/bin/awk -F': ' '/wl[a-z]+[0-9]+/ {print $2; exit}')
@@ -81,6 +84,113 @@ let
     esac
     printf " %s %s%% " "$icon" "$cap"
   '';
+
+  # === Darwin equivalents ===
+  # macOS has no procfs/sysfs and no iproute2, so each segment is reimplemented
+  # against sysctl / vm_stat / pmset / networksetup. These use absolute paths
+  # because the tools ship with the OS, not with nixpkgs.
+  # Only referenced when isDarwin, so the linux scripts above never evaluate
+  # their linux-only dependencies (iw, iproute2) on darwin.
+
+  # Wifi: SSID when available, else link state. macOS 14+ gates SSID lookup
+  # behind Location Services, so fall back to ifconfig link status.
+  darwinWifiStatus = pkgs.writeShellScript "tmux-wifi-status" ''
+    dev=$(/usr/sbin/networksetup -listallhardwareports 2>/dev/null \
+      | ${pkgs.gawk}/bin/awk '/Hardware Port: Wi-Fi/ {getline; print $2; exit}')
+    [ -z "$dev" ] && exit 0
+    ssid=$(/usr/sbin/networksetup -getairportnetwork "$dev" 2>/dev/null \
+      | ${pkgs.gnused}/bin/sed -n 's/^Current Wi-Fi Network: //p')
+    if [ -n "$ssid" ]; then
+      printf "  %s " "$ssid"
+    elif /sbin/ifconfig "$dev" 2>/dev/null | ${pkgs.gnugrep}/bin/grep -q "status: active"; then
+      printf "  up "
+    else
+      printf " 󰖪 down "
+    fi
+  '';
+
+  # CPU usage percent: sum of per-process %cpu normalised by core count.
+  # Instant, unlike `top -l 1` which blocks for ~1s on every status refresh.
+  darwinCpuStatus = pkgs.writeShellScript "tmux-cpu-status" ''
+    ncpu=$(/usr/sbin/sysctl -n hw.ncpu 2>/dev/null)
+    [ -z "$ncpu" ] && exit 0
+    /bin/ps -A -o %cpu= | ${pkgs.gawk}/bin/awk -v n="$ncpu" '
+      {s += $1}
+      END {if (n > 0) printf "  %d%% ", s / n}
+    '
+  '';
+
+  # RAM used percent. Mirrors MemAvailable as free + inactive + speculative.
+  darwinRamStatus = pkgs.writeShellScript "tmux-ram-status" ''
+    total=$(/usr/sbin/sysctl -n hw.memsize 2>/dev/null)
+    psize=$(/usr/sbin/sysctl -n hw.pagesize 2>/dev/null)
+    [ -z "$total" ] || [ -z "$psize" ] && exit 0
+    /usr/bin/vm_stat | ${pkgs.gawk}/bin/awk -v ps="$psize" -v total="$total" '
+      /^Pages free:/        {gsub(/\./, "", $3); free  = $3}
+      /^Pages inactive:/    {gsub(/\./, "", $3); inact = $3}
+      /^Pages speculative:/ {gsub(/\./, "", $3); spec  = $3}
+      END {
+        avail = (free + inact + spec) * ps
+        if (total > 0) printf "  %d%% ", (total - avail) * 100 / total
+      }
+    '
+  '';
+
+  # VPN indicator: tunnel interfaces carrying an IPv4 address. macOS always
+  # has utun0-3 up for iCloud/Handoff, but those are IPv6-only — filtering on
+  # `inet ` keeps them out so only real tunnels (tailscale, wg) show.
+  darwinVpnStatus = pkgs.writeShellScript "tmux-vpn-status" ''
+    active=$(/sbin/ifconfig 2>/dev/null | ${pkgs.gawk}/bin/awk '
+      /^[a-z0-9]+:/ {
+        iface = substr($1, 1, length($1) - 1)
+        want = (iface ~ /^(utun|ipsec|tun|wg|tap)/)
+        next
+      }
+      want && /^[[:space:]]*inet / {print iface; want = 0}
+    ' | ${pkgs.coreutils}/bin/paste -sd, -)
+    [ -z "$active" ] && exit 0
+    printf " 󰦝 %s " "$active"
+  '';
+
+  # Battery percent + charging state from pmset.
+  darwinBatteryStatus = pkgs.writeShellScript "tmux-battery-status" ''
+    out=$(/usr/bin/pmset -g batt 2>/dev/null)
+    case "$out" in
+      *InternalBattery*) ;;
+      *) exit 0 ;;
+    esac
+    cap=$(printf '%s' "$out" | ${pkgs.gawk}/bin/awk -F'; ' '/InternalBattery/ {print $1; exit}' \
+      | ${pkgs.gnused}/bin/sed -n 's/.*[^0-9]\([0-9]\{1,3\}\)%.*/\1/p')
+    [ -z "$cap" ] && exit 0
+    state=$(printf '%s' "$out" | ${pkgs.gawk}/bin/awk -F'; ' '/InternalBattery/ {print $2; exit}')
+    case "$state" in
+      discharging)
+        if   [ "$cap" -ge 90 ]; then icon="󰁹"
+        elif [ "$cap" -ge 70 ]; then icon="󰂀"
+        elif [ "$cap" -ge 50 ]; then icon="󰁾"
+        elif [ "$cap" -ge 30 ]; then icon="󰁼"
+        elif [ "$cap" -ge 15 ]; then icon="󰁺"
+        else icon="󰂃"
+        fi
+        ;;
+      *charging*|*charged*|AC*) icon="󰂄" ;;
+      *) icon="󰁽" ;;
+    esac
+    printf " %s %s%% " "$icon" "$cap"
+  '';
+
+  # Per-platform segment selection. No CPU temperature on darwin: Apple
+  # Silicon only exposes it through `powermetrics`, which requires root.
+  status = {
+    wifi = if isDarwin then darwinWifiStatus else wifiStatus;
+    cpu = if isDarwin then darwinCpuStatus else cpuStatus;
+    ram = if isDarwin then darwinRamStatus else ramStatus;
+    vpn = if isDarwin then darwinVpnStatus else vpnStatus;
+    battery = if isDarwin then darwinBatteryStatus else batteryStatus;
+  };
+
+  # Clipboard bridge for copy-mode yanks.
+  copyCommand = if isDarwin then "pbcopy" else "wl-copy";
 in
 
 {
@@ -275,10 +385,10 @@ in
       unbind -n C-u
 
       # Copy to system clipboard with Ctrl+Shift+C (in copy mode)
-      bind -T copy-mode-vi C-C send -X copy-pipe-and-cancel "wl-copy"
+      bind -T copy-mode-vi C-C send -X copy-pipe-and-cancel "${copyCommand}"
 
       # Also allow mouse selection to copy to clipboard
-      bind -T copy-mode-vi MouseDragEnd1Pane send -X copy-pipe-and-cancel "wl-copy"
+      bind -T copy-mode-vi MouseDragEnd1Pane send -X copy-pipe-and-cancel "${copyCommand}"
 
       # === SSH hostname in window title ===
       # Automatically rename window to SSH hostname when connecting
@@ -297,8 +407,10 @@ in
       # status-right: temp cpu ram battery  Tue 12 May 14:30
       set -g status-left-length 200
       set -g status-right-length 200
-      set -ag status-left '#[fg=cyan]#(${vpnStatus})#[fg=green]#(${wifiStatus})#[default]'
-      set -g status-right '#[fg=magenta]#(${tempStatus})#[fg=blue]#(${cpuStatus})#[fg=yellow]#(${ramStatus})#[fg=green]#(${batteryStatus})#[fg=white,bold] %a %d %b %H:%M '
+      set -ag status-left '#[fg=cyan]#(${status.vpn})#[fg=green]#(${status.wifi})#[default]'
+      set -g status-right '${
+        lib.optionalString (!isDarwin) "#[fg=magenta]#(${tempStatus})"
+      }#[fg=blue]#(${status.cpu})#[fg=yellow]#(${status.ram})#[fg=green]#(${status.battery})#[fg=white,bold] %a %d %b %H:%M '
 
       # === Eye candy on new session ===
       # Shows random ASCII art when a NEW session is created (not on attach)
