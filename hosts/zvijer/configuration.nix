@@ -62,6 +62,7 @@ in
         ../../home/stefanmatic.nix
         ../../user/wm/niri/ZVIJER.nix
         ../../user/wm/dms/dsearch.nix
+        ../../user/wm/dms/dankcalendar.nix
         ../../user/app/input-remapper.nix
       ];
     };
