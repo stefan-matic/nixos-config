@@ -212,6 +212,25 @@
 
   # Enable nix-ld for running generic Linux binaries (e.g. OpenDeck plugins)
   programs.nix-ld.enable = true;
+  # System libs that pip-installed PySide6/Qt wheels expect (e.g. BonkScanner)
+  programs.nix-ld.libraries = with pkgs; [
+    dbus
+    fontconfig
+    freetype
+    glib
+    libGL
+    libx11
+    libxcb
+    libxcb-cursor
+    libxcb-image
+    libxcb-keysyms
+    libxcb-render-util
+    libxcb-util
+    libxcb-wm
+    libxext
+    libxkbcommon
+    wayland
+  ];
 
   # Add udev rules for Arduino permissions
   services.udev.extraRules = ''
