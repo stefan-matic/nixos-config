@@ -1,6 +1,9 @@
 { config, pkgs, ... }:
 
 let
+  # Track nixos-unstable via the fast-track overlay.
+  viber = pkgs.fast-track.viber;
+
   # Viber's bundled libxml2 has no versioned symbols, but its Qt6WebEngineCore
   # hard-links the legacy `valuePush@LIBXML2_2.4.30` alias. libxml2 >= 2.14
   # dropped that alias, so nixpkgs' current libxml2 (2.15.x) makes Viber fail
@@ -37,7 +40,7 @@ let
     name = "viber-fixed";
     paths = [
       viberDesktopFile
-      pkgs.viber
+      viber
     ];
     buildInputs = [ pkgs.makeWrapper ];
     postBuild = ''
@@ -45,27 +48,27 @@ let
       # the xcb plugin needs libxcb-cursor which isn't shipped -> crash. Bypass
       # that launcher and wrap the real binary directly, forcing Wayland.
       rm $out/bin/viber
-      makeWrapper ${pkgs.viber}/opt/viber/Viber $out/bin/viber \
+      makeWrapper ${viber}/opt/viber/Viber $out/bin/viber \
         --prefix LD_LIBRARY_PATH : "${libxml2-legacy.out}/lib:${pkgs.libxshmfence}/lib" \
         --set QT_QPA_PLATFORM wayland \
-        --set QT_PLUGIN_PATH "${pkgs.viber}/opt/viber/plugins" \
-        --set QML2_IMPORT_PATH "${pkgs.viber}/opt/viber/qml"
+        --set QT_PLUGIN_PATH "${viber}/opt/viber/plugins" \
+        --set QML2_IMPORT_PATH "${viber}/opt/viber/qml"
 
       # Create icon symlinks with correct app-id (ViberPC) for DMS
       mkdir -p $out/share/icons/hicolor/{scalable,48x48,64x64,128x128,256x256}/apps
       mkdir -p $out/share/pixmaps
 
-      ln -sf ${pkgs.viber}/share/icons/hicolor/scalable/apps/Viber.svg \
+      ln -sf ${viber}/share/icons/hicolor/scalable/apps/Viber.svg \
         $out/share/icons/hicolor/scalable/apps/ViberPC.svg
-      ln -sf ${pkgs.viber}/share/viber/48x48.png \
+      ln -sf ${viber}/share/viber/48x48.png \
         $out/share/icons/hicolor/48x48/apps/ViberPC.png
-      ln -sf ${pkgs.viber}/share/viber/64x64.png \
+      ln -sf ${viber}/share/viber/64x64.png \
         $out/share/icons/hicolor/64x64/apps/ViberPC.png
-      ln -sf ${pkgs.viber}/share/viber/128x128.png \
+      ln -sf ${viber}/share/viber/128x128.png \
         $out/share/icons/hicolor/128x128/apps/ViberPC.png
-      ln -sf ${pkgs.viber}/share/viber/256x256.png \
+      ln -sf ${viber}/share/viber/256x256.png \
         $out/share/icons/hicolor/256x256/apps/ViberPC.png
-      ln -sf ${pkgs.viber}/share/pixmaps/viber.png \
+      ln -sf ${viber}/share/pixmaps/viber.png \
         $out/share/pixmaps/ViberPC.png
     '';
   };
