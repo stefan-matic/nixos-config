@@ -44,18 +44,18 @@
     max-cache-ttl 28800
   '';
 
-  # ssh-agent is a launchd-managed system service on macOS, so the
-  # services.ssh-agent module from _common.nix has no darwin equivalent.
-  # Keys load from the keychain instead.
-  programs.ssh = {
-    enable = true;
-    # Opt out of home-manager's legacy defaults and set the block explicitly.
-    enableDefaultConfig = false;
-    settings."*" = {
-      AddKeysToAgent = "yes";
-      UseKeychain = "yes"; # macOS-only: load passphrases from the keychain
-    };
-  };
+  # NOTE: deliberately no programs.ssh here. ~/.ssh/config is carried by
+  # syncthing from the linux hosts (see home/services/syncthing-darwin.nix),
+  # and none of them use home-manager for it either. Enabling it would make
+  # ~/.ssh/config a /nix/store symlink, which syncthing would then push to
+  # UNRAID as a path that resolves on no other machine.
+  #
+  # For macOS keychain integration add this to the *synced* config instead --
+  # IgnoreUnknown keeps it harmless on linux:
+  #   Host *
+  #     IgnoreUnknown UseKeychain
+  #     AddKeysToAgent yes
+  #     UseKeychain yes
 
   # Default browser and URL handling. On linux this is xdg.mimeApps pointing
   # at select-browser (user/app/browser/select-browser.nix); macOS keeps the
