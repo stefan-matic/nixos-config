@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   lib,
   ...
@@ -194,6 +195,19 @@ let
 in
 
 {
+  # Darwin: give the tmux server a nix-aware PATH before any plugin runs.
+  # Ghostty starts tmux through `login ... /bin/bash --noprofile`, so the
+  # server inherits only /usr/bin:/bin:/usr/sbin:/sbin. Plugin scripts
+  # (`#!/usr/bin/env bash`) then get macOS bash 3.2 and cannot find `tmux`,
+  # so dracula silently fails: no theme, plain green bar, and no highlight
+  # on the current window. Order 600 sits after home-manager's base config
+  # (mkBefore = 500) and before the plugin run-shell lines (default 1000).
+  xdg.configFile."tmux/tmux.conf".text = lib.mkIf isDarwin (
+    lib.mkOrder 600 ''
+      set-environment -g PATH "/etc/profiles/per-user/${config.home.username}/bin:/run/current-system/sw/bin:/nix/var/nix/profiles/default/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+    ''
+  );
+
   programs.tmux = {
     enable = true;
 
