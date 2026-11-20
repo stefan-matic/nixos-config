@@ -23,6 +23,10 @@
       # installed by hand alone. "zap" would also nuke their app data, and
       # "none" would let removals silently linger.
       cleanup = "uninstall";
+      # brew bundle hides each install's output by default, so a big cask
+      # download looks like a hang. --verbose streams it, including curl's
+      # per-download progress bar (percent) during darwin-rebuild.
+      extraFlags = [ "--verbose" ];
     };
 
     # No taps or brews: paneru comes from its nix flake module, and every
