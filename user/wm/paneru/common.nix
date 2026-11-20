@@ -63,11 +63,11 @@
     // lib.optionalAttrs (deviceType == "laptop") {
       # The one deliberate non-default. Paneru ignores the trackpad entirely
       # until fingers_count is set (>= 3), so leaving it out would mean no
-      # swipe at all. FOUR fingers: hosts/_common/darwin.nix turns macOS' own
-      # four-finger swipes off and leaves three to macOS (up = Mission
-      # Control). Horizontal scrolls the strip, vertical switches virtual
-      # workspace rows.
-      swipe.gesture.fingers_count = 4;
+      # swipe at all. THREE fingers: hosts/_common/darwin.nix turns macOS'
+      # own three-finger swipes off and moves Mission Control / App Expose
+      # to four fingers vertical. Horizontal scrolls the strip, vertical
+      # switches virtual workspace rows.
+      swipe.gesture.fingers_count = 3;
 
       # Default 0.35 flung the strip from one end to the other on a modest
       # swipe. Sensitivity scales both the direct drag distance and the

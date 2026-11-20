@@ -232,7 +232,7 @@
       # com.apple.trackpad.threeFingerDragGesture), which this option does
       # NOT write. Result was the worst of both: no drag AND no swipes.
       # ctrl+cmd+drag (NSWindowShouldDragOnGesture above) moves windows
-      # instead; three fingers up is Mission Control, see below.
+      # instead; three-finger swipes belong to paneru, see below.
       TrackpadThreeFingerDrag = false;
     };
 
@@ -259,29 +259,30 @@
       DSDontWriteUSBStores = true;
     };
 
-    # Hand the four-finger swipes to paneru (see user/wm/paneru/common.nix).
-    # macOS binds them to Spaces/Mission Control by default, which is
-    # redundant once paneru owns virtual workspaces.
+    # Hand the three-finger swipes to paneru (see user/wm/paneru/common.nix),
+    # both axes: horizontal scrolls the strip, vertical switches workspace
+    # rows. macOS must not act on three fingers at all, or a vertical swipe
+    # would fire paneru and Mission Control together. Three-finger drag is
+    # off (see trackpad above), so nothing else claims them.
     #
-    # Three fingers stay with macOS instead, since three-finger drag is off
-    # (see trackpad above):
+    # Four fingers stay with macOS:
     #   Vert  = 2 -> up opens Mission Control (niri's overview, also on
     #                alt+o in hosts/macbook/skhd.nix), down is App Expose.
     #   Horiz = 0 -> native Spaces switching stays dead; paneru owns
-    #                workspaces and horizontal is its four-finger swipe.
+    #                workspaces.
     # Both domains get the same values: the first is the built-in trackpad,
     # the second any bluetooth Magic Trackpad.
     "com.apple.AppleMultitouchTrackpad" = {
-      TrackpadFourFingerHorizSwipeGesture = 0;
-      TrackpadFourFingerVertSwipeGesture = 0;
-      TrackpadThreeFingerVertSwipeGesture = 2;
       TrackpadThreeFingerHorizSwipeGesture = 0;
+      TrackpadThreeFingerVertSwipeGesture = 0;
+      TrackpadFourFingerVertSwipeGesture = 2;
+      TrackpadFourFingerHorizSwipeGesture = 0;
     };
     "com.apple.driver.AppleBluetoothMultitouch.trackpad" = {
-      TrackpadFourFingerHorizSwipeGesture = 0;
-      TrackpadFourFingerVertSwipeGesture = 0;
-      TrackpadThreeFingerVertSwipeGesture = 2;
       TrackpadThreeFingerHorizSwipeGesture = 0;
+      TrackpadThreeFingerVertSwipeGesture = 0;
+      TrackpadFourFingerVertSwipeGesture = 2;
+      TrackpadFourFingerHorizSwipeGesture = 0;
     };
 
     # Shottr's capture hotkeys. It uses the same KeyboardShortcuts library
