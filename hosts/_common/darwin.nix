@@ -268,21 +268,22 @@
     # Four fingers stay with macOS:
     #   Vert  = 2 -> up opens Mission Control (niri's overview, also on
     #                alt+o in hosts/macbook/skhd.nix), down is App Expose.
-    #   Horiz = 0 -> native Spaces switching stays dead; paneru owns
-    #                workspaces.
+    #   Horiz = 2 -> swipe between macOS Spaces (desktops) and full-screen
+    #                apps. These are native Spaces, separate from paneru's
+    #                virtual workspace rows on three fingers vertical.
     # Both domains get the same values: the first is the built-in trackpad,
     # the second any bluetooth Magic Trackpad.
     "com.apple.AppleMultitouchTrackpad" = {
       TrackpadThreeFingerHorizSwipeGesture = 0;
       TrackpadThreeFingerVertSwipeGesture = 0;
       TrackpadFourFingerVertSwipeGesture = 2;
-      TrackpadFourFingerHorizSwipeGesture = 0;
+      TrackpadFourFingerHorizSwipeGesture = 2;
     };
     "com.apple.driver.AppleBluetoothMultitouch.trackpad" = {
       TrackpadThreeFingerHorizSwipeGesture = 0;
       TrackpadThreeFingerVertSwipeGesture = 0;
       TrackpadFourFingerVertSwipeGesture = 2;
-      TrackpadFourFingerHorizSwipeGesture = 0;
+      TrackpadFourFingerHorizSwipeGesture = 2;
     };
 
     # Shottr's capture hotkeys. It uses the same KeyboardShortcuts library
