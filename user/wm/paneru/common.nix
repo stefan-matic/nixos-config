@@ -66,8 +66,17 @@
       # swipe at all. FOUR fingers: hosts/_common/darwin.nix turns macOS' own
       # four-finger swipes off and leaves three to macOS (up = Mission
       # Control). Horizontal scrolls the strip, vertical switches virtual
-      # workspace rows; everything else under [swipe] keeps its default.
+      # workspace rows.
       swipe.gesture.fingers_count = 4;
+
+      # Default 0.35 flung the strip from one end to the other on a modest
+      # swipe. Sensitivity scales both the direct drag distance and the
+      # inertia velocity (src/ecs/scroll.rs), so lowering it tames both. It
+      # also raises the vertical workspace-switch threshold (0.15 / value),
+      # which helps keep stray vertical motion from changing rows.
+      # Deceleration stays at its default; raise it next if inertia still
+      # carries too far.
+      swipe.sensitivity = 0.2;
     }
     // {
       windows = windowRules;
