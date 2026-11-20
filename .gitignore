@@ -3,3 +3,6 @@
 
 .omc
 .opencode.json
+
+# MCP server audit log written to the working directory
+audit.log
