@@ -62,6 +62,7 @@ in
         ../../home/stefanmatic.nix
         ../../user/wm/niri/ZVIJER.nix
         ../../user/wm/dms/dsearch.nix
+        ../../user/wm/dms/dankcalendar.nix
         ../../user/app/input-remapper.nix
       ];
     };
@@ -342,6 +343,10 @@ in
       # Sequestering it leaves NVIDIA as the sole host render GPU.
       "vfio-pci.ids=1002:7480,1002:ab30,1002:13c0"
     ];
+
+    # Let BonkScanner read Megabonk's memory. setcap on its venv python
+    # doesn't work here: secure-exec drops nix-ld's LD_LIBRARY_PATH.
+    boot.kernel.sysctl."kernel.yama.ptrace_scope" = 0;
 
     # Wayland + NVIDIA environment variables
     environment.sessionVariables = {

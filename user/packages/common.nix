@@ -28,7 +28,7 @@
     mpv
 
     # Productivity
-    libreoffice-qt6-fresh
+    libreoffice-qt-stable
 
     # File Management
     qdirstat

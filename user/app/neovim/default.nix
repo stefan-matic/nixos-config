@@ -27,7 +27,8 @@ in
         lua-language-server
         pyright
         gopls
-        typescript-language-server
+        # Unstable 6.0.2 pnpm-deps hash mismatch; back to unstable once fixed
+        stable.typescript-language-server
         bash-language-server
         yaml-language-server
         vscode-langservers-extracted # JSON, HTML, CSS

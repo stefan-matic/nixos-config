@@ -47,6 +47,7 @@ in
       imports = [
         ../../home/stefanmatic.nix
         ../../user/wm/niri/laptop.nix
+        ../../user/wm/dms/dankcalendar.nix
       ];
     };
 
