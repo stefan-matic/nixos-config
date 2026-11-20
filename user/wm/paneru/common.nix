@@ -69,14 +69,32 @@
       # switches virtual workspace rows.
       swipe.gesture.fingers_count = 3;
 
+      # Free sliding with inertia (paging = false, the default). The old
+      # paneru (2026-09) flung the strip to its end on fast swipes: AppKit
+      # sometimes sends a touch update microseconds after the previous one
+      # carrying millimetres of older motion, and paneru derived velocity
+      # from that tiny interval. 2026-11 paneru ignores intervals under
+      # 4 ms for velocity (MIN_VELOCITY_SAMPLE_SECS in src/ecs/scroll.rs).
+      #
+      # If gliding misbehaves again, `swipe.gesture.paging = true` (plus
+      # `page_distance_cm`, default 2.0) focuses one window per ~2 cm of
+      # finger travel instead -- reliable, but it steps like alt+arrows
+      # rather than following the fingers.
+
       # Default 0.35 flung the strip from one end to the other on a modest
       # swipe. Sensitivity scales both the direct drag distance and the
       # inertia velocity (src/ecs/scroll.rs), so lowering it tames both. It
       # also raises the vertical workspace-switch threshold (0.15 / value),
       # which helps keep stray vertical motion from changing rows.
-      # Deceleration stays at its default; raise it next if inertia still
-      # carries too far.
       swipe.sensitivity = 0.2;
+
+      # Default 4.0 still let a quick flick coast to the end of the strip.
+      # After lift-off the strip keeps going at the swipe's speed and slows
+      # as exp(-deceleration * t) (src/ecs/scroll.rs apply_inertia), so the
+      # coast distance is speed / deceleration: 8 halves it. Range is
+      # 1.0-10.0. If it still overshoots, try 10, then continuous = false
+      # (stops the strip at the outermost windows).
+      swipe.deceleration = 8.0;
     }
     // {
       windows = windowRules;
